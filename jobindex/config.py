@@ -32,6 +32,10 @@ class Settings(BaseSettings):
     # (staggered per URL), otherwise edits would never be noticed.
     generic_refresh_days: int = 7
 
+    # Deduplication (jobindex/dedup): postings further apart than this are different
+    # openings even with the same company, title and location.
+    dedup_date_window_days: int = 30
+
     # Scheduler
     scheduler_enabled: bool = False
     crawl_interval_minutes: int = 60

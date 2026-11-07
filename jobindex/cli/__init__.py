@@ -5,6 +5,7 @@ Commands:
                                              embed URL or custom-domain careers page)
     crawl <source_id> | --all                crawl one source, or every active one
     set-company <source_id> <name>           set the company name used for the source's jobs
+    dedup                                    recompute cross-source duplicates
 """
 
 import argparse
@@ -12,6 +13,7 @@ import asyncio
 import logging
 import sys
 from collections.abc import Sequence
+from datetime import timedelta
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
@@ -20,6 +22,7 @@ from jobindex.config import get_settings
 from jobindex.connectors.registry import Registry, default_registry
 from jobindex.crawler import CrawlResult, active_source_ids, crawl_sources
 from jobindex.db import create_engine, create_session_factory
+from jobindex.dedup import run_dedup
 from jobindex.http import FetchError, HttpClient
 from jobindex.models import FetchStatus, Source
 
@@ -42,6 +45,8 @@ def _build_parser() -> argparse.ArgumentParser:
     target = crawl.add_mutually_exclusive_group(required=True)
     target.add_argument("source_id", nargs="?", type=int)
     target.add_argument("--all", action="store_true", help="crawl every active source")
+
+    sub.add_parser("dedup", help="recompute cross-source duplicates (canonical_job_id)")
     return parser
 
 
@@ -150,7 +155,20 @@ async def crawl(
     )
     for result in results:
         print(_format_result(result))
+    if any(r.status is FetchStatus.SUCCESS for r in results):
+        await dedup(session_factory)
     return 1 if any(r.status is FetchStatus.FAILED for r in results) else 0
+
+
+async def dedup(session_factory: async_sessionmaker[AsyncSession]) -> int:
+    window = timedelta(days=get_settings().dedup_date_window_days)
+    async with session_factory() as session:
+        result = await run_dedup(session, window=window)
+    print(
+        f"dedup: {result.postings} postings -> {result.openings} openings "
+        f"({result.updated} updated)"
+    )
+    return 0
 
 
 def _format_result(r: CrawlResult) -> str:
@@ -168,6 +186,8 @@ async def _run(args: argparse.Namespace, registry: Registry) -> int:
         session_factory = create_session_factory(engine)
         if args.command == "set-company":
             return await set_company(session_factory, args.source_id, args.name)
+        if args.command == "dedup":
+            return await dedup(session_factory)
         async with HttpClient.from_settings() as http:
             if args.command == "add-source":
                 return await add_source(
