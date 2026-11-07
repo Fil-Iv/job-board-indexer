@@ -1,9 +1,9 @@
 # Connectors
 
-A connector turns one platform's public job data into `RawJob`s. There are 44 today
-(28 API/feed/HTML connectors + 16 on the generic sitemap + JSON-LD base);
+A connector turns one platform's public job data into `RawJob`s. There are 47 today
+(29 API/feed/HTML connectors + 18 on the generic sitemap + JSON-LD base);
 [COVERAGE.md](COVERAGE.md) lists all 78 target platforms, live job counts for two real
-employers per done platform, and the plan for the remaining 34.
+employers per done platform, and the plan for the remaining 31.
 
 Every connector module starts with a docstring giving its exact endpoints, response shape,
 URL formats it recognises and the quirks found while building it. That docstring is the
@@ -74,6 +74,7 @@ closed). Long fetches can save progress through `self.checkpoint`
 | Manatal | `manatal` | slug | 1 per 100 jobs | `ordering=created_at` required (default order skips jobs) |
 | Oracle Recruiting | `oracle` | `host/siteNumber` (`eeho.fa.us2.oraclecloud.com/CX_45001`) | 1 per 200 jobs + detail per new/changed | Candidate Experience REST API |
 | Paylocity | `paylocity` | module guid | 1 + detail per new/changed | `window.pageData.Jobs` list; description/type/remote label from the job page HTML (JSON-LD only on some tenants) |
+| PageUp | `pageup` | `{id}/{portal}/{lang}` (`851/ci/en-us`) | 1 | Portal RSS (`job:` namespace, defusedxml) with descriptions; complete vs. the listing |
 | Personio | `personio` | subdomain | 1 | XML feed (parsed with `defusedxml`); never pass `?language=` |
 | Pinpoint | `pinpoint` | subdomain | 1 | `postings.json`; robots.txt differs per tenant |
 | Polymer | `polymer` | slug | 1 per page + detail per new/changed | `meta.count` = jobs, `meta.total` = pages; count must match |
@@ -111,6 +112,7 @@ platform on custom domains.
 | ApplicantPro, iSolved Hire | `applicantpro`, `isolvedhire` | `{tenant}.{domain}/job_site_map.xml` | tenant |
 | GoHire | `gohire` | paged board `jobs.gohire.io/{board}/?page={n}` checked against "Total N" (overrides `listed_pages`; `validThrough` ignored) | board slug |
 | HiringThing | `hiringthing` | `{company}.hiringthing.com/api/rss.xml` (RSS feed; no per-tenant sitemap) | host |
+| Deel, Kula | `deel`, `kula` | `jobs.deel.com/{org}/sitemap.xml`, `careers.kula.ai/{company}/sitemap.xml` | slug |
 | Hireology | `hireology` | `careers.hireology.com/sitemap_index.xml` (all tenants, ~8 MB) | slug |
 | iCIMS | `icims` | `{host}/sitemap.xml` | host |
 | Jobboardly, JBoard, Niceboard, SmartJobBoard | `jobboardly`, `jboard`, `niceboard`, `smartjobboard` | `{board}/sitemap.xml` | host |

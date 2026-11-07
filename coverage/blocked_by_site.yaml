@@ -85,3 +85,9 @@ blocked_by_site:
     impact: "Vendor demo board disallows all; customer board jobnet.wacities.org is open."
     evidence:
       - {url: "https://demo.jobboardmount.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://demo.jobboardmount.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: *"}
+  - platform: Dayforce
+    scope: api
+    impact: "Career pages load, but jobs come from POST /api/geo/{namespace}/jobposting/search, which answers 403 without a browser session (allowed by robots.txt); the page itself carries no job data."
+    evidence:
+      - {url: "https://jobs.dayforcehcm.com/api/geo/loco/jobposting/search", checked_at: "2026-11-07T20:54:30+00:00", http_status: 403, robots_url: "https://jobs.dayforcehcm.com/robots.txt", robots_http_status: 200, robots_rule: null}
+      - {url: "https://jobs.dayforcehcm.com/api/geo/costa/jobposting/search", checked_at: "2026-11-07T20:54:30+00:00", http_status: 403, robots_url: "https://jobs.dayforcehcm.com/robots.txt", robots_http_status: 200, robots_rule: null}

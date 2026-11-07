@@ -86,7 +86,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: "Enterprise; heavily customised templates per tenant. Some portals expose an RSS search feed — check per tenant."
+  notes: "Checked 2026-11-07 (bloomberg): SearchJobs paged HTML (jobOffset/jobRecordsPerPage, 'of 323'); RSS feed capped at 20 items; per-portal sitemap_index.xml lists 722 job URLs (stale ones included) and job pages have no JSON-LD. Needs per-tenant HTML parsing of heavily customised templates."
 
 - name: BambooHR
   key: bamboohr
@@ -185,20 +185,23 @@
     - https://jobs.dayforcehcm.com/en-US/dayforce/CANDIDATEPORTAL
   robots: allowed
   verified: null
-  notes: "Ceridian Dayforce. Page verified reachable with __NEXT_DATA__ (2026-11-07); check whether all jobs are in the embedded JSON or need the paginated API."
+  notes: "Ceridian Dayforce. Checked 2026-11-07: __NEXT_DATA__ has only site info; jobs come from POST /api/geo/{namespace}/jobposting/search ({clientNamespace, jobBoardCode, cultureCode, paginationStart}), which answers 403 without a browser session (recorded in blocked_by_site.yaml, scope api)."
 
 - name: Deel
   key: deel
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Deel's ATS is recent; hosted board URL format not found yet (jobs.deel.com not confirmed). Find 2 customer boards first."
+  status: done
+  connector: jobindex.connectors.deel
+  public_api: "no"
+  api: "GET jobs.deel.com/{org}/sitemap.xml (per-org, lastmod) + job pages /{org}/job-details/{uuid}/overview (JSON-LD JobPosting)"
+  url_patterns: ["jobs.deel.com/{org}[/job-details/{uuid}/overview]", "jobs.deel.com/job-boards/{org}"]
+  examples:
+    - https://jobs.deel.com/guardare
+    - https://jobs.deel.com/apmc-careers
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD. robots.txt documents the per-org sitemaps in a comment; the sitemap matched the board JSON-LD ItemList (guardare 3/3). jobs.deel.com/job-boards/{org} redirects to /{org}."
 
 - name: Dover
   key: dover
@@ -238,7 +241,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: "UK ATS (customers incl. Softwire, Data Idols per fantastic.jobs). Board URL format not found yet."
+  notes: "Checked 2026-11-07: agility-gwg.firststage.co/jobs is server-rendered, job pages /jobs/{id}/view carry JSON-LD, robots.txt and sitemap.xml 404. Not built: the board says '80 jobs open' but links 79 (gap unexplained, so completeness cannot be checked), and the other known board (wayve) now 404s."
 
 - name: Freshteam
   key: freshteam
@@ -455,20 +458,23 @@
     - https://join.com/companies/join
   robots: allowed
   verified: null
-  notes: "Next.js page with __NEXT_DATA__ and JSON-LD (verified 2026-11-07). Check pagination for large companies."
+  notes: "Next.js page with __NEXT_DATA__, but initialState.jobs is empty server-side (loaded client-side, 2026-11-07); the jobs sitemap index answers 403 (blocked_by_site.yaml, scope api). No compliant list found yet."
 
 - name: Kula.ai
   key: kula
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: ["careers.kula.ai/{slug} (unconfirmed: 404 for 'kula')"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "AI-native ATS; board URL format not confirmed."
+  status: done
+  connector: jobindex.connectors.kula
+  public_api: "no"
+  api: "GET careers.kula.ai/{company}/sitemap.xml (lastmod) + job pages /{company}/{id}-{slug} (JSON-LD JobPosting)"
+  url_patterns: ["careers.kula.ai/{company}[/{id}-{slug}]"]
+  examples:
+    - https://careers.kula.ai/archetype-ai
+    - https://careers.kula.ai/deepscribe
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD (salary ranges included). The board page renders jobs client-side; the per-company sitemap is the list. No site-wide sitemap (404). robots.txt disallows /api/ and /*/portal."
 
 - name: Lever.co
   key: lever
@@ -518,15 +524,18 @@
 - name: PageUp
   key: pageup
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "careers.pageuppeople.com/{id}/{portal}/en/listing/ (HTML, paginated)"
-  url_patterns: ["careers.pageuppeople.com/{id}/{portal}/en/listing/", "careers.pageuppeople.com/{id}/{portal}/en/job/{job-id}/{slug}"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Common with AU/UK universities and public sector."
+  status: done
+  connector: jobindex.connectors.pageup
+  public_api: feed
+  api: "GET careers.pageuppeople.com/{id}/{portal}/{lang}/rss (RSS with job: namespace, every open job with description)"
+  url_patterns: ["careers.pageuppeople.com/{id}/{portal}/{lang}[/listing|/job/{refNo}]"]
+  examples:
+    - https://careers.pageuppeople.com/851/ci/en-us/listing
+    - https://careers.pageuppeople.com/889/usw/en/listing/
+  robots: allowed
+  verified: 2026-11-07
+  generic: no
+  notes: "One request: the portal RSS is complete (matched the paged listing: 20 + 124 = 144 and 20 + 33 = 53). job:closingDate becomes expires_at. Landing URLs without portal/lang (careers.pageuppeople.com/902) cannot be resolved offline. robots.txt only blocks test/staging portals."
 
 - name: Paradox
   key: paradox
@@ -879,7 +888,7 @@
     - https://zohocorp.zohorecruit.com/jobs/Careers
   robots: allowed
   verified: null
-  notes: "Shell is only ~2.5 KB (2026-11-07): find the XHR endpoint; may be hard if it needs a CSRF token."
+  notes: "Checked 2026-11-07 (cause-capacity): the careers page embeds all published jobs in <input type=hidden id=jobs> (title, type, city/country, remote flag) but no descriptions, and job pages carry neither JSON-LD nor embedded data. robots.txt allows /recruit/downloadrssfeed and /recruit/sitemapfeed, but without parameters both return the portal HTML. Need the feed parameters (or accept list-only data)."
 
 # ----------------------------------------------------------------- Job boards (20)
 # Common pattern: most job-board platforms render server-side HTML with schema.org
@@ -1035,7 +1044,7 @@
     - https://jobs.theguardian.com/
   robots: allowed
   verified: null
-  notes: "Large publisher boards (New Scientist, Guardian Jobs, Times Higher Education). /jobsrss/ without params returned HTML (2026-11-07) — find the right feed URL."
+  notes: "Checked 2026-11-07: /jobsrss/ is either HTML (pharmiweb.jobs) or capped at the 20 newest items (timeshighereducation.com/unijobs), so not a complete list; THE's sitemaps list 755 job URLs but sampled job pages have no JobPosting. Needs HTML parsing of listings + job pages."
 
 - name: Talenetic
   key: talenetic
