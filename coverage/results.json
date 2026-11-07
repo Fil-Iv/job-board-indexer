@@ -1,94 +1,310 @@
 {
   "examples": {
+    "https://apply.workable.com/blueground/": {
+      "url": "https://apply.workable.com/blueground/",
+      "last_run_at": "2026-11-07T12:26:01+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 9,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:01+00:00",
+      "last_success_jobs": 9
+    },
+    "https://apply.workable.com/skroutz/": {
+      "url": "https://apply.workable.com/skroutz/",
+      "last_run_at": "2026-11-07T12:26:02+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 7,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:02+00:00",
+      "last_success_jobs": 7
+    },
+    "https://ats.rippling.com/carbon-health/jobs": {
+      "url": "https://ats.rippling.com/carbon-health/jobs",
+      "last_run_at": "2026-11-07T12:26:02+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 230,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:02+00:00",
+      "last_success_jobs": 230
+    },
+    "https://ats.rippling.com/vulcanforms/jobs": {
+      "url": "https://ats.rippling.com/vulcanforms/jobs",
+      "last_run_at": "2026-11-07T12:26:02+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 111,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:02+00:00",
+      "last_success_jobs": 111
+    },
+    "https://bunq.recruitee.com": {
+      "url": "https://bunq.recruitee.com",
+      "last_run_at": "2026-11-07T12:26:01+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 23,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:01+00:00",
+      "last_success_jobs": 23
+    },
     "https://careers.smartrecruiters.com/BoschGroup": {
       "url": "https://careers.smartrecruiters.com/BoschGroup",
-      "last_run_at": "2026-11-07T04:40:24+00:00",
+      "last_run_at": "2026-11-07T12:26:18+00:00",
       "last_status": "blocked",
       "last_jobs_found": null,
-      "last_error": "blocked by robots.txt (https://api.smartrecruiters.com/v1/companies/BoschGroup/postings)",
+      "last_error": "blocked by robots.txt (https://www.smartrecruiters.com/BoschGroup/)",
       "last_success_at": null,
       "last_success_jobs": null
     },
+    "https://channable.recruitee.com": {
+      "url": "https://channable.recruitee.com",
+      "last_run_at": "2026-11-07T12:26:02+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 12,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:02+00:00",
+      "last_success_jobs": 12
+    },
+    "https://davies.pinpointhq.com": {
+      "url": "https://davies.pinpointhq.com",
+      "last_run_at": "2026-11-07T12:26:06+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 276,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:06+00:00",
+      "last_success_jobs": 276
+    },
+    "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions": {
+      "url": "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions",
+      "last_run_at": "2026-11-07T12:28:18+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 2841,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:28:18+00:00",
+      "last_success_jobs": 2841
+    },
+    "https://everstar.breezy.hr": {
+      "url": "https://everstar.breezy.hr",
+      "last_run_at": "2026-11-07T12:26:07+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 387,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:07+00:00",
+      "last_success_jobs": 387
+    },
+    "https://indrive.pinpointhq.com": {
+      "url": "https://indrive.pinpointhq.com",
+      "last_run_at": "2026-11-07T12:26:08+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 174,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:08+00:00",
+      "last_success_jobs": 174
+    },
     "https://job-boards.greenhouse.io/discord": {
       "url": "https://job-boards.greenhouse.io/discord",
-      "last_run_at": "2026-11-07T04:40:25+00:00",
+      "last_run_at": "2026-11-07T12:26:01+00:00",
       "last_status": "ok",
       "last_jobs_found": 27,
       "last_error": null,
-      "last_success_at": "2026-11-07T04:40:25+00:00",
+      "last_success_at": "2026-11-07T12:26:01+00:00",
       "last_success_jobs": 27
     },
     "https://job-boards.greenhouse.io/gitlab": {
       "url": "https://job-boards.greenhouse.io/gitlab",
-      "last_run_at": "2026-11-07T04:40:27+00:00",
+      "last_run_at": "2026-11-07T12:26:03+00:00",
       "last_status": "ok",
       "last_jobs_found": 248,
       "last_error": null,
-      "last_success_at": "2026-11-07T04:40:27+00:00",
+      "last_success_at": "2026-11-07T12:26:03+00:00",
       "last_success_jobs": 248
     },
     "https://jobs.ashbyhq.com/linear": {
       "url": "https://jobs.ashbyhq.com/linear",
-      "last_run_at": "2026-11-07T04:40:25+00:00",
+      "last_run_at": "2026-11-07T12:26:01+00:00",
       "last_status": "ok",
       "last_jobs_found": 32,
       "last_error": null,
-      "last_success_at": "2026-11-07T04:40:25+00:00",
+      "last_success_at": "2026-11-07T12:26:01+00:00",
       "last_success_jobs": 32
     },
     "https://jobs.ashbyhq.com/ramp": {
       "url": "https://jobs.ashbyhq.com/ramp",
-      "last_run_at": "2026-11-07T04:40:26+00:00",
+      "last_run_at": "2026-11-07T12:26:02+00:00",
       "last_status": "ok",
       "last_jobs_found": 171,
       "last_error": null,
-      "last_success_at": "2026-11-07T04:40:26+00:00",
+      "last_success_at": "2026-11-07T12:26:02+00:00",
       "last_success_jobs": 171
+    },
+    "https://jobs.gem.com/function-health": {
+      "url": "https://jobs.gem.com/function-health",
+      "last_run_at": "2026-11-07T12:26:02+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 33,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:02+00:00",
+      "last_success_jobs": 33
+    },
+    "https://jobs.gem.com/nominal": {
+      "url": "https://jobs.gem.com/nominal",
+      "last_run_at": "2026-11-07T12:26:03+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 42,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:03+00:00",
+      "last_success_jobs": 42
     },
     "https://jobs.lever.co/palantir": {
       "url": "https://jobs.lever.co/palantir",
-      "last_run_at": "2026-11-07T04:41:10+00:00",
+      "last_run_at": "2026-11-07T12:26:24+00:00",
       "last_status": "ok",
       "last_jobs_found": 305,
       "last_error": null,
-      "last_success_at": "2026-11-07T04:41:10+00:00",
+      "last_success_at": "2026-11-07T12:26:24+00:00",
       "last_success_jobs": 305
     },
     "https://jobs.lever.co/spotify": {
       "url": "https://jobs.lever.co/spotify",
-      "last_run_at": "2026-11-07T04:40:33+00:00",
+      "last_run_at": "2026-11-07T12:26:05+00:00",
       "last_status": "ok",
       "last_jobs_found": 85,
       "last_error": null,
-      "last_success_at": "2026-11-07T04:40:33+00:00",
+      "last_success_at": "2026-11-07T12:26:05+00:00",
       "last_success_jobs": 85
     },
     "https://jobs.smartrecruiters.com/Ubisoft2": {
       "url": "https://jobs.smartrecruiters.com/Ubisoft2",
-      "last_run_at": "2026-11-07T04:40:24+00:00",
-      "last_status": "blocked",
-      "last_jobs_found": null,
-      "last_error": "blocked by robots.txt (https://api.smartrecruiters.com/v1/companies/Ubisoft2/postings)",
-      "last_success_at": null,
-      "last_success_jobs": null
+      "last_run_at": "2026-11-07T12:26:18+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 298,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:18+00:00",
+      "last_success_jobs": 298
+    },
+    "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions": {
+      "url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
+      "last_run_at": "2026-11-07T12:27:22+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 7119,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:27:22+00:00",
+      "last_success_jobs": 7119
+    },
+    "https://kimmel-associates.breezy.hr": {
+      "url": "https://kimmel-associates.breezy.hr",
+      "last_run_at": "2026-11-07T12:26:02+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 478,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:02+00:00",
+      "last_success_jobs": 478
+    },
+    "https://kpm.bamboohr.com/careers": {
+      "url": "https://kpm.bamboohr.com/careers",
+      "last_run_at": "2026-11-07T12:26:04+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 1,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:04+00:00",
+      "last_success_jobs": 1
+    },
+    "https://lunar.teamtailor.com/jobs": {
+      "url": "https://lunar.teamtailor.com/jobs",
+      "last_run_at": "2026-11-07T12:26:02+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 16,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:02+00:00",
+      "last_success_jobs": 16
     },
     "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite": {
       "url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite",
-      "last_run_at": "2026-11-07T05:22:12+00:00",
-      "last_status": "failed",
-      "last_jobs_found": null,
-      "last_error": "ConnectorError: workday: got 2000 of 2810 postings; refusing a partial result",
-      "last_success_at": null,
-      "last_success_jobs": null
+      "last_run_at": "2026-11-07T12:28:34+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 2810,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:28:34+00:00",
+      "last_success_jobs": 2810
+    },
+    "https://oatly.teamtailor.com/jobs": {
+      "url": "https://oatly.teamtailor.com/jobs",
+      "last_run_at": "2026-11-07T12:26:01+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 25,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:01+00:00",
+      "last_success_jobs": 25
+    },
+    "https://scribd.bamboohr.com/careers": {
+      "url": "https://scribd.bamboohr.com/careers",
+      "last_run_at": "2026-11-07T12:26:02+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 2,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:02+00:00",
+      "last_success_jobs": 2
+    },
+    "https://stax.hire.trakstar.com": {
+      "url": "https://stax.hire.trakstar.com",
+      "last_run_at": "2026-11-07T12:26:02+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 31,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:02+00:00",
+      "last_success_jobs": 31
+    },
+    "https://tado.jobs.personio.de": {
+      "url": "https://tado.jobs.personio.de",
+      "last_run_at": "2026-11-07T12:26:01+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 2,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:01+00:00",
+      "last_success_jobs": 2
+    },
+    "https://thermondo.jobs.personio.de": {
+      "url": "https://thermondo.jobs.personio.de",
+      "last_run_at": "2026-11-07T12:26:03+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 196,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:03+00:00",
+      "last_success_jobs": 196
+    },
+    "https://timessquarenyc.hire.trakstar.com": {
+      "url": "https://timessquarenyc.hire.trakstar.com",
+      "last_run_at": "2026-11-07T12:26:03+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 4,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:03+00:00",
+      "last_success_jobs": 4
     },
     "https://wd3.myworkdaysite.com/recruiting/pwc/Global_Experienced_Careers": {
       "url": "https://wd3.myworkdaysite.com/recruiting/pwc/Global_Experienced_Careers",
-      "last_run_at": "2026-11-07T05:25:24+00:00",
+      "last_run_at": "2026-11-07T12:32:44+00:00",
       "last_status": "ok",
-      "last_jobs_found": 3790,
+      "last_jobs_found": 3788,
       "last_error": null,
-      "last_success_at": "2026-11-07T05:25:24+00:00",
-      "last_success_jobs": 3790
+      "last_success_at": "2026-11-07T12:32:44+00:00",
+      "last_success_jobs": 3788
+    },
+    "https://www.careers-page.com/eastwest-bank": {
+      "url": "https://www.careers-page.com/eastwest-bank",
+      "last_run_at": "2026-11-07T12:26:03+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 216,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:03+00:00",
+      "last_success_jobs": 216
+    },
+    "https://www.careers-page.com/mr-diy-philippines": {
+      "url": "https://www.careers-page.com/mr-diy-philippines",
+      "last_run_at": "2026-11-07T12:26:28+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 2260,
+      "last_error": null,
+      "last_success_at": "2026-11-07T12:26:28+00:00",
+      "last_success_jobs": 2260
     }
   }
 }

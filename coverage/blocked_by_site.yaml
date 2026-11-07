@@ -11,6 +11,11 @@ blocked_by_site:
     evidence:
       - {url: "https://api.smartrecruiters.com/v1/companies/Ubisoft2/postings", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://api.smartrecruiters.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
       - {url: "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://api.smartrecruiters.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+  - platform: SmartRecruiters (career pages)
+    scope: tenant
+    impact: "Companies can opt out of the public career pages; Bosch did (Ubisoft2 is open)."
+    evidence:
+      - {url: "https://www.smartrecruiters.com/BoschGroup/", checked_at: "2026-11-07T12:26:18+00:00", http_status: null, robots_url: "https://www.smartrecruiters.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /BoschGroup/*"}
   - platform: Paycor
     scope: platform
     impact: "Every career page on recruitingbypaycor.com is disallowed; no allowed route."
