@@ -102,7 +102,7 @@ Sites that refuse us (robots.txt rule or HTTP 403) are listed with request-level
 | `jobindex/checkpoint.py` | Resumable fetches: per-source progress in `sources.crawl_checkpoint` |
 | `jobindex/access.py`, `discovery.py`, `schemaorg.py` | Research tooling: robots/403 evidence, sitemap/RSS discovery, schema.org JobPosting extraction |
 | `jobindex/dedup/` | Cross-source dedup: fills `jobs.canonical_job_id` after every crawl (`keys.py` matching keys, `cluster.py` rules) |
-| `jobindex/api/` | FastAPI app: `/health`, `/jobs?q=…` (full-text), `/jobs/{id}`, `/sources` |
+| `jobindex/api/` | FastAPI app: `/jobs` (full-text + filters, one result per opening), `/jobs/{id}`, `/sources`, `/stats`, `/health`; docs at `/docs` |
 | `jobindex/scheduler/` | APScheduler job that crawls all active sources (enable with `SCHEDULER_ENABLED=true`) |
 | `jobindex/cli/` | `python -m jobindex.cli add-source <url>` / `crawl <id>\|--all` |
 | `jobindex/coverage.py` | Coverage report logic (`scripts/coverage_report.py`, `make coverage`) |
