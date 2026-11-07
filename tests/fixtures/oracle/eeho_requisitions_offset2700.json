@@ -1,0 +1,329 @@
+{
+  "items": [
+    {
+      "SearchId": 1,
+      "Keyword": null,
+      "CorrectedKeyword": null,
+      "UseExactKeywordFlag": false,
+      "SuggestedKeyword": null,
+      "ExecuteSpellCheckFlag": true,
+      "Location": null,
+      "LocationId": null,
+      "Radius": 0,
+      "RadiusUnit": "MI",
+      "SelectedTitlesFacet": null,
+      "SelectedCategoriesFacet": null,
+      "SelectedPostingDatesFacet": null,
+      "SelectedLocationsFacet": null,
+      "LastSelectedFacet": null,
+      "Facets": "TITLES;LOCATIONS;LOCATION_LEVEL1;LOCATION_LEVEL2;LOCATION_LEVEL3;CATEGORIES;POSTING_DATES;WORK_LOCATIONS;FLEX_FIELDS;ORGANIZATIONS;WORKPLACE_TYPES",
+      "Offset": 2700,
+      "Limit": 200,
+      "SortBy": "POSTING_DATES_DESC",
+      "TotalJobsCount": 2843,
+      "Latitude": null,
+      "Longitude": null,
+      "SiteNumber": "CX_45001",
+      "JobFamilyId": null,
+      "PostingStartDate": null,
+      "PostingEndDate": null,
+      "SelectedWorkLocationsFacet": null,
+      "RequisitionId": null,
+      "CandidateNumber": null,
+      "WorkLocationZipCode": null,
+      "WorkLocationCountryCode": null,
+      "SelectedFlexFieldsFacets": null,
+      "OrganizationId": null,
+      "SelectedOrganizationsFacet": null,
+      "UserTargetFacetName": null,
+      "UserTargetFacetInputTerm": null,
+      "HotJobFlag": null,
+      "WorkplaceType": null,
+      "SelectedWorkplaceTypesFacet": null,
+      "BotQRShortCode": null,
+      "requisitionList": [
+        {
+          "Id": "338454",
+          "Title": "Principal Application Software Engineer",
+          "PostedDate": "2026-06-26",
+          "PostingEndDate": null,
+          "Language": "US",
+          "PrimaryLocationCountry": "US",
+          "GeographyId": 300000000149325,
+          "HotJobFlag": false,
+          "WorkplaceTypeCode": null,
+          "JobFamily": null,
+          "JobFunction": null,
+          "WorkerType": null,
+          "ContractType": null,
+          "ManagerLevel": null,
+          "JobSchedule": null,
+          "JobShift": null,
+          "JobType": null,
+          "StudyLevel": null,
+          "DomesticTravelRequired": null,
+          "InternationalTravelRequired": null,
+          "WorkDurationYears": null,
+          "WorkDurationMonths": null,
+          "WorkHours": null,
+          "WorkDays": null,
+          "LegalEmployer": null,
+          "BusinessUnit": null,
+          "Department": null,
+          "Organization": null,
+          "BusinessUnitId": 300001096431127,
+          "LegalEmployerId": 300000000482027,
+          "OrganizationId": 300001902541887,
+          "MediaThumbURL": "https://img.youtube.com/vi/BV0GMCITXg4/hqdefault.jpg",
+          "ShortDescriptionStr": "Oracle Health is transforming the future of healthcare by building secure, scalable, AI-enabled healthcare platforms and applications that improve patient outcomes, reduce administrative burden, and enable healthcare organizations to operate more efficiently. As part of Oracle's broader cloud and AI strategy, Oracle Health combines industry-leading healthcare applications, electronic health records (EHR), healthcare data platforms, and Oracle Cloud Infrastructure (OCI) to create the next generation of connected healthcare solutions.",
+          "PrimaryLocation": "United States",
+          "Distance": 1782432000000.0,
+          "TrendingFlag": true,
+          "BeFirstToApplyFlag": false,
+          "Relevancy": 2,
+          "WorkplaceType": "",
+          "ExternalQualificationsStr": null,
+          "ExternalResponsibilitiesStr": null,
+          "secondaryLocations": []
+        },
+        {
+          "Id": "338348",
+          "Title": "Lead Data Center Support Services Technician",
+          "PostedDate": "2026-06-25",
+          "PostingEndDate": null,
+          "Language": "US",
+          "PrimaryLocationCountry": "US",
+          "GeographyId": 100000000730814,
+          "HotJobFlag": false,
+          "WorkplaceTypeCode": null,
+          "JobFamily": null,
+          "JobFunction": null,
+          "WorkerType": null,
+          "ContractType": null,
+          "ManagerLevel": null,
+          "JobSchedule": null,
+          "JobShift": null,
+          "JobType": null,
+          "StudyLevel": null,
+          "DomesticTravelRequired": null,
+          "InternationalTravelRequired": null,
+          "WorkDurationYears": null,
+          "WorkDurationMonths": null,
+          "WorkHours": null,
+          "WorkDays": null,
+          "LegalEmployer": null,
+          "BusinessUnit": null,
+          "Department": null,
+          "Organization": null,
+          "BusinessUnitId": 300001096431127,
+          "LegalEmployerId": 300000000482027,
+          "OrganizationId": 300001902541887,
+          "MediaThumbURL": "https://img.youtube.com/vi/BV0GMCITXg4/hqdefault.jpg",
+          "ShortDescriptionStr": "Are you an experienced Data Center Technician who has experience in data center design/operation, racking, stacking, hardware break-fix, and everything in between? \nThen we’d like to talk to you!",
+          "PrimaryLocation": "Reston, VA, United States",
+          "Distance": 1782345600000.0,
+          "TrendingFlag": false,
+          "BeFirstToApplyFlag": false,
+          "Relevancy": 2,
+          "WorkplaceType": "",
+          "ExternalQualificationsStr": null,
+          "ExternalResponsibilitiesStr": null,
+          "secondaryLocations": []
+        },
+        {
+          "Id": "333208",
+          "Title": "Sourcing Manager 4-Optical Transceivers-Supply Chain Operations",
+          "PostedDate": "2026-06-24",
+          "PostingEndDate": null,
+          "Language": "US",
+          "PrimaryLocationCountry": "US",
+          "GeographyId": 100000000731910,
+          "HotJobFlag": false,
+          "WorkplaceTypeCode": null,
+          "JobFamily": null,
+          "JobFunction": null,
+          "WorkerType": null,
+          "ContractType": null,
+          "ManagerLevel": null,
+          "JobSchedule": null,
+          "JobShift": null,
+          "JobType": null,
+          "StudyLevel": null,
+          "DomesticTravelRequired": null,
+          "InternationalTravelRequired": null,
+          "WorkDurationYears": null,
+          "WorkDurationMonths": null,
+          "WorkHours": null,
+          "WorkDays": null,
+          "LegalEmployer": null,
+          "BusinessUnit": null,
+          "Department": null,
+          "Organization": null,
+          "BusinessUnitId": 300001096431127,
+          "LegalEmployerId": 300000000482027,
+          "OrganizationId": 300001902541887,
+          "MediaThumbURL": "https://img.youtube.com/vi/BV0GMCITXg4/hqdefault.jpg",
+          "ShortDescriptionStr": "Interfaces with development and supplier stakeholders to provide materials and components for company product supply chain.",
+          "PrimaryLocation": "Seattle, WA, United States",
+          "Distance": 1782259200000.0,
+          "TrendingFlag": true,
+          "BeFirstToApplyFlag": false,
+          "Relevancy": 2,
+          "WorkplaceType": "",
+          "ExternalQualificationsStr": null,
+          "ExternalResponsibilitiesStr": null,
+          "secondaryLocations": [
+            {
+              "RequisitionLocationId": 302965295501504,
+              "GeographyNodeId": 100857712625786,
+              "GeographyId": 100000579041777,
+              "Name": "San Jose, CA, United States",
+              "CountryCode": "US",
+              "Latitude": 37.33865,
+              "Longitude": -121.88542
+            },
+            {
+              "RequisitionLocationId": 302965295501505,
+              "GeographyNodeId": 100857712625772,
+              "GeographyId": 100000000729618,
+              "Name": "Austin, TX, United States",
+              "CountryCode": "US",
+              "Latitude": 30.45414,
+              "Longitude": -97.78254
+            },
+            {
+              "RequisitionLocationId": 302965295501506,
+              "GeographyNodeId": 100857712626013,
+              "GeographyId": 100000000726870,
+              "Name": "Nashville, TN, United States",
+              "CountryCode": "US",
+              "Latitude": 36.16784,
+              "Longitude": -86.77816
+            }
+          ]
+        }
+      ],
+      "categoriesFacet": [
+        {
+          "Id": 302958497961752,
+          "Name": "Product and Research",
+          "TotalCount": 1168
+        },
+        {
+          "Id": 302958497961746,
+          "Name": "Technology Operations",
+          "TotalCount": 320
+        },
+        {
+          "Id": 300000001917338,
+          "Name": "Consulting",
+          "TotalCount": 267
+        }
+      ],
+      "locationsFacet": [
+        {
+          "Id": 300000000149325,
+          "Name": "United States",
+          "TotalCount": 2114
+        },
+        {
+          "Id": 100000000686062,
+          "Name": "TN, United States",
+          "TotalCount": 904
+        },
+        {
+          "Id": 100000000726870,
+          "Name": "Nashville, TN, United States",
+          "TotalCount": 903
+        }
+      ],
+      "postingDatesFacet": [
+        {
+          "Id": 7,
+          "Name": "Less than 7 days",
+          "TotalCount": 421
+        },
+        {
+          "Id": 30,
+          "Name": "Less than 30 days",
+          "TotalCount": 1511
+        },
+        {
+          "Id": 31,
+          "Name": "Greater than 30 days",
+          "TotalCount": 1332
+        }
+      ],
+      "titlesFacet": [
+        {
+          "Id": "SWE",
+          "Name": "Software Engineering",
+          "TotalCount": 768
+        },
+        {
+          "Id": "DCOPS",
+          "Name": "Data Center Operations",
+          "TotalCount": 288
+        },
+        {
+          "Id": "CONS-IMPDEL",
+          "Name": "CONS-IMPDEL",
+          "TotalCount": 208
+        }
+      ],
+      "workLocationsFacet": [],
+      "flexFieldsFacet": [
+        {
+          "Name": "AttributeChar29",
+          "Label": "Role"
+        },
+        {
+          "Name": "AttributeChar4",
+          "Label": "Job Type"
+        },
+        {
+          "Name": "AttributeChar13",
+          "Label": "Experience Level"
+        }
+      ],
+      "organizationsFacet": [
+        {
+          "Id": 300001902541887,
+          "Name": "CLBPTS - All Lines of Business",
+          "TotalCount": 2843
+        }
+      ],
+      "workplaceTypesFacet": [
+        {
+          "Id": "ORA_ON_SITE",
+          "Name": "On-site",
+          "TotalCount": 2843
+        }
+      ]
+    }
+  ],
+  "count": 1,
+  "hasMore": false,
+  "limit": 200,
+  "offset": 0,
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://eeho.fa.us2.oraclecloud.com:443/hcmRestApi/resources/11.13.18.05/recruitingCEJobRequisitions",
+      "name": "recruitingCEJobRequisitions",
+      "kind": "collection"
+    },
+    {
+      "rel": "action",
+      "href": "https://eeho.fa.us2.oraclecloud.com:443/hcmRestApi/resources/11.13.18.05/recruitingCEJobRequisitions/action/getRequisitionsLocationCoordinates",
+      "name": "getRequisitionsLocationCoordinates",
+      "kind": "other"
+    },
+    {
+      "rel": "action",
+      "href": "https://eeho.fa.us2.oraclecloud.com:443/hcmRestApi/resources/11.13.18.05/recruitingCEJobRequisitions/action/getRequisitionDetailsForMap",
+      "name": "getRequisitionDetailsForMap",
+      "kind": "other"
+    }
+  ]
+}

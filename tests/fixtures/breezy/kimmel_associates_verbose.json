@@ -1,0 +1,166 @@
+[
+  {
+    "id": "c2330e43269e",
+    "friendly_id": "c2330e43269e-assembly-supervisor",
+    "name": "Assembly Supervisor",
+    "url": "https://kimmel-associates.breezy.hr/p/c2330e43269e-assembly-supervisor",
+    "published_date": "2026-10-19T18:08:27.917Z",
+    "type": {
+      "id": "fullTime",
+      "name": "Full-Time"
+    },
+    "location": {
+      "country": {
+        "name": "United States",
+        "id": "US"
+      },
+      "state": {
+        "id": "OH",
+        "name": "Ohio"
+      },
+      "city": "Dayton",
+      "primary": true,
+      "is_remote": false,
+      "name": "Dayton, OH",
+      "id": "0afaa7cf09e9"
+    },
+    "department": "Supply Chain",
+    "salary": "$80,000 – $85,000 / year",
+    "company": {
+      "name": "Kimmel & Associates",
+      "logo_url": null,
+      "friendly_id": "kimmel-associates",
+      "isMultipleLocationsEnabled": true
+    },
+    "locations": [
+      {
+        "country": {
+          "name": "United States",
+          "id": "US"
+        },
+        "state": {
+          "id": "OH",
+          "name": "Ohio"
+        },
+        "city": "Dayton",
+        "primary": true,
+        "is_remote": false,
+        "name": "Dayton, OH",
+        "id": "0afaa7cf09e9"
+      }
+    ],
+    "description": "<p><strong>About the Company</strong></p>\n<p>Representing more than 150 years of innovation, we are the global specialist in electrical and digital building infrastructures. Our purpose is improving lives by transforming the spaces where people live, work and meet with electrical and digital infrastructures and connected solutions that are simple, innovative and sustainable. Every day, over 39,000 employees work hard to enhance the buildings of tomorrow. We are a global, publicly traded company listed on the Euronext with revenue of €7 billion, and products sold in 180 countries.</p>\n<p><strong>About the Position</strong></p>\n<p>As an <strong>Assembly Supervisor</strong>, you will be responsible for leading and directing assembly operations to meet productivity, quality, safety, and delivery goals. You’ll work cross-functionally with engineering, inventory, and materials management teams to ensure optimal performance and output while championing Lean manufacturing initiatives. This is a hands-on leadership role ideal for someone who thrives in a fast-paced, high-impact environment and wants to grow their career with an industry leader.</p>\n<p><strong>Key Responsibilities:</strong></p>\n<ul>\n <li>Supervise and schedule assembly operations, including      material flow, headcount, and temporary workforce planning</li>\n <li>Implement and drive Lean manufacturing principles (5S,      Kanban, Value Stream Mapping)</li>\n <li>Ensure quality standards and safe operating procedures      are upheld at all times</li>\n <li>Collaborate with Engineering and Materials teams to      resolve workflow issues and enhance production efficiency</li>\n <li>Manage Time &amp; Attendance records and oversee      performance development of direct reports</li>\n <li>Lead daily materials and production meetings; report on      order status and missed deadlines</li>\n <li>Process returned goods (RMAs) and rework efficiently</li>\n <li>Investigate and resolve inventory discrepancies with      root cause analysis and corrective action</li>\n <li>Promote continuous improvement through training,      motivation, and employee engagement</li>\n <li>Act as a liaison between departments to ensure timely      delivery of finished goods</li>\n <li>Support safety initiatives and compliance with company      policies and applicable regulations</li>\n</ul>\n<p><strong>Requirements</strong></p>\n<ul>\n <li>Bachelor’s degree and 2+ years of supervisory      experience in manufacturing<br>\n     OR 5–7 years of supervisory/management experience in a manufacturing      environment</li>\n <li>Proficient in Lean Manufacturing methodologies</li>\n <li>Strong leadership, communication, and problem-solving      skills</li>\n <li>Experience with ERP systems (preferably SAP)</li>\n <li>High attention to detail, strong math aptitude, and      excellent project management skills</li>\n <li>Proficient in Microsoft Office (Word, Excel, Outlook)</li>\n</ul>\n<ul>\n <li>SAP experience</li>\n <li>Production Planning system experience</li>\n <li>Formal project management or planning background</li>\n</ul>\n<p><strong>Benefits</strong></p>\n<ul>\n <li>Competitive salary: <strong>$80,000–$85,000 annually</strong></li>\n <li>Performance-based bonus opportunity</li>\n <li>Comprehensive health, dental, and vision insurance</li>\n <li>401(k) with company match</li>\n <li>Paid time off and holidays</li>\n</ul>\n<p>#LI-SK1</p>"
+  },
+  {
+    "id": "dbe6e0af8021",
+    "friendly_id": "dbe6e0af8021-building-automations-engineer-mechanical-construction",
+    "name": "Building Automations Engineer-Mechanical Construction",
+    "url": "https://kimmel-associates.breezy.hr/p/dbe6e0af8021-building-automations-engineer-mechanical-construction",
+    "published_date": "2026-10-16T17:48:52.389Z",
+    "type": {
+      "id": "fullTime",
+      "name": "Full-Time"
+    },
+    "location": {
+      "country": {
+        "name": "United States",
+        "id": "US"
+      },
+      "state": {
+        "id": "WI",
+        "name": "Wisconsin"
+      },
+      "city": "Milwaukee",
+      "primary": true,
+      "is_remote": true,
+      "name": "Milwaukee, WI",
+      "id": "313397caca12",
+      "remote_details": {
+        "value": "remote",
+        "label": "Fully remote, no location restrictions"
+      }
+    },
+    "department": "Mechanical Contracting",
+    "salary": "$90,000 – $100,000 / year",
+    "company": {
+      "name": "Kimmel & Associates",
+      "logo_url": null,
+      "friendly_id": "kimmel-associates",
+      "isMultipleLocationsEnabled": true
+    },
+    "locations": [
+      {
+        "country": {
+          "name": "United States",
+          "id": "US"
+        },
+        "state": {
+          "id": "WI",
+          "name": "Wisconsin"
+        },
+        "city": "Milwaukee",
+        "primary": true,
+        "is_remote": true,
+        "name": "Milwaukee, WI",
+        "id": "313397caca12",
+        "remote_details": {
+          "value": "remote",
+          "label": "Fully remote, no location restrictions"
+        }
+      }
+    ],
+    "description": "<p><strong>About the Company</strong></p>\n<p>Our client is a <strong>family-owned mechanical and fire protection contractor with more than 145 years of industry experience</strong>. The company provides building, construction, and prefabrication services across <strong>HVAC, fire protection, industrial process, pipe fabrication, plumbing, and water/wastewater</strong>.</p>\n<p>With a long-standing reputation for technical expertise, quality, and innovation, the company offers an excellent opportunity to build a long-term career with an established organization.</p>\n<p><strong>About the Position</strong></p>\n<p>We are seeking a <strong>Building Automation Engineer</strong> to develop and implement building automation systems across HVAC and electrical automation projects.</p>\n<p>This position will contribute to project execution through <strong>programming, system integration, commissioning, control drawings, submittals, and system documentation</strong>. The role is fully remote, allowing the successful candidate to work from home anywhere in Wisconsin, with travel to project sites as needed.</p>\n<p><strong>Key Responsibilities</strong></p>\n<ul>\n <li>Develop, program, and implement building automation and      HVAC control systems.</li>\n <li>Support system integration, testing, and commissioning      activities.</li>\n <li>Interpret mechanical, electrical, and control drawings.</li>\n <li>Develop and review control drawings, submittals, and      project documentation.</li>\n <li>Assist with system troubleshooting and technical      problem-solving.</li>\n <li>Coordinate with project managers, engineers,      technicians, and other project stakeholders.</li>\n <li>Support project execution from design through      commissioning and turnover.</li>\n <li>Stay current with building automation technologies and      industry standards.</li>\n</ul>\n<p><strong>Requirements</strong></p>\n<ul>\n <li>Associate or Bachelor's degree in <strong>Mechanical      Engineering, Electrical Engineering, Computer Science, HVAC Technology</strong>,      or a related field; equivalent experience will be considered.</li>\n <li><strong>5+ years of experience</strong> with building automation, HVAC controls, or a related      technical field.</li>\n <li>Ability to understand <strong>HVAC systems, electrical      systems, and low-voltage controls</strong>.</li>\n <li>Ability to read and interpret mechanical, electrical,      and control drawings.</li>\n <li>Knowledge of or willingness to learn:</li>\n <ul>\n  <li>Building Automation Systems (BAS)</li>\n  <li>BACnet</li>\n  <li>Tridium/Niagara</li>\n  <li>Distech</li>\n  <li>Honeywell</li>\n </ul>\n <li>Strong analytical, troubleshooting, communication, and      organizational skills.</li>\n <li><strong>Must reside in Wisconsin.</strong></li>\n</ul>\n<p><strong>Benefits</strong></p>\n<ul>\n <li><strong>$100,000 base salary</strong></li>\n <li>Bonus opportunity</li>\n <li>Medical and dental benefits</li>\n <li>Additional company benefits</li>\n <li>401(k)</li>\n <li><strong>Fully remote work from your home anywhere in Wisconsin</strong></li>\n <li>Opportunity to work on diverse BAS, HVAC controls, and      automation projects</li>\n <li>Long-term career opportunity with an established,      family-owned contractor</li>\n</ul>"
+  },
+  {
+    "id": "6c98b85bfec2",
+    "friendly_id": "6c98b85bfec2-assistant-project-manager-general-construction",
+    "name": "Assistant Project Manager-General Construction",
+    "url": "https://kimmel-associates.breezy.hr/p/6c98b85bfec2-assistant-project-manager-general-construction",
+    "published_date": "2026-10-09T16:12:11.661Z",
+    "type": {
+      "id": "fullTime",
+      "name": "Full-Time"
+    },
+    "location": {
+      "country": {
+        "name": "United States",
+        "id": "US"
+      },
+      "state": {
+        "id": "TX",
+        "name": "Texas"
+      },
+      "city": "Dallas",
+      "primary": true,
+      "is_remote": false,
+      "name": "Dallas, TX",
+      "id": "87ca2a74290a"
+    },
+    "department": "General Construction",
+    "salary": "$75,000 – $90,000 / year",
+    "company": {
+      "name": "Kimmel & Associates",
+      "logo_url": null,
+      "friendly_id": "kimmel-associates",
+      "isMultipleLocationsEnabled": true
+    },
+    "locations": [
+      {
+        "country": {
+          "name": "United States",
+          "id": "US"
+        },
+        "state": {
+          "id": "TX",
+          "name": "Texas"
+        },
+        "city": "Dallas",
+        "primary": true,
+        "is_remote": false,
+        "name": "Dallas, TX",
+        "id": "87ca2a74290a"
+      }
+    ],
+    "description": "<p><strong>About the Company</strong></p>\n<p>The company provides general contracting and construction management services across the United States. Founded as an industrial general contractor specializing in warehouse and distribution facilities, the company has steadily expanded into a diverse portfolio of project types. Today, the firm delivers high-quality construction solutions for corporate headquarters, aviation hangars, churches, Class-A office developments, hotels, and tenant interior projects.</p>\n<p>They are known for their disciplined approach to project execution, strong client relationships, and commitment to safety, quality, and teamwork.</p>\n<p><strong>About the Position</strong></p>\n<p>The company is seeking an&nbsp;Assistant Project Manager to&nbsp;support the successful execution of assigned construction projects from pre-construction through closeout. This role works closely with the Project Manager and Superintendent to help manage quality, documentation, coordination, and financial processes while ensuring projects meet safety, budget, schedule, and performance expectations.</p>\n<p>The Assistant Project Manager also plays an important role in client communication, subcontractor coordination, and maintaining accurate project records. This position is well suited for a motivated construction professional looking to grow within a respected commercial general contractor.</p>\n<p><strong>Key Responsibilities Include:</strong></p>\n<p><strong>Project Leadership &amp; Coordination</strong></p>\n<ul>\n <li>Support overall project execution from conception      through closeout</li>\n <li>Serve as a point of contact for clients and participate      in ongoing communication and status updates</li>\n <li>Collaborate closely with the Project Manager and      Superintendent to maintain alignment on project goals</li>\n</ul>\n<p><strong>Financial &amp; Contract Administration</strong></p>\n<ul>\n <li>Assist with managing project budgets, contracts, change      orders, and pay applications</li>\n <li>Review and approve invoices for accuracy and compliance</li>\n <li>Support pre-construction efforts including buyout,      value engineering, and logistics planning</li>\n</ul>\n<p><strong>Scheduling &amp; Workflow Management</strong></p>\n<ul>\n <li>Partner with the Superintendent to develop, update, and      distribute project schedules</li>\n <li>Monitor progress and identify potential schedule      impacts</li>\n</ul>\n<p><strong>Document Control &amp; Reporting</strong></p>\n<ul>\n <li>Manage project documentation including RFIs,      submittals, shop drawings, logs, and plan sets</li>\n <li>Maintain organized and accurate project records</li>\n <li>Prepare and distribute project status reports to      internal and external stakeholders</li>\n</ul>\n<p><strong>Safety &amp; Quality Assurance</strong></p>\n<ul>\n <li>Support enforcement of the project safety plan and      promote a strong safety culture</li>\n <li>Assist with monitoring field safety and quality      standards throughout the project lifecycle</li>\n</ul>\n<p><strong>Project Closeout</strong></p>\n<ul>\n <li>Coordinate punch list activities and closeout      requirements</li>\n <li>Assist with preparation and delivery of operations and      maintenance manuals and final turnover documentation</li>\n</ul>\n<p><strong>Requirements</strong></p>\n<ul>\n <li>Bachelor’s degree in Construction Management,      Engineering, or a related field preferred</li>\n <li>3–5 years of experience in a Project Engineer,      Assistant Project Manager, or similar role with a commercial general      contractor</li>\n <li>Strong understanding of commercial construction      processes and project management principles</li>\n <li>Excellent written and verbal communication skills</li>\n <li>Strong organizational skills with attention to detail      and the ability to manage multiple priorities</li>\n <li>Proven ability to build relationships with clients,      subcontractors, and internal teams</li>\n <li>Equivalent combinations of education and experience      will be considered</li><li>Must be living or able to relocate to one of the regional offices. Regional travel expected.<ul><ul><li>Allentown PA</li><li>Cincinnati OH</li><li>Dallas / Ft. Worth TX</li><li>Atlanta GA</li><li>Memphis TN</li><li>Houston TX <br></li></ul></ul></li></ul>\n<ul></ul>\n<p><strong>Benefits</strong></p>\n<ul>\n <li>Competitive compensation package</li>\n <li>Medical, dental, and vision insurance</li>\n <li>401(k) with company contribution</li>\n <li>Paid time off and company holidays</li>\n <li>Professional development and career growth      opportunities</li>\n <li>Opportunity to work on diverse, high-quality commercial      projects with a respected organization</li>\n</ul>\n<p></p>\n<p></p>"
+  }
+]

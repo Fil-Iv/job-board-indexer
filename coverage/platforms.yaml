@@ -116,17 +116,17 @@
 - name: Breezy HR
   key: breezy
   type: ats
-  status: todo
-  tier: easy
+  status: done
+  connector: jobindex.connectors.breezy
   public_api: "yes"
-  api: "GET {company}.breezy.hr/json"
-  url_patterns: ["{company}.breezy.hr", "{company}.breezy.hr/p/{id}-{slug}"]
+  api: "GET {company}.breezy.hr/json?verbose=true (descriptions only with verbose=true)"
+  url_patterns: ["{company}.breezy.hr[/p/{id}-{slug}[/apply]]", "{company}.breezy.hr/json", "{company}.breezy.hr/embed/js", "custom domains: embed script / links to the above"]
   examples:
     - https://kimmel-associates.breezy.hr
     - https://everstar.breezy.hr
   robots: allowed
   verified: 2026-11-07
-  notes: "Returns a JSON array of published positions (no descriptions; detail page per job). The authenticated api.breezy.hr/v3 is not needed."
+  notes: "One request, every published position with descriptions (verbose=true; without it there are none). Salary is free text, parsed by the shared parser. Unknown portals answer 404."
 
 - name: CareerPlug
   key: careerplug
@@ -251,17 +251,17 @@
 - name: Gem.com
   key: gem
   type: ats
-  status: todo
-  tier: easy
+  status: done
+  connector: jobindex.connectors.gem
   public_api: "yes"
   api: "GET api.gem.com/job_board/v0/{slug}/job_posts/"
-  url_patterns: ["jobs.gem.com/{slug}", "jobs.gem.com/{slug}/{job-id}"]
+  url_patterns: ["jobs.gem.com/{slug}[/{post-uuid}]", "api.gem.com/job_board/v0/{slug}/job_posts/", "custom domains: links to the above"]
   examples:
     - https://jobs.gem.com/function-health
     - https://jobs.gem.com/nominal
   robots: allowed
   verified: 2026-11-07
-  notes: "Greenhouse-like JSON array."
+  notes: "One request, every post with HTML + plain-text description, location_type (in_office|hybrid|remote) and offices. Unknown slugs answer 404."
 
 - name: GoHire
   key: gohire
@@ -473,17 +473,17 @@
 - name: Oracle Recruiting
   key: oracle
   type: ats
-  status: todo
-  tier: easy
+  status: done
+  connector: jobindex.connectors.oracle
   public_api: "yes"
-  api: "GET {pod}.fa.{dc}.oraclecloud.com/hcmRestApi/resources/latest/recruitingCEJobRequisitions?onlyData=true&expand=requisitionList&finder=findReqs;siteNumber={site},limit=,offset="
-  url_patterns: ["{pod}.fa.{dc}.oraclecloud.com/hcmUI/CandidateExperience/{lang}/sites/{site}/requisitions", ".../sites/{site}/job/{id}"]
+  api: "GET {host}/hcmRestApi/resources/latest/recruitingCEJobRequisitions?onlyData=true&expand=requisitionList.secondaryLocations&finder=findReqs;siteNumber={site},limit=200,offset=n + recruitingCEJobRequisitionDetails?finder=ById;Id=\"{id}\",siteNumber={site} per job"
+  url_patterns: ["{pod}.fa[.{dc}].oraclecloud.com/hcmUI/CandidateExperience/{lang}/sites/{site}[/job/{id}]", "{host}/hcmRestApi/...siteNumber={site}", "custom domains: links to the above"]
   examples:
     - https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions
     - https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions
   robots: allowed
   verified: 2026-11-07
-  notes: "Oracle HCM Cloud Candidate Experience. Board identifier = host + siteNumber. Descriptions via recruitingCEJobRequisitionDetails."
+  notes: "200 rows/page, deep offsets OK. TotalJobsCount is consistently 1-2 above what the list returns (Oracle 2841/2843, JPMorgan 7119/7120): a shortfall up to max(2, 0.1%) is accepted, more is re-paged once then refused. Descriptions need one detail request per job (7k jobs ~2h on the first crawl at 1 req/s; cached afterwards)."
 
 - name: PageUp
   key: pageup
