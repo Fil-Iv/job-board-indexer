@@ -164,6 +164,9 @@ async def _crawl(
     except Exception as exc:  # any failure is recorded, never interpreted as "no jobs"
         await session.rollback()
         return await _record_failure(session, source_id, run_id, exc)
+    except asyncio.CancelledError:  # worker shutdown: record it, then keep cancelling
+        await asyncio.shield(_record_cancel(session, source_id, run_id))
+        raise
 
     try:
         counts = _reconcile(session, source_id, postings, existing)
@@ -251,6 +254,15 @@ def _check_drop(connector: BaseConnector, previous: int | None, current: int) ->
 
 def _is_open(posting: RawJob, now: datetime) -> bool:
     return posting.expires_at is None or posting.expires_at > now
+
+
+class CrawlCancelledError(Exception):
+    """The crawl was cancelled (e.g. the worker is shutting down)."""
+
+
+async def _record_cancel(session: AsyncSession, source_id: int, run_id: int) -> None:
+    await session.rollback()
+    await _record_failure(session, source_id, run_id, CrawlCancelledError("crawl cancelled"))
 
 
 async def _record_failure(

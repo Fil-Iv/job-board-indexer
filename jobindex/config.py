@@ -36,10 +36,23 @@ class Settings(BaseSettings):
     # openings even with the same company, title and location.
     dedup_date_window_days: int = 30
 
-    # Scheduler
-    scheduler_enabled: bool = False
+    # Scheduler (`python -m jobindex.cli schedule`, see jobindex/scheduler)
+    # Minutes between two crawls of a source; per-platform overrides as JSON, e.g.
+    # CRAWL_PLATFORM_INTERVALS='{"workday": 240, "greenhouse": 30}'. Platforms with a
+    # request per job page (sitemap / detail connectors) are slower and default higher.
     crawl_interval_minutes: int = 60
-    crawl_concurrency: int = 4
+    crawl_platform_intervals: dict[str, int] = {
+        "workday": 240,
+        "oracle": 240,
+        "successfactors": 240,
+        "hireology": 720,  # one ~8 MB sitemap shared by all tenants
+    }
+    crawl_concurrency: int = 4  # crawls running at the same time
+    crawl_jitter: float = 0.1  # up to +10% of the interval, so sources spread out
+    # A `running` fetch run older than this is considered abandoned (process died).
+    crawl_stale_after_hours: float = 12
+    scheduler_tick_seconds: int = 60
+    scheduler_heartbeat_file: str = "/tmp/jobindex-scheduler.heartbeat"
 
     log_level: str = "INFO"
 

@@ -28,9 +28,7 @@ from jobindex.api.search import MAX_PAGE_SIZE, SearchParams, get_opening, group_
 from jobindex.api.ui import router as ui_router
 from jobindex.config import get_settings
 from jobindex.db import create_engine, create_session_factory
-from jobindex.http import HttpClient
 from jobindex.models import FetchRun, FetchStatus, Job, JobStatus, RemoteType, Source
-from jobindex.scheduler import build_scheduler
 
 
 @asynccontextmanager
@@ -39,20 +37,9 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     logging.basicConfig(level=settings.log_level)
     engine = create_engine(settings.database_url)
     app.state.session_factory = create_session_factory(engine)
-
-    scheduler = None
-    http: HttpClient | None = None
-    if settings.scheduler_enabled:
-        http = HttpClient.from_settings(settings)
-        scheduler = build_scheduler(app.state.session_factory, http, settings)
-        scheduler.start()
     try:
         yield
     finally:
-        if scheduler is not None:
-            scheduler.shutdown(wait=False)
-        if http is not None:
-            await http.aclose()
         await engine.dispose()
 
 
