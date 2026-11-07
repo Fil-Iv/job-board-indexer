@@ -147,16 +147,18 @@
 - name: Comeet
   key: comeet
   type: ats
-  status: todo
-  tier: medium
+  status: done
+  connector: jobindex.connectors.comeet
   public_api: partial
-  api: "GET comeet.co/careers-api/2.0/company/{uid}/positions?token={token} (token embedded in career page)"
-  url_patterns: ["www.comeet.com/jobs/{company}/{uid}", "www.comeet.com/jobs/{company}/{uid}/{position-slug}/{pos-uid}"]
+  api: "GET www.comeet.com/jobs/{slug}/{uid} (COMPANY_POSITIONS_DATA embedded JSON: every position with descriptions)"
+  url_patterns: ["www.comeet.com/jobs/{slug}/{uid}[/{position-slug}/{position-uid}]", "comeet.co/jobs/..."]
   examples:
-    - https://www.comeet.com/jobs/comeet/B7.002
+    - https://www.comeet.com/jobs/safefleet/95.001
+    - https://www.comeet.com/jobs/vastdata/43.001
   robots: allowed
-  verified: null
-  notes: "Career page is server-rendered with JSON-LD (verified reachable 2026-11-07). The positions API needs a per-company public token scraped from the page — confirm extraction."
+  verified: 2026-11-07
+  generic: no
+  notes: "One request: the board page embeds every published position (descriptions in custom_fields.details) as COMPANY_POSITIONS_DATA. The careers API (comeet.co/careers-api/2.0) needs a company token and is not used. No posting date; unknown boards redirect to comeet.com (no data = error). The pass-1 example comeet/B7.002 redirects home."
 
 - name: CSOD
   key: csod
@@ -298,16 +300,18 @@
 - name: HiBob
   key: hibob
   type: ats
-  status: todo
-  tier: medium
-  public_api: partial
-  api: "GET {company}.careers.hibob.com/api/job-ad (needs companyIdentifier header)"
-  url_patterns: ["{company}.careers.hibob.com", "{company}.careers.hibob.com/jobs/{id}"]
+  status: done
+  connector: jobindex.connectors.hibob
+  public_api: "yes"
+  api: "GET {company}.careers.hibob.com/api/job-ad with header companyIdentifier: {company} (JSON, all job ads with descriptions)"
+  url_patterns: ["{company}.careers.hibob.com[/jobs/{id}]"]
   examples:
-    - https://hibob.careers.hibob.com/
+    - https://sapiens.careers.hibob.com/
+    - https://liquidia.careers.hibob.com/
   robots: allowed
-  verified: null
-  notes: "SPA shell; /api/job-ad returned 401 without the header (2026-11-07). The header value is derivable from the subdomain — verify."
+  verified: 2026-11-07
+  generic: no
+  notes: "Public JSON behind the careers SPA: one request, descriptions, pay-transparency ranges. The header is the subdomain, as the SPA sends it; without it (or for unknown companies) the API answers 401."
 
 - name: HireBridge
   key: hirebridge
@@ -413,17 +417,18 @@
 - name: Jobvite
   key: jobvite
   type: ats
-  status: todo
-  tier: medium
+  status: done
+  connector: jobindex.connectors.jobvite
   public_api: "no"
-  api: "jobs.jobvite.com/{company}/jobs (HTML + JSON-LD on job pages)"
-  url_patterns: ["jobs.jobvite.com/{company}/jobs", "jobs.jobvite.com/{company}/job/{id}", "careers.jobvite.com/{company}"]
+  api: "GET jobs.jobvite.com/{company}/search/?p={n} (HTML, 50/page, \"1-50 of N\") + GET /{company}/job/{id} (HTML description; JSON-LD on some tenants)"
+  url_patterns: ["jobs.jobvite.com/{company}[/jobs|/search|/job/{id}]", "jobs.jobvite.com/careers/{company}/..."]
   examples:
-    - https://jobs.jobvite.com/jobvite/jobs
-    - https://jobs.jobvite.com/logitech/jobs
+    - https://jobs.jobvite.com/webmd/jobs
+    - https://jobs.jobvite.com/nutanix/jobs
   robots: allowed
-  verified: null
-  notes: "Both pages reachable and server-rendered (2026-11-07); job pages carry JSON-LD JobPosting."
+  verified: 2026-11-07
+  generic: no
+  notes: "The default /jobs page is incomplete (134 of 249 Nutanix jobs): the paged search is the list, checked against its total. JSON-LD JobPosting is a per-tenant setting (webmd, heifer: yes; nutanix: no), so descriptions come from the page HTML and JSON-LD only adds company/type/date/salary. No sitemap; robots.txt 404. Pass-1 examples jobvite/logitech redirect to jobvite.com."
 
 - name: JOIN.com
   key: join
@@ -611,16 +616,18 @@
 - name: Polymer
   key: polymer
   type: ats
-  status: todo
-  tier: medium
-  public_api: partial
-  api: "api.polymer.co/v1/hire/organizations/{slug}/jobs (returns 422 — required params unknown)"
-  url_patterns: ["jobs.polymer.co/{slug}", "jobs.polymer.co/{slug}/{job-id}"]
+  status: done
+  connector: jobindex.connectors.polymer
+  public_api: "yes"
+  api: "GET api.polymer.co/v1/hire/organizations/{slug}/jobs?page={n} + GET .../jobs/{id} (detail with description)"
+  url_patterns: ["jobs.polymer.co/{slug}[/{job-id}]", "api.polymer.co/v1/hire/organizations/{slug}/jobs"]
   examples:
-    - https://jobs.polymer.co/polymer
+    - https://jobs.polymer.co/themis
+    - https://jobs.polymer.co/invicta-software
   robots: allowed
-  verified: null
-  notes: "API exists but our guessed params got HTTP 422 (2026-11-07). Inspect the board's XHR; likely easy once known."
+  verified: 2026-11-07
+  generic: no
+  notes: "The 422 in pass 1 was a missing page parameter (unknown organizations also answer 422). meta.count = jobs, meta.total = pages; is_last/next_page are wrong past the end, so pages 1..total are read and the count must match. Descriptions need one detail request per new/changed job."
 
 - name: Recooty
   key: recooty

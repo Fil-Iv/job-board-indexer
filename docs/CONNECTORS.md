@@ -1,9 +1,9 @@
 # Connectors
 
-A connector turns one platform's public job data into `RawJob`s. There are 32 today
-(18 API/feed connectors + 14 on the generic sitemap + JSON-LD base);
+A connector turns one platform's public job data into `RawJob`s. There are 36 today
+(22 API/feed/HTML connectors + 14 on the generic sitemap + JSON-LD base);
 [COVERAGE.md](COVERAGE.md) lists all 78 target platforms, live job counts for two real
-employers per done platform, and the plan for the remaining 46.
+employers per done platform, and the plan for the remaining 42.
 
 Every connector module starts with a docstring giving its exact endpoints, response shape,
 URL formats it recognises and the quirks found while building it. That docstring is the
@@ -54,20 +54,24 @@ closed). Long fetches can save progress through `self.checkpoint`
 
 ## How each connector works
 
-### API and feed connectors
+### API, feed and HTML connectors
 
 | Platform | Module | Board identifier | Requests per crawl | Notes |
 |---|---|---|---|---|
 | Ashby | `ashby` | job-board name | 1 | Posting API with `includeCompensation=true` |
 | BambooHR | `bamboohr` | subdomain | 1 list + detail per new/changed job | `/careers/list`, `/careers/{id}/detail` (404 = closed) |
 | Breezy HR | `breezy` | subdomain | 1 | `/json?verbose=true` (descriptions only with `verbose`) |
+| Comeet | `comeet` | `{slug}/{uid}` (`safefleet/95.001`) | 1 | Board page embeds `COMPANY_POSITIONS_DATA` (all positions + descriptions); the token API is not used |
 | Gem | `gem` | slug | 1 | `api.gem.com/job_board/v0/{slug}/job_posts/` |
 | Greenhouse | `greenhouse` | board token | 1 | `content=true&pay_transparency=true`: descriptions + pay ranges |
+| HiBob | `hibob` | subdomain | 1 | `/api/job-ad` with header `companyIdentifier: {subdomain}` (401 without it) |
+| Jobvite | `jobvite` | company slug | 1 per 50 jobs + detail per new/changed | Paged `/search/?p=` HTML checked against "1-50 of N" (`/jobs` is incomplete); description from page HTML, JSON-LD only on some tenants |
 | Lever | `lever` | site (`eu:site` for EU) | 1 per 100 jobs | `skip`/`limit` pagination; EU instance separate |
 | Manatal | `manatal` | slug | 1 per 100 jobs | `ordering=created_at` required (default order skips jobs) |
 | Oracle Recruiting | `oracle` | `host/siteNumber` (`eeho.fa.us2.oraclecloud.com/CX_45001`) | 1 per 200 jobs + detail per new/changed | Candidate Experience REST API |
 | Personio | `personio` | subdomain | 1 | XML feed (parsed with `defusedxml`); never pass `?language=` |
 | Pinpoint | `pinpoint` | subdomain | 1 | `postings.json`; robots.txt differs per tenant |
+| Polymer | `polymer` | slug | 1 per page + detail per new/changed | `meta.count` = jobs, `meta.total` = pages; count must match |
 | Recruitee | `recruitee` | subdomain | 1 | `/api/offers/` (not served on custom domains) |
 | Rippling | `rippling` | slug | 1 list + detail per new/changed | One list row per job *location*; grouped into one posting |
 | SmartRecruiters | `smartrecruiters` | company | page 0 + `api/more` pages (~24 jobs each) | API is refused by robots.txt, so the public career pages are used (API path behind `SMARTRECRUITERS_USE_API`, only with permission) |

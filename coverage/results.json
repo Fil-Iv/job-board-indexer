@@ -333,6 +333,24 @@
       "last_success_at": "2026-11-07T16:59:35+00:00",
       "last_success_jobs": 1906
     },
+    "https://jobs.jobvite.com/nutanix/jobs": {
+      "url": "https://jobs.jobvite.com/nutanix/jobs",
+      "last_run_at": "2026-11-07T18:45:21+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 249,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:45:21+00:00",
+      "last_success_jobs": 249
+    },
+    "https://jobs.jobvite.com/webmd/jobs": {
+      "url": "https://jobs.jobvite.com/webmd/jobs",
+      "last_run_at": "2026-11-07T18:45:16+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 65,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:45:16+00:00",
+      "last_success_jobs": 65
+    },
     "https://jobs.lever.co/palantir": {
       "url": "https://jobs.lever.co/palantir",
       "last_run_at": "2026-11-07T16:59:46+00:00",
@@ -359,6 +377,24 @@
       "last_error": null,
       "last_success_at": "2026-11-07T16:59:19+00:00",
       "last_success_jobs": 83
+    },
+    "https://jobs.polymer.co/invicta-software": {
+      "url": "https://jobs.polymer.co/invicta-software",
+      "last_run_at": "2026-11-07T18:45:16+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 4,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:45:16+00:00",
+      "last_success_jobs": 4
+    },
+    "https://jobs.polymer.co/themis": {
+      "url": "https://jobs.polymer.co/themis",
+      "last_run_at": "2026-11-07T18:45:15+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 6,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:45:15+00:00",
+      "last_success_jobs": 6
     },
     "https://jobs.recooty.com/discovery-care-group": {
       "url": "https://jobs.recooty.com/discovery-care-group",
@@ -423,6 +459,15 @@
       "last_success_at": "2026-11-07T16:59:19+00:00",
       "last_success_jobs": 1
     },
+    "https://liquidia.careers.hibob.com/": {
+      "url": "https://liquidia.careers.hibob.com/",
+      "last_run_at": "2026-11-07T18:45:17+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 21,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:45:17+00:00",
+      "last_success_jobs": 21
+    },
     "https://lunar.teamtailor.com/jobs": {
       "url": "https://lunar.teamtailor.com/jobs",
       "last_run_at": "2026-11-07T16:59:22+00:00",
@@ -467,6 +512,15 @@
       "last_error": null,
       "last_success_at": "2026-11-07T16:59:14+00:00",
       "last_success_jobs": 25
+    },
+    "https://sapiens.careers.hibob.com/": {
+      "url": "https://sapiens.careers.hibob.com/",
+      "last_run_at": "2026-11-07T18:45:15+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 91,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:45:15+00:00",
+      "last_success_jobs": 91
     },
     "https://scribd.bamboohr.com/careers": {
       "url": "https://scribd.bamboohr.com/careers",
@@ -557,6 +611,24 @@
       "last_error": null,
       "last_success_at": "2026-11-07T17:00:00+00:00",
       "last_success_jobs": 2260
+    },
+    "https://www.comeet.com/jobs/safefleet/95.001": {
+      "url": "https://www.comeet.com/jobs/safefleet/95.001",
+      "last_run_at": "2026-11-07T18:45:16+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 58,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:45:16+00:00",
+      "last_success_jobs": 58
+    },
+    "https://www.comeet.com/jobs/vastdata/43.001": {
+      "url": "https://www.comeet.com/jobs/vastdata/43.001",
+      "last_run_at": "2026-11-07T18:45:17+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 262,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:45:17+00:00",
+      "last_success_jobs": 262
     },
     "https://www.lovelocaljobs.com/": {
       "url": "https://www.lovelocaljobs.com/",
