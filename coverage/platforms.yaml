@@ -47,15 +47,18 @@
 - name: ApplicantPro
   key: applicantpro
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "{company}.applicantpro.com/jobs/ (HTML list)"
-  url_patterns: ["{company}.applicantpro.com/jobs/", "{company}.applicantpro.com/jobs/{id}.html"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Server-rendered list believed to be backed by an internal JSON call; inspect network tab."
+  status: done
+  connector: jobindex.connectors.applicantpro
+  public_api: "no"
+  api: "GET {tenant}.applicantpro.com/job_site_map.xml (open jobs, lastmod) + GET {tenant}.applicantpro.com/jobs/{id}.html (JSON-LD JobPosting)"
+  url_patterns: ["{tenant}.applicantpro.com/jobs/[{id}.html]", "www.applicantpro.com/openings/{tenant}/jobs/{id}"]
+  examples:
+    - https://mwra.applicantpro.com/jobs/
+    - https://commquest.applicantpro.com/jobs/
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector. The per-tenant job_site_map.xml lists only open jobs; the tenant sitemap.xml (~1000 browse pages) is not used. validThrough is malformed (\"2026-12-03 00:00:00T23:59\"), its date is used; annual pay labelled HOUR is re-inferred."
 
 - name: Ashby
   key: ashby
@@ -335,15 +338,18 @@
 - name: Hireology
   key: hireology
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "careers.hireology.com/{company} (HTML / embedded JSON)"
-  url_patterns: ["careers.hireology.com/{company}", "careers.hireology.com/{company}/{job-id}/description"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Auto dealerships / healthcare heavy."
+  status: done
+  connector: jobindex.connectors.hireology
+  public_api: "no"
+  api: "GET careers.hireology.com/sitemap_index.xml (all tenants, ~57k URLs / 8 MB) + GET /{slug}/{id}/description (JSON-LD JobPosting)"
+  url_patterns: ["careers.hireology.com/{slug}", "careers.hireology.com/{slug}/{id}/description"]
+  examples:
+    - https://careers.hireology.com/sandiegopadres
+    - https://careers.hireology.com/nextpoint
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector. validThrough is ignored (posted + 30 days, past on open jobs). Every crawl downloads the shared 8 MB sitemap; the site calls api.hireology.com/v2, a per-tenant JSON endpoint there would be cheaper (not investigated)."
 
 - name: HiringThing
   key: hiringthing
@@ -374,15 +380,18 @@
 - name: iSolvedHire
   key: isolvedhire
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "{company}.isolvedhire.com/jobs/ (HTML)"
-  url_patterns: ["{company}.isolvedhire.com/jobs/", "{company}.isolvedhire.com/jobs/{id}.html"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Same platform family as ApplicantPro (check — may share a connector)."
+  status: done
+  connector: jobindex.connectors.isolvedhire
+  public_api: "no"
+  api: "GET {tenant}.isolvedhire.com/job_site_map.xml (open jobs, lastmod) + GET /jobs/{id}.html (JSON-LD JobPosting)"
+  url_patterns: ["{tenant}.isolvedhire.com/jobs/[{id}.html]"]
+  examples:
+    - https://isolved.isolvedhire.com/jobs/
+    - https://davidsonoil.isolvedhire.com/jobs/
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Same software as ApplicantPro (connector subclass). The 13k-URL sitemap.xml of isolved.isolvedhire.com is browse pages; job_site_map.xml has the 36 jobs."
 
 - name: JazzHR
   key: jazzhr
@@ -776,15 +785,18 @@
 - name: WeRecruit
   key: werecruit
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "French ATS."
+  status: done
+  connector: jobindex.connectors.werecruit
+  public_api: "no"
+  api: "GET careers.werecruit.io/sitemap.xml (all tenants, ~23k URLs / 3.5 MB) + GET /{lang}/{slug}/offres/{title}-{hex6} (JSON-LD JobPosting)"
+  url_patterns: ["careers.werecruit.io/{lang}/{slug}", "careers.werecruit.io/{lang}/{slug}/offres|offers/{title}-{hex6}"]
+  examples:
+    - https://careers.werecruit.io/fr/dessange
+    - https://careers.werecruit.io/fr/declic-immo
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector (the JobPosting is a JSON-LD block with type application/ld&#x2B;json). No validThrough."
 
 - name: Workable
   key: workable

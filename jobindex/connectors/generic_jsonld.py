@@ -57,7 +57,7 @@ from jobindex.connectors.base import BaseConnector, ConnectorError, RawJob
 from jobindex.discovery import decode_body, parse_feed, parse_sitemap
 from jobindex.http import FetchError
 from jobindex.models.enums import RemoteType
-from jobindex.normalize import parse_datetime
+from jobindex.normalize import infer_salary_period, parse_datetime
 from jobindex.schemaorg import extract_job_postings, to_raw_job
 
 log = logging.getLogger(__name__)
@@ -120,6 +120,9 @@ class GenericJsonLdConnector(BaseConnector):
     #: Child sitemaps of an index that may contain job URLs (searched in the child URL);
     #: ``None`` follows every child.
     child_sitemap: ClassVar[re.Pattern[str] | None] = None
+    #: False for platforms whose ``validThrough`` is not the real end of the posting
+    #: (Hireology: date posted + 30 days on jobs that are still open).
+    trust_valid_through: ClassVar[bool] = True
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -148,6 +151,11 @@ class GenericJsonLdConnector(BaseConnector):
     @abstractmethod
     def job_id(self, url: str, board_identifier: str) -> str | None:
         """External id if ``url`` is a job page of this board, else ``None``."""
+
+    def page_url(self, url: str, external_id: str, board_identifier: str) -> str:
+        """URL to download for a listed job (default: as listed; override to skip a
+        redirect the platform always makes)."""
+        return url
 
     @classmethod
     def board_from_page_url(cls, url: str) -> str | None:
@@ -222,7 +230,7 @@ class GenericJsonLdConnector(BaseConnector):
             RawJob(
                 external_id=external_id,
                 title="",
-                source_url=url,
+                source_url=self.page_url(url, external_id, board_identifier),
                 list_version=self._list_version(url, lastmod),
             )
             for external_id, (url, lastmod) in entries.items()
@@ -289,8 +297,10 @@ class GenericJsonLdConnector(BaseConnector):
                     )
                 log.warning("%s: no JobPosting on %s; treating it as closed", self.platform, url)
             return replace(closed, title=_page_title(html))
-        raw = to_raw_job(items[0], external_id=stub.external_id, source_url=url)
-        expires_at = _valid_through(items[0])
+        raw = _plausible_salary_period(
+            to_raw_job(items[0], external_id=stub.external_id, source_url=url)
+        )
+        expires_at = _valid_through(items[0]) if self.trust_valid_through else None
         if self.is_closed_page(text):
             expires_at = now if expires_at is None else min(expires_at, now)
         return replace(raw, expires_at=expires_at, list_version=stub.list_version)
@@ -333,15 +343,29 @@ def refresh_token(url: str, days: int, day: int) -> str:
     return f"refresh:{days}:{(day + offset) // days}"
 
 
+def _plausible_salary_period(job: RawJob) -> RawJob:
+    """Some sites label annual amounts as hourly (ApplicantPro: "HOUR", 79229.54-113390.04);
+    an hourly rate of 1000+ is re-inferred from the amount instead."""
+    amount = job.salary_max or job.salary_min
+    if job.salary_period == "hour" and amount is not None and amount >= 1000:
+        return replace(job, salary_period=infer_salary_period(amount))
+    return job
+
+
 def _valid_through(item: dict[str, Any]) -> datetime | None:
     value = item.get("validThrough")
     value = value[0] if isinstance(value, list) and value else value
     if not isinstance(value, str):
         return None
-    parsed = parse_datetime(value.strip())
-    if parsed is not None and len(value.strip()) == 10:  # a date: valid through its end
-        parsed += timedelta(days=1)
-    return parsed
+    value = value.strip()
+    parsed = parse_datetime(value)
+    if parsed is not None and len(value) > 10:
+        return parsed
+    # A date (or a malformed timestamp around one, e.g. ApplicantPro's
+    # "2026-12-03 00:00:00T23:59"): valid through the end of that day.
+    date = re.match(r"\d{4}-\d{2}-\d{2}", value)
+    day = parse_datetime(date.group(0)) if date else None
+    return day + timedelta(days=1) if day else None
 
 
 def _visible_text(html: str) -> str:
@@ -392,7 +416,7 @@ _SUBDOMAIN = re.compile(r"^[a-z0-9][a-z0-9-]{0,62}$")
 # Platform infrastructure, not boards (cdn2.niceboard.co, assets.jobboardly.com, ...).
 _RESERVED = re.compile(
     r"^(?:www|app|api|admin|help|support|docs|blog|status|cdn\d*|assets?|static|media|"
-    r"img|images|files|mail|geo)$"
+    r"img|images|files|mail|geo|feeds)$"
 )
 
 
