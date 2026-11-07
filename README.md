@@ -5,6 +5,13 @@ job-board platforms into one searchable, continuously updated PostgreSQL index.
 
 Project rules (stack, connector conventions, crawling etiquette) are in [CLAUDE.md](CLAUDE.md).
 
+| Doc | |
+|---|---|
+| [docs/DEPLOY.md](docs/DEPLOY.md) | Production on one VPS: `docker-compose.prod.yml`, HTTPS, backups, restore |
+| [docs/OPERATIONS.md](docs/OPERATIONS.md) | Add a source, re-run a board, monitor failures, tuning, **monthly cost**, external dependencies |
+| [docs/CONNECTORS.md](docs/CONNECTORS.md) | How each connector works, how to add one, deduplication rules |
+| [docs/COVERAGE.md](docs/COVERAGE.md) | Generated: all 78 platforms, status, live job counts |
+
 ## Quick start
 
 Requirements: Docker with Compose v2.24+ and `make`. Everything runs in containers
@@ -29,7 +36,12 @@ docker compose run --rm app python -m jobindex.cli add-source https://jobs.lever
 docker compose run --rm app python -m jobindex.cli add-source https://www.figma.com/careers/
 docker compose run --rm app python -m jobindex.cli crawl 1      # or: make crawl SOURCE=1
 make crawl                                                     # all active sources
+docker compose run --rm app python -m jobindex.cli schedule    # crawl continuously
 ```
+
+Then search at http://localhost:8000/ or via the API (`GET /jobs?q=python&location=Berlin`,
+`GET /stats`; OpenAPI docs at `/docs`). Results are deduplicated: an opening listed on
+several sources is returned once, with every source's link.
 
 `add-source` accepts hosted board URLs, job URLs, embed URLs, API URLs, and custom-domain
 careers pages. For the last kind it downloads the page (respecting robots.txt) and looks for
@@ -104,12 +116,13 @@ Sites that refuse us (robots.txt rule or HTTP 403) are listed with request-level
 | `jobindex/dedup/` | Cross-source dedup: fills `jobs.canonical_job_id` after every crawl (`keys.py` matching keys, `cluster.py` rules) |
 | `jobindex/api/` | FastAPI app: `/jobs` (full-text + filters, one result per opening), `/jobs/{id}`, `/sources`, `/stats`, `/health`; docs at `/docs` |
 | `jobindex/scheduler/` | Crawl scheduler (`python -m jobindex.cli schedule`): per-platform intervals, jitter, failure backoff, concurrency limit, skip-if-running, dedup after crawls |
-| `jobindex/cli/` | `python -m jobindex.cli add-source <url>` / `crawl <id>\|--all` |
+| `jobindex/cli/` | `python -m jobindex.cli add-source <url>` / `crawl <id>\|--all` / `dedup` / `schedule` / `set-company` |
 | `jobindex/coverage.py` | Coverage report logic (`scripts/coverage_report.py`, `make coverage`) |
 | `coverage/platforms.yaml` | All 78 target platforms: status, tier, endpoints, URL patterns, examples |
 | `coverage/blocked_by_site.yaml` | Platforms whose sites refuse us, with the exact evidence |
 | `scripts/` | `coverage_report.py`, `capture_fixture.py` (save a real response as a fixture), `check_access.py`, `evaluate_generic.py` |
 | `migrations/` | Alembic migrations |
+| `docker-compose.prod.yml`, `docker/` | Production stack (Caddy, backups); see docs/DEPLOY.md |
 | `tests/fixtures/<platform>/` | Saved real responses used by connector tests |
 
 ## How a crawl works
@@ -132,11 +145,15 @@ Sites that refuse us (robots.txt rule or HTTP 403) are listed with request-level
    disappeared are closed; closed postings that reappear are reopened; postings whose
    `expires_at` has passed are stored/kept closed. Connectors can opt into a job-count
    drop guard (`max_job_drop()`): a result with too few open postings fails the run.
+5. **Dedup** (`jobindex/dedup/`) then regroups postings of the same opening across sources
+   (`jobs.canonical_job_id`); see [docs/CONNECTORS.md](docs/CONNECTORS.md#deduplication).
 
 Full-text search uses a generated, weighted `tsvector` column (title > company >
 description) with a GIN index, queried via `websearch_to_tsquery`.
 
 ## Adding a connector
+
+Full guide: [docs/CONNECTORS.md](docs/CONNECTORS.md#adding-a-connector). In short:
 
 1. Create `jobindex/connectors/<platform>.py` with a `@register`-decorated `BaseConnector`
    subclass implementing `detect`, `board_url` and `fetch_jobs` (plus `fetch_job_detail`
