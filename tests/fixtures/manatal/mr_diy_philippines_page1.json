@@ -1,0 +1,41 @@
+{
+  "count": 2260,
+  "next": "https://core.api.manatal.com/open/v3/career-page/mr-diy-philippines/jobs/?page=2&page_size=100",
+  "previous": null,
+  "results": [
+    {
+      "id": 3067288,
+      "hash": "Y6VRWV45",
+      "organization_name": "Finance",
+      "position_name": "Accounts Payable Staff",
+      "description": "<p><strong>Key Responsibilities</strong></p>\n\n\n\n\n\n\n\n\n\n\n\n<ul><li>Process and record invoices, utility bills, and other payables in the accounting system with accuracy and timeliness.</li><li>Ensure invoices have complete supporting documents and proper approvals in compliance with company policies.</li><li>Prepare check vouchers, payment runs, and bank transfers according to the approved payment schedule.</li><li>Verify, update, and maintain accurate vendor master records.</li><li>Handle day-to-day financial transactions, including verifying, tracking, scheduling, calculating, posting, and recording accounts payable.</li><li>Perform account reconciliations, including vendor statements, bank -related transactions, and month-end closing activities (accruals, reconciliations, cut-offs).</li><li>Investigate and resolve discrepancies within the accounting system or billing statements received.</li><li>File and maintain organized records of invoices, vouchers, and supporting documents.</li><li>Generate financial statements and reports detailing accounts payable status when required.</li><li>Support responses to supplier inquiries and ensure accurate tracking of payments.</li><li>Ensure compliance with BIR requirements (VAT, EWT) under supervision.</li><li>Perform other tasks or assignments as directed by the Accounts Payable Manager.</li></ul>\n<p><strong>Qualifications:</strong></p>\n\n\n\n\n\n\n\n\n<ul><li>Bachelors degree in Finance, Accountancy, Banking, or a related business/financial course.</li><li>At least 1 to 2&nbsp;years of relevant work experience in accounts payable or accounting preferred (fresh graduates with strong skills may also be considered).</li><li>Basic knowledge of accounting principles; willingness to be trained on BIR tax rules (VAT, EWT).</li><li>Proficiency in Excel (e.g., SUMIFS, VLOOKUP, Pivot Tables); experience with ERP systems (SAP, Oracle, NetSuite) is a plus.</li><li>Strong attention to detail, organizational, and time management skills.</li><li>Capable of processing, verifying, and reconciling invoices and expenses accurately.</li><li>Strong written, numerical, and computer skills.</li><li>Ability to collaborate effectively with other departments.</li><li>Willing to work onsite (Marikina City), Mondays to Fridays, 9:00 AM to 6:00 PM.</li></ul>",
+      "country": "Philippines",
+      "state": "Metro Manila",
+      "city": "Quezon City",
+      "address": "",
+      "zipcode": "",
+      "location_display": "Quezon City, Metro Manila, Philippines",
+      "is_salary_visible": false,
+      "is_remote": null,
+      "contract_details": "full_time",
+      "is_pinned_in_career_page": false
+    },
+    {
+      "id": 3148291,
+      "hash": "5WV3X5W3",
+      "organization_name": "Finance",
+      "position_name": "Accounts Receivable Staff",
+      "description": "<p><strong>JOB DESCRIPTION</strong>\t</p>\n<p><strong>KEY RESPONSIBILITIES</strong></p><ul><li><strong></strong><span style=\"font-family: inherit; font-size: 0.875rem;\">Process invoices, record payments, and ensure proper documentation of transactions.</span></li><li><span style=\"font-family: inherit; font-size: 0.875rem;\"></span><span style=\"font-family: inherit; font-size: 0.875rem;\">Check and reconcile daily sales, reporting any discrepancies.</span></li><li><span style=\"font-family: inherit; font-size: 0.875rem;\"></span><span style=\"font-family: inherit; font-size: 0.875rem;\">Handle cash and credit remittances, including preparation of deposit slips and basic reconciliation.</span></li><li><span style=\"font-family: inherit; font-size: 0.875rem;\"></span><span style=\"font-family: inherit; font-size: 0.875rem;\">Process simple bank-related transactions and assist with bank reconciliations.</span></li><li><span style=\"font-family: inherit; font-size: 0.875rem;\"></span><span style=\"font-family: inherit; font-size: 0.875rem;\">Support month-end reporting and other routine accounting tasks.</span></li><li><span style=\"font-family: inherit; font-size: 0.875rem;\"></span><span style=\"font-family: inherit; font-size: 0.875rem;\">Perform other tasks as assigned by the AR Supervisor/Officer.</span></li></ul>\n<p><strong>JOB REQUIREMENTS</strong></p><ul><li><strong></strong><span style=\"font-family: inherit; font-size: 0.875rem;\">Bachelors Degree in Finance, Accountancy, Banking, or a related field.</span></li><li><span style=\"font-family: inherit; font-size: 0.875rem;\"></span><span style=\"font-family: inherit; font-size: 0.875rem;\">Relevant experience in accounts receivable or similar functions.</span></li><li><span style=\"font-family: inherit; font-size: 0.875rem;\"></span><span style=\"font-family: inherit; font-size: 0.875rem;\">Background in retail is an advantage but not required.</span></li><li><span style=\"font-family: inherit; font-size: 0.875rem;\"></span><span style=\"font-family: inherit; font-size: 0.875rem;\">Proficient in Microsoft Excel and other MS Office applications.</span></li><li><span style=\"font-family: inherit; font-size: 0.875rem;\"></span><span style=\"font-family: inherit; font-size: 0.875rem;\">Detail-oriented with good communication skills.</span></li><li><span style=\"font-family: inherit; font-size: 0.875rem;\"></span><span style=\"font-family: inherit; font-size: 0.875rem;\">Willing to work onsite from, 9:00 AM to 6:00 PM.</span></li></ul>",
+      "country": "Philippines",
+      "state": "Metro Manila",
+      "city": "Quezon City",
+      "address": "",
+      "zipcode": "",
+      "location_display": "Quezon City, Metro Manila, Philippines",
+      "is_salary_visible": false,
+      "is_remote": null,
+      "contract_details": "full_time",
+      "is_pinned_in_career_page": false
+    }
+  ]
+}

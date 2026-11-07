@@ -458,17 +458,17 @@
 - name: Manatal
   key: manatal
   type: ats
-  status: todo
-  tier: easy
+  status: done
+  connector: jobindex.connectors.manatal
   public_api: "yes"
-  api: "GET api.manatal.com/open/v3/career-page/{slug}/jobs/ (paginated, 10 per page)"
-  url_patterns: ["www.careers-page.com/{slug}", "www.careers-page.com/{slug}/job/{id}"]
+  api: "GET api.manatal.com/open/v3/career-page/{slug}/jobs/?page=n&page_size=100&ordering=created_at"
+  url_patterns: ["[www.]careers-page.com/{slug}[/job/{hash}]", "{slug}.careers-page.com", "api.manatal.com/open/v3/career-page/{slug}/jobs/", "custom domains: links/iframes to the above"]
   examples:
     - https://www.careers-page.com/eastwest-bank
     - https://www.careers-page.com/mr-diy-philippines
   robots: allowed
   verified: 2026-11-07
-  notes: "DRF-style pagination (results/next)."
+  notes: "DRF pagination, max page_size 100. The default order is unstable across pages (MR.DIY: 3 jobs listed twice, 3 never, on every run); ordering=created_at returns each job once — always sort, and the unique count is checked against count. Salary fields were never visible on the boards checked."
 
 - name: Oracle Recruiting
   key: oracle
@@ -553,17 +553,17 @@
 - name: Personio
   key: personio
   type: ats
-  status: todo
-  tier: easy
+  status: done
+  connector: jobindex.connectors.personio
   public_api: feed
-  api: "GET {company}.jobs.personio.de/xml?language=en (XML; some accounts .jobs.personio.com)"
-  url_patterns: ["{company}.jobs.personio.de", "{company}.jobs.personio.de/job/{id}", "{company}.jobs.personio.com"]
+  api: "GET {company}.jobs.personio.de/xml (XML; no ?language=)"
+  url_patterns: ["{company}.jobs.personio.de[/job/{id}]", "{company}.jobs.personio.com[/...]", "{company}.jobs.personio.de/xml", "custom domains: links/iframes to the above"]
   examples:
     - https://tado.jobs.personio.de
     - https://thermondo.jobs.personio.de
   robots: per-tenant
   verified: 2026-11-07
-  notes: "XML feed (not JSON) with full descriptions. Non-existent subdomains serve a deny-all robots.txt + 404."
+  notes: "XML feed with full descriptions and structured salary, parsed with defusedxml. Never pass ?language=: positions in another language come back without descriptions (thermondo with language=en: 7 of 196). .de and .com serve the same accounts; unknown subdomains have a deny-all robots.txt."
 
 - name: Phenom People
   key: phenom
@@ -735,17 +735,17 @@
 - name: Trakstar
   key: trakstar
   type: ats
-  status: todo
-  tier: easy
+  status: done
+  connector: jobindex.connectors.trakstar
   public_api: "yes"
-  api: "GET jsapi.recruiterbox.com/v1/openings?client_name={company} (legacy Recruiterbox API)"
-  url_patterns: ["{company}.hire.trakstar.com", "{company}.recruiterbox.com/jobs"]
+  api: "GET jsapi.recruiterbox.com/v1/openings?client_name={company}&limit=100&offset=n"
+  url_patterns: ["{company}.hire.trakstar.com[/jobs/{id}]", "{company}.recruiterbox.com/jobs", "jsapi.recruiterbox.com/v1/openings?client_name={company}", "custom domains: links to the above"]
   examples:
-    - https://recruiterbox.hire.trakstar.com
-    - https://trakstar.hire.trakstar.com
+    - https://stax.hire.trakstar.com
+    - https://timessquarenyc.hire.trakstar.com
   robots: allowed
   verified: 2026-11-07
-  notes: "Trakstar Hire = former Recruiterbox. API verified for client_name recruiterbox and trakstar (vendor's own boards) — add a third-party customer before implementing."
+  notes: "Trakstar Hire = former Recruiterbox. Descriptions included; limit up to 100; meta.total checked. No posting date. Unknown accounts answer HTTP 400. Verified on third-party customers (Stax, Times Square Alliance)."
 
 - name: TriNet
   key: trinet

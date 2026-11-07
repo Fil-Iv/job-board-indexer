@@ -19,6 +19,7 @@ dependencies = [
     "pydantic-settings>=2.6",
     "selectolax>=1.0",
     "pycountry>=24.6",
+    "defusedxml>=0.7",  # safe parsing of untrusted XML feeds (Personio, Teamtailor RSS)
 ]
 
 [project.optional-dependencies]
@@ -29,6 +30,7 @@ dev = [
     "mypy>=1.13",
     "pyyaml>=6.0",
     "types-PyYAML>=6.0",
+    "types-defusedxml>=0.7",
 ]
 
 [tool.hatch.build.targets.wheel]

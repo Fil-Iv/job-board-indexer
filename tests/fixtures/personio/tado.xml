@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<workzag-jobs>
+
+<position>
+    <id>2502124</id>
+    <subcompany>tado GmbH</subcompany>
+    <office>Germany - Munich</office>
+    <department>Finance</department>
+    <recruitingCategory>People &amp; Culture</recruitingCategory>
+    <name>Team Lead Accounting (m/f/d)</name>
+    <jobDescriptions>
+        <jobDescription>
+            <name>What you’ll be up to</name>
+            <value>
+                <![CDATA[<p>You have a passion for numbers? Taking processes to the next level is something you enjoy? An awesome team is waiting for you!</p><p>We are tado°, a growing scale-up that develops smart energy and climate solutions to make life at home more sustainable and comfortable.</p><p>To continue our growth, we are looking for a dedicated Team Lead Accounting (m/f/d) who combines hands-on accounting expertise with strong ownership and enjoys actively shaping the future of accounting processes.</p><p><strong>Your Impact:</strong></p><ul><li><p>You’ll lead the Accounting department with 3 team members from Junior to Senior and directly report to the Head of Finance.</p></li><li><p>Oversee day-to-day accounting operations, including general ledger, accounts payable/ receivable and fixed assets, and ensure timely and accurate monthly/ annual financial closings.</p></li><li><p>Prepare and review monthly and annual financial statements (individual and group) in accordance with HGB and UGB (prospective maybe IFRS too), act as point of contact for auditors.</p></li><li><p>Ensure compliance with tax regulations by coordinating and preparing tax returns (e. g. VAT, corporate tax, etc.) for domestic and foreign companies (Germany, Austria, UK, France, Italy), as well as ongoing assessment of tax issues in consultation with tax advisors.</p></li><li><p>Take care of reporting requests from our stakeholders (e. g. sustainability).</p></li><li><p>Drive continuous improvement of accounting processes, e. g. with platforms like Amazon, and internal controls.</p></li><li><p>Lead, coach, and develop the accounting team with your experience and expertise for ensuring high quality results.</p></li><li><p>Collaborate closely with Controlling and other departments.</p></li></ul>]]>
+            </value>
+        </jobDescription>
+        <jobDescription>
+            <name>What makes you a great fit:</name>
+            <value>
+                <![CDATA[<ul><li><p>A completed commercial education or a business-related Bachelor’s degree, with 6+ years of relevant experience</p></li><li><p>Strong knowledge of accounting standards (e. g. HGB, UGB) and VAT regulations</p></li><li><p>NetSuite (Oracle) knowledge and first leadership experience is an advantage</p></li><li><p>Confident Microsoft Office, especially Excel, User</p></li><li><p>Strong analytical skills and attention to detail</p></li><li><p>Proactive, structured, and solution-oriented working style complemented by hands on mentality</p></li><li><p>Fluent in German and English (written and spoken)</p></li><li><p>Excellent communication skills, with a strong drive to learn and adapt</p></li><li><p>A collaborative team spirit—you know you're part of something bigger and thrive in a supportive, united environment</p></li></ul>]]>
+            </value>
+        </jobDescription>
+        <jobDescription>
+            <name>Our Benefits</name>
+            <value>
+                <![CDATA[<ul><li><p>Flexible working hours to accommodate your schedule and remote-friendly work environment within Germany, with the option for temporary work from abroad within the EU.</p></li><li><p>30 annual paid vacation days and a contribution to your company pension scheme.</p></li><li><p>Annual Learning &amp; Development budget for your professional and personal development, including training, coaching and subsidized German language courses.</p></li><li><p>Learning from highly-skilled colleagues through an open, appreciative feedback culture.</p></li><li><p>Discounted access to gyms and courses through “EGYM” for your fitness and work-life balance.</p></li><li><p>Free tado° devices for your home.</p></li><li><p>Health care activities and mental health service via HelloBetter.</p></li><li><p>Daily lunch subsidy in the office and company-wide events throughout the year.</p></li></ul><p>tado° is an equal opportunity employer and we are striving for a diverse workforce. Thus, we recruit talented individuals based solely on their competencies and skills, without any regard to their race, ethnicity, sex, sexual orientation, age, religion, belief, or disability.</p>]]>
+            </value>
+        </jobDescription>
+    </jobDescriptions>
+    <employmentType>permanent</employmentType>
+    <seniority>experienced</seniority>
+    <schedule>full-time</schedule>
+    <yearsOfExperience>7-10</yearsOfExperience>
+    <keywords>Accounting, Finance, Buchhaltung,general ledger, account payables,account receivables,financial reporting,IFRS,UGB,HGB,audit</keywords>
+    <occupation>bookkeeping</occupation>
+    <occupationCategory>accounting_and_finance</occupationCategory>
+    <createdAt>2026-01-22T09:48:25+00:00</createdAt>
+    <salaryInformation>
+        <min>80000.00</min>
+        <max>100000.00</max>
+        <currencySymbol>€</currencySymbol>
+        <currencyCode>EUR</currencyCode>
+        <type>yearly</type>
+    </salaryInformation>
+</position>
+
+<position>
+    <id>2840027</id>
+    <subcompany>tado GmbH</subcompany>
+    <office>Germany - Munich</office>
+    <department>Finance</department>
+    <recruitingCategory>People &amp; Culture</recruitingCategory>
+    <name>Werkstudent:in Accounting (m/w/d)</name>
+    <jobDescriptions></jobDescriptions>
+    <employmentType>intern</employmentType>
+    <seniority>student</seniority>
+    <schedule>part-time</schedule>
+    <keywords>Werkstudent:in,Accounting,Finanzwesen,Buchhaltung,Student:in,München,Start-up</keywords>
+    <occupation>bookkeeping</occupation>
+    <occupationCategory>accounting_and_finance</occupationCategory>
+    <createdAt>2026-10-13T09:59:49+00:00</createdAt>
+</position>
+
+</workzag-jobs>
