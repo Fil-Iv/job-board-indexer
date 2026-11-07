@@ -2,6 +2,7 @@
 
 from datetime import UTC, datetime
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import httpx
 import pytest
@@ -117,9 +118,13 @@ def test_done_platforms_match_registered_connectors() -> None:
             continue
         assert p.connector == f"jobindex.connectors.{p.key}"
         connector = default_registry().get(p.key)
-        for url in p.examples:  # every example must be recognised offline
-            assert connector.detect(url), f"{p.key} does not detect {url}"
-        assert len({connector.detect(u) for u in p.examples}) >= 2, "examples must differ"
+        custom_domains = getattr(connector, "page_fingerprint", None) is not None
+        for url in p.examples:
+            # Every example must be recognised offline, except custom-domain boards of
+            # platforms that recognise them from the page (make coverage resolves those).
+            assert connector.detect(url) or custom_domains, f"{p.key} does not detect {url}"
+        boards = {connector.detect(u) or urlsplit(u).netloc for u in p.examples}
+        assert len(boards) >= 2, "examples must differ"
 
 
 def test_verified_entries_have_two_examples() -> None:

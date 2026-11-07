@@ -838,15 +838,18 @@
 - name: Niceboard
   key: niceboard
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: partial
-  api: "Board API requires the board owner's key; public pages have JSON-LD"
-  url_patterns: ["{board}.niceboard.co", "custom domains", "{board}/job/{slug}"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Candidate for the generic JSON-LD connector."
+  status: done
+  connector: jobindex.connectors.niceboard
+  public_api: "no"
+  api: "GET {board}/sitemap.xml -> /sitemap-jobs.xml (lastmod) + GET each job page /job/{id}-{slug} (JSON-LD JobPosting)"
+  url_patterns: ["{board}.niceboard.co", "custom domains (cdn.niceboard.co assets)", "{board}/job/{id}-{slug}"]
+  examples:
+    - https://jobs.nonprofittalent.com/
+    - https://jobs.forcebrands.com/
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector (jobindex.connectors.generic_jsonld). The board API needs the owner key. Job pages fetched only when the sitemap lastmod changes."
 
 - name: WP Job Manager
   key: wpjobmanager
@@ -877,15 +880,18 @@
 - name: Jobboardly
   key: jobboardly
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: ["{board}.jobboardly.com", "custom domains"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: ""
+  status: done
+  connector: jobindex.connectors.jobboardly
+  public_api: "no"
+  api: "GET {board}/sitemap.xml (lastmod) + GET each job page /jobs/{slug}-{8 hex} (JSON-LD JobPosting)"
+  url_patterns: ["{board}.jobboardly.com", "custom domains (cdn.jobboardly.com assets)", "{board}/jobs/{slug}-{hex8}"]
+  examples:
+    - https://www.motorsport.jobs/
+    - https://tradiejobs.com.au/
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector."
 
 - name: Jobiqo
   key: jobiqo
@@ -903,15 +909,18 @@
 - name: JBoard.io
   key: jboard
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "{board}.jboard.io or custom domain (HTML; RSS/JSON-LD to confirm)"
-  url_patterns: ["{board}.jboard.io", "custom domains", "/jobs/{id}-{slug}"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: ""
+  status: done
+  connector: jobindex.connectors.jboard
+  public_api: "no"
+  api: "GET {board}/sitemap.xml -> /sitemap-jobs-{n}.xml + GET each job page /jobs/{id}-{slug} (JSON-LD JobPosting)"
+  url_patterns: ["{board}.jboard.io", "custom domains (inline config admin_url app.jboard.io)", "{board}/jobs/{id}-{slug}"]
+  examples:
+    - https://nuclearjobscanada.ca/
+    - https://couriergigs.com/
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector. Sitemaps have no lastmod, so job pages are re-fetched every GENERIC_REFRESH_DAYS (staggered per URL); first crawl of couriergigs (2.7k jobs) ~45 min at 1 req/s, resumable."
 
 - name: JobBoardFire
   key: jobboardfire
@@ -929,15 +938,18 @@
 - name: SmartJobBoard
   key: smartjobboard
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "{board}.mysmartjobboard.com or custom domain (HTML; RSS/XML job feeds to confirm)"
-  url_patterns: ["{board}.mysmartjobboard.com", "custom domains", "/job/{id}/{slug}/"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: ""
+  status: done
+  connector: jobindex.connectors.smartjobboard
+  public_api: "no"
+  api: "GET {board}/sitemap.xml (lastmod on job URLs) + GET each job page /job/{id}/{slug}/ (JSON-LD JobPosting)"
+  url_patterns: ["{board}.mysmartjobboard.com", "custom domains (cdn.smartjobboard.com assets)", "{board}/job/{id}/{slug}/"]
+  examples:
+    - https://jobsboard.edsurge.com/
+    - https://jobs.alanet.org/
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector. Sitemap also lists company/category/search pages, filtered out by URL shape."
 
 - name: JobBoard.io
   key: jobboardio

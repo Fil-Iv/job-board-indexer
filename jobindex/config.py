@@ -24,6 +24,14 @@ class Settings(BaseSettings):
     # robots.txt, so it would just fail otherwise).
     smartrecruiters_use_api: bool = False
 
+    # Generic sitemap + JSON-LD connectors (jobindex/connectors/generic_jsonld.py)
+    # A crawl whose open-job count is more than this fraction below the last successful
+    # crawl fails instead of closing the jobs (0.5 = "lost more than half"; 1 disables).
+    generic_max_job_drop: float = 0.5
+    # Job pages whose sitemap entry has no <lastmod> are re-fetched every N days
+    # (staggered per URL), otherwise edits would never be noticed.
+    generic_refresh_days: int = 7
+
     # Scheduler
     scheduler_enabled: bool = False
     crawl_interval_minutes: int = 60

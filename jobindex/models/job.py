@@ -73,6 +73,10 @@ class Job(Base):
     posted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     source_url: Mapped[str | None] = mapped_column(Text)
     apply_url: Mapped[str | None] = mapped_column(Text)
+    #: RawJob.expires_at: the posting is not open after this time.
+    expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    #: RawJob.list_version (e.g. sitemap lastmod): decides when to re-fetch the detail page.
+    list_version: Mapped[str | None] = mapped_column(String(64))
 
     content_hash: Mapped[str] = mapped_column(String(64), index=True)
     #: Hash of the posting exactly as the connector returned it (before normalisation);

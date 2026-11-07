@@ -46,6 +46,11 @@ class ConnectorError(Exception):
     """The response was fetched but could not be understood (unexpected shape, etc.)."""
 
 
+class JobCountDropError(ConnectorError):
+    """The board suddenly lists far fewer postings than on the last successful crawl;
+    treated as a fetch failure rather than as mass closures (see ``max_job_drop``)."""
+
+
 @dataclass(frozen=True, slots=True)
 class RawJob:
     """One posting as returned by a connector; mirrors the content columns of ``jobs``.
@@ -73,6 +78,15 @@ class RawJob:
     posted_at: datetime | None = None
     source_url: str | None = None
     apply_url: str | None = None
+    #: The posting stops being open at this time (schema.org ``validThrough``, or "now"
+    #: for a page that says the job is closed). The crawler never counts a posting whose
+    #: ``expires_at`` has passed as open: it is stored closed, so its detail page is not
+    #: fetched again while ``list_version`` is unchanged.
+    expires_at: datetime | None = None
+    #: Opaque version of the posting in the *list* (e.g. the sitemap ``<lastmod>``), for
+    #: ``detail_cache_key``. Not part of ``raw_hash``: it says when to re-fetch, not what
+    #: the posting contains.
+    list_version: str | None = None
 
     def normalized(self, *, company_fallback: str | None = None) -> "RawJob":
         """Return a copy with derivable fields filled in. Explicit values are kept."""
@@ -117,6 +131,9 @@ class RawJob:
         """Hash of *every* field as given; call it before :meth:`normalized` to fingerprint
         what the source sent (tells source changes from our own parser changes)."""
         data = self.as_dict()
+        del data["list_version"]
+        if data["expires_at"] is None:  # keeps hashes from before the field existed valid
+            del data["expires_at"]
         return content_hash(data, keys=tuple(sorted(data)))
 
 
@@ -190,6 +207,13 @@ class BaseConnector(ABC):
         """Return ``job`` completed with detail-only fields, or ``None`` if the posting no
         longer exists (it will then be treated as closed). Raise on any other failure."""
         return job
+
+    def max_job_drop(self) -> float | None:
+        """Largest tolerated fractional drop of the open-job count vs. the last successful
+        crawl (0.5 = refuse a result with less than half the postings). ``None`` disables
+        the check. Used for sources where a broken listing (sitemap, page template) can
+        look like a board that closed most of its jobs."""
+        return None
 
     async def fetch_company_name(self, board_identifier: str) -> str | None:
         """Company name for ``add-source``, if the platform exposes it."""

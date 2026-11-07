@@ -36,10 +36,56 @@ _JOB_PATH = re.compile(
     re.IGNORECASE,
 )
 _LOC = re.compile(r"<loc>\s*(?:<!\[CDATA\[)?\s*([^<\]\s]+)\s*(?:\]\]>)?\s*</loc>", re.I)
+_LASTMOD = re.compile(r"<lastmod>\s*([^<\s]+)\s*</lastmod>", re.I)
 _SITEMAP_TAG = re.compile(r"<sitemap>(.*?)</sitemap>", re.I | re.S)
+_URL_TAG = re.compile(r"<url>(.*?)</url>", re.I | re.S)
 _RSS_LINK = re.compile(r"<item\b.*?<link>\s*(?:<!\[CDATA\[)?\s*([^<\]\s]+)", re.I | re.S)
 _ATOM_LINK = re.compile(r"<entry\b.*?<link[^>]*href=\"([^\"]+)\"", re.I | re.S)
 _COMMON_FEEDS = ("/feed/", "/jobs/feed/", "/rss", "/jobs.rss", "/?feed=job_feed", "/feed/jobs")
+
+
+@dataclass(frozen=True, slots=True)
+class SitemapEntry:
+    """One ``<url>`` of a sitemap (or ``<item>`` of a feed)."""
+
+    url: str
+    lastmod: str | None = None
+
+
+def parse_sitemap(text: str, base_url: str) -> tuple[list[str], list[SitemapEntry]]:
+    """``(child sitemap URLs, page entries)`` of a sitemap index or urlset.
+
+    Relative URLs are resolved against ``base_url``; non-http(s) URLs are dropped (some
+    platforms list bare hosts such as ``acme.applicantpro.com``).
+    """
+    children = _SITEMAP_TAG.findall(text)
+    if children or "<sitemapindex" in text.lower():
+        locs = [m for c in children for m in _LOC.findall(c)] or _LOC.findall(text)
+        return _absolute(base_url, locs), []
+    entries: list[SitemapEntry] = []
+    blocks = _URL_TAG.findall(text)
+    for block in blocks:
+        loc = _LOC.search(block)
+        if not loc:
+            continue
+        lastmod = _LASTMOD.search(block)
+        for url in _absolute(base_url, [loc.group(1)]):
+            entries.append(SitemapEntry(url, lastmod.group(1) if lastmod else None))
+    if not blocks:  # <loc> without <url> wrappers (seen on hand-written sitemaps)
+        entries = [SitemapEntry(u) for u in _absolute(base_url, _LOC.findall(text))]
+    return [], entries
+
+
+def parse_feed(text: str, base_url: str) -> list[str]:
+    """Item links of an RSS or Atom feed."""
+    return _absolute(base_url, _RSS_LINK.findall(text) + _ATOM_LINK.findall(text))
+
+
+def decode_body(url: str, content: bytes, encoding: str | None) -> str:
+    """Response body as text; gunzips ``.xml.gz`` sitemaps."""
+    if url.endswith(".gz") or content[:2] == b"\x1f\x8b":
+        content = gzip.decompress(content)
+    return content.decode(encoding or "utf-8", errors="replace")
 
 
 @dataclass(slots=True)
@@ -47,6 +93,7 @@ class Discovery:
     sitemaps: list[str] = field(default_factory=list)
     feeds: list[str] = field(default_factory=list)
     sitemap_urls: list[str] = field(default_factory=list)  # every <loc> seen (pages)
+    lastmod: dict[str, str] = field(default_factory=dict)  # page URL -> sitemap <lastmod>
     feed_urls: list[str] = field(default_factory=list)
     job_urls: list[str] = field(default_factory=list)  # candidates that look like job pages
     blocked: list[str] = field(default_factory=list)  # URLs robots.txt/403 kept us from
@@ -68,13 +115,10 @@ async def _get_text(http: HttpClient, url: str, d: Discovery) -> str | None:
         else:
             d.errors.append(f"{url}: {exc}")
         return None
-    content = response.content
-    if url.endswith(".gz") or content[:2] == b"\x1f\x8b":
-        try:
-            content = gzip.decompress(content)
-        except OSError:
-            return None
-    return content.decode(response.encoding or "utf-8", errors="replace")
+    try:
+        return decode_body(url, response.content, response.encoding)
+    except OSError:  # truncated/invalid gzip
+        return None
 
 
 async def _read_sitemaps(http: HttpClient, roots: list[str], d: Discovery) -> None:
@@ -89,15 +133,14 @@ async def _read_sitemaps(http: HttpClient, roots: list[str], d: Discovery) -> No
         if not text or "<loc" not in text.lower():
             continue
         d.sitemaps.append(url)
-        children = _SITEMAP_TAG.findall(text)
-        if children or "<sitemapindex" in text.lower():
-            # Prefer child sitemaps that look job-related, then the rest.
-            locs = [m for c in children for m in _LOC.findall(c)] or _LOC.findall(text)
-            locs = _absolute(url, locs)
-            locs.sort(key=lambda u: 0 if re.search(r"job|career|position|vacanc", u, re.I) else 1)
-            queue.extend(locs)
-        else:
-            d.sitemap_urls.extend(_absolute(url, _LOC.findall(text)))
+        children, entries = parse_sitemap(text, url)
+        # Prefer child sitemaps that look job-related, then the rest.
+        children.sort(key=lambda u: 0 if re.search(r"job|career|position|vacanc", u, re.I) else 1)
+        queue.extend(children)
+        for entry in entries:
+            d.sitemap_urls.append(entry.url)
+            if entry.lastmod:
+                d.lastmod[entry.url] = entry.lastmod
 
 
 async def _read_feeds(http: HttpClient, board_url: str, page: str | None, d: Discovery) -> None:
@@ -117,7 +160,7 @@ async def _read_feeds(http: HttpClient, board_url: str, page: str | None, d: Dis
         if not text or not re.search(r"<(rss|feed)\b", text[:2000], re.I):
             continue
         d.feeds.append(url)
-        d.feed_urls.extend(_absolute(url, _RSS_LINK.findall(text) + _ATOM_LINK.findall(text)))
+        d.feed_urls.extend(parse_feed(text, url))
         break
 
 

@@ -146,6 +146,11 @@ def build_corpus() -> dict[str, Any]:
     }
 
 
+# RawJob fields that normalize.py never derives (connector-only metadata): leaving them
+# out keeps the fingerprint about the normaliser when RawJob grows such a field.
+_NOT_NORMALIZED = frozenset({"expires_at", "list_version"})
+
+
 def fingerprint(corpus: dict[str, Any]) -> str:
     """Hash of the normaliser's output over the corpus."""
 
@@ -154,7 +159,11 @@ def fingerprint(corpus: dict[str, Any]) -> str:
 
     out = {
         "raw_jobs": [
-            {k: _encode(v) for k, v in _decode_raw(r).normalized().as_dict().items()}
+            {
+                k: _encode(v)
+                for k, v in _decode_raw(r).normalized().as_dict().items()
+                if k not in _NOT_NORMALIZED
+            }
             for r in corpus["raw_jobs"]
         ],
         "locations": [

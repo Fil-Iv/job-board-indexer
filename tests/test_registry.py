@@ -19,7 +19,7 @@ def test_default_registry_has_all_connectors() -> None:
     modules = sorted(
         p.stem
         for p in (Path(__file__).parent.parent / "jobindex" / "connectors").glob("*.py")
-        if p.stem not in {"__init__", "base", "registry"}
+        if p.stem not in {"__init__", "base", "registry", "generic_jsonld"}
     )
     assert default_registry().platforms == modules
     assert {"ashby", "greenhouse", "lever", "workday"} <= set(modules)

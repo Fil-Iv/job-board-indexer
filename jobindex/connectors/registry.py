@@ -26,7 +26,7 @@ from jobindex.http import HttpClient
 
 log = logging.getLogger(__name__)
 
-_INFRASTRUCTURE_MODULES = {"base", "registry"}
+_INFRASTRUCTURE_MODULES = {"base", "registry", "generic_jsonld"}  # no @register inside
 
 
 class UnknownPlatformError(LookupError):

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<sitemap>
+		<loc>https://jobs.nonprofittalent.com/sitemap-base.xml</loc>
+		<lastmod>2026-11-07</lastmod>
+	</sitemap>
+	<sitemap>
+		<loc>https://jobs.nonprofittalent.com/sitemap-jobs.xml</loc>
+		<lastmod>2026-11-07</lastmod>
+	</sitemap>
+	<sitemap>
+		<loc>https://jobs.nonprofittalent.com/sitemap-companies.xml</loc>
+		<lastmod>2026-11-07</lastmod>
+	</sitemap>	
+	<sitemap>
+		<loc>https://jobs.nonprofittalent.com/sitemap-companies2.xml</loc>
+		<lastmod>2026-11-07</lastmod>
+	</sitemap>	
+</sitemapindex>

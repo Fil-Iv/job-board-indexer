@@ -17,7 +17,12 @@
    * every job_changes row carries ``parser_version`` and a ``cause``: ``upstream`` (the
      source data changed), ``parser`` (same source data, newer normalize.PARSER_VERSION)
      or ``local`` (our own metadata, e.g. ``set-company``);
-   * open job missing from the result -> closed (recorded as a status change).
+   * open job missing from the result -> closed (recorded as a status change);
+   * posting whose ``expires_at`` has passed -> stored/kept **closed** (never counted as
+     open), so platforms that keep expired pages listed don't re-fetch them every crawl.
+5. **Safety**: connectors that opt in (``max_job_drop()``) fail the run instead of
+   closing jobs when the open-job count drops by more than that fraction vs. the last
+   successful run (a broken sitemap or page template looks like mass closures).
 """
 
 import asyncio
@@ -28,11 +33,11 @@ from dataclasses import dataclass, replace
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import desc, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from jobindex.checkpoint import SourceCheckpoint
-from jobindex.connectors.base import BaseConnector, RawJob
+from jobindex.connectors.base import BaseConnector, JobCountDropError, RawJob
 from jobindex.connectors.registry import Registry, default_registry
 from jobindex.db import create_engine, create_session_factory
 from jobindex.http import HttpClient
@@ -139,7 +144,11 @@ async def _crawl(
         }
         await session.commit()  # don't hold a transaction open during a slow fetch
         connector = registry.get(source.platform)(http, SourceCheckpoint(session, source))
+        previous = await _last_success_count(session, source_id)
         listed = await connector.fetch_jobs(source.board_identifier)
+        # Early check (list level, before slow detail fetches); the open count can only
+        # be lower than this.
+        _check_drop(connector, previous, len({raw.external_id for raw in listed}))
         if connector.needs_detail:
             raw_jobs = await _with_details(connector, source.board_identifier, listed, existing)
         else:
@@ -148,6 +157,10 @@ async def _crawl(
             (raw.normalized(company_fallback=source.company_name), raw_hash)
             for raw, raw_hash in raw_jobs
         ]
+        now = utcnow()
+        _check_drop(
+            connector, previous, len({p.external_id for p, _ in postings if _is_open(p, now)})
+        )
     except Exception as exc:  # any failure is recorded, never interpreted as "no jobs"
         await session.rollback()
         return await _record_failure(session, source_id, run_id, exc)
@@ -199,7 +212,8 @@ async def _with_details(
         job = existing.get(raw.external_id)
         if (
             job is not None
-            and job.description_html is not None
+            # a stored detail (or an expired posting's tombstone) exists
+            and (job.description_html is not None or job.expires_at is not None)
             and all(getattr(job, f) == getattr(raw, f) for f in connector.detail_cache_key)
         ):
             reused = replace(raw, **{f: getattr(job, f) for f in connector.detail_fields})
@@ -210,6 +224,33 @@ async def _with_details(
         if detailed is not None:  # None = posting vanished between list and detail
             result.append((detailed, detailed.raw_hash()))
     return result
+
+
+async def _last_success_count(session: AsyncSession, source_id: int) -> int | None:
+    """Open postings found by the source's last successful run (None if there was none)."""
+    count: int | None = await session.scalar(
+        select(FetchRun.jobs_found)
+        .where(FetchRun.source_id == source_id, FetchRun.status == FetchStatus.SUCCESS)
+        .order_by(desc(FetchRun.finished_at))
+        .limit(1)
+    )
+    return count
+
+
+def _check_drop(connector: BaseConnector, previous: int | None, current: int) -> None:
+    max_drop = connector.max_job_drop()
+    if max_drop is None or not previous:
+        return
+    if current < previous * (1 - max_drop):
+        raise JobCountDropError(
+            f"only {current} open postings vs {previous} on the last successful crawl "
+            f"(more than {max_drop:.0%} fewer); refusing to close them. If the drop is "
+            "real, raise the threshold (GENERIC_MAX_JOB_DROP) for one crawl."
+        )
+
+
+def _is_open(posting: RawJob, now: datetime) -> bool:
+    return posting.expires_at is None or posting.expires_at > now
 
 
 async def _record_failure(
@@ -249,8 +290,11 @@ def _reconcile(
         fields.pop("external_id")
         digest = posting.content_hash()
         job = existing.get(external_id)
+        is_open = _is_open(posting, now)
 
         if job is None:
+            # An already-expired posting is stored closed: it is never counted as open,
+            # and the stored row lets detail-fetching connectors skip it next time.
             session.add(
                 Job(
                     source_id=source_id,
@@ -259,20 +303,26 @@ def _reconcile(
                     content_hash=digest,
                     raw_hash=raw_hash,
                     parser_version=PARSER_VERSION,
-                    status=JobStatus.OPEN,
+                    status=JobStatus.OPEN if is_open else JobStatus.CLOSED,
                     first_seen_at=now,
                     last_seen_at=now,
                     last_checked_at=now,
+                    closed_at=None if is_open else now,
                 )
             )
-            new += 1
+            new += is_open
             continue
 
         changes: list[JobChange] = []
-        if job.status is JobStatus.CLOSED:
+        if job.status is JobStatus.CLOSED and is_open:
             changes.append(_change(job, "status", JobStatus.CLOSED, JobStatus.OPEN, now))
             job.status = JobStatus.OPEN
             job.closed_at = None
+        elif job.status is JobStatus.OPEN and not is_open:
+            changes.append(_change(job, "status", JobStatus.OPEN, JobStatus.CLOSED, now))
+            job.status = JobStatus.CLOSED
+            job.closed_at = now
+            closed += 1
         if job.content_hash != digest:
             cause = _cause(job, raw_hash)
             for name in HASH_FIELDS:
@@ -286,7 +336,7 @@ def _reconcile(
                 setattr(job, name, value)
         if changes:
             session.add_all(changes)
-            updated += 1
+            updated += is_open
         job.last_seen_at = now
         job.last_checked_at = now
 
@@ -300,7 +350,8 @@ def _reconcile(
             job.closed_at = now
             closed += 1
 
-    return len(by_external_id), new, updated, closed
+    found = sum(_is_open(p, now) for p, _ in by_external_id.values())
+    return found, new, updated, closed
 
 
 def _as_text(value: Any) -> str | None:
