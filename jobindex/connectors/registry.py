@@ -67,11 +67,12 @@ class Registry:
                 return ResolvedBoard(connector_cls.platform, identifier)
         return None
 
-    def detect_in_html(self, html: str) -> ResolvedBoard | None:
-        """Resolve from page HTML: the board referenced most often wins."""
+    def detect_in_html(self, html: str, page_url: str | None = None) -> ResolvedBoard | None:
+        """Resolve from page HTML (downloaded from ``page_url``): the board referenced most
+        often wins."""
         best: tuple[int, ResolvedBoard] | None = None
         for connector_cls in self._connectors.values():
-            for identifier, count in connector_cls.detect_in_html(html).items():
+            for identifier, count in connector_cls.detect_in_html(html, page_url).items():
                 if best is None or count > best[0]:
                     best = (count, ResolvedBoard(connector_cls.platform, identifier))
         return best[1] if best else None
@@ -88,7 +89,7 @@ class Registry:
             board = self.detect(final_url)
             if board is not None:
                 return board
-        return self.detect_in_html(response.text)
+        return self.detect_in_html(response.text, final_url)
 
 
 _global_registry = Registry()

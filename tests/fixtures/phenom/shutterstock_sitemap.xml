@@ -1,0 +1,52 @@
+
+
+        
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.google.com/schemas/sitemap-desktop/1.0 http://www.google.com/schemas/sitemap-desktop/1.0/sitemap-desktop.xsd">
+
+    
+    <url>
+        <loc>https://careers.shutterstock.com/us/en</loc>
+        <lastmod>2026-11-07T13:46:42+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://careers.shutterstock.com/us/en/c/marketing-jobs</loc>
+        <lastmod>2026-11-07T13:46:42+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://careers.shutterstock.com/us/en/london</loc>
+        <lastmod>2026-11-07T13:46:42+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://careers.shutterstock.com/us/en/job/R0003169/Client-Partner-Singapore-Hong-Kong</loc>
+        <lastmod>2026-11-02T17:01:41+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://careers.shutterstock.com/us/en/job/R0003176/Director-of-Engineering-Infrastructure-Technical-Strategy-GIPHY</loc>
+        <lastmod>2026-11-05T01:03:10+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://careers.shutterstock.com/us/en/job/${jobSeqNo}/${title}</loc>
+        <lastmod>2026-11-07T13:46:42+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://careers.shutterstock.com/us/en/job/R0003171/New-Business-Sales-Executive-ANZ</loc>
+        <lastmod>2026-11-02T17:01:41+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+</urlset>

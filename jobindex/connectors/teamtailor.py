@@ -80,8 +80,8 @@ class TeamtailorConnector(BaseConnector):
         return host
 
     @classmethod
-    def detect_in_html(cls, html: str) -> dict[str, int]:
-        counts = super().detect_in_html(html)
+    def detect_in_html(cls, html: str, page_url: str | None = None) -> dict[str, int]:
+        counts = super().detect_in_html(html, page_url)
         if "teamtailor-cdn.com" in html:  # a Teamtailor career site, possibly a custom domain
             for match in _RSS_LINK.finditer(html):
                 host = match["host"].lower()

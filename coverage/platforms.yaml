@@ -367,15 +367,18 @@
 - name: iCIMS
   key: icims
   type: ats
-  status: todo
-  tier: hard
+  status: done
+  connector: jobindex.connectors.icims
   public_api: "no"
-  api: "careers-{company}.icims.com/jobs/search?ss=1&in_iframe=1&pr={page} (HTML)"
-  url_patterns: ["careers-{company}.icims.com/jobs/search", "careers-{company}.icims.com/jobs/{id}/{slug}/job", "{region}-{company}.icims.com"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "HTML is parseable with in_iframe=1, but tenants use many subdomain prefixes, custom domains and bot protection. Tenant discovery is the hard part."
+  api: "GET {host}/sitemap.xml (all open jobs, lastmod) + GET /jobs/{id}/{slug}/job (JSON-LD JobPosting)"
+  url_patterns: ["{prefix}-{company}.icims.com/jobs/search", "{host}/jobs/{id}/{slug}/job", "custom domains (cdnNN.icims.com assets)"]
+  examples:
+    - https://careers-eastwestbank.icims.com/jobs/search?ss=1
+    - https://careers-emcorgroup.icims.com/jobs/search?ss=1
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector; no in_iframe HTML parsing needed. hiringOrganization is \"UNAVAILABLE\" (dropped; set the source company). EMCOR: 1532 jobs (~26 min first crawl, resumable)."
 
 - name: iSolvedHire
   key: isolvedhire
@@ -577,15 +580,18 @@
 - name: Phenom People
   key: phenom
   type: ats
-  status: todo
-  tier: hard
+  status: done
+  connector: jobindex.connectors.phenom
   public_api: "no"
-  api: "custom-domain career sites; POST /widgets with CSRF token; page embeds phApp.ddo JSON"
-  url_patterns: ["careers.{company}.com/{locale}/search-results", "careers.{company}.com/{locale}/job/{id}/{slug}"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "First page of results is embedded JSON (medium); full pagination needs the CSRF-protected widgets API."
+  api: "GET {site}/{cc}/{lang}/sitemap.xml (jobs + pages, lastmod) + GET {site}/{cc}/{lang}/job/{id}/{slug} (JSON-LD JobPosting)"
+  url_patterns: ["custom domains: careers.{company}.com/{cc}/{lang}/... (*.phenompeople.com assets)", "{site}/{cc}/{lang}/job/{id}/{slug}"]
+  examples:
+    - https://careers.butterball.com/us/en
+    - https://careers.shutterstock.com/us/en
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector; no CSRF widgets API needed. Board id = host/cc/lang (other locales list the same jobs). The sitemap contains a template entry /job/${jobSeqNo}/${title} (ignored)."
 
 - name: Pinpoint
   key: pinpoint
@@ -675,15 +681,19 @@
 - name: SAP SuccessFactors
   key: successfactors
   type: ats
-  status: todo
-  tier: hard
+  status: done
+  connector: jobindex.connectors.successfactors
   public_api: "no"
-  api: "career{n}.successfactors.com/career?company={id} (JS); RMK sites jobs.{company}.com (HTML + sitemap)"
-  url_patterns: ["career{n}.successfactors.com/career?company={id}", "career{n}.successfactors.eu/...", "jobs.{company}.com/job/{slug}/{id}/ (RMK)"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Two very different front ends. RMK (Recruiting Marketing) sites are medium via sitemap/HTML; the classic career page is JS-heavy."
+  api: "RMK sites: GET {site}/sitemap.xml (lastmod) + GET /job/{slug}/{id}/ (microdata JobPosting)"
+  url_patterns: ["custom domains (rmkcdn.successfactors.com assets): {site}/job/{slug}/{id}/", "career{n}.successfactors.com/career?company={id} (classic, JS-only: not covered)"]
+  examples:
+    - https://careers.yash.com/
+    - https://careers.airindia.com/
+    - https://careers.nttdata-solutions.com/
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector for Recruiting Marketing (RMK) sites. Dates are Java Date strings; hand-typed addressCountry fragments are dropped. jobs.sap.com is a custom front end, not RMK."
 
 - name: SmartRecruiters
   key: smartrecruiters
@@ -908,15 +918,18 @@
 - name: Jobiqo
   key: jobiqo
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "Drupal-based boards on custom domains (HTML + JSON-LD)"
-  url_patterns: ["custom domains"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Austrian vendor; mostly DACH media/association boards."
+  status: done
+  connector: jobindex.connectors.jobiqo
+  public_api: "no"
+  api: "GET {board}/sitemap.xml (index of ?page=N, lastmod) + GET each job page /job/{slug}-{id} (JSON-LD JobPosting)"
+  url_patterns: ["custom domains (page config POWERED_BY_LINK www.jobiqo.com)", "{board}/job/{slug}-{id}", "{board}/job/{uuid}/{slug}"]
+  examples:
+    - https://www.lovelocaljobs.com/
+    - https://www.thejobnetwork.com/
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector. The search/SEO sitemaps in robots.txt (256 files on thejobnetwork.com) repeat the main sitemap jobs and are skipped. thejobnetwork.com: 4730 jobs (~80 min first crawl at 1 req/s, resumable)."
 
 - name: JBoard.io
   key: jboard

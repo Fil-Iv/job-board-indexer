@@ -1,0 +1,46 @@
+
+
+        
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.google.com/schemas/sitemap-desktop/1.0 http://www.google.com/schemas/sitemap-desktop/1.0/sitemap-desktop.xsd">
+
+    
+    <url>
+        <loc>https://careers.butterball.com/us/en</loc>
+        <lastmod>2026-11-07T14:27:17+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://careers.butterball.com/us/en/search-results</loc>
+        <lastmod>2026-11-07T14:27:17+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://careers.butterball.com/us/en/contact-us</loc>
+        <lastmod>2026-11-07T14:27:17+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://careers.butterball.com/us/en/job/DISTR004109/Distribution-Superintendent</loc>
+        <lastmod>2026-10-27T20:26:07+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://careers.butterball.com/us/en/job/QUALI003965/Quality-Assurance-Grading-Specialist</loc>
+        <lastmod>2026-09-29T20:38:31+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://careers.butterball.com/us/en/job/TEAML004120/TEAM-LEADER-2ND-PROCESSING-Evening-Shift</loc>
+        <lastmod>2026-11-02T20:21:31+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+</urlset>

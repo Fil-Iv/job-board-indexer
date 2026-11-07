@@ -182,8 +182,11 @@ class BaseConnector(ABC):
         """Canonical public URL of the board (stored in ``sources.base_url``)."""
 
     @classmethod
-    def detect_in_html(cls, html: str) -> dict[str, int]:
+    def detect_in_html(cls, html: str, page_url: str | None = None) -> dict[str, int]:
         """Board identifiers referenced by a (custom-domain) careers page, with counts.
+
+        ``page_url`` is where the page was downloaded from (after redirects), for
+        platforms whose board identifier is the page's own host.
 
         Looks at every URL in the page (script ``src``, iframes, embeds, links, URLs inside
         inline JSON) and at :attr:`html_fingerprints`.

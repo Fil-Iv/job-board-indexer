@@ -162,20 +162,32 @@ class GenericJsonLdConnector(BaseConnector):
         """Board identifier for a custom-domain page carrying ``page_fingerprint``."""
         return urlsplit(url).hostname
 
+    def parse_date(self, value: str) -> datetime | None:
+        """Parse a JobPosting date (``datePosted``/``validThrough``); override for platforms
+        with non-ISO dates."""
+        return parse_datetime(value)
+
+    def adjust(self, job: RawJob, item: dict[str, Any]) -> RawJob:
+        """Platform-specific fix-ups of the mapped posting (``item`` = the JobPosting)."""
+        return job
+
     def is_closed_page(self, text: str) -> bool:
         return any(p.search(text) for p in self.closed_patterns)
 
     # -- BaseConnector -------------------------------------------------------
 
     @classmethod
-    def detect_in_html(cls, html: str) -> dict[str, int]:
-        counts = super().detect_in_html(html)
-        if cls.page_fingerprint is not None and cls.page_fingerprint.search(html):
-            for match in _CANONICAL.finditer(html):
-                url = match.group(1) or match.group(2)
-                board = cls.board_from_page_url(url) if url.startswith("http") else None
-                if board:
-                    counts[board] = counts.get(board, 0) + 1
+    def detect_in_html(cls, html: str, page_url: str | None = None) -> dict[str, int]:
+        counts = super().detect_in_html(html, page_url)
+        if cls.page_fingerprint is None or not cls.page_fingerprint.search(html):
+            return counts
+        # The board is the page's own site: its canonical URL, else where it was fetched.
+        urls = [m.group(1) or m.group(2) for m in _CANONICAL.finditer(html)]
+        urls = [u for u in urls if u.startswith("http")] or ([page_url] if page_url else [])
+        for url in urls:
+            board = cls.board_from_page_url(url)
+            if board:
+                counts[board] = counts.get(board, 0) + 1
         return counts
 
     def max_job_drop(self) -> float | None:
@@ -297,13 +309,30 @@ class GenericJsonLdConnector(BaseConnector):
                     )
                 log.warning("%s: no JobPosting on %s; treating it as closed", self.platform, url)
             return replace(closed, title=_page_title(html))
-        raw = _plausible_salary_period(
-            to_raw_job(items[0], external_id=stub.external_id, source_url=url)
-        )
-        expires_at = _valid_through(items[0]) if self.trust_valid_through else None
+        item = items[0]
+        raw = to_raw_job(item, external_id=stub.external_id, source_url=url)
+        if raw.posted_at is None and isinstance(item.get("datePosted"), str):
+            raw = replace(raw, posted_at=self.parse_date(item["datePosted"].strip()))
+        raw = self.adjust(_plausible_salary_period(raw), item)
+        expires_at = self._valid_through(item) if self.trust_valid_through else None
         if self.is_closed_page(text):
             expires_at = now if expires_at is None else min(expires_at, now)
         return replace(raw, expires_at=expires_at, list_version=stub.list_version)
+
+    def _valid_through(self, item: dict[str, Any]) -> datetime | None:
+        value = item.get("validThrough")
+        value = value[0] if isinstance(value, list) and value else value
+        if not isinstance(value, str):
+            return None
+        value = value.strip()
+        parsed = self.parse_date(value)
+        if parsed is not None and len(value) > 10:
+            return parsed
+        # A date (or a malformed timestamp around one, e.g. ApplicantPro's
+        # "2026-12-03 00:00:00T23:59"): valid through the end of that day.
+        date = re.match(r"\d{4}-\d{2}-\d{2}", value)
+        day = parse_datetime(date.group(0)) if date else None
+        return day + timedelta(days=1) if day else None
 
     async def _load_checkpoint(self, board_identifier: str) -> None:
         self._board = board_identifier
@@ -350,22 +379,6 @@ def _plausible_salary_period(job: RawJob) -> RawJob:
     if job.salary_period == "hour" and amount is not None and amount >= 1000:
         return replace(job, salary_period=infer_salary_period(amount))
     return job
-
-
-def _valid_through(item: dict[str, Any]) -> datetime | None:
-    value = item.get("validThrough")
-    value = value[0] if isinstance(value, list) and value else value
-    if not isinstance(value, str):
-        return None
-    value = value.strip()
-    parsed = parse_datetime(value)
-    if parsed is not None and len(value) > 10:
-        return parsed
-    # A date (or a malformed timestamp around one, e.g. ApplicantPro's
-    # "2026-12-03 00:00:00T23:59"): valid through the end of that day.
-    date = re.match(r"\d{4}-\d{2}-\d{2}", value)
-    day = parse_datetime(date.group(0)) if date else None
-    return day + timedelta(days=1) if day else None
 
 
 def _visible_text(html: str) -> str:
@@ -457,7 +470,10 @@ class HostedBoardConnector(GenericJsonLdConnector):
         if host != host_of(board_identifier) and host not in self.board_hosts:
             return None
         match = self.job_path.fullmatch(urlsplit(url).path)
-        return match["id"] if match else None
+        if match is None:
+            return None
+        # the first named group that matched (alternatives: ``(?P<id>..)|(?P<uuid>..)``)
+        return next((value for value in match.groupdict().values() if value), None)
 
 
 __all__ = ["GenericJsonLdConnector", "HostedBoardConnector", "host_of"]

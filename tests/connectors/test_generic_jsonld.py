@@ -158,6 +158,10 @@ def test_detect() -> None:
     )
     assert ExampleConnector.detect_in_html(page) == {"jobs.acme.com": 1}
     assert ExampleConnector.detect_in_html(page.replace("cdn.example", "cdn.other")) == {}
+    # no canonical URL (SuccessFactors RMK home pages): the page's own URL is the board
+    bare = '<script src="https://cdn.example-boards.test/app.js"></script>'
+    assert ExampleConnector.detect_in_html(bare, "https://jobs.acme.com/") == {"jobs.acme.com": 1}
+    assert ExampleConnector.detect_in_html(bare) == {}
 
 
 # -- job pages -------------------------------------------------------------------

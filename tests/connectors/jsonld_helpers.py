@@ -1,13 +1,15 @@
 """Helpers shared by the tests of generic sitemap + JSON-LD connectors."""
 
+from collections.abc import Mapping
 from datetime import UTC, datetime
+from urllib.parse import unquote
 
 import httpx
 
 from jobindex.connectors.base import RawJob
 from jobindex.connectors.generic_jsonld import GenericJsonLdConnector
 from jobindex.http import HttpClient
-from tests.fakes import load_fixture, mock_http
+from tests.fakes import Route, load_fixture, mock_http
 
 
 def fixture_routes(platform: str, files: dict[str, str]) -> dict[str, httpx.Response]:
@@ -27,7 +29,7 @@ def sitemap_route(
 
 
 async def crawl_fixture(
-    connector_cls: type[GenericJsonLdConnector], board: str, routes: dict[str, httpx.Response]
+    connector_cls: type[GenericJsonLdConnector], board: str, routes: Mapping[str, Route]
 ) -> tuple[list[RawJob], dict[str, RawJob]]:
     """List the board, then fetch the detail of every listed job that has a route
     (keyed by external id)."""
@@ -37,7 +39,8 @@ async def crawl_fixture(
         stubs = await connector.fetch_jobs(board)
         details = {}
         for stub in stubs:
-            path = (stub.source_url or "").split("://", 1)[1].split("?")[0]
+            # route keys are decoded host/path (mock_http matches request.url.path)
+            path = unquote((stub.source_url or "").split("://", 1)[1].split("?")[0])
             if path in routes:
                 detail = await connector.fetch_job_detail(board, stub)
                 assert detail is not None

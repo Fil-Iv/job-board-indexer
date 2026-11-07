@@ -116,10 +116,10 @@ class SmartRecruitersConnector(BaseConnector):
         return None
 
     @classmethod
-    def detect_in_html(cls, html: str) -> dict[str, int]:
+    def detect_in_html(cls, html: str, page_url: str | None = None) -> dict[str, int]:
         if "smartrecruiters" not in html.lower():
             return {}  # "company_code" alone is too generic to trust
-        return super().detect_in_html(html)
+        return super().detect_in_html(html, page_url)
 
     @classmethod
     def board_url(cls, board_identifier: str) -> str:
