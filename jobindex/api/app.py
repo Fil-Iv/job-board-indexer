@@ -7,12 +7,12 @@ from datetime import date
 from decimal import Decimal
 from typing import Annotated
 
-from fastapi import Depends, FastAPI, HTTPException, Query, Request
+from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy import func, select, text
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from jobindex import __version__
+from jobindex.api.deps import SessionDep
 from jobindex.api.schemas import (
     EmploymentType,
     FailureOut,
@@ -25,6 +25,7 @@ from jobindex.api.schemas import (
     StatusFilter,
 )
 from jobindex.api.search import MAX_PAGE_SIZE, SearchParams, get_opening, group_id, search
+from jobindex.api.ui import router as ui_router
 from jobindex.config import get_settings
 from jobindex.db import create_engine, create_session_factory
 from jobindex.http import HttpClient
@@ -78,12 +79,7 @@ app = FastAPI(
 )
 
 
-async def get_session(request: Request) -> AsyncIterator[AsyncSession]:
-    async with request.app.state.session_factory() as session:
-        yield session
-
-
-SessionDep = Annotated[AsyncSession, Depends(get_session)]
+app.include_router(ui_router)
 
 
 def search_params(

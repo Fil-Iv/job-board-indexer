@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if params.q %}{{ params.q }} – {% endif %}JobIndex</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --card: #fff; --text: #1d1d1f; --muted: #6b6b70; --line: #e3e3e0;
+    --accent: #1f5fbf; --accent-text: #fff; --closed: #a33;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #141416; --card: #1d1d20; --text: #ececee; --muted: #9a9aa2;
+            --line: #2e2e33; --accent: #6ea0ff; --accent-text: #0b0b0d; --closed: #f08a8a; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+  header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+  header h1 { font-size: 22px; margin: 0; }
+  header h1 a { color: inherit; text-decoration: none; }
+  header nav { margin-left: auto; font-size: 13px; }
+  a { color: var(--accent); }
+  form { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+         padding: 14px; display: grid; gap: 10px;
+         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  form .wide { grid-column: 1 / -1; display: flex; gap: 8px; }
+  label { display: grid; gap: 3px; font-size: 12px; color: var(--muted); }
+  input, select, button { font: inherit; color: inherit; background: var(--bg);
+         border: 1px solid var(--line); border-radius: 7px; padding: 7px 9px; min-width: 0; }
+  .wide input { flex: 1; font-size: 16px; }
+  button { background: var(--accent); color: var(--accent-text); border: 0;
+           padding: 7px 18px; cursor: pointer; font-weight: 600; }
+  .summary { color: var(--muted); margin: 16px 2px 8px; font-size: 13px; }
+  ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  li.job { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+           padding: 12px 14px; }
+  .job h2 { font-size: 16px; margin: 0 0 2px; }
+  .job h2 a { color: inherit; text-decoration: none; }
+  .job h2 a:hover { text-decoration: underline; }
+  .meta { color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+  .tag { border: 1px solid var(--line); border-radius: 99px; padding: 0 8px; font-size: 12px; }
+  .closed { color: var(--closed); }
+  .links { margin-top: 8px; font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 16px; }
+  .links .src { color: var(--muted); }
+  .pager { display: flex; justify-content: space-between; margin-top: 18px; }
+  .empty { background: var(--card); border: 1px dashed var(--line); border-radius: 10px;
+           padding: 28px; text-align: center; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1><a href="/">JobIndex</a></h1>
+    <nav><a href="/docs">API</a> · <a href="/stats">Stats</a></nav>
+  </header>
+
+  <form method="get" action="/" id="search">
+    <div class="wide">
+      <input type="search" name="q" value="{{ form.q or '' }}" placeholder='Search jobs, e.g. python "data engineer" -senior' aria-label="Search" autofocus>
+      <button type="submit">Search</button>
+    </div>
+    <label>Company <input name="company" value="{{ form.company or '' }}"></label>
+    <label>Location <input name="location" value="{{ form.location or '' }}" placeholder="Berlin, DE"></label>
+    <label>Workplace
+      <select name="remote_type">
+        <option value="">Any</option>
+        {% for r in remote_types %}<option value="{{ r }}" {{ 'selected' if form.remote_type == r }}>{{ r|capitalize }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Employment
+      <select name="employment_type">
+        <option value="">Any</option>
+        {% for e in employment_types %}<option value="{{ e }}" {{ 'selected' if form.employment_type == e }}>{{ e|replace('_', ' ')|capitalize }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Min. salary <input name="salary_min" inputmode="numeric" value="{{ form.salary_min or '' }}" placeholder="60000"></label>
+    <label>Posted since <input type="date" name="posted_since" value="{{ form.posted_since or '' }}"></label>
+    <label>Status
+      <select name="status">
+        {% for s in ['open', 'closed', 'any'] %}<option value="{{ s }}" {{ 'selected' if params.status.value == s }}>{{ s|capitalize }}</option>{% endfor %}
+      </select>
+    </label>
+  </form>
+
+  <p class="summary">
+    {{ "{:,}".format(results.total) }} opening{{ '' if results.total == 1 else 's' }}
+    {% if results.pages > 1 %}· page {{ results.page }} of {{ results.pages }}{% endif %}
+  </p>
+
+  {% if results.items %}
+  <ol>
+    {% for job in results.items %}
+    {% set main = job.sources[0] %}
+    <li class="job">
+      <h2>
+        {% if main.source_url|safe_url %}<a href="{{ main.source_url|safe_url }}" rel="noopener nofollow" target="_blank">{{ job.title }}</a>{% else %}{{ job.title }}{% endif %}
+      </h2>
+      <div class="meta">
+        {% if job.company %}<strong>{{ job.company }}</strong>{% endif %}
+        {% set place = [job.city, job.region, job.country]|select|join(', ') %}
+        {% if place or job.location_raw %}<span>{{ place or job.location_raw }}</span>{% endif %}
+        {% if job.remote_type.value != 'unknown' %}<span class="tag">{{ job.remote_type.value }}</span>{% endif %}
+        {% if job.employment_type %}<span class="tag">{{ job.employment_type|replace('_', ' ') }}</span>{% endif %}
+        {% if job.salary_min or job.salary_max %}
+          <span>{{ job.salary_currency or '' }}
+            {% if job.salary_min %}{{ "{:,.0f}".format(job.salary_min) }}{% endif %}{% if job.salary_min and job.salary_max and job.salary_max != job.salary_min %}–{% endif %}{% if job.salary_max and job.salary_max != job.salary_min %}{{ "{:,.0f}".format(job.salary_max) }}{% endif %}
+            {% if job.salary_period %}/ {{ job.salary_period }}{% endif %}</span>
+        {% endif %}
+        <span>{{ (job.posted_at or job.first_seen_at).strftime('%Y-%m-%d') }}</span>
+        {% if job.status.value == 'closed' %}<span class="closed">closed</span>{% endif %}
+      </div>
+      <div class="links">
+        {% for s in job.sources %}
+          <span>
+            <span class="src">{{ s.platform }}{% if s.status.value == 'closed' %} (closed){% endif %}:</span>
+            {% if s.source_url|safe_url %}<a href="{{ s.source_url|safe_url }}" rel="noopener nofollow" target="_blank">posting</a>{% endif %}
+            {% if s.apply_url|safe_url and s.apply_url != s.source_url %}· <a href="{{ s.apply_url|safe_url }}" rel="noopener nofollow" target="_blank">apply</a>{% endif %}
+          </span>
+        {% endfor %}
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+  {% else %}
+  <div class="empty">No openings match these filters.</div>
+  {% endif %}
+
+  {% if results.pages > 1 %}
+  <nav class="pager">
+    <span>{% if results.page > 1 %}<a href="{{ page_url(results.page - 1) }}">← Previous</a>{% endif %}</span>
+    <span>{% if results.page < results.pages %}<a href="{{ page_url(results.page + 1) }}">Next →</a>{% endif %}</span>
+  </nav>
+  {% endif %}
+</main>
+<script>
+  // Apply select/date filters immediately; text fields submit on Enter.
+  document.querySelectorAll("#search select, #search input[type=date]").forEach(function (el) {
+    el.addEventListener("change", function () { el.form.submit(); });
+  });
+</script>
+</body>
+</html>

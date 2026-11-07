@@ -11,7 +11,7 @@ Requirements: Docker with Compose v2.24+ and `make`. Everything runs in containe
 (Python 3.12), so no local Python setup is needed.
 
 ```sh
-make up        # build + start postgres and the API (http://localhost:8000/docs)
+make up        # build + start postgres and the app: search page http://localhost:8000/, API docs /docs
 make migrate   # apply database migrations
 make test      # offline test suite (fixtures, jobindex_test database)
 make test-live # live tests against real employer boards (network)

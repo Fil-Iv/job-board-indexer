@@ -20,6 +20,7 @@ dependencies = [
     "selectolax>=1.0",
     "pycountry>=24.6",
     "defusedxml>=0.7",  # safe parsing of untrusted XML feeds (Personio, Teamtailor RSS)
+    "jinja2>=3.1",  # server-rendered search page (jobindex/api/templates)
 ]
 
 [project.optional-dependencies]

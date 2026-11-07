@@ -190,3 +190,36 @@ async def test_openapi_is_documented(client: httpx.AsyncClient) -> None:
         operation = spec["paths"][path]["get"]
         assert operation["summary"], path
         assert operation["description"], path
+
+
+async def test_search_page(client: httpx.AsyncClient, session: AsyncSession) -> None:
+    await _seed(session)
+    html = (await client.get("/", params={"q": "python", "salary_min": "", "page": "x"})).text
+    assert "1 opening" in html
+    assert 'href="https://boards.greenhouse.io/acme/jobs/1#app"' in html  # apply link
+    assert 'href="https://jobs.example/job/senior-python"' in html  # second source
+    assert "Product Designer" not in html
+
+    html = (await client.get("/", params={"size": "1", "location": "Austin"})).text
+    assert "Product Designer" in html
+    assert "Senior Python Engineer" not in html
+
+
+async def test_search_page_drops_unsafe_links(
+    client: httpx.AsyncClient, session: AsyncSession
+) -> None:
+    session.add(Source(platform="fake", board_identifier="x", base_url="https://x", id=1))
+    await session.flush()
+    session.add(
+        Job(
+            source_id=1,
+            external_id="1",
+            title="<b>Engineer</b>",
+            source_url="javascript:alert(1)",
+            content_hash="a",
+        )
+    )
+    await session.commit()
+    html = (await client.get("/")).text
+    assert "javascript:" not in html
+    assert "&lt;b&gt;Engineer&lt;/b&gt;" in html
