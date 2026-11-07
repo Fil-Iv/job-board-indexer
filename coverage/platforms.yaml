@@ -720,17 +720,17 @@
 - name: Teamtailor
   key: teamtailor
   type: ats
-  status: todo
-  tier: easy
+  status: done
+  connector: jobindex.connectors.teamtailor
   public_api: feed
-  api: "GET {company}.teamtailor.com/jobs.rss (RSS); JSON API needs a customer token"
-  url_patterns: ["{company}.teamtailor.com/jobs", "{company}.teamtailor.com/jobs/{id}-{slug}", "custom domains (career.{company}.com)"]
+  api: "GET {career-site-host}/jobs.rss (RSS with full descriptions; the JSON API needs a customer token)"
+  url_patterns: ["{company}.teamtailor.com[/jobs[/{id}-{slug}]]", "{company}.teamtailor.com/jobs.rss", "custom domains (jobs.lunar.app): recognised from the page (Teamtailor CDN + jobs.rss link); the host is the board id"]
   examples:
+    - https://oatly.teamtailor.com/jobs
     - https://lunar.teamtailor.com/jobs
-    - https://tibber.teamtailor.com/jobs
   robots: allowed
   verified: 2026-11-07
-  notes: "RSS includes descriptions; locations/remote may need the job page (JSON-LD)."
+  notes: "Feed parsed with defusedxml; remoteStatus fully/hybrid/onsite/none(=unspecified). Feed matched the paged HTML listing exactly (Oatly 25/25, Lunar 16/16); no board >25 jobs was available to check, so feeds with 50+ items are cross-checked against /jobs?page=n and refused if a listed job is missing."
 
 - name: Trakstar
   key: trakstar
