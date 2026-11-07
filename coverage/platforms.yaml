@@ -31,18 +31,18 @@
 - name: ADP
   key: adp
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "SPA calls workforcenow.adp.com/mascsr/default/careercenter/public/events/staffing/v1/job-requisitions?cid={cid}"
-  url_patterns:
-    - "workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid={uuid}"
-    - "recruiting.adp.com/srccar/public/RTI.home?c={id}"
-    - "myjobs.adp.com/{company}/cx/..."
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Several ADP products (Workforce Now, Recruiting Management, myjobs). The WFN career center is an SPA backed by an undocumented JSON endpoint; confirm it works without cookies."
+  status: done
+  connector: jobindex.connectors.adp
+  public_api: partial
+  api: "GET workforcenow.adp.com/mascsr/default/careercenter/public/events/staffing/v1/job-requisitions?cid={cid}&lang=&locale=&$top=100&$skip={1-based start} + .../job-requisitions/{itemID} (description)"
+  url_patterns: ["workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid={uuid}[&lang=xx_YY]"]
+  examples:
+    - https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=d4d64eb4-d344-423a-868e-ae5d37380d2f&ccId=19000101_000001&lang=en_US
+    - https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=8d16626f-48ae-43f6-b57e-79339726ccf4&ccId=19000101_000001&lang=en_CA
+  robots: allowed
+  verified: 2026-11-07
+  generic: no
+  notes: "Workforce Now only (Recruiting Management and myjobs.adp.com not covered). Undocumented JSON behind the SPA; works without cookies. $skip is the 1-based start position, so pages are requested from 1 + jobs so far and checked against totalNumber. Postings are per language: the board id carries :lang when not en_US (the Canadian example lists 3 jobs with en_CA, 0 with en_US). robots.txt is an HTML redirector page (no rules)."
 
 - name: ApplicantPro
   key: applicantpro
@@ -142,7 +142,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: "SMB/franchise focused; server-rendered list."
+  notes: "SMB/franchise focused. Checked 2026-11-07 (fastsigns-careers): jobs.json is disallowed and every job page /jobs/{id} redirects to /jobs/{id}/apps/new, under the disallowed /apps/. Only the paged list (?page=N: title, location, post date, no description) is allowed, so no compliant source for descriptions. Note: jobindex.http follows redirects without re-checking robots.txt for the target."
 
 - name: Comeet
   key: comeet
@@ -318,15 +318,18 @@
 - name: HireBridge
   key: hirebridge
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "recruit.hirebridge.com/v3/Jobs/list.aspx?cid={cid} (ASP.NET HTML)"
+  status: done
+  connector: jobindex.connectors.hirebridge
+  public_api: "no"
+  api: "GET recruit.hirebridge.com/v3/Jobs/list.aspx?cid={cid} (HTML, all jobs) + JobDetails.aspx?cid=&jid=&locvalue= (HTML)"
   url_patterns: ["recruit.hirebridge.com/v3/Jobs/list.aspx?cid={cid}", "recruit.hirebridge.com/v3/Jobs/JobDetails.aspx?cid={cid}&jid={jid}"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: ""
+  examples:
+    - https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=7856
+    - https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=5535
+  robots: allowed
+  verified: 2026-11-07
+  generic: no
+  notes: "ASP.NET pages, no JSON-LD. One link per job location: grouped into one posting per jid (EAB 99 links = 44 jobs; Menards 870 jobs on one page). No count (job-drop guard). Closed jobs render with empty fields; unknown cids redirect to AppErrMsg.aspx (error)."
 
 - name: HireHive
   key: hirehive
@@ -363,15 +366,18 @@
 - name: HiringThing
   key: hiringthing
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "{company}.hiringthing.com (HTML); REST API requires key"
-  url_patterns: ["{company}.hiringthing.com", "{company}.hiringthing.com/job/{id}/{slug}"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "White-labelled by partners under other domains."
+  status: done
+  connector: jobindex.connectors.hiringthing
+  public_api: feed
+  api: "GET {company}.hiringthing.com/api/rss.xml (RSS, every open job) + job pages (JSON-LD JobPosting)"
+  url_patterns: ["{company}.hiringthing.com[/job/{id}/{slug}]"]
+  examples:
+    - https://franklin-companies.hiringthing.com/
+    - https://friendsofthechildren-national.hiringthing.com/
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic JSON-LD connector with the board RSS feed as the list (matched the board page 41/41). The robots.txt sitemap is a global S3 index keyed by internal company id (2,800+ files), not by subdomain, so it is not used. Unknown companies: 403. White-labelled partner domains are not recognised yet."
 
 - name: iCIMS
   key: icims
@@ -546,7 +552,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: ""
+  notes: "Checked 2026-11-07: the v4 career page is a micro-frontend; robots.txt (www.paycomonline.net and portal-applicant-tracking.us-cent.paycomonline.net) allows /api/ats/job-postings/ and /api/ats/company-name, but the portal sends an Authorization token issued by the page, so it was not used (same policy as Comeet's page token). /v4/ats/sitemap.php answers 404. Needs a decision from the project owner."
 
 - name: Paycor
   key: paycor
@@ -789,15 +795,18 @@
 - name: TriNet
   key: trinet
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "app.trinethire.com/companies/{id}-{slug}/jobs (HTML)"
-  url_patterns: ["app.trinethire.com/companies/{id}-{slug}/jobs", "app.trinethire.com/companies/{id}-{slug}/jobs/{job-id}"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "TriNet Hire."
+  status: done
+  connector: jobindex.connectors.trinet
+  public_api: "no"
+  api: "GET app.trinethire.com/companies/{id}/jobs (HTML table.job-list, all jobs) + job pages (HTML)"
+  url_patterns: ["app.trinethire.com/companies/{id}[-{slug}][/jobs[/{job id}-{slug}]]"]
+  examples:
+    - https://app.trinethire.com/companies/130621-curative-hr-llc/jobs
+    - https://app.trinethire.com/companies/203100-precor-incorporated/jobs
+  robots: allowed
+  verified: 2026-11-07
+  generic: no
+  notes: "No JSON-LD, sitemap or public API. One-page list without a count (job-drop guard); details (description, salary) from div.job-descr / ul.job-meta. robots.txt allows * with Content-Signal search=yes, ai-train=no. Unknown companies and closed jobs: 404."
 
 - name: UltiPro
   key: ultipro

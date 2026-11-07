@@ -1,0 +1,498 @@
+{
+  "jobRequisitions": [
+    {
+      "itemID": "485104693_2",
+      "postingInstructions": [],
+      "links": [],
+      "clientRequisitionID": "1109",
+      "customFieldGroup": {
+        "dateFields": [
+          {
+            "dateValue": "2026-11-05T14:35Z",
+            "nameCode": {
+              "codeValue": "PostingDate"
+            }
+          },
+          {
+            "dateValue": "2026-11-07T15:38Z",
+            "nameCode": {
+              "codeValue": "CurrentServerDateTime"
+            }
+          }
+        ],
+        "indicatorFields": [
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "PriortyStatusFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "InternalPostingFlag"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "MinValue"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsVsidApplicable"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForExtPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForIntPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsMonetaryFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsNonMonetaryFlag"
+            }
+          }
+        ],
+        "numberFields": [
+          {
+            "categoryCode": {
+              "codeValue": "ApplicantCount"
+            },
+            "numberValue": 0.0
+          },
+          {
+            "categoryCode": {
+              "codeValue": "AwardAmount"
+            }
+          }
+        ],
+        "stringFields": [
+          {
+            "nameCode": {
+              "codeValue": "ExternalJobID"
+            },
+            "stringValue": "24322"
+          },
+          {
+            "nameCode": {
+              "codeValue": "CareerCenterRefId"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "GuidelineOid"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "CurrencySymbolOrCode"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "JobClass"
+            }
+          }
+        ]
+      },
+      "organizationalUnits": [],
+      "postDate": "2026-11-06T01:05:00",
+      "requisitionLocations": [
+        {
+          "address": {
+            "cityName": "Montreal",
+            "countrySubdivisionLevel1": {
+              "codeValue": "QC"
+            },
+            "postalCode": "H2Y 2E2"
+          },
+          "aliasNames": [],
+          "nameCode": {
+            "shortName": " Montreal, QC, CA"
+          }
+        }
+      ],
+      "requisitionTitle": "Marketing Coordinator",
+      "screeningRequirements": [],
+      "sponsoredVisaTypeCodes": []
+    },
+    {
+      "itemID": "458812902_1",
+      "postingInstructions": [],
+      "links": [],
+      "clientRequisitionID": "1096",
+      "customFieldGroup": {
+        "dateFields": [
+          {
+            "dateValue": "2026-10-22T13:27Z",
+            "nameCode": {
+              "codeValue": "PostingDate"
+            }
+          },
+          {
+            "dateValue": "2026-11-07T15:38Z",
+            "nameCode": {
+              "codeValue": "CurrentServerDateTime"
+            }
+          }
+        ],
+        "indicatorFields": [
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "PriortyStatusFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "InternalPostingFlag"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "MinValue"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsVsidApplicable"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForExtPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForIntPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsMonetaryFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsNonMonetaryFlag"
+            }
+          }
+        ],
+        "numberFields": [
+          {
+            "categoryCode": {
+              "codeValue": "ApplicantCount"
+            },
+            "numberValue": 0.0
+          },
+          {
+            "categoryCode": {
+              "codeValue": "AwardAmount"
+            }
+          }
+        ],
+        "stringFields": [
+          {
+            "nameCode": {
+              "codeValue": "ExternalJobID"
+            },
+            "stringValue": "23906"
+          },
+          {
+            "nameCode": {
+              "codeValue": "CareerCenterRefId"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "GuidelineOid"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "CurrencySymbolOrCode"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "JobClass"
+            }
+          }
+        ]
+      },
+      "organizationalUnits": [],
+      "postDate": "2026-10-22T22:57:00",
+      "requisitionLocations": [
+        {
+          "address": {
+            "cityName": "Montreal",
+            "countrySubdivisionLevel1": {
+              "codeValue": "QC"
+            },
+            "postalCode": "H2Y 4B2"
+          },
+          "aliasNames": [],
+          "nameCode": {
+            "shortName": " Montreal, QC, CA"
+          }
+        }
+      ],
+      "requisitionTitle": "Exhibitions & Programming Projects Leader",
+      "screeningRequirements": [],
+      "sponsoredVisaTypeCodes": []
+    },
+    {
+      "itemID": "458885025_1",
+      "postingInstructions": [],
+      "links": [],
+      "clientRequisitionID": "1097",
+      "customFieldGroup": {
+        "codeFields": [
+          {
+            "codeValue": "HR",
+            "nameCode": {
+              "codeValue": "SalaryType"
+            },
+            "shortName": "Hourly"
+          },
+          {
+            "codeValue": "RANGE",
+            "nameCode": {
+              "codeValue": "SalaryRangeType"
+            },
+            "shortName": "RANGE"
+          }
+        ],
+        "dateFields": [
+          {
+            "dateValue": "2026-10-22T13:26Z",
+            "nameCode": {
+              "codeValue": "PostingDate"
+            }
+          },
+          {
+            "dateValue": "2026-11-07T15:38Z",
+            "nameCode": {
+              "codeValue": "CurrentServerDateTime"
+            }
+          }
+        ],
+        "indicatorFields": [
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "PriortyStatusFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "InternalPostingFlag"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "MinValue"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsVsidApplicable"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForExtPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForIntPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsMonetaryFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsNonMonetaryFlag"
+            }
+          }
+        ],
+        "numberFields": [
+          {
+            "categoryCode": {
+              "codeValue": "ApplicantCount"
+            },
+            "numberValue": 0.0
+          },
+          {
+            "categoryCode": {
+              "codeValue": "AwardAmount"
+            }
+          }
+        ],
+        "stringFields": [
+          {
+            "nameCode": {
+              "codeValue": "ExternalJobID"
+            },
+            "stringValue": "23917"
+          },
+          {
+            "nameCode": {
+              "codeValue": "CareerCenterRefId"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "GuidelineOid"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "CurrencySymbolOrCode"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "JobClass"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "SalaryRange"
+            },
+            "stringValue": " Up to 21.96 (CAD) Hourly"
+          }
+        ]
+      },
+      "organizationalUnits": [],
+      "payGradeRange": {
+        "minimumRate": {
+          "amountValue": 0.0,
+          "currencyCode": "CAD"
+        },
+        "maximumRate": {
+          "amountValue": 21.96,
+          "currencyCode": "CAD"
+        }
+      },
+      "postDate": "2026-10-22T22:56:00",
+      "requisitionLocations": [
+        {
+          "address": {
+            "cityName": "Montreal",
+            "countrySubdivisionLevel1": {
+              "codeValue": "QC"
+            },
+            "postalCode": "H2Y 4B2"
+          },
+          "aliasNames": [],
+          "nameCode": {
+            "shortName": " Montreal, QC, CA"
+          }
+        }
+      ],
+      "requisitionTitle": "Administrative Coordinator",
+      "screeningRequirements": [],
+      "sponsoredVisaTypeCodes": []
+    }
+  ],
+  "meta": {
+    "startSequence": 1,
+    "totalNumber": 3,
+    "links": [
+      {
+        "schema": "LOCATION",
+        "payLoadArguments": [
+          {
+            "argumentPath": "55341264_1",
+            "argumentValue": "Vancouver, BC, CA"
+          },
+          {
+            "argumentPath": "55341690_1",
+            "argumentValue": "Toronto, ON, CA"
+          },
+          {
+            "argumentPath": "55341513_1",
+            "argumentValue": "Halifax, NS, CA"
+          },
+          {
+            "argumentPath": "55341912_1",
+            "argumentValue": "Toronto, ON, CA"
+          },
+          {
+            "argumentPath": "55338950_1",
+            "argumentValue": "Calgary, AB, CA"
+          },
+          {
+            "argumentPath": "55342978_1",
+            "argumentValue": "Montreal, QC, CA"
+          },
+          {
+            "argumentPath": "55339469_1",
+            "argumentValue": "Edmonton, AB, CA"
+          },
+          {
+            "argumentPath": "55342209_1",
+            "argumentValue": "Montreal, QC, CA"
+          },
+          {
+            "argumentPath": "55341414_1",
+            "argumentValue": "Winnipeg, MB, CA"
+          },
+          {
+            "argumentPath": "55342761_1",
+            "argumentValue": "Montreal, QC, CA"
+          },
+          {
+            "argumentPath": "55342005_1",
+            "argumentValue": "Ottawa, ON, CA"
+          },
+          {
+            "argumentPath": "55342484_1",
+            "argumentValue": "Montreal, QC, CA"
+          },
+          {
+            "argumentPath": "55338820_1",
+            "argumentValue": "Toronto, ON, CA"
+          }
+        ]
+      }
+    ]
+  }
+}

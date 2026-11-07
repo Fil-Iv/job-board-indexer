@@ -1,5 +1,23 @@
 {
   "examples": {
+    "https://app.trinethire.com/companies/130621-curative-hr-llc/jobs": {
+      "url": "https://app.trinethire.com/companies/130621-curative-hr-llc/jobs",
+      "last_run_at": "2026-11-07T20:43:22+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 18,
+      "last_error": null,
+      "last_success_at": "2026-11-07T20:43:22+00:00",
+      "last_success_jobs": 18
+    },
+    "https://app.trinethire.com/companies/203100-precor-incorporated/jobs": {
+      "url": "https://app.trinethire.com/companies/203100-precor-incorporated/jobs",
+      "last_run_at": "2026-11-07T20:43:23+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 17,
+      "last_error": null,
+      "last_success_at": "2026-11-07T20:43:23+00:00",
+      "last_success_jobs": 17
+    },
     "https://apply.workable.com/blueground/": {
       "url": "https://apply.workable.com/blueground/",
       "last_run_at": "2026-11-07T16:59:13+00:00",
@@ -251,6 +269,24 @@
       "last_error": null,
       "last_success_at": "2026-11-07T18:58:13+00:00",
       "last_success_jobs": 23
+    },
+    "https://franklin-companies.hiringthing.com/": {
+      "url": "https://franklin-companies.hiringthing.com/",
+      "last_run_at": "2026-11-07T20:43:22+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 41,
+      "last_error": null,
+      "last_success_at": "2026-11-07T20:43:22+00:00",
+      "last_success_jobs": 41
+    },
+    "https://friendsofthechildren-national.hiringthing.com/": {
+      "url": "https://friendsofthechildren-national.hiringthing.com/",
+      "last_run_at": "2026-11-07T20:43:25+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 12,
+      "last_error": null,
+      "last_success_at": "2026-11-07T20:43:25+00:00",
+      "last_success_jobs": 12
     },
     "https://ilsos.applytojob.com/apply": {
       "url": "https://ilsos.applytojob.com/apply",
@@ -567,6 +603,24 @@
       "last_success_at": "2026-11-07T16:59:14+00:00",
       "last_success_jobs": 25
     },
+    "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=5535": {
+      "url": "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=5535",
+      "last_run_at": "2026-11-07T20:43:23+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 869,
+      "last_error": null,
+      "last_success_at": "2026-11-07T20:43:23+00:00",
+      "last_success_jobs": 869
+    },
+    "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=7856": {
+      "url": "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=7856",
+      "last_run_at": "2026-11-07T20:43:22+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 44,
+      "last_error": null,
+      "last_success_at": "2026-11-07T20:43:22+00:00",
+      "last_success_jobs": 44
+    },
     "https://recruiting.paylocity.com/recruiting/jobs/All/4bcae427-e9e7-4d6d-9772-73ef70c3a278/Adapt-Health-LLC": {
       "url": "https://recruiting.paylocity.com/recruiting/jobs/All/4bcae427-e9e7-4d6d-9772-73ef70c3a278/Adapt-Health-LLC",
       "last_run_at": "2026-11-07T18:58:14+00:00",
@@ -665,6 +719,24 @@
       "last_error": null,
       "last_success_at": "2026-11-07T17:07:06+00:00",
       "last_success_jobs": 3788
+    },
+    "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=8d16626f-48ae-43f6-b57e-79339726ccf4&ccId=19000101_000001&lang=en_CA": {
+      "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=8d16626f-48ae-43f6-b57e-79339726ccf4&ccId=19000101_000001&lang=en_CA",
+      "last_run_at": "2026-11-07T20:43:24+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 3,
+      "last_error": null,
+      "last_success_at": "2026-11-07T20:43:24+00:00",
+      "last_success_jobs": 3
+    },
+    "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=d4d64eb4-d344-423a-868e-ae5d37380d2f&ccId=19000101_000001&lang=en_US": {
+      "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=d4d64eb4-d344-423a-868e-ae5d37380d2f&ccId=19000101_000001&lang=en_US",
+      "last_run_at": "2026-11-07T20:43:23+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 7,
+      "last_error": null,
+      "last_success_at": "2026-11-07T20:43:23+00:00",
+      "last_success_jobs": 7
     },
     "https://www.careers-page.com/eastwest-bank": {
       "url": "https://www.careers-page.com/eastwest-bank",

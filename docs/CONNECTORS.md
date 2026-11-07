@@ -1,9 +1,9 @@
 # Connectors
 
-A connector turns one platform's public job data into `RawJob`s. There are 40 today
-(25 API/feed/HTML connectors + 15 on the generic sitemap + JSON-LD base);
+A connector turns one platform's public job data into `RawJob`s. There are 44 today
+(28 API/feed/HTML connectors + 16 on the generic sitemap + JSON-LD base);
 [COVERAGE.md](COVERAGE.md) lists all 78 target platforms, live job counts for two real
-employers per done platform, and the plan for the remaining 38.
+employers per done platform, and the plan for the remaining 34.
 
 Every connector module starts with a docstring giving its exact endpoints, response shape,
 URL formats it recognises and the quirks found while building it. That docstring is the
@@ -58,6 +58,7 @@ closed). Long fetches can save progress through `self.checkpoint`
 
 | Platform | Module | Board identifier | Requests per crawl | Notes |
 |---|---|---|---|---|
+| ADP Workforce Now | `adp` | `cid` (+ `:lang` outside `en_US`) | 1 per 100 jobs + detail per new/changed | Career-center JSON; `$skip` is the 1-based start, count checked against `totalNumber` |
 | Ashby | `ashby` | job-board name | 1 | Posting API with `includeCompensation=true` |
 | BambooHR | `bamboohr` | subdomain | 1 list + detail per new/changed job | `/careers/list`, `/careers/{id}/detail` (404 = closed) |
 | Breezy HR | `breezy` | subdomain | 1 | `/json?verbose=true` (descriptions only with `verbose`) |
@@ -65,6 +66,7 @@ closed). Long fetches can save progress through `self.checkpoint`
 | Gem | `gem` | slug | 1 | `api.gem.com/job_board/v0/{slug}/job_posts/` |
 | Greenhouse | `greenhouse` | board token | 1 | `content=true&pay_transparency=true`: descriptions + pay ranges |
 | HiBob | `hibob` | subdomain | 1 | `/api/job-ad` with header `companyIdentifier: {subdomain}` (401 without it) |
+| HireBridge | `hirebridge` | cid | 1 + detail per new/changed | ASP.NET list, links per location grouped by `jid`; detail elements by id suffix; job-drop guard |
 | HireHive | `hirehive` | subdomain | 1 | `/api/v1/jobs`; `nextPage` (take/skip) followed, `publishedJobsCount` checked; dates in Unix seconds |
 | JazzHR | `jazzhr` | subdomain | 1 + detail per new/changed | `/apply` HTML list (no count: job-drop guard) + `#job-description` from the job page |
 | Jobvite | `jobvite` | company slug | 1 per 50 jobs + detail per new/changed | Paged `/search/?p=` HTML checked against "1-50 of N" (`/jobs` is incomplete); description from page HTML, JSON-LD only on some tenants |
@@ -79,6 +81,7 @@ closed). Long fetches can save progress through `self.checkpoint`
 | Rippling | `rippling` | slug | 1 list + detail per new/changed | One list row per job *location*; grouped into one posting |
 | SmartRecruiters | `smartrecruiters` | company | page 0 + `api/more` pages (~24 jobs each) | API is refused by robots.txt, so the public career pages are used (API path behind `SMARTRECRUITERS_USE_API`, only with permission) |
 | Teamtailor | `teamtailor` | career-site host | 1 (+ HTML cross-check on big feeds) | `/jobs.rss`; works on custom domains |
+| TriNet Hire | `trinet` | company id | 1 + detail per new/changed | `table.job-list` + `div.job-descr`/`ul.job-meta`; job-drop guard |
 | Trakstar Hire | `trakstar` | account | 1 per 100 jobs | `jsapi.recruiterbox.com` (former Recruiterbox); no posting date |
 | Workable | `workable` | account | 1 | Widget API with `details=true` |
 | Workday | `workday` | `host/tenant/site` | 1 per 20 jobs + detail per new/changed | CXS API; 2,000-result cap split by facets; **resumable** (checkpoint) |
@@ -107,6 +110,7 @@ platform on custom domains.
 |---|---|---|---|
 | ApplicantPro, iSolved Hire | `applicantpro`, `isolvedhire` | `{tenant}.{domain}/job_site_map.xml` | tenant |
 | GoHire | `gohire` | paged board `jobs.gohire.io/{board}/?page={n}` checked against "Total N" (overrides `listed_pages`; `validThrough` ignored) | board slug |
+| HiringThing | `hiringthing` | `{company}.hiringthing.com/api/rss.xml` (RSS feed; no per-tenant sitemap) | host |
 | Hireology | `hireology` | `careers.hireology.com/sitemap_index.xml` (all tenants, ~8 MB) | slug |
 | iCIMS | `icims` | `{host}/sitemap.xml` | host |
 | Jobboardly, JBoard, Niceboard, SmartJobBoard | `jobboardly`, `jboard`, `niceboard`, `smartjobboard` | `{board}/sitemap.xml` | host |

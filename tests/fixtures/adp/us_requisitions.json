@@ -1,0 +1,1193 @@
+{
+  "jobRequisitions": [
+    {
+      "itemID": "9200864836847_1",
+      "postingInstructions": [],
+      "links": [],
+      "clientRequisitionID": "1014",
+      "customFieldGroup": {
+        "codeFields": [
+          {
+            "codeValue": "HR",
+            "nameCode": {
+              "codeValue": "SalaryType"
+            },
+            "shortName": "Hourly"
+          },
+          {
+            "codeValue": "RANGE",
+            "nameCode": {
+              "codeValue": "SalaryRangeType"
+            },
+            "shortName": "RANGE"
+          }
+        ],
+        "dateFields": [
+          {
+            "dateValue": "2026-08-13T21:25Z",
+            "nameCode": {
+              "codeValue": "PostingDate"
+            }
+          },
+          {
+            "dateValue": "2026-11-07T15:39Z",
+            "nameCode": {
+              "codeValue": "CurrentServerDateTime"
+            }
+          }
+        ],
+        "indicatorFields": [
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "PriortyStatusFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "InternalPostingFlag"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "MinValue"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "IsVsidApplicable"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForExtPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForIntPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsMonetaryFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsNonMonetaryFlag"
+            }
+          }
+        ],
+        "numberFields": [
+          {
+            "categoryCode": {
+              "codeValue": "ApplicantCount"
+            },
+            "numberValue": 0.0
+          },
+          {
+            "categoryCode": {
+              "codeValue": "AwardAmount"
+            }
+          }
+        ],
+        "stringFields": [
+          {
+            "nameCode": {
+              "codeValue": "ExternalJobID"
+            },
+            "stringValue": "552809"
+          },
+          {
+            "nameCode": {
+              "codeValue": "CareerCenterRefId"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "GuidelineOid"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "CurrencySymbolOrCode"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "JobClass"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "SalaryRange"
+            },
+            "stringValue": " Up to 16 (USD) Hourly"
+          }
+        ]
+      },
+      "organizationalUnits": [],
+      "payGradeRange": {
+        "minimumRate": {
+          "amountValue": 0.0,
+          "currencyCode": "USD"
+        },
+        "maximumRate": {
+          "amountValue": 16.0,
+          "currencyCode": "USD"
+        }
+      },
+      "postDate": "2026-08-14T06:55:00",
+      "requisitionLocations": [
+        {
+          "address": {
+            "cityName": "Miami Beach",
+            "countrySubdivisionLevel1": {
+              "codeValue": "FL"
+            },
+            "postalCode": "33139"
+          },
+          "aliasNames": [],
+          "nameCode": {
+            "shortName": " Miami Beach, FL, US"
+          }
+        }
+      ],
+      "requisitionTitle": "Prep Cook",
+      "screeningRequirements": [],
+      "sponsoredVisaTypeCodes": [],
+      "workLevelCode": {
+        "shortName": "FullTime"
+      }
+    },
+    {
+      "itemID": "9201204842113_1",
+      "postingInstructions": [],
+      "links": [],
+      "clientRequisitionID": "1015",
+      "customFieldGroup": {
+        "codeFields": [
+          {
+            "codeValue": "HR",
+            "nameCode": {
+              "codeValue": "SalaryType"
+            },
+            "shortName": "Hourly"
+          },
+          {
+            "codeValue": "RANGE",
+            "nameCode": {
+              "codeValue": "SalaryRangeType"
+            },
+            "shortName": "RANGE"
+          }
+        ],
+        "dateFields": [
+          {
+            "dateValue": "2026-08-13T21:18Z",
+            "nameCode": {
+              "codeValue": "PostingDate"
+            }
+          },
+          {
+            "dateValue": "2026-11-07T15:39Z",
+            "nameCode": {
+              "codeValue": "CurrentServerDateTime"
+            }
+          }
+        ],
+        "indicatorFields": [
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "PriortyStatusFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "InternalPostingFlag"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "MinValue"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "IsVsidApplicable"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForExtPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForIntPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsMonetaryFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsNonMonetaryFlag"
+            }
+          }
+        ],
+        "numberFields": [
+          {
+            "categoryCode": {
+              "codeValue": "ApplicantCount"
+            },
+            "numberValue": 0.0
+          },
+          {
+            "categoryCode": {
+              "codeValue": "AwardAmount"
+            }
+          }
+        ],
+        "stringFields": [
+          {
+            "nameCode": {
+              "codeValue": "ExternalJobID"
+            },
+            "stringValue": "595354"
+          },
+          {
+            "nameCode": {
+              "codeValue": "CareerCenterRefId"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "GuidelineOid"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "CurrencySymbolOrCode"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "JobClass"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "SalaryRange"
+            },
+            "stringValue": " Up to 18 (USD) Hourly"
+          }
+        ]
+      },
+      "organizationalUnits": [],
+      "payGradeRange": {
+        "minimumRate": {
+          "amountValue": 0.0,
+          "currencyCode": "USD"
+        },
+        "maximumRate": {
+          "amountValue": 18.0,
+          "currencyCode": "USD"
+        }
+      },
+      "postDate": "2026-08-14T06:48:00",
+      "requisitionLocations": [
+        {
+          "address": {
+            "cityName": "Miami Beach",
+            "countrySubdivisionLevel1": {
+              "codeValue": "FL"
+            },
+            "postalCode": "33139"
+          },
+          "aliasNames": [],
+          "nameCode": {
+            "shortName": " Miami Beach, FL, US"
+          }
+        }
+      ],
+      "requisitionTitle": "Line Cook",
+      "screeningRequirements": [],
+      "sponsoredVisaTypeCodes": [],
+      "workLevelCode": {
+        "shortName": "FullTime"
+      }
+    },
+    {
+      "itemID": "9200841302395_1",
+      "postingInstructions": [],
+      "links": [],
+      "clientRequisitionID": "1013",
+      "customFieldGroup": {
+        "codeFields": [
+          {
+            "codeValue": "HR",
+            "nameCode": {
+              "codeValue": "SalaryType"
+            },
+            "shortName": "Hourly"
+          },
+          {
+            "codeValue": "RANGE",
+            "nameCode": {
+              "codeValue": "SalaryRangeType"
+            },
+            "shortName": "RANGE"
+          }
+        ],
+        "dateFields": [
+          {
+            "dateValue": "2025-02-24T20:53Z",
+            "nameCode": {
+              "codeValue": "PostingDate"
+            }
+          },
+          {
+            "dateValue": "2026-11-07T15:39Z",
+            "nameCode": {
+              "codeValue": "CurrentServerDateTime"
+            }
+          }
+        ],
+        "indicatorFields": [
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "PriortyStatusFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "InternalPostingFlag"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "MinValue"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "IsVsidApplicable"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForExtPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForIntPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsMonetaryFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsNonMonetaryFlag"
+            }
+          }
+        ],
+        "numberFields": [
+          {
+            "categoryCode": {
+              "codeValue": "ApplicantCount"
+            },
+            "numberValue": 0.0
+          },
+          {
+            "categoryCode": {
+              "codeValue": "AwardAmount"
+            }
+          }
+        ],
+        "stringFields": [
+          {
+            "nameCode": {
+              "codeValue": "ExternalJobID"
+            },
+            "stringValue": "548368"
+          },
+          {
+            "nameCode": {
+              "codeValue": "CareerCenterRefId"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "GuidelineOid"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "CurrencySymbolOrCode"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "JobClass"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "SalaryRange"
+            },
+            "stringValue": "14 to 15 (USD) Hourly"
+          }
+        ]
+      },
+      "organizationalUnits": [],
+      "payGradeRange": {
+        "minimumRate": {
+          "amountValue": 14.0,
+          "currencyCode": "USD"
+        },
+        "maximumRate": {
+          "amountValue": 15.0,
+          "currencyCode": "USD"
+        }
+      },
+      "postDate": "2025-02-25T07:23:00",
+      "requisitionLocations": [
+        {
+          "address": {
+            "cityName": "Miami Beach",
+            "countrySubdivisionLevel1": {
+              "codeValue": "FL"
+            },
+            "postalCode": "33139"
+          },
+          "aliasNames": [],
+          "nameCode": {
+            "shortName": " Miami Beach, FL, US"
+          }
+        }
+      ],
+      "requisitionTitle": "Dishwasher",
+      "screeningRequirements": [],
+      "sponsoredVisaTypeCodes": []
+    },
+    {
+      "itemID": "9200838125856_1",
+      "postingInstructions": [],
+      "links": [],
+      "clientRequisitionID": "1012",
+      "customFieldGroup": {
+        "codeFields": [
+          {
+            "codeValue": "HR",
+            "nameCode": {
+              "codeValue": "SalaryType"
+            },
+            "shortName": "Hourly"
+          },
+          {
+            "codeValue": "RANGE",
+            "nameCode": {
+              "codeValue": "SalaryRangeType"
+            },
+            "shortName": "RANGE"
+          }
+        ],
+        "dateFields": [
+          {
+            "dateValue": "2025-02-16T12:57Z",
+            "nameCode": {
+              "codeValue": "PostingDate"
+            }
+          },
+          {
+            "dateValue": "2026-11-07T15:39Z",
+            "nameCode": {
+              "codeValue": "CurrentServerDateTime"
+            }
+          }
+        ],
+        "indicatorFields": [
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "PriortyStatusFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "InternalPostingFlag"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "MinValue"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "IsVsidApplicable"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForExtPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForIntPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsMonetaryFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsNonMonetaryFlag"
+            }
+          }
+        ],
+        "numberFields": [
+          {
+            "categoryCode": {
+              "codeValue": "ApplicantCount"
+            },
+            "numberValue": 0.0
+          },
+          {
+            "categoryCode": {
+              "codeValue": "AwardAmount"
+            }
+          }
+        ],
+        "stringFields": [
+          {
+            "nameCode": {
+              "codeValue": "ExternalJobID"
+            },
+            "stringValue": "547894"
+          },
+          {
+            "nameCode": {
+              "codeValue": "CareerCenterRefId"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "GuidelineOid"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "CurrencySymbolOrCode"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "JobClass"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "SalaryRange"
+            },
+            "stringValue": "15 to 17 (USD) Hourly"
+          }
+        ]
+      },
+      "organizationalUnits": [],
+      "payGradeRange": {
+        "minimumRate": {
+          "amountValue": 15.0,
+          "currencyCode": "USD"
+        },
+        "maximumRate": {
+          "amountValue": 17.0,
+          "currencyCode": "USD"
+        }
+      },
+      "postDate": "2025-02-16T23:27:00",
+      "requisitionLocations": [
+        {
+          "address": {
+            "cityName": "Miami Beach",
+            "countrySubdivisionLevel1": {
+              "codeValue": "FL"
+            },
+            "postalCode": "33139"
+          },
+          "aliasNames": [],
+          "nameCode": {
+            "shortName": " Miami Beach, FL, US"
+          }
+        }
+      ],
+      "requisitionTitle": "Hostess",
+      "screeningRequirements": [],
+      "sponsoredVisaTypeCodes": []
+    },
+    {
+      "itemID": "9200838124644_1",
+      "postingInstructions": [],
+      "links": [],
+      "clientRequisitionID": "1009",
+      "customFieldGroup": {
+        "dateFields": [
+          {
+            "dateValue": "2025-02-16T12:55Z",
+            "nameCode": {
+              "codeValue": "PostingDate"
+            }
+          },
+          {
+            "dateValue": "2026-11-07T15:39Z",
+            "nameCode": {
+              "codeValue": "CurrentServerDateTime"
+            }
+          }
+        ],
+        "indicatorFields": [
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "PriortyStatusFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "InternalPostingFlag"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "MinValue"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "IsVsidApplicable"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForExtPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForIntPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsMonetaryFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsNonMonetaryFlag"
+            }
+          }
+        ],
+        "numberFields": [
+          {
+            "categoryCode": {
+              "codeValue": "ApplicantCount"
+            },
+            "numberValue": 0.0
+          },
+          {
+            "categoryCode": {
+              "codeValue": "AwardAmount"
+            }
+          }
+        ],
+        "stringFields": [
+          {
+            "nameCode": {
+              "codeValue": "ExternalJobID"
+            },
+            "stringValue": "547891"
+          },
+          {
+            "nameCode": {
+              "codeValue": "CareerCenterRefId"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "GuidelineOid"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "CurrencySymbolOrCode"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "JobClass"
+            }
+          }
+        ]
+      },
+      "organizationalUnits": [],
+      "postDate": "2025-02-16T23:25:00",
+      "requisitionLocations": [
+        {
+          "address": {
+            "cityName": "Miami Beach",
+            "countrySubdivisionLevel1": {
+              "codeValue": "FL"
+            },
+            "postalCode": "33139"
+          },
+          "aliasNames": [],
+          "nameCode": {
+            "shortName": " Miami Beach, FL, US"
+          }
+        }
+      ],
+      "requisitionTitle": "Restaurant Busser",
+      "screeningRequirements": [],
+      "sponsoredVisaTypeCodes": []
+    },
+    {
+      "itemID": "9200838124888_1",
+      "postingInstructions": [],
+      "links": [],
+      "clientRequisitionID": "1010",
+      "customFieldGroup": {
+        "dateFields": [
+          {
+            "dateValue": "2025-02-16T12:54Z",
+            "nameCode": {
+              "codeValue": "PostingDate"
+            }
+          },
+          {
+            "dateValue": "2026-11-07T15:39Z",
+            "nameCode": {
+              "codeValue": "CurrentServerDateTime"
+            }
+          }
+        ],
+        "indicatorFields": [
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "PriortyStatusFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "InternalPostingFlag"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "MinValue"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "IsVsidApplicable"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForExtPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForIntPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsMonetaryFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsNonMonetaryFlag"
+            }
+          }
+        ],
+        "numberFields": [
+          {
+            "categoryCode": {
+              "codeValue": "ApplicantCount"
+            },
+            "numberValue": 0.0
+          },
+          {
+            "categoryCode": {
+              "codeValue": "AwardAmount"
+            }
+          }
+        ],
+        "stringFields": [
+          {
+            "nameCode": {
+              "codeValue": "ExternalJobID"
+            },
+            "stringValue": "547892"
+          },
+          {
+            "nameCode": {
+              "codeValue": "CareerCenterRefId"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "GuidelineOid"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "CurrencySymbolOrCode"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "JobClass"
+            }
+          }
+        ]
+      },
+      "organizationalUnits": [],
+      "postDate": "2025-02-16T23:24:00",
+      "requisitionLocations": [
+        {
+          "address": {
+            "cityName": "Miami Beach",
+            "countrySubdivisionLevel1": {
+              "codeValue": "FL"
+            },
+            "postalCode": "33139"
+          },
+          "aliasNames": [],
+          "nameCode": {
+            "shortName": " Miami Beach, FL, US"
+          }
+        }
+      ],
+      "requisitionTitle": "Restaurant Server",
+      "screeningRequirements": [],
+      "sponsoredVisaTypeCodes": []
+    },
+    {
+      "itemID": "9200838125208_1",
+      "postingInstructions": [],
+      "links": [],
+      "clientRequisitionID": "1011",
+      "customFieldGroup": {
+        "dateFields": [
+          {
+            "dateValue": "2025-02-16T12:53Z",
+            "nameCode": {
+              "codeValue": "PostingDate"
+            }
+          },
+          {
+            "dateValue": "2026-11-07T15:39Z",
+            "nameCode": {
+              "codeValue": "CurrentServerDateTime"
+            }
+          }
+        ],
+        "indicatorFields": [
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "PriortyStatusFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "InternalPostingFlag"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "MinValue"
+            }
+          },
+          {
+            "indicatorValue": true,
+            "nameCode": {
+              "codeValue": "IsVsidApplicable"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForExtPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsSassDlReqForIntPostFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsMonetaryFlag"
+            }
+          },
+          {
+            "indicatorValue": false,
+            "nameCode": {
+              "codeValue": "IsNonMonetaryFlag"
+            }
+          }
+        ],
+        "numberFields": [
+          {
+            "categoryCode": {
+              "codeValue": "ApplicantCount"
+            },
+            "numberValue": 0.0
+          },
+          {
+            "categoryCode": {
+              "codeValue": "AwardAmount"
+            }
+          }
+        ],
+        "stringFields": [
+          {
+            "nameCode": {
+              "codeValue": "ExternalJobID"
+            },
+            "stringValue": "547893"
+          },
+          {
+            "nameCode": {
+              "codeValue": "CareerCenterRefId"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "GuidelineOid"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "CurrencySymbolOrCode"
+            }
+          },
+          {
+            "nameCode": {
+              "codeValue": "JobClass"
+            }
+          }
+        ]
+      },
+      "organizationalUnits": [],
+      "postDate": "2025-02-16T23:23:00",
+      "requisitionLocations": [
+        {
+          "address": {
+            "cityName": "Miami Beach",
+            "countrySubdivisionLevel1": {
+              "codeValue": "FL"
+            },
+            "postalCode": "33139"
+          },
+          "aliasNames": [],
+          "nameCode": {
+            "shortName": " Miami Beach, FL, US"
+          }
+        }
+      ],
+      "requisitionTitle": "Bartender",
+      "screeningRequirements": [],
+      "sponsoredVisaTypeCodes": [],
+      "workLevelCode": {
+        "shortName": "FullTime"
+      }
+    }
+  ],
+  "meta": {
+    "startSequence": 1,
+    "totalNumber": 7,
+    "links": [
+      {
+        "schema": "LOCATION",
+        "payLoadArguments": [
+          {
+            "argumentPath": "9200294870354_1",
+            "argumentValue": "Miami Beach, FL, US"
+          }
+        ]
+      },
+      {
+        "schema": "WORKER CATEGORY",
+        "payLoadArguments": [
+          {
+            "argumentPath": "72674:0001",
+            "argumentValue": "Apprentice"
+          },
+          {
+            "argumentPath": "72674:0002",
+            "argumentValue": "Casual"
+          },
+          {
+            "argumentPath": "1:132",
+            "argumentValue": "Consultant"
+          },
+          {
+            "argumentPath": "1:133",
+            "argumentValue": "Contract"
+          },
+          {
+            "argumentPath": "72674:0003",
+            "argumentValue": "Contractor - 1099"
+          },
+          {
+            "argumentPath": "72674:0004",
+            "argumentValue": "Contractor - 3rd Party"
+          },
+          {
+            "argumentPath": "72674:0005",
+            "argumentValue": "Expatriate"
+          },
+          {
+            "argumentPath": "1:135",
+            "argumentValue": "FullTime"
+          },
+          {
+            "argumentPath": "72674:0006",
+            "argumentValue": "Intern"
+          },
+          {
+            "argumentPath": "1:137",
+            "argumentValue": "PartTime"
+          },
+          {
+            "argumentPath": "72674:0007",
+            "argumentValue": "Resident Alien"
+          },
+          {
+            "argumentPath": "72674:0008",
+            "argumentValue": "Retired"
+          },
+          {
+            "argumentPath": "1:139",
+            "argumentValue": "Seasonal"
+          },
+          {
+            "argumentPath": "1:141",
+            "argumentValue": "Student"
+          },
+          {
+            "argumentPath": "1:140",
+            "argumentValue": "Summer"
+          },
+          {
+            "argumentPath": "1:142",
+            "argumentValue": "Temporary"
+          },
+          {
+            "argumentPath": "72674:0009",
+            "argumentValue": "Trainee"
+          }
+        ]
+      },
+      {
+        "schema": "JOB CLASS",
+        "payLoadArguments": [
+          {
+            "argumentPath": "1:150",
+            "argumentValue": "Clerical"
+          },
+          {
+            "argumentPath": "1:151",
+            "argumentValue": "Management"
+          },
+          {
+            "argumentPath": "1:152",
+            "argumentValue": "Manual Labor"
+          },
+          {
+            "argumentPath": "1:153",
+            "argumentValue": "Professional"
+          },
+          {
+            "argumentPath": "1:155",
+            "argumentValue": "Sales "
+          },
+          {
+            "argumentPath": "1:154",
+            "argumentValue": "Senior Management"
+          },
+          {
+            "argumentPath": "1:156",
+            "argumentValue": "Technical"
+          }
+        ]
+      }
+    ]
+  }
+}

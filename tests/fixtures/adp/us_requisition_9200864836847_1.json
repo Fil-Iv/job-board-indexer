@@ -1,0 +1,181 @@
+{
+  "itemID": "9200864836847_1",
+  "postingInstructions": [],
+  "links": [],
+  "clientRequisitionID": "1014",
+  "customFieldGroup": {
+    "codeFields": [
+      {
+        "codeValue": "HR",
+        "nameCode": {
+          "codeValue": "SalaryType"
+        },
+        "shortName": "Hourly"
+      },
+      {
+        "codeValue": "FIXED",
+        "nameCode": {
+          "codeValue": "SalaryRangeType"
+        },
+        "shortName": "FIXED"
+      }
+    ],
+    "dateFields": [
+      {
+        "dateValue": "2026-08-13T21:25Z",
+        "nameCode": {
+          "codeValue": "PostingDate"
+        }
+      },
+      {
+        "dateValue": "2026-11-07T15:38Z",
+        "nameCode": {
+          "codeValue": "CurrentServerDateTime"
+        }
+      }
+    ],
+    "indicatorFields": [
+      {
+        "indicatorValue": false,
+        "nameCode": {
+          "codeValue": "PriortyStatusFlag"
+        }
+      },
+      {
+        "indicatorValue": false,
+        "nameCode": {
+          "codeValue": "InternalPostingFlag"
+        }
+      },
+      {
+        "indicatorValue": true,
+        "nameCode": {
+          "codeValue": "MinValue"
+        }
+      },
+      {
+        "indicatorValue": true,
+        "nameCode": {
+          "codeValue": "IsVsidApplicable"
+        }
+      },
+      {
+        "indicatorValue": false,
+        "nameCode": {
+          "codeValue": "IsSassDlReqForExtPostFlag"
+        }
+      },
+      {
+        "indicatorValue": false,
+        "nameCode": {
+          "codeValue": "IsSassDlReqForIntPostFlag"
+        }
+      },
+      {
+        "indicatorValue": false,
+        "nameCode": {
+          "codeValue": "IsMonetaryFlag"
+        }
+      },
+      {
+        "indicatorValue": false,
+        "nameCode": {
+          "codeValue": "IsNonMonetaryFlag"
+        }
+      }
+    ],
+    "numberFields": [
+      {
+        "categoryCode": {
+          "codeValue": "ApplicantCount"
+        },
+        "numberValue": 10.0
+      },
+      {
+        "categoryCode": {
+          "codeValue": "AwardAmount"
+        }
+      }
+    ],
+    "stringFields": [
+      {
+        "nameCode": {
+          "codeValue": "ExternalJobID"
+        },
+        "stringValue": "552809"
+      },
+      {
+        "nameCode": {
+          "codeValue": "CareerCenterRefId"
+        }
+      },
+      {
+        "nameCode": {
+          "codeValue": "GuidelineOid"
+        }
+      },
+      {
+        "nameCode": {
+          "codeValue": "CurrencySymbolOrCode"
+        }
+      },
+      {
+        "nameCode": {
+          "codeValue": "SassStatus"
+        },
+        "stringValue": "null"
+      },
+      {
+        "nameCode": {
+          "codeValue": "HomeDepartment"
+        },
+        "stringValue": "004 - Cook"
+      },
+      {
+        "nameCode": {
+          "codeValue": "JobClass"
+        }
+      },
+      {
+        "nameCode": {
+          "codeValue": "SalaryRange"
+        },
+        "stringValue": " Up to 16 (USD) Hourly"
+      }
+    ]
+  },
+  "organizationalUnits": [],
+  "payGradeRange": {
+    "minimumRate": {
+      "amountValue": 0.0,
+      "currencyCode": "USD"
+    },
+    "maximumRate": {
+      "amountValue": 16.0,
+      "currencyCode": "USD"
+    }
+  },
+  "postDate": "2026-08-14T06:55:00",
+  "requisitionDescription": "<div><div><div><p><strong>About the Role:</strong></p><p>The Prep Cook plays a crucial role in the kitchen by ensuring that all ingredients are prepped and ready for the chefs to create delicious meals. This position requires a keen attention to detail and a strong understanding of food safety and sanitation practices. The Prep Cook will work closely with the kitchen team to maintain a smooth workflow and contribute to the overall efficiency of food preparation. By preparing ingredients in advance, the Prep Cook helps to minimize wait times for customers and enhances the dining experience. Ultimately, this role is essential for maintaining high standards of quality and consistency in the dishes served.</p><p><strong>Minimum Qualifications:</strong></p><ul><li>High school diploma or equivalent.</li><li>Previous experience in a kitchen or food preparation role preferred.</li><li>Basic knowledge of food safety and sanitation practices.</li></ul><p><strong>Preferred Qualifications:</strong></p><ul><li>Culinary school education or relevant certification.</li><li>Experience with various cooking techniques and equipment.</li><li>Ability to work in a fast-paced environment and handle multiple tasks simultaneously.</li></ul><p><strong>Responsibilities:</strong></p><ul><li>Prepare and chop vegetables, fruits, and other ingredients as per the chef&#39;s specifications.</li><li>Measure and mix ingredients according to recipes to ensure consistency in flavor and presentation.</li><li>Maintain cleanliness and organization of the kitchen workspace, including proper storage of food items.</li><li>Assist in inventory management by tracking supplies and notifying the kitchen manager of low stock.</li><li>Follow all food safety and sanitation guidelines to ensure a safe working environment.</li></ul><p><strong>Skills:</strong></p><p>The required skills for this position include strong knife skills and the ability to follow recipes accurately, which are essential for preparing ingredients efficiently. Attention to detail is crucial, as it ensures that all food items are prepared to the chef&#39;s specifications, maintaining the quality of the dishes. Time management skills are also important, as the Prep Cook must prioritize tasks to keep up with the kitchen&#39;s demands. Preferred skills, such as knowledge of various cooking techniques, enhance the Prep Cook&#39;s ability to contribute creatively to the kitchen team. Overall, both required and preferred skills are utilized daily to ensure a seamless operation and high-quality food service.</p></div></div></div>\n",
+  "requisitionLocations": [
+    {
+      "address": {
+        "cityName": "Miami Beach",
+        "countrySubdivisionLevel1": {
+          "codeValue": "FL"
+        },
+        "postalCode": "33139"
+      },
+      "aliasNames": [],
+      "nameCode": {
+        "shortName": " Miami Beach, FL, US"
+      }
+    }
+  ],
+  "requisitionTitle": "Prep Cook",
+  "screeningRequirements": [],
+  "sponsoredVisaTypeCodes": [],
+  "workLevelCode": {
+    "shortName": "FullTime"
+  }
+}
