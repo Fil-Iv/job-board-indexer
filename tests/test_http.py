@@ -142,3 +142,40 @@ async def test_robots_wildcards_are_respected() -> None:
         await http.get("https://example.test/jobs/1")
         with pytest.raises(RobotsDisallowedError):
             await http.get("https://example.test/jobs/1/apply")
+
+
+async def test_robots_txt_cache_expires(monkeypatch: pytest.MonkeyPatch) -> None:
+    """A long-running worker re-reads robots.txt: after 24 h, or after 10 min when the
+    last attempt failed (5xx = disallow all, which must not stick)."""
+    robots_status = [503]
+    seen: list[httpx.Request] = []
+
+    def handle(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        if request.url.path == "/robots.txt":
+            return httpx.Response(robots_status[0], text=ROBOTS)
+        return httpx.Response(200)
+
+    clock = [1000.0]
+    monkeypatch.setattr("jobindex.http._robots_clock", lambda: clock[0])
+    async with _client(httpx.MockTransport(handle)) as http:
+        with pytest.raises(RobotsDisallowedError):
+            await http.get("https://example.test/jobs")
+        robots_status[0] = 200
+        clock[0] += 599
+        with pytest.raises(RobotsDisallowedError):  # still cached
+            await http.get("https://example.test/jobs")
+        clock[0] += 2
+        await http.get("https://example.test/jobs")  # re-fetched: allowed now
+        clock[0] += 23 * 3600
+        await http.get("https://example.test/jobs")
+        clock[0] += 3600
+        await http.get("https://example.test/jobs")
+    assert [r.url.path for r in seen] == [
+        "/robots.txt",
+        "/robots.txt",
+        "/jobs",
+        "/jobs",
+        "/robots.txt",
+        "/jobs",
+    ]

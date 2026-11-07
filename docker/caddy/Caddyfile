@@ -1,0 +1,26 @@
+# HTTPS reverse proxy for the API + search page. Caddy obtains and renews the
+# Let's Encrypt certificate for $DOMAIN automatically (ports 80 and 443 must be open).
+{
+	email {$ACME_EMAIL}
+}
+
+{$DOMAIN} {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	reverse_proxy app:8000 {
+		health_uri /health
+		health_interval 30s
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

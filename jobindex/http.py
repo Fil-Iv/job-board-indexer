@@ -3,7 +3,8 @@
 Enforces the crawling rules from CLAUDE.md:
 
 * a clear, configurable User-Agent;
-* ``robots.txt`` is fetched once per origin and respected (RFC 9309, see ``robots.py``);
+* ``robots.txt`` is fetched per origin, cached for 24 h (10 min when it could not be
+  fetched, which means "disallow all") and respected (RFC 9309, see ``robots.py``);
 * requests to one host start at least ``min_interval_per_host`` seconds apart (default 1s),
   or the host's ``Crawl-delay`` if that is longer;
 * timeouts, and retries with exponential backoff (+ jitter, honouring ``Retry-After``)
@@ -61,6 +62,18 @@ class _HostThrottle:
             self._last_start = time.monotonic()
 
 
+#: How long a fetched robots.txt is trusted (RFC 9309 §2.4: at most 24 hours). The worker
+#: keeps one client for days, so entries must expire.
+ROBOTS_TTL_SECONDS = 24 * 3600
+#: Unreachable / 5xx robots.txt means "disallow all"; retry it much sooner.
+ROBOTS_ERROR_TTL_SECONDS = 600
+
+
+def _robots_clock() -> float:
+    """Clock for robots.txt expiry (separate so tests can move it)."""
+    return time.monotonic()
+
+
 class HttpClient:
     def __init__(
         self,
@@ -86,6 +99,7 @@ class HttpClient:
         )
         self._throttles: dict[str, _HostThrottle] = {}
         self._robots: dict[str, RobotsTxt] = {}
+        self._robots_expires: dict[str, float] = {}  # origin -> _robots_clock() deadline
         #: HTTP status of each origin's robots.txt fetch (None = unreachable), for evidence.
         self.robots_status: dict[str, int | None] = {}
         self._robots_locks: dict[str, asyncio.Lock] = {}
@@ -219,8 +233,15 @@ class HttpClient:
         lock = self._robots_locks.setdefault(origin, asyncio.Lock())
         async with lock:
             robots = self._robots.get(origin)
-            if robots is None:
+            if robots is None or _robots_clock() >= self._robots_expires[origin]:
                 robots = self._robots[origin] = await self._load_robots(origin)
+                status = self.robots_status.get(origin)
+                ttl = (
+                    ROBOTS_ERROR_TTL_SECONDS
+                    if status is None or status >= 500
+                    else ROBOTS_TTL_SECONDS
+                )
+                self._robots_expires[origin] = _robots_clock() + ttl
                 delay = robots.crawl_delay(self.user_agent)
                 throttle = self._throttle_for(parts.netloc.lower())
                 if delay is not None and delay > throttle.min_interval:

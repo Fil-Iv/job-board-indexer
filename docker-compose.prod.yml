@@ -1,0 +1,150 @@
+# Production stack for one small VPS. See docs/DEPLOY.md.
+#
+#   docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build --wait
+#   (or: make prod-up)
+#
+# Services: db (PostgreSQL 16), migrate (one-shot `alembic upgrade head`), app (API +
+# search page), worker (crawl scheduler), caddy (HTTPS on 80/443), backup (nightly
+# pg_dump into ./backups). Only Caddy is reachable from outside.
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "20m"
+    max-file: "5"
+
+x-app: &app
+  build:
+    context: .
+    target: prod
+  restart: unless-stopped
+  logging: *logging
+  env_file: .env.prod
+  environment:
+    DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-jobindex}:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env.prod}@db:5432/${POSTGRES_DB:-jobindex}
+  depends_on:
+    migrate:
+      condition: service_completed_successfully
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-jobindex}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env.prod}
+      POSTGRES_DB: ${POSTGRES_DB:-jobindex}
+    # Sized for a 4 GB VPS; scale shared_buffers/effective_cache_size with RAM (25%/75%).
+    command:
+      - postgres
+      - -c
+      - shared_buffers=1GB
+      - -c
+      - effective_cache_size=3GB
+      - -c
+      - work_mem=16MB
+      - -c
+      - maintenance_work_mem=256MB
+      - -c
+      - max_connections=50
+    shm_size: 256mb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  migrate:
+    <<: *app
+    restart: "no"
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      db:
+        condition: service_healthy
+
+  app:
+    <<: *app
+    command:
+      - uvicorn
+      - jobindex.api.app:app
+      - --host=0.0.0.0
+      - --port=8000
+      - --workers=${APP_WORKERS:-2}
+      - --proxy-headers
+      - --forwarded-allow-ips=*
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      start_period: 20s
+      retries: 3
+
+  worker:
+    <<: *app
+    command: ["python", "-m", "jobindex.cli", "schedule"]
+    stop_grace_period: 60s  # running crawls get 30 s to finish, then are recorded failed
+    healthcheck:
+      # The scheduler touches this file every tick (SCHEDULER_TICK_SECONDS, default 60).
+      test: ["CMD", "python", "-c", "import os, sys, time; sys.exit(time.time() - os.path.getmtime('/tmp/jobindex-scheduler.heartbeat') > 300)"]
+      interval: 60s
+      timeout: 10s
+      start_period: 120s
+      retries: 3
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN in .env.prod}
+      ACME_EMAIL: ${ACME_EMAIL:?set ACME_EMAIL in .env.prod}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:2019/config/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  backup:
+    image: postgres:16
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-jobindex}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env.prod}
+      POSTGRES_DB: ${POSTGRES_DB:-jobindex}
+      BACKUP_HOUR: ${BACKUP_HOUR:-3}
+      BACKUP_KEEP_DAYS: ${BACKUP_KEEP_DAYS:-14}
+    entrypoint: ["/scripts/backup.sh"]
+    volumes:
+      - ./docker/backup:/scripts:ro
+      - ${BACKUP_DIR:-./backups}:/backups
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "/scripts/healthcheck.sh"]
+      interval: 1h
+      timeout: 10s
+      start_period: 10m
+      retries: 1
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

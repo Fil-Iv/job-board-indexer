@@ -1,7 +1,9 @@
 COMPOSE ?= docker compose
 RUN     := $(COMPOSE) run --rm app
+PROD    := docker compose -f docker-compose.prod.yml --env-file .env.prod
 
-.PHONY: help up down logs migrate test test-live lint format crawl coverage parser-fingerprint shell
+.PHONY: help up down logs migrate test test-live lint format crawl coverage parser-fingerprint shell \
+        prod-up prod-down prod-logs prod-backup
 
 help:  ## List targets
 	@grep -E '^[a-z-]+:.*##' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-10s %s\n", $$1, $$2}'
@@ -44,3 +46,17 @@ parser-fingerprint:  ## Record normalize.py behaviour after bumping PARSER_VERSI
 
 shell:  ## Open a shell in the app container
 	$(RUN) bash
+
+# --- production (docker-compose.prod.yml, see docs/DEPLOY.md) -----------------
+
+prod-up:  ## Build and start the production stack (needs .env.prod)
+	$(PROD) up -d --build --wait
+
+prod-down:  ## Stop the production stack (keeps volumes and backups)
+	$(PROD) down
+
+prod-logs:  ## Follow production app + worker logs
+	$(PROD) logs -f --tail=100 app worker
+
+prod-backup:  ## Make a database backup now (into BACKUP_DIR)
+	$(PROD) exec backup /scripts/backup.sh now

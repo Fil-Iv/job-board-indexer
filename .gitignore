@@ -2,6 +2,7 @@
 .env
 .env.*
 !.env.example
+!.env.prod.example
 
 # Python
 __pycache__/
@@ -32,3 +33,6 @@ htmlcov/
 
 # Note: coverage/results.json IS committed on purpose — it keeps each example board's
 # "last successful run" across machines (see jobindex/coverage.py).
+
+# Production database dumps (docker-compose.prod.yml backup service)
+backups/
