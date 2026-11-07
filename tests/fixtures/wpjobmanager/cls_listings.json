@@ -1,0 +1,62 @@
+[
+  {
+    "id": 14831,
+    "date_gmt": "2016-01-11T10:23:53",
+    "link": "https://www.clsrecruitment.ie/job/contracts-manager-dublin-area/",
+    "title": {
+      "rendered": "Contracts Manager &#8211; Dublin Area"
+    },
+    "content": {
+      "rendered": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec in feugiat sem. Sed ornare augue eget felis imperdiet, rhoncus tristique nulla eleifend. Morbi fringilla vehicula ex lacinia congue. Nulla et tincidunt nisi, ut tincidunt felis. Suspendisse potenti. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque felis urna, dictum vitae auctor id, faucibus vitae nunc.</p>\n<p>Curabitur vulputate auctor orci eu aliquet. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc ultricies erat eu sem accumsan pretium. Duis porttitor, nunc ut lobortis iaculis, nisl neque ultrices ex, et porta tortor enim auctor arcu. Nam venenatis, orci eget elementum consectetur, orci eros faucibus nulla, pretium placerat erat purus eu diam. Nunc et congue elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>\n",
+      "protected": false
+    },
+    "meta": {
+      "_promoted": "",
+      "_job_location": "Dublin",
+      "_application": "info@heaventreedesign.com",
+      "_company_name": "",
+      "_company_website": "",
+      "_company_tagline": "",
+      "_company_twitter": "",
+      "_company_video": "",
+      "_filled": 0,
+      "_featured": 0,
+      "_remote_position": 0,
+      "_job_salary": "",
+      "_job_salary_currency": "",
+      "_job_salary_unit": ""
+    },
+    "job-types": [
+      12
+    ]
+  },
+  {
+    "id": 21382,
+    "date_gmt": "2026-08-27T08:06:39",
+    "link": "https://www.clsrecruitment.ie/job/groundworker-shuttering-carpenter-required-in-portlaoise-carlow/",
+    "title": {
+      "rendered": "Groundworker/ Shuttering Carpenter required in Portlaoise/ Carlow"
+    },
+    "content": {
+      "rendered": "<p>Groundworker/ Shuttering Carpenter required in Portlaoise/ Carlow</p>\n<p>Immediate Start</p>\n<p>Must have Safe Pass and Manual Handling</p>\n<p>Experience and reference required</p>\n",
+      "protected": false
+    },
+    "meta": {
+      "_promoted": "",
+      "_job_location": "Laois",
+      "_application": "http://,person@example.com",
+      "_company_name": "",
+      "_company_website": "",
+      "_company_tagline": "",
+      "_company_twitter": "",
+      "_company_video": "",
+      "_filled": 0,
+      "_featured": 0,
+      "_remote_position": 0,
+      "_job_salary": "",
+      "_job_salary_currency": "",
+      "_job_salary_unit": ""
+    },
+    "job-types": []
+  }
+]

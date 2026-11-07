@@ -7,6 +7,7 @@ from urllib.parse import urlsplit
 import httpx
 import pytest
 
+from jobindex.connectors.base import BaseConnector
 from jobindex.connectors.registry import default_registry
 from jobindex.coverage import (
     PlanError,
@@ -118,7 +119,10 @@ def test_done_platforms_match_registered_connectors() -> None:
             continue
         assert p.connector == f"jobindex.connectors.{p.key}"
         connector = default_registry().get(p.key)
-        custom_domains = getattr(connector, "page_fingerprint", None) is not None
+        # page_fingerprint (generic connectors) or an own detect_in_html (WP Job Manager)
+        custom_domains = getattr(connector, "page_fingerprint", None) is not None or any(
+            "detect_in_html" in vars(cls) for cls in connector.__mro__ if cls is not BaseConnector
+        )
         for url in p.examples:
             # Every example must be recognised offline, except custom-domain boards of
             # platforms that recognise them from the page (make coverage resolves those).
@@ -198,4 +202,4 @@ async def test_crawl_and_render(monkeypatch: pytest.MonkeyPatch) -> None:
     assert "| https://job-boards.greenhouse.io/discord | 3 |" in report
     assert "blocked (robots.txt) | never |" in report
     assert "### Easy — public JSON API" in report
-    assert "| WP Job Manager | Job board | yes |" in report  # an easy todo platform
+    assert "| Comeet | ATS | partial |" in report  # a todo platform row

@@ -216,6 +216,15 @@
       "last_success_at": "2026-11-07T16:59:29+00:00",
       "last_success_jobs": 387
     },
+    "https://fmals.de/": {
+      "url": "https://fmals.de/",
+      "last_run_at": "2026-11-07T18:17:00+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 393,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:17:00+00:00",
+      "last_success_jobs": 393
+    },
     "https://indrive.pinpointhq.com": {
       "url": "https://indrive.pinpointhq.com",
       "last_run_at": "2026-11-07T16:59:36+00:00",
@@ -467,6 +476,15 @@
       "last_error": null,
       "last_success_at": "2026-11-07T16:59:14+00:00",
       "last_success_jobs": 2
+    },
+    "https://startjob.dk/": {
+      "url": "https://startjob.dk/",
+      "last_run_at": "2026-11-07T18:16:53+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 13,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:16:53+00:00",
+      "last_success_jobs": 13
     },
     "https://stax.hire.trakstar.com": {
       "url": "https://stax.hire.trakstar.com",

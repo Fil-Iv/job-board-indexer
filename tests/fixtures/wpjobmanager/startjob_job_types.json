@@ -1,0 +1,26 @@
+[
+  {
+    "id": 25,
+    "name": "Deltidsjob"
+  },
+  {
+    "id": 26,
+    "name": "Fritidsjob"
+  },
+  {
+    "id": 27,
+    "name": "Fuldtidsjob"
+  },
+  {
+    "id": 29,
+    "name": "Sæsonjob"
+  },
+  {
+    "id": 28,
+    "name": "Studiejob"
+  },
+  {
+    "id": 30,
+    "name": "Ungarbejde"
+  }
+]

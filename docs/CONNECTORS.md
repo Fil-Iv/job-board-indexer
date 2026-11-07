@@ -1,9 +1,9 @@
 # Connectors
 
-A connector turns one platform's public job data into `RawJob`s. There are 31 today
-(17 API/feed connectors + 14 on the generic sitemap + JSON-LD base);
+A connector turns one platform's public job data into `RawJob`s. There are 32 today
+(18 API/feed connectors + 14 on the generic sitemap + JSON-LD base);
 [COVERAGE.md](COVERAGE.md) lists all 78 target platforms, live job counts for two real
-employers per done platform, and the plan for the remaining 47.
+employers per done platform, and the plan for the remaining 46.
 
 Every connector module starts with a docstring giving its exact endpoints, response shape,
 URL formats it recognises and the quirks found while building it. That docstring is the
@@ -75,6 +75,7 @@ closed). Long fetches can save progress through `self.checkpoint`
 | Trakstar Hire | `trakstar` | account | 1 per 100 jobs | `jsapi.recruiterbox.com` (former Recruiterbox); no posting date |
 | Workable | `workable` | account | 1 | Widget API with `details=true` |
 | Workday | `workday` | `host/tenant/site` | 1 per 20 jobs + detail per new/changed | CXS API; 2,000-result cap split by facets; **resumable** (checkpoint) |
+| WP Job Manager | `wpjobmanager` | WordPress site root (`startjob.dk`, `example.org/careers`) | 1 types + 1 per 100 jobs | WordPress REST `wp/v2/job-listings`; any domain, recognised from page HTML only; sites with REST disabled fail |
 
 ### Generic sitemap + JSON-LD connectors
 

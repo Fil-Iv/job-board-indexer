@@ -879,15 +879,17 @@
 - name: WP Job Manager
   key: wpjobmanager
   type: jobboard
-  status: todo
-  tier: easy
+  status: done
+  connector: jobindex.connectors.wpjobmanager
   public_api: "yes"
-  api: "POST/GET {site}/jm-ajax/get_listings/ (JSON); RSS {site}/?feed=job_feed; REST {site}/wp-json/wp/v2/job-listings"
-  url_patterns: ["any WordPress site: /job/{slug}/, /jobs/"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "WordPress plugin, so boards live on arbitrary domains (detection = HTML fingerprint 'job_listings' / 'wp-job-manager'). Endpoints are from the plugin's code; find 2 live boards to verify."
+  api: "GET {site}/wp-json/wp/v2/job-listings?per_page=100&page={n} (JSON, X-WP-Total/X-WP-TotalPages) + GET {site}/wp-json/wp/v2/job-types"
+  url_patterns: ["any WordPress site (HTML fingerprint /wp-content/plugins/wp-job-manager/; site root from <link rel=https://api.w.org/>)"]
+  examples:
+    - https://startjob.dk/
+    - https://fmals.de/
+  robots: allowed
+  verified: 2026-11-07
+  notes: "WordPress plugin, so boards live on arbitrary domains and are only recognised from page HTML. REST lists publish posts only (expired excluded); _filled listings are dropped. The AJAX list /jm-ajax/get_listings/ is not used: HTML only, no descriptions, and on some themes includes expired listings (clsrecruitment.ie ~420 vs 29 open). Sites with the REST API disabled (kiwiconseil.fr: 404) or plain permalinks (?rest_route=) are not supported and fail loudly. Also verified on clsrecruitment.ie (29 jobs)."
 
 - name: JobKit
   key: jobkit
