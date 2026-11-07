@@ -1,0 +1,259 @@
+
+<form name="searchFilterForm" id="searchFilterForm" method="post" action="">
+    <input type="hidden" name="remoteDdValue" id="remoteDdValueId" value="all_Id" />
+    <input type="hidden" name="typeDdValue" id="typeDdValueId" value="0" />
+    <input type="hidden" name="jobTitleSearched" id="jobTitleSearchedId" value="" />
+    <input type="hidden" name="cityOrCountrySearched" id="cityOrCountrySearchedId" value="" />
+</form>
+<form name="pagingForm" id="pagingFormId" method="post" action="">
+    <input type="hidden" name="page" id="pageId" value="1" />
+    <input type="hidden" name="remoteDdValue" value="all_Id" />
+    <input type="hidden" name="typeDdValue" value="0" />
+    <input type="hidden" name="jobTitleSearched" value="" />
+    <input type="hidden" name="cityOrCountrySearched" value="" />
+</form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jobs at Axented</title>
+    <meta property="og:title" content="Jobs at Axented" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="https://api.gohire-partner.com/image/16318/image.png" />
+    <div id="session-data" data-language="en"></div>
+<meta charset="utf-8">
+<meta data-gohire-custom-domain="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+<meta name="application-name" content="&nbsp;"/>
+<meta name="msapplication-TileColor" content="#FFFFFF" />
+<meta name="msapplication-TileImage" content="https://gohire-website.s3.amazonaws.com/img/favicon/mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="https://gohire-website.s3.amazonaws.com/img/favicon/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="https://gohire-website.s3.amazonaws.com/img/favicon/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="https://gohire-website.s3.amazonaws.com/img/favicon/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="https://gohire-website.s3.amazonaws.com/img/favicon/mstile-310x310.png" />
+<meta property="og:locale" content="en_gb" />
+<meta property="fb:app_id" content="222515341511920" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="GoHire" />
+<meta property="og:url" content="https://jobs.gohire.io/axented-su9lyitg/" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+</head>
+<body id="mainWrapperAfterBody">
+    <div id="google_translate_element"></div>
+    <div class="page-flex">
+        <nav class="nav">
+            <div class="careers-container-lg">
+                <div class="nav-container">
+                    <a href="https://axented.com" target="_blank" class="client_logo">
+                        <img src="https://gohire-avatars.s3.amazonaws.com/company/16318_full.jpg">
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="hero">
+            <div class="hero-no-image client-brand-background">
+                    <div class="careers-container-lg">
+                        <div class="hero-text">
+                            <h1>Jobs at Axented</h1>
+                            <p>Want to join our team? We have <a class="see-jobs-link" href="#jobs">18 open jobs!</a></p>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="careers-container custom-sections">
+        </div>
+        <div class="careers-container-lg">
+            <div class="jobs">
+                <a name="jobs"></a>
+                <div class="job-list-container">
+                    <div class="job-header">
+                        <div class="job-header-left">
+                            <h2>Jobs at Axented</h2>
+                        </div>
+                        <div class="job-header-right">
+                            <div class="job-list-count">
+                                  <p>18 Job openings</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="job-list">
+                        <div class="page-container">
+                            <div class="jobs-padding">
+                                <div class="job-container gohire-job-widget-shell career-job-widget-shell">
+                                    <div class="job-header-search gohire-job-search-filter" style ="border-bottom:none;">
+                                        <div class="job-search gohire-job-search-row">
+                                            <input type="text" name="searchJobTitle" id="searchJobTitleId" placeholder="Search by job title or location" value="">
+                                            <span class="gohire-icon-action gohire-search-action client-brand-background" role="button" tabindex="0" aria-label="Search Jobs" onclick="submitSearchForm();">
+                                            </span>
+                                            <div class="gohire-filter-dropdown jobs-menu-container combinedDdCl" id="combinedDropDownId">
+                                                <span class="gohire-filter-toggle" role="button" tabindex="0" aria-label="All jobs" onclick="toggleCombinedDropdown();">
+                                                </span>
+                                                <span class="gohire-filter-label">All jobs</span>
+                                                <div class="gohire-filter-menu jobs-menu jobBoard-n no-text-highlight combinedDdMenuCl" style = "background: #fff !important;">
+                                                    <button type="button" class="gohire-filter-selected" onclick="selectCombinedValue('remote', 'all_Id');">All jobs</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('remote', 'remoteOnly_Id');">Remote jobs</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('remote', 'excludeRemote_Id');">Exclude remote jobs</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '11');">Part time</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '10');">Full time</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '9');">Voluntary</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '8');">Work Experience</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '7');">Freelance</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '6');">Contract</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '5');">Apprenticeship</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '4');">Internship</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '3');">Graduate</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '2');">Temporary</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '1');">Permanent</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="jobs">
+                                    <div class="job-container">
+<a class="gohire-job" href="https://jobs.gohire.io/axented-su9lyitg/relationship-representative-portuguese-language-306203/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Relationship Representative (Portuguese Language)</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Mexico City, Mexico</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 3 November, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/axented-su9lyitg/relationship-representative-spanish-language-306202/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Relationship Representative (Spanish Language)</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Mexico City, Mexico</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 3 November, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/axented-su9lyitg/senior-software-engineer-staff-swe-engineer-305742/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Senior Software Engineer / Staff SWE Engineer</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, Mexico</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 29 October, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/axented-su9lyitg/senior-back-end-engineer-service-engineer-305740/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Senior Back-End Engineer / Service Engineer</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, Mexico</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 29 October, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/axented-su9lyitg/lead-crm-engineer-latam-303514/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Lead CRM Engineer (LATAM)</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, Mexico</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 7 October, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/axented-su9lyitg/scrum-master-300656/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Scrum Master</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, M&eacute;xico, Mexico</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 7 September, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/axented-su9lyitg/technical-product-manager-london-uk-300655/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Technical Product Manager (London, UK)</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, London, United Kingdom</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 7 September, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/axented-su9lyitg/agentic-ai-architect-300653/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Agentic AI Architect</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, M&eacute;xico, Mexico</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 7 September, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/axented-su9lyitg/senior-technical-qa-300651/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Senior Technical QA</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, M&eacute;xico, Mexico</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 7 September, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/axented-su9lyitg/systems-administrator-300650/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Systems Administrator</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, M&eacute;xico, Mexico</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 7 September, 2026</p>
+            </a>
+                                    </div>
+                                </div>
+<div class="jobs-pagination gohire-job-pagination no-text-highlight jobBoard"><div class="gohire-job-pagination-buttons"><button type="button" disabled>Prev</button><button type="button" onclick="submitPaging('rightArrow', 1);">Next</button></div><p class="gohire-job-pagination-results">Page <strong>1</strong> of <strong>2</strong>, Total <strong>18</strong> jobs</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="jobs-ga">
+                <div class="jobs-ga-detail">
+                    <h2>General Application</h2>
+                    <p>Can’t find a career you’re looking for? We want to hear from you, please send your application by hitting the button below.</p>
+                </div>
+                <div class="jobs-ga-btn btn primary-btn client-brand-background divCenterAlign" onclick="applyPool(); return false;">
+                    <p>Send Application</p>
+                </div>
+            </div>
+        </div>
+    </div>
+<footer class="careers-footer">
+		<div class="social-links-wrapper">
+      <a class="careers-footer-social-icon" href="https://www.facebook.com/axented" target="_blank">
+        <img src="https://jobs.gohire.io/assets/icons/facebook.png">
+      </a>
+      <a class="careers-footer-social-icon" href="https://www.linkedin.com/company/axented/mycompany/" target="_blank">
+        <img src="https://jobs.gohire.io/assets/icons/linkedin.png">
+      </a>
+		</div>
+  <div class="careers-footer-client">
+    <p>Jobs at Axented</p>
+  </div>
+		<a class="gh-powered" href="https://gohire.io" target="_blank">
+			<p>Powered by</p>
+			<img src="https://gohire-website.s3.amazonaws.com/img/logos/gh-logo-silver.png">
+		</a>
+</footer>
+</body>
+</html>

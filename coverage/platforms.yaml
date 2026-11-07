@@ -271,16 +271,18 @@
 - name: GoHire
   key: gohire
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "jobs.gohire.io/{company} or careers.{domain} (HTML)"
-  url_patterns: ["jobs.gohire.io/{company}", "careers.{company-domain} (CNAME)"]
+  status: done
+  connector: jobindex.connectors.gohire
+  public_api: "no"
+  api: "GET jobs.gohire.io/{board}/?page={n} (HTML, 10/page, \"Page 1 of 2, Total 16 jobs\") + job pages (JSON-LD JobPosting)"
+  url_patterns: ["jobs.gohire.io/{company}-{board id}[/{title}-{job id}/]", "jobs.gohire.io/{board id} (redirects to the full slug)"]
   examples:
-    - https://careers.gohire.io/
+    - https://jobs.gohire.io/dexerto-de5jlhjo/
+    - https://jobs.gohire.io/su9lyitg
   robots: allowed
-  verified: null
-  notes: "Server-rendered (careers.gohire.io reachable 2026-11-07). Need a second customer board."
+  verified: 2026-11-07
+  generic: partial
+  notes: "Generic JSON-LD for job pages, but the list is the paged board (checked against its total): the site-wide sitemap.txt (~17,000 URLs) misses current jobs and keeps old ones. validThrough is ignored (past dates on listed jobs). /{board id}/?page=N redirects to the full slug and drops the page: later pages use the resolved slug. Embed widget host widget.gohire.io answers 403."
 
 - name: Greenhouse
   key: greenhouse
@@ -329,15 +331,18 @@
 - name: HireHive
   key: hirehive
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "{company}.hirehive.com (HTML)"
-  url_patterns: ["{company}.hirehive.com", "{company}.hirehive.com/{job-slug}"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Irish SMB ATS."
+  status: done
+  connector: jobindex.connectors.hirehive
+  public_api: "yes"
+  api: "GET {company}.hirehive.com/api/v1/jobs (JSON, descriptions; nextPage URL with take/skip, publishedJobsCount)"
+  url_patterns: ["{company}.hirehive.com[/{job-slug}]"]
+  examples:
+    - https://focus-ireland.hirehive.com/
+    - https://catalyx.hirehive.com/
+  robots: allowed
+  verified: 2026-11-07
+  generic: no
+  notes: "Public JSON API, one request for normal boards; nextPage is followed and the count must match publishedJobsCount. publishedDate is Unix seconds. No company name or remote flag in the API. Unknown companies: 404."
 
 - name: Hireology
   key: hireology
@@ -403,16 +408,18 @@
 - name: JazzHR
   key: jazzhr
   type: ats
-  status: todo
-  tier: medium
+  status: done
+  connector: jobindex.connectors.jazzhr
   public_api: "no"
-  api: "{company}.applytojob.com/apply (HTML list)"
-  url_patterns: ["{company}.applytojob.com/apply", "{company}.applytojob.com/apply/{job-id}/{slug}", "app.jazz.co/widgets/basic/create/{company}"]
+  api: "GET {company}.applytojob.com/apply (HTML list, all jobs) + GET /apply/{id}/{slug} (HTML job page)"
+  url_patterns: ["{company}.applytojob.com[/apply[/{id}/{slug}]]"]
   examples:
-    - https://jazzhr.applytojob.com/apply
+    - https://firstadvantage.applytojob.com/apply
+    - https://ilsos.applytojob.com/apply
   robots: allowed
-  verified: null
-  notes: "Server-rendered list (reachable 2026-11-07). The old XML export app.jazz.co/feeds/export/jobs/{company} returns 410 Gone. Official API needs a customer key."
+  verified: 2026-11-07
+  generic: no
+  notes: "No JSON-LD, no API without the customer key, XML export 410 Gone. The sitemaps in robots.txt (app.jazz.co/feeds/google/xml/0-4) mix all tenants (~22k URLs each), so the tenant list page is used; it has no job count, so the generic job-drop guard protects against a broken page. Closed jobs answer 410; unknown companies redirect to jazzhr.com (error)."
 
 - name: Jobvite
   key: jobvite
@@ -557,15 +564,18 @@
 - name: Paylocity
   key: paylocity
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "recruiting.paylocity.com/recruiting/jobs/All/{guid}/{name} (embedded JSON); possible feed /recruiting/v2/api/feed/jobs/{guid}"
-  url_patterns: ["recruiting.paylocity.com/recruiting/jobs/All/{guid}/{name}", "recruiting.paylocity.com/Recruiting/Jobs/Details/{id}"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "If the JSON feed is public this moves to easy."
+  status: done
+  connector: jobindex.connectors.paylocity
+  public_api: "no"
+  api: "GET recruiting.paylocity.com/recruiting/jobs/All/{guid} (window.pageData.Jobs embedded JSON, all jobs) + GET /Recruiting/Jobs/Details/{id} (HTML)"
+  url_patterns: ["recruiting.paylocity.com/recruiting/jobs/All/{guid}[/{name}]"]
+  examples:
+    - https://recruiting.paylocity.com/recruiting/jobs/All/4bcae427-e9e7-4d6d-9772-73ef70c3a278/Adapt-Health-LLC
+    - https://recruiting.paylocity.com/recruiting/jobs/All/67c76e24-da8b-4733-a8b3-9c1fe859c5b9/Peak-Support-LLC
+  robots: allowed
+  verified: 2026-11-07
+  generic: partial
+  notes: "The v2 JSON feed (/recruiting/v2/api/feed/jobs/{guid}) returned no jobs for a board with 481, so the embedded pageData is the list. JSON-LD on job pages is per tenant (AdaptHealth yes, Peak Support no), so descriptions come from the page HTML; the header label gives hybrid vs fully remote (IsRemote is true for both). Closed jobs and unknown boards redirect to JobNotFound."
 
 - name: Personio
   key: personio

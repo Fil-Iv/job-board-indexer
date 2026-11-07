@@ -153,6 +153,15 @@
       "last_success_at": "2026-11-07T16:59:19+00:00",
       "last_success_jobs": 331
     },
+    "https://catalyx.hirehive.com/": {
+      "url": "https://catalyx.hirehive.com/",
+      "last_run_at": "2026-11-07T18:58:14+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 24,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:58:14+00:00",
+      "last_success_jobs": 24
+    },
     "https://channable.recruitee.com": {
       "url": "https://channable.recruitee.com",
       "last_run_at": "2026-11-07T16:59:22+00:00",
@@ -216,6 +225,15 @@
       "last_success_at": "2026-11-07T16:59:29+00:00",
       "last_success_jobs": 387
     },
+    "https://firstadvantage.applytojob.com/apply": {
+      "url": "https://firstadvantage.applytojob.com/apply",
+      "last_run_at": "2026-11-07T18:58:13+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 31,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:58:13+00:00",
+      "last_success_jobs": 31
+    },
     "https://fmals.de/": {
       "url": "https://fmals.de/",
       "last_run_at": "2026-11-07T18:17:00+00:00",
@@ -224,6 +242,24 @@
       "last_error": null,
       "last_success_at": "2026-11-07T18:17:00+00:00",
       "last_success_jobs": 393
+    },
+    "https://focus-ireland.hirehive.com/": {
+      "url": "https://focus-ireland.hirehive.com/",
+      "last_run_at": "2026-11-07T18:58:13+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 23,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:58:13+00:00",
+      "last_success_jobs": 23
+    },
+    "https://ilsos.applytojob.com/apply": {
+      "url": "https://ilsos.applytojob.com/apply",
+      "last_run_at": "2026-11-07T18:58:15+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 24,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:58:15+00:00",
+      "last_success_jobs": 24
     },
     "https://indrive.pinpointhq.com": {
       "url": "https://indrive.pinpointhq.com",
@@ -323,6 +359,24 @@
       "last_error": null,
       "last_success_at": "2026-11-07T16:59:18+00:00",
       "last_success_jobs": 42
+    },
+    "https://jobs.gohire.io/dexerto-de5jlhjo/": {
+      "url": "https://jobs.gohire.io/dexerto-de5jlhjo/",
+      "last_run_at": "2026-11-07T18:58:14+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 16,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:58:14+00:00",
+      "last_success_jobs": 16
+    },
+    "https://jobs.gohire.io/su9lyitg": {
+      "url": "https://jobs.gohire.io/su9lyitg",
+      "last_run_at": "2026-11-07T18:58:16+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 18,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:58:16+00:00",
+      "last_success_jobs": 18
     },
     "https://jobs.imdiversity.com/": {
       "url": "https://jobs.imdiversity.com/",
@@ -512,6 +566,24 @@
       "last_error": null,
       "last_success_at": "2026-11-07T16:59:14+00:00",
       "last_success_jobs": 25
+    },
+    "https://recruiting.paylocity.com/recruiting/jobs/All/4bcae427-e9e7-4d6d-9772-73ef70c3a278/Adapt-Health-LLC": {
+      "url": "https://recruiting.paylocity.com/recruiting/jobs/All/4bcae427-e9e7-4d6d-9772-73ef70c3a278/Adapt-Health-LLC",
+      "last_run_at": "2026-11-07T18:58:14+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 481,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:58:14+00:00",
+      "last_success_jobs": 481
+    },
+    "https://recruiting.paylocity.com/recruiting/jobs/All/67c76e24-da8b-4733-a8b3-9c1fe859c5b9/Peak-Support-LLC": {
+      "url": "https://recruiting.paylocity.com/recruiting/jobs/All/67c76e24-da8b-4733-a8b3-9c1fe859c5b9/Peak-Support-LLC",
+      "last_run_at": "2026-11-07T18:58:14+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 24,
+      "last_error": null,
+      "last_success_at": "2026-11-07T18:58:14+00:00",
+      "last_success_jobs": 24
     },
     "https://sapiens.careers.hibob.com/": {
       "url": "https://sapiens.careers.hibob.com/",

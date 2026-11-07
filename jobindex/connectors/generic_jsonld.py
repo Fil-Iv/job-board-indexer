@@ -11,7 +11,8 @@ How a crawl works
 1. ``fetch_jobs`` reads the board's sitemaps (``sitemap_roots``; index files are
    followed) and/or feeds, keeps the URLs ``job_id`` accepts and returns one *stub* per
    job: external id + URL + ``list_version`` (the sitemap ``<lastmod>``). Any failed or
-   unreadable sitemap raises, so the list is complete or the crawl fails.
+   unreadable sitemap raises, so the list is complete or the crawl fails. Platforms
+   without a job sitemap override ``listed_pages`` (GoHire reads its paged board).
 2. The crawler calls ``fetch_job_detail`` only for stubs whose ``list_version`` differs
    from the stored job (``detail_cache_key``); unchanged jobs reuse the stored data.
    Without a ``<lastmod>`` the version is a refresh token that changes every
@@ -202,15 +203,34 @@ class GenericJsonLdConnector(BaseConnector):
     async def fetch_jobs(self, board_identifier: str) -> list[RawJob]:
         await self._load_checkpoint(board_identifier)
         entries: dict[str, tuple[str, str | None]] = {}  # external_id -> (url, lastmod)
-
-        def add(url: str, lastmod: str | None) -> None:
+        for url, lastmod in await self.listed_pages(board_identifier):
             external_id = self.job_id(url, board_identifier)
             if external_id is None:
-                return
+                continue
             known = entries.get(external_id)
             if known is None or (lastmod or "") > (known[1] or ""):
                 entries[external_id] = (url, lastmod)
+        log.info("%s %s: %d job URLs", self.platform, board_identifier, len(entries))
+        return [
+            RawJob(
+                external_id=external_id,
+                title="",
+                source_url=self.page_url(url, external_id, board_identifier),
+                list_version=self._list_version(url, lastmod),
+            )
+            for external_id, (url, lastmod) in entries.items()
+        ]
 
+    async def listed_pages(self, board_identifier: str) -> list[tuple[str, str | None]]:
+        """``(page URL, version)`` for every page the board lists; ``job_id`` then keeps
+        the job pages, and the version (sitemap ``<lastmod>``) becomes ``list_version``.
+
+        Default: the sitemaps (``sitemap_roots``, index files followed) and feeds
+        (``feed_urls``). Platforms without a job sitemap override this to read their own
+        listing (GoHire's paged board). Must raise rather
+        than return a partial list.
+        """
+        listed: list[tuple[str, str | None]] = []
         queue = list(dict.fromkeys(await self.sitemap_roots(board_identifier)))
         seen: set[str] = set()
         while queue:
@@ -228,31 +248,14 @@ class GenericJsonLdConnector(BaseConnector):
             children, pages = parse_sitemap(text, url)
             pattern = self.child_sitemap
             queue += [c for c in children if pattern is None or pattern.search(c)]
-            for page in pages:
-                add(page.url, page.lastmod)
+            listed += [(page.url, page.lastmod) for page in pages]
         for url in await self.feed_urls(board_identifier):
             text = await self._get_text(url)
             if not re.search(r"<(rss|feed)\b", text[:2000], re.I):
                 raise ConnectorError(f"{url} is not an RSS/Atom feed")
-            for link in parse_feed(text, url):
-                add(link, None)
-
-        log.info(
-            "%s %s: %d job URLs from %d sitemaps",
-            self.platform,
-            board_identifier,
-            len(entries),
-            len(seen),
-        )
-        return [
-            RawJob(
-                external_id=external_id,
-                title="",
-                source_url=self.page_url(url, external_id, board_identifier),
-                list_version=self._list_version(url, lastmod),
-            )
-            for external_id, (url, lastmod) in entries.items()
-        ]
+            listed += [(link, None) for link in parse_feed(text, url)]
+        log.info("%s %s: %d sitemaps read", self.platform, board_identifier, len(seen))
+        return listed
 
     async def fetch_job_detail(self, board_identifier: str, job: RawJob) -> RawJob | None:
         saved = self._resumed.get(job.external_id)

@@ -1,9 +1,9 @@
 # Connectors
 
-A connector turns one platform's public job data into `RawJob`s. There are 36 today
-(22 API/feed/HTML connectors + 14 on the generic sitemap + JSON-LD base);
+A connector turns one platform's public job data into `RawJob`s. There are 40 today
+(25 API/feed/HTML connectors + 15 on the generic sitemap + JSON-LD base);
 [COVERAGE.md](COVERAGE.md) lists all 78 target platforms, live job counts for two real
-employers per done platform, and the plan for the remaining 42.
+employers per done platform, and the plan for the remaining 38.
 
 Every connector module starts with a docstring giving its exact endpoints, response shape,
 URL formats it recognises and the quirks found while building it. That docstring is the
@@ -65,10 +65,13 @@ closed). Long fetches can save progress through `self.checkpoint`
 | Gem | `gem` | slug | 1 | `api.gem.com/job_board/v0/{slug}/job_posts/` |
 | Greenhouse | `greenhouse` | board token | 1 | `content=true&pay_transparency=true`: descriptions + pay ranges |
 | HiBob | `hibob` | subdomain | 1 | `/api/job-ad` with header `companyIdentifier: {subdomain}` (401 without it) |
+| HireHive | `hirehive` | subdomain | 1 | `/api/v1/jobs`; `nextPage` (take/skip) followed, `publishedJobsCount` checked; dates in Unix seconds |
+| JazzHR | `jazzhr` | subdomain | 1 + detail per new/changed | `/apply` HTML list (no count: job-drop guard) + `#job-description` from the job page |
 | Jobvite | `jobvite` | company slug | 1 per 50 jobs + detail per new/changed | Paged `/search/?p=` HTML checked against "1-50 of N" (`/jobs` is incomplete); description from page HTML, JSON-LD only on some tenants |
 | Lever | `lever` | site (`eu:site` for EU) | 1 per 100 jobs | `skip`/`limit` pagination; EU instance separate |
 | Manatal | `manatal` | slug | 1 per 100 jobs | `ordering=created_at` required (default order skips jobs) |
 | Oracle Recruiting | `oracle` | `host/siteNumber` (`eeho.fa.us2.oraclecloud.com/CX_45001`) | 1 per 200 jobs + detail per new/changed | Candidate Experience REST API |
+| Paylocity | `paylocity` | module guid | 1 + detail per new/changed | `window.pageData.Jobs` list; description/type/remote label from the job page HTML (JSON-LD only on some tenants) |
 | Personio | `personio` | subdomain | 1 | XML feed (parsed with `defusedxml`); never pass `?language=` |
 | Pinpoint | `pinpoint` | subdomain | 1 | `postings.json`; robots.txt differs per tenant |
 | Polymer | `polymer` | slug | 1 per page + detail per new/changed | `meta.count` = jobs, `meta.total` = pages; count must match |
@@ -103,6 +106,7 @@ platform on custom domains.
 | Platform | Module | Job list | Board identifier |
 |---|---|---|---|
 | ApplicantPro, iSolved Hire | `applicantpro`, `isolvedhire` | `{tenant}.{domain}/job_site_map.xml` | tenant |
+| GoHire | `gohire` | paged board `jobs.gohire.io/{board}/?page={n}` checked against "Total N" (overrides `listed_pages`; `validThrough` ignored) | board slug |
 | Hireology | `hireology` | `careers.hireology.com/sitemap_index.xml` (all tenants, ~8 MB) | slug |
 | iCIMS | `icims` | `{host}/sitemap.xml` | host |
 | Jobboardly, JBoard, Niceboard, SmartJobBoard | `jobboardly`, `jboard`, `niceboard`, `smartjobboard` | `{board}/sitemap.xml` | host |
@@ -125,7 +129,8 @@ careers pages such as `www.figma.com/careers/` resolve to their ATS board.
    (`scripts/check_access.py URL`). If the site refuses us, record it in
    `coverage/blocked_by_site.yaml` instead of working around it.
 2. **Sitemap platform?** Subclass `GenericJsonLdConnector`; copy `jobindex/connectors/niceboard.py`
-   (host-based) or `recooty.py` (shared sitemap). `scripts/evaluate_generic.py` checks a
+   (host-based) or `recooty.py` (shared sitemap). JSON-LD job pages but no usable sitemap:
+   override `listed_pages` with the platform's own listing (`gohire.py`). `scripts/evaluate_generic.py` checks a
    board's sitemap and pages before you write any code.
 3. **API platform?** Create `jobindex/connectors/<platform>.py`, decorate the class with
    `@register`, implement the contract above. `gem.py` (one request) and `bamboohr.py`

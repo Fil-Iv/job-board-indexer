@@ -1,0 +1,265 @@
+
+<form name="searchFilterForm" id="searchFilterForm" method="post" action="">
+    <input type="hidden" name="remoteDdValue" id="remoteDdValueId" value="all_Id" />
+    <input type="hidden" name="typeDdValue" id="typeDdValueId" value="0" />
+    <input type="hidden" name="jobTitleSearched" id="jobTitleSearchedId" value="" />
+    <input type="hidden" name="cityOrCountrySearched" id="cityOrCountrySearchedId" value="" />
+</form>
+<form name="pagingForm" id="pagingFormId" method="post" action="">
+    <input type="hidden" name="page" id="pageId" value="1" />
+    <input type="hidden" name="remoteDdValue" value="all_Id" />
+    <input type="hidden" name="typeDdValue" value="0" />
+    <input type="hidden" name="jobTitleSearched" value="" />
+    <input type="hidden" name="cityOrCountrySearched" value="" />
+</form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jobs at Dexerto</title>
+    <meta property="og:title" content="Jobs at Dexerto" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="https://api.gohire-partner.com/image/19265/image.png" />
+    <div id="session-data" data-language="en"></div>
+<meta charset="utf-8">
+<meta data-gohire-custom-domain="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+<meta name="application-name" content="&nbsp;"/>
+<meta name="msapplication-TileColor" content="#FFFFFF" />
+<meta name="msapplication-TileImage" content="https://gohire-website.s3.amazonaws.com/img/favicon/mstile-144x144.png" />
+<meta name="msapplication-square70x70logo" content="https://gohire-website.s3.amazonaws.com/img/favicon/mstile-70x70.png" />
+<meta name="msapplication-square150x150logo" content="https://gohire-website.s3.amazonaws.com/img/favicon/mstile-150x150.png" />
+<meta name="msapplication-wide310x150logo" content="https://gohire-website.s3.amazonaws.com/img/favicon/mstile-310x150.png" />
+<meta name="msapplication-square310x310logo" content="https://gohire-website.s3.amazonaws.com/img/favicon/mstile-310x310.png" />
+<meta property="og:locale" content="en_gb" />
+<meta property="fb:app_id" content="222515341511920" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="GoHire" />
+<meta property="og:url" content="https://jobs.gohire.io/dexerto-de5jlhjo/" />
+<!-- Global site tag (gtag.js) - Google Analytics -->
+</head>
+<body id="mainWrapperAfterBody">
+    <div id="google_translate_element"></div>
+    <div class="page-flex">
+        <nav class="nav">
+            <div class="careers-container-lg">
+                <div class="nav-container">
+                    <a href="https://www.dexerto.media/" target="_blank" class="client_logo">
+                        <img src="https://gohire-avatars.s3.amazonaws.com/company/19265_full.png">
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="hero">
+            <div class="hero-img client-hero-img client-brand-background" style="background:url('https://gohire-avatars.s3.amazonaws.com/header/19265.jpg?v=1794077214')">
+                <div class="hero-overlay">
+                    <div class="careers-container-lg">
+                        <div class="hero-text">
+                            <h1>Jobs at Dexerto</h1>
+                            <p>Want to join our team? We have <a class="see-jobs-link" href="#jobs">16 open jobs!</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="careers-container custom-sections">
+            <div class="custom-section">
+                <div class="custom-section-title notranslate">
+                    <h2>SHAPING THE FUTURE OF MEDIA AND ENTERTAINMENT</h2>
+                </div>
+                <div class="custome-section-content">
+                    <p>The powerhouse of esports and gaming news. Since 2015, we've been fuelling the frenzy with breaking stories, insider interviews, and expert analysis. From League of Legends to Fortnite, we've got our finger on the pulse of competitive gaming. Dexerto.com is the go-to hub for esports junkies, serving up sizzling content that keeps you one step ahead. <br />
+<br />
+Don't just play the game, dominate it with Dexerto's electrifying coverage!</p>
+                </div>
+            </div>
+        </div>
+        <div class="careers-container-lg">
+            <div class="jobs">
+                <a name="jobs"></a>
+                <div class="job-list-container">
+                    <div class="job-header">
+                        <div class="job-header-left">
+                            <h2>Jobs at Dexerto</h2>
+                        </div>
+                        <div class="job-header-right">
+                            <div class="job-list-count">
+                                  <p>16 Job openings</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="job-list">
+                        <div class="page-container">
+                            <div class="jobs-padding">
+                                <div class="job-container gohire-job-widget-shell career-job-widget-shell">
+                                    <div class="job-header-search gohire-job-search-filter" style ="border-bottom:none;">
+                                        <div class="job-search gohire-job-search-row">
+                                            <input type="text" name="searchJobTitle" id="searchJobTitleId" placeholder="Search by job title or location" value="">
+                                            <span class="gohire-icon-action gohire-search-action client-brand-background" role="button" tabindex="0" aria-label="Search Jobs" onclick="submitSearchForm();">
+                                            </span>
+                                            <div class="gohire-filter-dropdown jobs-menu-container combinedDdCl" id="combinedDropDownId">
+                                                <span class="gohire-filter-toggle" role="button" tabindex="0" aria-label="All jobs" onclick="toggleCombinedDropdown();">
+                                                </span>
+                                                <span class="gohire-filter-label">All jobs</span>
+                                                <div class="gohire-filter-menu jobs-menu jobBoard-n no-text-highlight combinedDdMenuCl" style = "background: #fff !important;">
+                                                    <button type="button" class="gohire-filter-selected" onclick="selectCombinedValue('remote', 'all_Id');">All jobs</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('remote', 'remoteOnly_Id');">Remote jobs</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('remote', 'excludeRemote_Id');">Exclude remote jobs</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '11');">Part time</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '10');">Full time</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '9');">Voluntary</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '8');">Work Experience</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '7');">Freelance</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '6');">Contract</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '5');">Apprenticeship</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '4');">Internship</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '3');">Graduate</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '2');">Temporary</button>
+                                                    <button type="button" class="" onclick="selectCombinedValue('type', '1');">Permanent</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="jobs">
+                                    <div class="job-container">
+<a class="gohire-job" href="https://jobs.gohire.io/dexerto-de5jlhjo/freelance-games-writers-gta-6-306319/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Freelance games writers - GTA 6</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, United Kingdom</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 4 November, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/dexerto-de5jlhjo/marketing-manager-304991/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Marketing Manager</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, United Kingdom</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 22 October, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/dexerto-de5jlhjo/video-editor-branded-content-latam-303923/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Video Editor, Branded Content (LATAM)</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, Argentina</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 13 October, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/dexerto-de5jlhjo/publisher-success-manager-us-303056/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Publisher Success Manager (US)</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, United States</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 2 October, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/dexerto-de5jlhjo/business-development-representative-302648/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Business Development Representative</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, United Kingdom</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 29 September, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/dexerto-de5jlhjo/publisher-success-manager-299970/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Publisher Success Manager</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, Remote, United Kingdom</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 4 September, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/dexerto-de5jlhjo/business-development-representative-gaming-ar-299882/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Business Development Representative &ndash; Gaming (AR)</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, Remote, Argentina</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 3 September, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/dexerto-de5jlhjo/business-development-manager-publisher-partnerships-290238/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Business Development Manager, Publisher Partnerships</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, Remote UK / Europe, United Kingdom</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 2 June, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/dexerto-de5jlhjo/brand-and-communications-manager-uk-remote-287601/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Brand &amp; Communications Manager (UK - Remote) </h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, Remote, United Kingdom</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 11 May, 2026</p>
+            </a>
+        <a class="gohire-job" href="https://jobs.gohire.io/dexerto-de5jlhjo/senior-influencer-and-talent-relations-manager-uk-remote-287507/">
+                <div class="left-career">
+                    <div class="career-title">
+                        <h3 class="job-title client-brand-text notranslate">Senior Influencer &amp; Talent Relations Manager (UK - Remote)</h3>
+                    </div>
+                    <div class="career-location">
+                        <p class="careers-location">Remote, Remote, United Kingdom</p>
+                    </div>
+                </div>
+                <p class="date-posted">Posted 11 May, 2026</p>
+            </a>
+                                    </div>
+                                </div>
+<div class="jobs-pagination gohire-job-pagination no-text-highlight jobBoard"><div class="gohire-job-pagination-buttons"><button type="button" disabled>Prev</button><button type="button" onclick="submitPaging('rightArrow', 1);">Next</button></div><p class="gohire-job-pagination-results">Page <strong>1</strong> of <strong>2</strong>, Total <strong>16</strong> jobs</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+<footer class="careers-footer">
+		<div class="social-links-wrapper">
+      <a class="careers-footer-social-icon" href="https://www.instagram.com/dexerto/?hl=en" target="_blank">
+        <img src="https://jobs.gohire.io/assets/icons/instagram.png">
+      </a>
+      <a class="careers-footer-social-icon" href="https://twitter.com/Dexerto?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" target="_blank">
+        <img src="https://jobs.gohire.io/assets/icons/twitter.png">
+      </a>
+      <a class="careers-footer-social-icon" href="https://uk.linkedin.com/company/dexerto-ltd" target="_blank">
+        <img src="https://jobs.gohire.io/assets/icons/linkedin.png">
+      </a>
+		</div>
+  <div class="careers-footer-client">
+    <p>Jobs at Dexerto</p>
+  </div>
+		<a class="gh-powered" href="https://gohire.io" target="_blank">
+			<p>Powered by</p>
+			<img src="https://gohire-website.s3.amazonaws.com/img/logos/gh-logo-silver.png">
+		</a>
+</footer>
+</body>
+</html>
