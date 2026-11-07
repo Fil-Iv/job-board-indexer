@@ -40,6 +40,7 @@ from typing import Any
 
 from selectolax.lexbor import LexborHTMLParser
 
+from jobindex.checkpoint import CheckpointStore
 from jobindex.config import get_settings
 from jobindex.connectors.base import BaseConnector, ConnectorError, RawJob
 from jobindex.connectors.registry import register
@@ -89,8 +90,14 @@ class SmartRecruitersConnector(BaseConnector):
         "apply_url",
     )
 
-    def __init__(self, http: HttpClient, *, use_api: bool | None = None) -> None:
-        super().__init__(http)
+    def __init__(
+        self,
+        http: HttpClient,
+        checkpoint: CheckpointStore | None = None,
+        *,
+        use_api: bool | None = None,
+    ) -> None:
+        super().__init__(http, checkpoint)
         self.use_api = get_settings().smartrecruiters_use_api if use_api is None else use_api
 
     @classmethod

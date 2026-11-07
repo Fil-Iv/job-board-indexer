@@ -9,16 +9,19 @@ Fixtures (captured 2026-11-07):
 """
 
 import json
+import logging
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
-from typing import Any
+from typing import Any, cast
 
 import httpx
 import pytest
 
+from jobindex.checkpoint import MemoryCheckpoint
 from jobindex.connectors import workday
 from jobindex.connectors.base import ConnectorError
 from jobindex.connectors.workday import WorkdayConnector
-from jobindex.http import HttpClient
+from jobindex.http import FetchError, HttpClient
 from jobindex.models.enums import RemoteType
 from tests.fakes import load_fixture, load_json_fixture, mock_http
 
@@ -183,6 +186,85 @@ async def test_board_above_cap_is_split_by_facet(monkeypatch: pytest.MonkeyPatch
     assert len(jobs) == 23
     applied = [tuple(b["appliedFacets"].get("jobFamilyGroup", [])) for b in _post_bodies(seen)]
     assert set(applied) == {(), ("eng",), ("sales",), ("ops",)}
+
+
+def _failing_once(handler: Any, family: str, offset: int, times: int = 2) -> Any:
+    """Wrap ``handler``: the request for ``family`` at ``offset`` fails ``times`` times
+    with HTTP 500 (more than the client's retries), then succeeds."""
+    left = {"n": times}
+
+    def handle(request: httpx.Request) -> httpx.Response:
+        body = json.loads(request.content)
+        target = body["appliedFacets"].get("jobFamilyGroup") == [family]
+        if target and body["offset"] == offset and left["n"] > 0:
+            left["n"] -= 1
+            return httpx.Response(500)
+        return cast(httpx.Response, handler(request))
+
+    return handle
+
+
+async def test_interrupted_list_resumes_from_checkpoint(
+    monkeypatch: pytest.MonkeyPatch, caplog: pytest.LogCaptureFixture
+) -> None:
+    monkeypatch.setattr(workday, "PAGE_SIZE", 5)
+    monkeypatch.setattr(workday, "RESULT_CAP", 10)
+    monkeypatch.setattr(workday, "CHECKPOINT_EVERY_PAGES", 1)
+    monkeypatch.setattr(workday, "PROGRESS_EVERY_PAGES", 2)
+    families = ["eng"] * 9 + ["sales"] * 8 + ["ops"] * 6
+    handler = _failing_once(_board(_postings(23), cap=10, families=families), "sales", 5)
+    http, seen = mock_http({f"{API}/jobs": handler})
+    checkpoint = MemoryCheckpoint()
+    async with http:
+        with pytest.raises(FetchError):
+            await WorkdayConnector(http, checkpoint).fetch_jobs(BOARD)
+        saved = checkpoint.data
+        assert saved is not None
+        assert saved["done"] == ['{"jobFamilyGroup": ["eng"]}']
+        assert saved["cursor"] == {'{"jobFamilyGroup": ["sales"]}': [1, 5]}
+        assert len(saved["postings"]) == 14  # 9 eng + first page of sales
+
+        seen.clear()
+        with caplog.at_level(logging.INFO, logger="jobindex.connectors.workday"):
+            jobs = await WorkdayConnector(http, checkpoint).fetch_jobs(BOARD)
+    assert len(jobs) == 23
+    resumed = [
+        (tuple(b["appliedFacets"].get("jobFamilyGroup", [])), b["offset"])
+        for b in _post_bodies(seen)
+    ]
+    # Only the unfiltered first page (for the current total) is repeated; "eng" is skipped
+    # and "sales" continues at offset 5.
+    assert resumed == [((), 0), (("sales",), 5), (("ops",), 0), (("ops",), 5)]
+    assert checkpoint.data is None  # complete list: checkpoint cleared
+    assert "resuming from checkpoint (14 postings, 1 slices done)" in caplog.text
+    assert "/23 postings" in caplog.text  # progress lines
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"board": "other.wd1.myworkdayjobs.com/x/y"},
+        {"version": 0},
+        {"saved_at": (datetime.now(UTC) - timedelta(hours=3)).isoformat()},
+    ],
+)
+async def test_unusable_checkpoint_is_ignored(
+    monkeypatch: pytest.MonkeyPatch, change: dict[str, Any]
+) -> None:
+    monkeypatch.setattr(workday, "PAGE_SIZE", 5)
+    stale = {
+        "version": workday.CHECKPOINT_VERSION,
+        "board": BOARD,
+        "saved_at": datetime.now(UTC).isoformat(),
+        "postings": {"JRGHOST": {"externalPath": "/job/x/Ghost_JRGHOST", "title": "Ghost"}},
+        "done": [""],
+        "cursor": {},
+        **change,
+    }
+    http, _ = mock_http({f"{API}/jobs": _board(_postings(7))})
+    async with http:
+        jobs = await WorkdayConnector(http, MemoryCheckpoint(stale)).fetch_jobs(BOARD)
+    assert sorted(j.external_id for j in jobs) == [f"JR{i:07d}" for i in range(7)]
 
 
 async def test_above_cap_without_partition_is_refused(monkeypatch: pytest.MonkeyPatch) -> None:

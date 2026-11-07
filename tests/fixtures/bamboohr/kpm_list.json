@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "totalCount": 1
+  },
+  "result": [
+    {
+      "id": "128",
+      "jobOpeningName": "Technical Sales Manager – Lab Instruments (North Central US)",
+      "departmentId": "18922",
+      "departmentLabel": "30 Sales : 30 Sales (Lab)",
+      "employmentStatusLabel": "Full-Time - Salary - Exempt",
+      "employmentType": null,
+      "location": {
+        "city": null,
+        "state": null
+      },
+      "atsLocation": {
+        "country": "United States",
+        "state": "Illinois",
+        "province": null,
+        "city": "Chicago"
+      },
+      "isRemote": null,
+      "locationType": "1"
+    }
+  ]
+}

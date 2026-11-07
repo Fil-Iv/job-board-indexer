@@ -1,0 +1,41 @@
+[
+  {
+    "uuid": "cde23e66-c732-4a5f-838e-9ac2d0d80e4e",
+    "name": "Applications Manager - ERP System",
+    "department": {
+      "id": "IT & Enterprise Applications",
+      "label": "IT & Enterprise Applications"
+    },
+    "url": "https://ats.rippling.com/vulcanforms/jobs/cde23e66-c732-4a5f-838e-9ac2d0d80e4e",
+    "workLocation": {
+      "label": "Devens, MA",
+      "id": "Devens, MA"
+    }
+  },
+  {
+    "uuid": "c7a54912-1c10-4ace-aaee-be0f47ca5942",
+    "name": "Senior Applications Engineer",
+    "department": {
+      "id": "Commercial",
+      "label": "Commercial"
+    },
+    "url": "https://ats.rippling.com/vulcanforms/jobs/c7a54912-1c10-4ace-aaee-be0f47ca5942",
+    "workLocation": {
+      "label": "Devens, MA",
+      "id": "Devens, MA"
+    }
+  },
+  {
+    "uuid": "c7a54912-1c10-4ace-aaee-be0f47ca5942",
+    "name": "Senior Applications Engineer",
+    "department": {
+      "id": "Commercial",
+      "label": "Commercial"
+    },
+    "url": "https://ats.rippling.com/vulcanforms/jobs/c7a54912-1c10-4ace-aaee-be0f47ca5942",
+    "workLocation": {
+      "label": "Remote (United States)",
+      "id": "Remote (United States)"
+    }
+  }
+]

@@ -31,6 +31,7 @@ from typing import Any
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from jobindex.checkpoint import SourceCheckpoint
 from jobindex.connectors.base import BaseConnector, RawJob
 from jobindex.connectors.registry import Registry, default_registry
 from jobindex.db import create_engine, create_session_factory
@@ -40,6 +41,8 @@ from jobindex.models.base import utcnow
 from jobindex.normalize import HASH_FIELDS, PARSER_VERSION
 
 log = logging.getLogger(__name__)
+
+DETAIL_PROGRESS_EVERY = 100  # log detail-fetch progress for large boards
 
 MAX_ERROR_LENGTH = 4000
 
@@ -135,7 +138,7 @@ async def _crawl(
             for job in (await session.scalars(select(Job).where(Job.source_id == source_id))).all()
         }
         await session.commit()  # don't hold a transaction open during a slow fetch
-        connector = registry.get(source.platform)(http)
+        connector = registry.get(source.platform)(http, SourceCheckpoint(session, source))
         listed = await connector.fetch_jobs(source.board_identifier)
         if connector.needs_detail:
             raw_jobs = await _with_details(connector, source.board_identifier, listed, existing)
@@ -158,6 +161,7 @@ async def _crawl(
         source.last_success_at = now
         source.consecutive_failures = 0
         source.last_error = None
+        source.crawl_checkpoint = None
         await session.commit()
     except Exception as exc:  # e.g. a posting violating a DB constraint
         await session.rollback()
@@ -181,7 +185,17 @@ async def _with_details(
     known to have changed.
     """
     result: list[tuple[RawJob, str]] = []
-    for raw in raw_jobs:
+    fetched = 0
+    for done, raw in enumerate(raw_jobs, start=1):
+        if done % DETAIL_PROGRESS_EVERY == 0:
+            log.info(
+                "%s %s: details %d/%d (%d fetched, rest reused)",
+                connector.platform,
+                board_identifier,
+                done,
+                len(raw_jobs),
+                fetched,
+            )
         job = existing.get(raw.external_id)
         if (
             job is not None
@@ -191,6 +205,7 @@ async def _with_details(
             reused = replace(raw, **{f: getattr(job, f) for f in connector.detail_fields})
             result.append((reused, job.raw_hash or reused.raw_hash()))
             continue
+        fetched += 1
         detailed = await connector.fetch_job_detail(board_identifier, raw)
         if detailed is not None:  # None = posting vanished between list and detail
             result.append((detailed, detailed.raw_hash()))

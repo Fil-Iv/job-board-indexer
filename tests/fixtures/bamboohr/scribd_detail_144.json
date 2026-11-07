@@ -1,0 +1,61 @@
+{
+  "meta": {},
+  "result": {
+    "jobOpening": {
+      "jobOpeningShareUrl": "https://scribd.bamboohr.com/careers/144",
+      "jobOpeningName": "Senior Software Engineer",
+      "jobOpeningStatus": "Open",
+      "jobCategoryId": null,
+      "departmentId": "18910",
+      "departmentLabel": "Core Services",
+      "employmentStatusLabel": "Full-Time Netherlands",
+      "employmentType": null,
+      "location": {
+        "city": "Amsterdam",
+        "state": "North Holland",
+        "postalCode": "1018 VN",
+        "addressCountry": "Netherlands"
+      },
+      "atsLocation": {
+        "country": null,
+        "countryId": null,
+        "state": null,
+        "city": null
+      },
+      "description": "<p>n/a</p>",
+      "compensation": null,
+      "datePosted": "2019-09-09",
+      "minimumExperience": null,
+      "locationType": "0",
+      "seekPromoted": false,
+      "aiProcessingDisclosureEnabled": false
+    },
+    "formFields": {
+      "firstName": {
+        "isRequired": true,
+        "value": "",
+        "label": "First Name"
+      },
+      "lastName": {
+        "isRequired": true,
+        "value": "",
+        "label": "Last Name"
+      },
+      "email": {
+        "isRequired": true,
+        "value": "",
+        "label": "Email"
+      },
+      "phone": {
+        "isRequired": true,
+        "value": "",
+        "label": "Phone"
+      },
+      "customQuestions": [],
+      "genderId": [],
+      "ethnicityId": [],
+      "veteranStatusId": [],
+      "disabilityId": []
+    }
+  }
+}

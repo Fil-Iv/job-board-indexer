@@ -32,12 +32,15 @@ Custom-domain career pages: links/iframes to any of the above (generic HTML dete
 """
 
 import asyncio
+import json
 import logging
 import re
-from dataclasses import replace
+from dataclasses import dataclass, field, replace
+from datetime import timedelta
 from typing import Any
 from urllib.parse import urlsplit
 
+from jobindex.checkpoint import is_fresh, now_iso
 from jobindex.connectors.base import BaseConnector, ConnectorError, RawJob
 from jobindex.connectors.registry import register
 from jobindex.http import FetchError
@@ -58,6 +61,12 @@ RESULT_CAP = 2000  # one query never returns more than this many postings
 MAX_SPLIT_DEPTH = 3
 NON_JSON_RETRIES = 2
 NON_JSON_BACKOFF_SECONDS = 2.0
+CHECKPOINT_EVERY_PAGES = 25  # save progress every 500 postings
+PROGRESS_EVERY_PAGES = 10  # log progress every 200 postings
+CHECKPOINT_MAX_AGE = timedelta(hours=2)  # older progress is stale: start over
+CHECKPOINT_VERSION = 1
+# Fields of a list posting we keep (and checkpoint): enough for _map_list.
+_KEPT_FIELDS = ("externalPath", "title", "locationsText", "remoteType")
 _JOBS_HOST = re.compile(r"^(?P<tenant>[a-z0-9-]+)\.(?P<dc>wd\d+)\.myworkdayjobs\.com$")
 _SITE_HOST = re.compile(r"^(?:[a-z0-9-]+\.)?(?P<dc>wd\d+)\.myworkdaysite\.com$")
 _LOCALE = re.compile(r"^[a-z]{2}(?:-[A-Za-z]{2,4})?$")
@@ -135,44 +144,68 @@ class WorkdayConnector(BaseConnector):
         return f"https://{host}/wday/cxs/{tenant}/{site}"
 
     async def fetch_jobs(self, board_identifier: str) -> list[RawJob]:
-        postings, expected = await self._collect_all(board_identifier)
-        if expected is not None and len(postings) < expected:
+        run = await self._start_run(board_identifier, resume=True)
+        expected = await self._collect_all(run)
+        if expected is not None and len(run.postings) < expected:
             log.info(
-                "workday %s: got %d of %d postings, re-paging once",
+                "workday %s: got %d of %d postings, re-paging from scratch once",
                 board_identifier,
-                len(postings),
+                len(run.postings),
                 expected,
             )
-            postings, expected = await self._collect_all(board_identifier)
-            if expected is not None and len(postings) < expected:
+            run = await self._start_run(board_identifier, resume=False)
+            expected = await self._collect_all(run)
+            if expected is not None and len(run.postings) < expected:
+                await self.checkpoint.clear()
                 raise ConnectorError(
-                    f"workday: got {len(postings)} of {expected} postings; "
+                    f"workday: got {len(run.postings)} of {expected} postings; "
                     "refusing a partial result"
                 )
+        # The list is complete: never let a later failure resume from it (it would be stale).
+        await self.checkpoint.clear()
+        log.info("workday %s: list complete, %d postings", board_identifier, len(run.postings))
         base = _public_base(board_identifier)
-        return [self._map_list(p, base) for p in postings.values()]
+        return [self._map_list(p, base) for p in run.postings.values()]
 
-    async def _collect_all(
-        self, board_identifier: str
-    ) -> tuple[dict[str, dict[str, Any]], int | None]:
-        first = await self._page(board_identifier, {}, 0)
-        expected = _expected_total(first)
-        postings = await self._collect(board_identifier, {}, first, expected, depth=0)
-        return postings, expected
+    async def _start_run(self, board_identifier: str, *, resume: bool) -> "_Run":
+        saved = await self.checkpoint.load() if resume else None
+        run = _Run.from_checkpoint(board_identifier, saved)
+        if run is None:
+            await self.checkpoint.clear()
+            return _Run(board_identifier)
+        log.info(
+            "workday %s: resuming from checkpoint (%d postings, %d slices done)",
+            board_identifier,
+            len(run.postings),
+            len(run.done),
+        )
+        return run
+
+    async def _collect_all(self, run: "_Run") -> int | None:
+        first = await self._page(run.board, {}, 0)
+        run.expected = _expected_total(first)
+        await self._collect(run, {}, first, run.expected, depth=0)
+        return run.expected
 
     async def _collect(
         self,
-        board_identifier: str,
+        run: "_Run",
         applied: dict[str, list[str]],
-        first: dict[str, Any],
+        first: dict[str, Any] | None,
         expected: int | None,
         depth: int,
-    ) -> dict[str, dict[str, Any]]:
-        """All postings matching ``applied`` facets. Above RESULT_CAP, split by a facet."""
+    ) -> None:
+        """Add all postings matching ``applied`` facets to ``run``. Above RESULT_CAP, split
+        by a facet. ``first`` (page 0 of this slice) is fetched lazily when None."""
+        if _slice_key(applied) in run.done:
+            return  # finished in an earlier, interrupted attempt
         if expected is None or expected <= RESULT_CAP:
-            return await self._page_through(board_identifier, applied, first, expected)
+            await self._page_through(run, applied, first, expected)
+            return
         if depth >= MAX_SPLIT_DEPTH:
             raise ConnectorError(f"workday: cannot split {expected} postings below {RESULT_CAP}")
+        if first is None:
+            first = await self._page(run.board, applied, 0)
         split = _partition_facet(first, expected, applied)
         if split is None:
             raise ConnectorError(
@@ -182,23 +215,30 @@ class WorkdayConnector(BaseConnector):
         param, values = split
         log.info(
             "workday %s: %d postings > %d cap, splitting by %s (%d values)",
-            board_identifier,
+            run.board,
             expected,
             RESULT_CAP,
             param,
             len(values),
         )
-        postings: dict[str, dict[str, Any]] = {}
         for value_id, count in values:
             sub_applied = {**applied, param: [value_id]}
-            sub_first = await self._page(board_identifier, sub_applied, 0)
-            sub_expected = _expected_total(sub_first) or count
-            postings.update(
-                await self._collect(
-                    board_identifier, sub_applied, sub_first, sub_expected, depth + 1
-                )
-            )
-        return postings
+            if _slice_key(sub_applied) in run.done:
+                continue
+            if count > RESULT_CAP:  # needs its own facets to split further
+                sub_first = await self._page(run.board, sub_applied, 0)
+                sub_expected = _expected_total(sub_first) or count
+                await self._collect(run, sub_applied, sub_first, sub_expected, depth + 1)
+            else:
+                await self._collect(run, sub_applied, None, count, depth + 1)
+        run.done.add(_slice_key(applied))
+        await self._save(run, force=True)
+
+    async def _save(self, run: "_Run", *, force: bool = False) -> None:
+        run.pages_since_save += 1
+        if force or run.pages_since_save >= CHECKPOINT_EVERY_PAGES:
+            run.pages_since_save = 0
+            await self.checkpoint.save(run.to_checkpoint())
 
     async def _page(
         self, board_identifier: str, applied: dict[str, list[str]], page: int
@@ -233,28 +273,41 @@ class WorkdayConnector(BaseConnector):
 
     async def _page_through(
         self,
-        board_identifier: str,
+        run: "_Run",
         applied: dict[str, list[str]],
-        first: dict[str, Any],
+        first: dict[str, Any] | None,
         expected: int | None,
-    ) -> dict[str, dict[str, Any]]:
-        postings: dict[str, dict[str, Any]] = {}
-        data = first
-        for page in range(MAX_PAGES):
-            if page > 0:
-                data = await self._page(board_identifier, applied, page)
+    ) -> None:
+        key = _slice_key(applied)
+        page, count = run.cursor.get(key, (0, 0))
+        while page < MAX_PAGES:
+            if page == 0 and first is not None:
+                data = first
+            else:
+                data = await self._page(run.board, applied, page)
             batch = data["jobPostings"]
-            before = len(postings)
-            for posting in batch:
-                path = posting.get("externalPath")
-                if path:
-                    postings[_external_id(path)] = posting
+            added = run.add(batch)
+            count += added
+            page += 1
+            run.pages += 1
+            if run.pages % PROGRESS_EVERY_PAGES == 0:
+                log.info(
+                    "workday %s: %d pages, %d/%s postings%s",
+                    run.board,
+                    run.pages,
+                    len(run.postings),
+                    run.expected if run.expected is not None else "?",
+                    f" (slice {key})" if applied else "",
+                )
             # End of list: a short page, or — Workday's quirk past the real end — a full page
             # that only repeats postings we already have (it wraps around to page 1).
-            if len(batch) < PAGE_SIZE or len(postings) == before:
-                return postings
-            if expected is not None and len(postings) >= expected:
-                return postings
+            if len(batch) < PAGE_SIZE or added == 0 or (expected and count >= expected):
+                run.cursor.pop(key, None)
+                run.done.add(key)
+                await self._save(run, force=True)
+                return
+            run.cursor[key] = (page, count)
+            await self._save(run)
         raise ConnectorError(f"workday: more than {MAX_PAGES} pages; refusing a partial result")
 
     async def fetch_job_detail(self, board_identifier: str, job: RawJob) -> RawJob | None:
@@ -309,6 +362,62 @@ class WorkdayConnector(BaseConnector):
             remote_type=remote_type_from_value(posting.get("remoteType")),
             source_url=f"{base}{path}",
         )
+
+
+def _slice_key(applied: dict[str, list[str]]) -> str:
+    """Stable name of a facet slice ("" = the whole board), used as checkpoint key."""
+    return json.dumps(applied, sort_keys=True) if applied else ""
+
+
+@dataclass
+class _Run:
+    """State of one list fetch; serialisable to a checkpoint so it can be resumed."""
+
+    board: str
+    postings: dict[str, dict[str, Any]] = field(default_factory=dict)
+    done: set[str] = field(default_factory=set)  # finished slice keys
+    cursor: dict[str, tuple[int, int]] = field(default_factory=dict)  # slice -> (page, count)
+    expected: int | None = None
+    pages: int = 0
+    pages_since_save: int = 0
+
+    def add(self, batch: list[dict[str, Any]]) -> int:
+        """Add list postings; return how many were new."""
+        before = len(self.postings)
+        for posting in batch:
+            path = posting.get("externalPath")
+            if path:
+                self.postings[_external_id(path)] = {
+                    k: posting[k] for k in _KEPT_FIELDS if k in posting
+                }
+        return len(self.postings) - before
+
+    def to_checkpoint(self) -> dict[str, Any]:
+        return {
+            "version": CHECKPOINT_VERSION,
+            "board": self.board,
+            "saved_at": now_iso(),
+            "postings": self.postings,
+            "done": sorted(self.done),
+            "cursor": {k: list(v) for k, v in self.cursor.items()},
+        }
+
+    @classmethod
+    def from_checkpoint(cls, board: str, data: dict[str, Any] | None) -> "_Run | None":
+        """The saved run, or None if absent, for another board, of an old format or stale."""
+        if not data or data.get("version") != CHECKPOINT_VERSION or data.get("board") != board:
+            return None
+        if not is_fresh(data.get("saved_at"), CHECKPOINT_MAX_AGE):
+            return None
+        try:
+            return cls(
+                board=board,
+                postings=dict(data["postings"]),
+                done=set(data["done"]),
+                cursor={k: (int(v[0]), int(v[1])) for k, v in data["cursor"].items()},
+            )
+        except (KeyError, TypeError, ValueError, IndexError):
+            return None
 
 
 def _external_id(external_path: str) -> str:

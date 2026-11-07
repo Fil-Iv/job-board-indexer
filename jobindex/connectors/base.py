@@ -27,6 +27,7 @@ from decimal import Decimal
 from html import unescape
 from typing import Any, ClassVar
 
+from jobindex.checkpoint import CheckpointStore, MemoryCheckpoint
 from jobindex.http import HttpClient
 from jobindex.models.enums import RemoteType
 from jobindex.normalize import (
@@ -147,8 +148,11 @@ class BaseConnector(ABC):
     detail_fields: ClassVar[tuple[str, ...]] = ("description_html", "description_text")
     detail_cache_key: ClassVar[tuple[str, ...]] = ("title", "location_raw", "posted_at")
 
-    def __init__(self, http: HttpClient) -> None:
+    def __init__(self, http: HttpClient, checkpoint: CheckpointStore | None = None) -> None:
         self.http = http
+        #: Where a long ``fetch_jobs`` may save progress to resume after a failure
+        #: (``sources.crawl_checkpoint`` when run by the crawler). See jobindex.checkpoint.
+        self.checkpoint: CheckpointStore = checkpoint or MemoryCheckpoint()
 
     @classmethod
     @abstractmethod

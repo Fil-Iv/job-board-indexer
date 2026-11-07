@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import httpx
 import pytest
 
@@ -13,15 +15,14 @@ from tests.fakes import FakeConnector, mock_http
 
 
 def test_default_registry_has_all_connectors() -> None:
-    assert default_registry().platforms == [
-        "ashby",
-        "greenhouse",
-        "lever",
-        "recruitee",
-        "smartrecruiters",
-        "workable",
-        "workday",
-    ]
+    # One module per platform, named after its key (CLAUDE.md): every module registers.
+    modules = sorted(
+        p.stem
+        for p in (Path(__file__).parent.parent / "jobindex" / "connectors").glob("*.py")
+        if p.stem not in {"__init__", "base", "registry"}
+    )
+    assert default_registry().platforms == modules
+    assert {"ashby", "greenhouse", "lever", "workday"} <= set(modules)
 
 
 def test_registry_basics() -> None:
