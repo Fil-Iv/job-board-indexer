@@ -1,0 +1,81 @@
+{
+ "jobPostingInfo": {
+  "id": "176ed2e178a510125213cb4f84c30000",
+  "title": "Senior Manager, Engineering - Data Center Firmware",
+  "jobDescription": "<p><span>NVIDIA&#39;s invention of the GPU in 1999 sparked the growth of the PC gaming market, redefined modern computer graphics, and revolutionized parallel computing. More recently, GPU deep learning ignited modern deep learning - the next era of computing - with the GPU acting as the brain of computers, robots, and self-driving cars that can perceive and understand the world. Today, we are increasingly known as &#34;the AI computing company.&#34; We&#39;re looking to grow our company and establish teams with the most thoughtful people in the world.</span></p><p></p><p><span>We are looking for an excellent Senior Engineering Manager to lead a large firmware engineering organization delivering end-to-end manageability firmware for NVIDIA&#39;s next generation Data Center Compute Systems. This role owns HGX product line and  OpenBMC-based management firmware and MCU firmware components in data center platforms, including architecture, execution, quality, reliability, telemetry, and customer readiness. We are seeking an experienced senior leader with strong technical depth, broad system perspective, and a proven ability to lead large teams through complex product cycles. This role is onsite in Santa Clara, CA, USA. If you&#39;re creative and autonomous, we want to hear from you!</span></p><p></p><p><b>What you&#39;ll be doing:</b></p><ul><li><p><span>Lead a large firmware engineering organization delivering OpenBMC based firmware and MCU firmware for next-generation Data Center Compute Systems.</span></p></li><li><p><span>Own HGX platform as a lead for Firmware and System software readiness working across the organization.</span></p></li><li><p><span>Define and drive the long-term firmware roadmap, balancing architectural innovation with product execution and delivery milestones.</span></p></li><li><p><span>Drive architecture strategy across BMC, MCU, platform software, manageability, health management, and data center firmware interfaces.</span></p></li><li><p><span>Lead execution across multiple programs, coordinating priorities, hiring, managing cross component dependencies, and delivery commitments across a large engineering team.</span></p></li><li><p><span>Collaborate with data center architects, cloud customers, senior stakeholders, and cross-functional teams to define requirements, scope implementation, and deliver at Speed of Light.</span></p></li><li><p><span>Partner with hardware, systems, security, validation, manufacturing, field, and customer engineering teams to ensure scalable manageability architecture across data center products.</span></p></li><li><p><span>Manage customer and executive escalations for complex firmware, platform, and deployment issues.</span></p></li><li><p><span>Build, mentor, and grow a high-performing engineering organization with strong technical leadership, execution discipline, and quality culture.</span></p></li></ul><p></p><p><b>What we need to see:</b></p><ul><li><p><span>BS, MS, or PhD in EE/CS or related field of education or equivalent experience.</span></p></li><li><p><span>12&#43; overall years of proven experience in server firmware, BMC/OpenBMC, MCU firmware, platform software, or data center systems.</span></p></li><li><p><span>6&#43; years of experience managing software/firmware engineering teams.</span></p></li><li><p><span>Strong technical leadership in data center system architecture, server manageability, telemetry, health management, and reliability at scale.</span></p></li><li><p><span>Proven record delivering production firmware for large data centers with strong quality, debug, and operational discipline.</span></p></li><li><p><span>Experience leading architecture and execution across multiple programs, cross-functional teams, and customer-facing deliverables.</span></p></li><li><p><span>Strong understanding of firmware development lifecycle, validation, release management, issue triage, and production support.</span></p></li><li><p><span>Excellent communication skills, strong work ethic, sound judgment, and the ability to align teams through complex technical and business tradeoffs.</span></p></li></ul><p></p><p><b>Ways to stand out from the crowd:</b></p><ul><li><p><span>Experience leading large distributed engineering organizations, including multi-team execution and senior technical leaders.</span></p></li><li><p><span>High level of ownership to deliver products working across matric organization, having done that for a couple of products. Having mindset bucks stop at me.</span></p></li><li><p><span>Hands-on experience with BMC firmware/software stack, MCU firmware, C/C&#43;&#43;, Python, and debugging server platform. Expertise with OOB management DMTF protocols and standards such as MCTP, PLDM, SPDM, and Redfish.</span></p></li><li><p><span>Experience with Embedded Linux, FreeRTOS, Yocto/BitBake, Git, Perforce, Jira, and modern firmware CI/CD practices.</span></p></li><li><p><span>Proven ability to drive complex architecture, quality, reliability, and customer escalation work across 25&#43; engineers or similarly large engineering teams.</span></p></li></ul><p></p><p>NVIDIA is leading the way in groundbreaking developments in Artificial Intelligence, High-Performance Computing, and Visualization. Our invention serves as the visual cortex of modern computers and is at the heart of our products and services. Our work opens up new universes to explore, enables amazing creativity and discovery, and powers what were once science fiction inventions from artificial intelligence to autonomous cars. NVIDIA is seeking exceptional individuals like you to help us drive the next wave of artificial intelligence.</p><p></p><p>NVIDIA is widely considered to be one of the technology world’s most desirable employers. We have some of the most forward-thinking and hardworking people in the world working for us. Are you creative and autonomous? Do you love a challenge? If so, we want to hear from you. Come, join our Data center server systems team and help build the real-time, cost-effective computing platform driving our success in this exciting and quickly growing field.</p><p style=\"text-align:inherit\"></p><p style=\"text-align:inherit\"></p>Your base salary will be determined based on your location, experience, and other objective job-related factors. The expected base salary range for this position is 272,000 USD – 431,250 USD.<div><div><div><div><div><div><div><p></p><p><span>You will also be eligible for equity and <a href=\"https://www.nvidia.com/en-us/benefits/\" target=\"_blank\">benefits</a>.</span></p><p></p></div></div></div></div></div></div></div>Applications for this job will be accepted at least until November 10, 2026.<p></p><p>This posting is for an existing vacancy. </p><p>NVIDIA uses AI tools in its recruiting processes.</p><p></p>NVIDIA is committed to fostering an inclusive work environment and proud to be an equal opportunity employer. As we highly value diversity in our current and future employees, we do not discriminate (including in our hiring and promotion practices) on the basis of race, religion, color, national origin, gender, gender expression, sexual orientation, age, marital status, veteran status, disability status or any other characteristic protected by law.<p style=\"text-align:inherit\"></p><p style=\"text-align:inherit\"></p>",
+  "location": "US, CA, Santa Clara",
+  "additionalLocations": [
+   "US, CA, Remote"
+  ],
+  "postedOn": "Posted Today",
+  "startDate": "2026-11-06",
+  "timeType": "Full time",
+  "jobReqId": "JR2019986",
+  "jobPostingId": "Senior-Manager--Engineering---Data-Center-Firmware_JR2019986",
+  "jobPostingSiteId": "NVIDIAExternalCareerSite",
+  "country": {
+   "descriptor": "United States of America",
+   "id": "bc33aa3152ec42d4995f4791a106ed09"
+  },
+  "canApply": true,
+  "posted": true,
+  "includeResumeParsing": true,
+  "jobRequisitionLocation": {
+   "descriptor": "US, CA, Santa Clara",
+   "country": {
+    "descriptor": "United States of America",
+    "id": "bc33aa3152ec42d4995f4791a106ed09",
+    "alpha2Code": "US"
+   }
+  },
+  "externalUrl": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Manager--Engineering---Data-Center-Firmware_JR2019986",
+  "questionnaireId": "2f2764b3a82910064296831695150000"
+ },
+ "hiringOrganization": {
+  "name": "2100 NVIDIA USA",
+  "url": ""
+ },
+ "similarJobs": [
+  {
+   "title": "Senior Manager, Software Engineering - Rack Scale Systems Infrastructure",
+   "externalPath": "/job/US-CA-Santa-Clara/Senior-Manager--Software-Engineering---Rack-Scale-Systems-Infrastructure_JR2027577",
+   "timeType": "Full time",
+   "locationsText": "2 Locations",
+   "postedOn": "Posted 7 Days Ago",
+   "startDate": "2026-10-30"
+  },
+  {
+   "title": "Senior Manager, Developer Infrastructure and Build Engineering",
+   "externalPath": "/job/US-CA-Santa-Clara/Senior-Manager--Developer-Infrastructure-and-Build-Engineering_JR2027687",
+   "timeType": "Full time",
+   "locationsText": "US, CA, Santa Clara",
+   "postedOn": "Posted 7 Days Ago",
+   "startDate": "2026-10-30"
+  },
+  {
+   "title": "Senior Technical Program Manager, Cloud Infrastructure",
+   "externalPath": "/job/US-CA-Santa-Clara/Senior-Technical-Program-Manager--Cloud-Infrastructure_JR2028002",
+   "timeType": "Full time",
+   "locationsText": "2 Locations",
+   "postedOn": "Posted 7 Days Ago",
+   "startDate": "2026-10-30"
+  },
+  {
+   "title": "Senior Technical Program Manager, Cloud Infrastructure",
+   "externalPath": "/job/US-CA-Santa-Clara/Senior-Technical-Program-Manager--Cloud-Infrastructure_JR2025890",
+   "timeType": "Full time",
+   "locationsText": "2 Locations",
+   "postedOn": "Posted Yesterday",
+   "startDate": "2026-11-05"
+  },
+  {
+   "title": "Senior Manager, Embedded Imaging Software",
+   "externalPath": "/job/US-CA-Santa-Clara/Senior-Manager--Embedded-Imaging-Software_JR2024977",
+   "timeType": "Full time",
+   "locationsText": "US, CA, Santa Clara",
+   "postedOn": "Posted 7 Days Ago",
+   "startDate": "2026-10-30"
+  }
+ ],
+ "userAuthenticated": false
+}

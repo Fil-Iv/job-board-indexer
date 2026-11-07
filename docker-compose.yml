@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-jobindex}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-jobindex}
+      POSTGRES_DB: ${POSTGRES_DB:-jobindex}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Creates the separate `jobindex_test` database used by `make test`.
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  app:
+    build: .
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-jobindex}:${POSTGRES_PASSWORD:-jobindex}@db:5432/${POSTGRES_DB:-jobindex}
+      TEST_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-jobindex}:${POSTGRES_PASSWORD:-jobindex}@db:5432/jobindex_test
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    volumes:
+      # Mount the source so code changes apply without rebuilding (dev setup).
+      - .:/app
+    command: ["uvicorn", "jobindex.api.app:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  pgdata:

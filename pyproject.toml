@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jobindex"
+version = "0.1.0"
+description = "Job board indexer: pulls postings from ATS and job-board platforms into one searchable index."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "sqlalchemy[asyncio]>=2.0.36,<2.1",
+    "alembic>=1.14",
+    "psycopg[binary]>=3.2",
+    "httpx>=0.28",
+    "apscheduler>=3.10,<4",
+    "pydantic-settings>=2.6",
+    "selectolax>=1.0",
+    "pycountry>=24.6",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "pyyaml>=6.0",
+    "types-PyYAML>=6.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["jobindex"]
+
+# --- ruff -------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["migrations/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "ASYNC", "PT"]
+
+# Real postings use these characters; tests and parsers must handle them.
+allowed-confusables = ["–", "—", "’", "·"]
+
+[tool.ruff.lint.per-file-ignores]
+"migrations/*" = ["E501"]
+
+# --- mypy -------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+files = ["jobindex", "tests", "scripts", "migrations/env.py"]
+
+[[tool.mypy.overrides]]
+module = ["apscheduler.*"]
+ignore_missing_imports = true
+
+# --- pytest -----------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+# Live tests hit real employer boards; run them with `make test-live`.
+addopts = "-ra -m 'not live'"
+markers = ["live: hits real third-party endpoints over the network (deselected by default)"]

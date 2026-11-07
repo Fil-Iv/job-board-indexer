@@ -1,0 +1,76 @@
+{
+  "examples": {
+    "https://careers.smartrecruiters.com/BoschGroup": {
+      "url": "https://careers.smartrecruiters.com/BoschGroup",
+      "last_run_at": "2026-11-07T04:40:24+00:00",
+      "last_status": "blocked",
+      "last_jobs_found": null,
+      "last_error": "blocked by robots.txt (https://api.smartrecruiters.com/v1/companies/BoschGroup/postings)",
+      "last_success_at": null,
+      "last_success_jobs": null
+    },
+    "https://job-boards.greenhouse.io/discord": {
+      "url": "https://job-boards.greenhouse.io/discord",
+      "last_run_at": "2026-11-07T04:40:25+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 27,
+      "last_error": null,
+      "last_success_at": "2026-11-07T04:40:25+00:00",
+      "last_success_jobs": 27
+    },
+    "https://job-boards.greenhouse.io/gitlab": {
+      "url": "https://job-boards.greenhouse.io/gitlab",
+      "last_run_at": "2026-11-07T04:40:27+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 248,
+      "last_error": null,
+      "last_success_at": "2026-11-07T04:40:27+00:00",
+      "last_success_jobs": 248
+    },
+    "https://jobs.ashbyhq.com/linear": {
+      "url": "https://jobs.ashbyhq.com/linear",
+      "last_run_at": "2026-11-07T04:40:25+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 32,
+      "last_error": null,
+      "last_success_at": "2026-11-07T04:40:25+00:00",
+      "last_success_jobs": 32
+    },
+    "https://jobs.ashbyhq.com/ramp": {
+      "url": "https://jobs.ashbyhq.com/ramp",
+      "last_run_at": "2026-11-07T04:40:26+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 171,
+      "last_error": null,
+      "last_success_at": "2026-11-07T04:40:26+00:00",
+      "last_success_jobs": 171
+    },
+    "https://jobs.lever.co/palantir": {
+      "url": "https://jobs.lever.co/palantir",
+      "last_run_at": "2026-11-07T04:41:10+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 305,
+      "last_error": null,
+      "last_success_at": "2026-11-07T04:41:10+00:00",
+      "last_success_jobs": 305
+    },
+    "https://jobs.lever.co/spotify": {
+      "url": "https://jobs.lever.co/spotify",
+      "last_run_at": "2026-11-07T04:40:33+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 85,
+      "last_error": null,
+      "last_success_at": "2026-11-07T04:40:33+00:00",
+      "last_success_jobs": 85
+    },
+    "https://jobs.smartrecruiters.com/Ubisoft2": {
+      "url": "https://jobs.smartrecruiters.com/Ubisoft2",
+      "last_run_at": "2026-11-07T04:40:24+00:00",
+      "last_status": "blocked",
+      "last_jobs_found": null,
+      "last_error": "blocked by robots.txt (https://api.smartrecruiters.com/v1/companies/Ubisoft2/postings)",
+      "last_success_at": null,
+      "last_success_jobs": null
+    }
+  }
+}
