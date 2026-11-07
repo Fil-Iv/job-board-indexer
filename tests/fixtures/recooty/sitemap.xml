@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<urlset xmlns="http://www.google.com/schemas/sitemap/0.84" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.google.com/schemas/sitemap/0.84 http://www.google.com/schemas/sitemap/0.84/sitemap.xsd">
+
+    <url>
+        <loc>https://jobs.recooty.com/</loc>
+        <priority>1.00</priority>
+    </url>
+<url>
+        <loc>https://jobs.recooty.com/provanic/laravel-developer-pr271</loc>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://jobs.recooty.com/provanic/content-writer-pr283</loc>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://jobs.recooty.com/discovery-care-group/health-care-assistant-margate-days-nights-di101</loc>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://jobs.recooty.com/discovery-care-group/senior-healthcare-assistant-margate-days-nights-di105</loc>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+<url>
+        <loc>https://jobs.recooty.com/discovery-care-group/activities-coordinator-thanet-di110</loc>
+        <changefreq>hourly</changefreq>
+        <priority>0.8</priority>
+    </url>
+</urlset>

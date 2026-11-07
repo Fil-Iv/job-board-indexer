@@ -625,15 +625,18 @@
 - name: Recooty
   key: recooty
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
-  examples: []
-  robots: unknown
-  verified: null
-  notes: ""
+  status: done
+  connector: jobindex.connectors.recooty
+  public_api: "no"
+  api: "GET jobs.recooty.com/sitemap.xml (all tenants, no lastmod) + GET /{slug}/{title}-{code} (JSON-LD JobPosting)"
+  url_patterns: ["jobs.recooty.com/{slug}", "jobs.recooty.com/{slug}/{title}-{code}"]
+  examples:
+    - https://jobs.recooty.com/discovery-care-group
+    - https://jobs.recooty.com/gibbons-group
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector. No lastmod: pages re-fetched every GENERIC_REFRESH_DAYS. Sitemap matched the paged listing (28 jobs, Discovery Care Group)."
 
 - name: Recruitee
   key: recruitee
@@ -891,13 +894,15 @@
   type: jobboard
   status: todo
   tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
-  examples: []
-  robots: unknown
+  public_api: "no"
+  api: "GET {board}/sitemap.xml (lastmod) + GET /jobs/{id}-{slug} (JSON-LD JobPosting); REST API needs the owner's key"
+  url_patterns: ["{board}.jobkit.io", "custom domains (link to www.jobkit.io)", "{board}/jobs/{id}-{slug}"]
+  examples:
+    - https://jobs.rubyonrails.org/
+  robots: allowed
   verified: null
-  notes: ""
+  generic: yes
+  notes: "Generic sitemap + JSON-LD works on jobs.rubyonrails.org (13 jobs, 6/6 pages, 2026-11-07); a thin generic_jsonld subclass is enough. Blocked on a second live board: railsworld.jobkit.io and jobs.jobkit.io list 0 jobs, web search found no other JobKit boards."
 
 - name: Jobboardly
   key: jobboardly
@@ -1020,15 +1025,18 @@
 - name: JobMount
   key: jobmount
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
-  examples: []
-  robots: unknown
-  verified: null
-  notes: ""
+  status: done
+  connector: jobindex.connectors.jobmount
+  public_api: "no"
+  api: "GET {board}/sitemap.xml + GET each job page /career/{id}/{slug} (JSON-LD JobPosting)"
+  url_patterns: ["custom domains (Powered by JobMount: www.jobboardmount.com)", "{board}/career/{id}/{slug}"]
+  examples:
+    - https://jobnet.wacities.org/
+    - https://jobs.imdiversity.com/
+  robots: allowed
+  verified: 2026-11-07
+  generic: yes
+  notes: "Generic sitemap + JSON-LD connector. Some salaries are published in cents (10226400 for $102,264): annual amounts of 5M+ are dropped. jobnet.wacities.org briefly failed with HTTP/2 framing errors on 2026-11-07 (transient)."
 
 - name: CareerSiteCloud
   key: careersitecloud

@@ -211,6 +211,46 @@ async def test_closed_postings_come_back_expired(response: httpx.Response, why: 
     assert job.list_version == "2026-11-01"
 
 
+@pytest.mark.parametrize(
+    "text",
+    [
+        "applications are accepted until the position is filled.",  # JobMount boilerplate
+        "the posting will remain open until the job is filled",
+        "apply now. once the role is filled we will contact all applicants",
+    ],
+)
+async def test_conditional_closed_wording_is_not_a_closed_notice(text: str) -> None:
+    page = httpx.Response(200, text=_page("1", body=f"<p>{text}</p>"))
+    http, _ = mock_http(_routes("", {"/job/1-engineer": page}))
+    async with http:
+        job = await ExampleConnector(http).fetch_job_detail(HOST, _stub("1"))
+    assert job is not None
+    assert job.expires_at == datetime(2099, 1, 2, tzinfo=UTC)
+
+
+@pytest.mark.parametrize(
+    ("unit", "amounts", "expected"),
+    [
+        ("HOUR", (79229.54, 113390.04), ("79229.54", "year")),  # ApplicantPro
+        ("YEAR", (10226400, 12463200), (None, None)),  # cents (JobMount): dropped
+        ("HOUR", (25, 30), ("25", "hour")),
+    ],
+)
+async def test_implausible_salaries(
+    unit: str, amounts: tuple[float, float], expected: tuple[str | None, str | None]
+) -> None:
+    html = _page("1").replace(
+        '"minValue":50000,"maxValue":60000,"unitText":"YEAR"',
+        (f'"minValue":{amounts[0]},"maxValue":{amounts[1]},"unitText":"{unit}"'),
+    )
+    http, _ = mock_http(_routes("", {"/job/1-engineer": httpx.Response(200, text=html)}))
+    async with http:
+        job = await ExampleConnector(http).fetch_job_detail(HOST, _stub("1"))
+    assert job is not None
+    salary_min = str(job.salary_min) if job.salary_min is not None else None
+    assert (salary_min, job.salary_period) == expected
+
+
 async def test_redirect_away_from_the_job_counts_as_closed() -> None:
     routes = _routes(
         "",

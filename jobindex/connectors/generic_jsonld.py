@@ -70,10 +70,16 @@ MAX_UNEXPLAINED = 3  # pages without JobPosting/closed notice tolerated per craw
 MAX_UNEXPLAINED_SHARE = 0.2  # ... or this share of fetched pages, whichever is larger
 PROGRESS_EVERY = 100
 
+# Words that make a closed-sounding phrase conditional: "open until the position is filled".
+_NOT_AFTER = "".join(
+    f"(?<!{word} )" for word in ("until", "once", "when", "after", "before", "if", "unless")
+)
+
 # "This job is closed" notices, matched against the page's visible text (lower-cased).
 CLOSED_PATTERNS: tuple[re.Pattern[str], ...] = (
     re.compile(
-        r"\b(?:this|the) (?:job|position|posting|vacancy|role|opening|opportunity|listing)"
+        _NOT_AFTER + r"\b(?:this|the) "
+        r"(?:job|position|posting|vacancy|role|opening|opportunity|listing)"
         r"(?: posting| listing| ad| offer)? (?:is|has been|was) (?:now )?"
         r"(?:no longer (?:available|active|open|accepting applications)|closed|expired|filled)"
     ),
@@ -313,7 +319,7 @@ class GenericJsonLdConnector(BaseConnector):
         raw = to_raw_job(item, external_id=stub.external_id, source_url=url)
         if raw.posted_at is None and isinstance(item.get("datePosted"), str):
             raw = replace(raw, posted_at=self.parse_date(item["datePosted"].strip()))
-        raw = self.adjust(_plausible_salary_period(raw), item)
+        raw = self.adjust(_plausible_salary(raw), item)
         expires_at = self._valid_through(item) if self.trust_valid_through else None
         if self.is_closed_page(text):
             expires_at = now if expires_at is None else min(expires_at, now)
@@ -372,12 +378,27 @@ def refresh_token(url: str, days: int, day: int) -> str:
     return f"refresh:{days}:{(day + offset) // days}"
 
 
-def _plausible_salary_period(job: RawJob) -> RawJob:
-    """Some sites label annual amounts as hourly (ApplicantPro: "HOUR", 79229.54-113390.04);
-    an hourly rate of 1000+ is re-inferred from the amount instead."""
+MAX_PLAUSIBLE_ANNUAL_SALARY = Decimal(5_000_000)
+
+
+def _plausible_salary(job: RawJob) -> RawJob:
+    """Fix or drop salaries that cannot be right.
+
+    * annual amounts labelled hourly (ApplicantPro: "HOUR", 79229.54-113390.04): an hourly
+      rate of 1000+ is re-inferred from the amount;
+    * amounts in cents (JobMount on jobnet.wacities.org: 10226400-12463200 "YEAR" for
+      $102,264-124,632, on some postings only): annual amounts of 5M+ are dropped, since
+      guessing the scale would be wrong as often as right.
+    """
     amount = job.salary_max or job.salary_min
-    if job.salary_period == "hour" and amount is not None and amount >= 1000:
+    if amount is None:
+        return job
+    if job.salary_period == "hour" and amount >= 1000:
         return replace(job, salary_period=infer_salary_period(amount))
+    if job.salary_period in ("year", None) and amount >= MAX_PLAUSIBLE_ANNUAL_SALARY:
+        return replace(
+            job, salary_min=None, salary_max=None, salary_currency=None, salary_period=None
+        )
     return job
 
 
