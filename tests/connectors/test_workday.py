@@ -83,23 +83,49 @@ def test_detect_in_html() -> None:
     assert WorkdayConnector.detect_in_html(page) == {BOARD: 1}
 
 
-def _board(postings: list[dict[str, Any]], *, total: int, facet_total: int | None) -> Any:
-    """A paging handler that behaves like the real CXS API (verified on NVIDIA 2026-11-07):
-    `total` only on page 1, and offsets past the end wrap around to page 1 instead of
-    returning an empty page."""
+def _board(
+    postings: list[dict[str, Any]],
+    *,
+    cap: int = 2000,
+    families: list[str] | None = None,
+    facet_total: bool = True,
+    report_total: bool = True,
+) -> Any:
+    """A paging handler modelled on the real CXS API (verified on NVIDIA 2026-11-07):
+    at most ``cap`` results per query; ``total`` only on page 1 and itself capped; offsets
+    past the end (or the cap) wrap to page 1; ``appliedFacets.jobFamilyGroup`` filters by
+    ``families[i]``; facets report true counts for the filtered set."""
 
     def handle(request: httpx.Request) -> httpx.Response:
         body = json.loads(request.content)
         offset, limit = body["offset"], body["limit"]
-        page = postings[offset : offset + limit] if offset < len(postings) else postings[:limit]
-        facets = (
-            [{"facetParameter": "timeType",
-              "values": [{"descriptor": "Full time", "count": facet_total, "id": "x"}]}]
-            if offset == 0 and facet_total is not None
-            else []
-        )
-        data = {"total": total if offset == 0 else 0, "jobPostings": page, "facets": facets}
-        return httpx.Response(200, json=data)
+        wanted = body["appliedFacets"].get("jobFamilyGroup")
+        rows = [
+            p for i, p in enumerate(postings) if not wanted or (families and families[i] in wanted)
+        ]
+        reachable = rows[:cap]
+        page = reachable[offset : offset + limit] if offset < len(reachable) else rows[:limit]
+        facets = []
+        if offset == 0 and facet_total:
+            facets.append(
+                {
+                    "facetParameter": "timeType",
+                    "values": [{"descriptor": "Full time", "count": len(rows), "id": "ft"}],
+                }
+            )
+        if offset == 0 and families:
+            counts: dict[str, int] = {}
+            for i, _ in enumerate(postings):
+                if not wanted or families[i] in wanted:
+                    counts[families[i]] = counts.get(families[i], 0) + 1
+            facets.append(
+                {
+                    "facetParameter": "jobFamilyGroup",
+                    "values": [{"descriptor": f, "count": c, "id": f} for f, c in counts.items()],
+                }
+            )
+        total = min(len(rows), cap) if offset == 0 and report_total else 0
+        return httpx.Response(200, json={"total": total, "jobPostings": page, "facets": facets})
 
     return handle
 
@@ -112,6 +138,10 @@ def _postings(n: int) -> list[dict[str, Any]]:
         p["externalPath"] = p["externalPath"].rsplit("_", 1)[0] + f"_JR{i:07d}"
         out.append(p)
     return out
+
+
+def _post_bodies(seen: list[httpx.Request]) -> list[dict[str, Any]]:
+    return [json.loads(r.content) for r in seen if r.method == "POST"]
 
 
 async def test_fetch_jobs_from_fixture() -> None:
@@ -141,36 +171,58 @@ async def test_fetch_jobs_from_fixture() -> None:
     assert first.description_html is None  # comes from the detail request
 
 
-async def test_pages_past_the_2000_cap(monkeypatch: pytest.MonkeyPatch) -> None:
-    # Like NVIDIA: `total` says 2000 (capped) but there are more; facets know the truth.
+async def test_board_above_cap_is_split_by_facet(monkeypatch: pytest.MonkeyPatch) -> None:
+    # Like NVIDIA: 23 postings but a query only reaches 10; jobFamilyGroup partitions them.
     monkeypatch.setattr(workday, "PAGE_SIZE", 5)
-    postings = _postings(23)
-    http, seen = mock_http({f"{API}/jobs": _board(postings, total=20, facet_total=23)})
+    monkeypatch.setattr(workday, "RESULT_CAP", 10)
+    families = ["eng"] * 9 + ["sales"] * 8 + ["ops"] * 6
+    handler = _board(_postings(23), cap=10, families=families)
+    http, seen = mock_http({f"{API}/jobs": handler})
     async with http:
         jobs = await WorkdayConnector(http).fetch_jobs(BOARD)
     assert len(jobs) == 23
-    offsets = [json.loads(r.content)["offset"] for r in seen if r.method == "POST"]
-    assert offsets == [0, 5, 10, 15, 20]
+    applied = [tuple(b["appliedFacets"].get("jobFamilyGroup", [])) for b in _post_bodies(seen)]
+    assert set(applied) == {(), ("eng",), ("sales",), ("ops",)}
+
+
+async def test_above_cap_without_partition_is_refused(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(workday, "PAGE_SIZE", 5)
+    monkeypatch.setattr(workday, "RESULT_CAP", 10)
+    http, _ = mock_http({f"{API}/jobs": _board(_postings(23), cap=10)})  # no family facet
+    async with http:
+        with pytest.raises(ConnectorError, match="no facet partitions them"):
+            await WorkdayConnector(http).fetch_jobs(BOARD)
+
+
+async def test_non_json_page_is_retried(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(workday, "NON_JSON_BACKOFF_SECONDS", 0)
+    body = load_json_fixture("workday", "nvidia_jobs_page1.json")
+    body.update(total=3, facets=[])
+    replies = [httpx.Response(200, text=""), httpx.Response(200, json=body)]
+    http, _ = mock_http({f"{API}/jobs": lambda request: replies.pop(0)})
+    async with http:
+        assert len(await WorkdayConnector(http).fetch_jobs(BOARD)) == 3
 
 
 async def test_stops_when_pages_wrap_around(monkeypatch: pytest.MonkeyPatch) -> None:
     # No usable total: only the wrap-around (a page with nothing new) ends the paging.
     monkeypatch.setattr(workday, "PAGE_SIZE", 5)
-    http, seen = mock_http({f"{API}/jobs": _board(_postings(10), total=0, facet_total=None)})
+    http, seen = mock_http(
+        {f"{API}/jobs": _board(_postings(10), facet_total=False, report_total=False)}
+    )
     async with http:
         jobs = await WorkdayConnector(http).fetch_jobs(BOARD)
     assert len(jobs) == 10
-    offsets = [json.loads(r.content)["offset"] for r in seen if r.method == "POST"]
-    assert offsets == [0, 5, 10]  # offset 10 wraps to page 1 -> nothing new -> stop
+    assert [b["offset"] for b in _post_bodies(seen)] == [0, 5, 10]  # 10 wraps to page 1
 
 
-async def test_short_result_is_retried_then_refused(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(workday, "PAGE_SIZE", 5)
-    http, seen = mock_http({f"{API}/jobs": _board(_postings(8), total=10, facet_total=10)})
-    async with http:
-        with pytest.raises(ConnectorError, match="got 8 of 10"):
-            await WorkdayConnector(http).fetch_jobs(BOARD)
-    assert len([r for r in seen if r.method == "POST"]) == 4  # 2 pages x 2 attempts
+def test_partition_facet_prefers_smallest_largest_slice() -> None:
+    page = load_json_fixture("workday", "nvidia_jobs_page1.json")  # real NVIDIA facets
+    split = workday._partition_facet(page, 2810, {})
+    assert split is not None
+    param, values = split
+    assert param == "jobFamilyGroup"  # max 1779, vs workerSubType 2307 / timeType 2809
+    assert sum(c for _, c in values) == 2810
 
 
 async def test_fetch_job_detail() -> None:

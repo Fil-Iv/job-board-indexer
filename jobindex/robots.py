@@ -47,8 +47,10 @@ def _normalise_path(path: str) -> str:
 
 
 class RobotsTxt:
-    def __init__(self, groups: list[_Group]) -> None:
+    def __init__(self, groups: list[_Group], sitemaps: list[str] | None = None) -> None:
         self._groups = groups
+        #: ``Sitemap:`` URLs listed anywhere in the file (they are not group-specific).
+        self.sitemaps: list[str] = sitemaps or []
 
     @classmethod
     def allow_all(cls) -> "RobotsTxt":
@@ -61,6 +63,7 @@ class RobotsTxt:
     @classmethod
     def parse(cls, text: str) -> "RobotsTxt":
         groups: list[_Group] = []
+        sitemaps: list[str] = []
         current: _Group | None = None
         last_was_agent = False
         for raw_line in text.splitlines():
@@ -69,6 +72,10 @@ class RobotsTxt:
                 continue
             key, value = (part.strip() for part in line.split(":", 1))
             key = key.lower()
+            if key == "sitemap":
+                # "Sitemap: https://..." — rejoin the scheme split off by split(":", 1).
+                sitemaps.append(line.split(":", 1)[1].strip())
+                continue
             if key == "user-agent":
                 if current is None or not last_was_agent:
                     current = _Group()
@@ -87,7 +94,7 @@ class RobotsTxt:
             elif key == "crawl-delay":
                 with contextlib.suppress(ValueError):
                     current.crawl_delay = float(value)
-        return cls(groups)
+        return cls(groups, sitemaps)
 
     def _groups_for(self, user_agent: str) -> list[_Group]:
         # Product token = the part before "/" (e.g. "JobIndexBot" in "JobIndexBot/0.1 (...)").
@@ -97,7 +104,9 @@ class RobotsTxt:
             return specific
         return [g for g in self._groups if "*" in g.agents]
 
-    def can_fetch(self, user_agent: str, url: str) -> bool:
+    def explain(self, user_agent: str, url: str) -> tuple[bool, str | None]:
+        """``(allowed, rule)``: the deciding rule as written ("Disallow: /"), or None when
+        no rule matches (allowed by default). Used for evidence in coverage reports."""
         parts = urlsplit(url)
         target = _normalise_path((parts.path or "/") + (f"?{parts.query}" if parts.query else ""))
         best: _Rule | None = None
@@ -111,7 +120,12 @@ class RobotsTxt:
                     or (len(rule.path) == len(best.path) and rule.allow and not best.allow)
                 ):
                     best = rule
-        return best is None or best.allow
+        if best is None:
+            return True, None
+        return best.allow, f"{'Allow' if best.allow else 'Disallow'}: {best.path}"
+
+    def can_fetch(self, user_agent: str, url: str) -> bool:
+        return self.explain(user_agent, url)[0]
 
     def crawl_delay(self, user_agent: str) -> float | None:
         delays = [g.crawl_delay for g in self._groups_for(user_agent) if g.crawl_delay is not None]

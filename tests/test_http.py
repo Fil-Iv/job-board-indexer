@@ -87,6 +87,16 @@ async def test_respects_robots_txt() -> None:
     assert [r.url.path for r in seen] == ["/robots.txt"]
 
 
+async def test_robots_txt_itself_is_always_fetchable() -> None:
+    def handle(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, text="User-agent: *\nDisallow: /\n")
+
+    async with _client(httpx.MockTransport(handle)) as http:
+        assert "Disallow: /" in (await http.get("https://example.test/robots.txt")).text
+        with pytest.raises(RobotsDisallowedError):
+            await http.get("https://example.test/jobs")
+
+
 async def test_robots_5xx_means_disallow() -> None:
     def handle(request: httpx.Request) -> httpx.Response:
         return httpx.Response(503 if request.url.path == "/robots.txt" else 200)

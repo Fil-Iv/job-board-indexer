@@ -18,6 +18,12 @@ class Settings(BaseSettings):
     rate_limit_per_host_seconds: float = 1.0
     respect_robots_txt: bool = True
 
+    # SmartRecruiters: api.smartrecruiters.com/robots.txt disallows all crawlers except
+    # LinkedInBot, so the connector reads the public career pages instead. Only switch
+    # this on with written permission from SmartRecruiters (the API path still obeys
+    # robots.txt, so it would just fail otherwise).
+    smartrecruiters_use_api: bool = False
+
     # Scheduler
     scheduler_enabled: bool = False
     crawl_interval_minutes: int = 60

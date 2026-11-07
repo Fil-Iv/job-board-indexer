@@ -75,6 +75,11 @@ class Job(Base):
     apply_url: Mapped[str | None] = mapped_column(Text)
 
     content_hash: Mapped[str] = mapped_column(String(64), index=True)
+    #: Hash of the posting exactly as the connector returned it (before normalisation);
+    #: tells source changes apart from parser changes. NULL for rows from before 0002.
+    raw_hash: Mapped[str | None] = mapped_column(String(64))
+    #: normalize.PARSER_VERSION that produced the stored derived fields.
+    parser_version: Mapped[int | None] = mapped_column(Integer)
     status: Mapped[JobStatus] = mapped_column(
         Enum(
             JobStatus,

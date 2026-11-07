@@ -71,6 +71,24 @@
       "last_error": "blocked by robots.txt (https://api.smartrecruiters.com/v1/companies/Ubisoft2/postings)",
       "last_success_at": null,
       "last_success_jobs": null
+    },
+    "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite": {
+      "url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite",
+      "last_run_at": "2026-11-07T05:22:12+00:00",
+      "last_status": "failed",
+      "last_jobs_found": null,
+      "last_error": "ConnectorError: workday: got 2000 of 2810 postings; refusing a partial result",
+      "last_success_at": null,
+      "last_success_jobs": null
+    },
+    "https://wd3.myworkdaysite.com/recruiting/pwc/Global_Experienced_Careers": {
+      "url": "https://wd3.myworkdaysite.com/recruiting/pwc/Global_Experienced_Careers",
+      "last_run_at": "2026-11-07T05:25:24+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 3790,
+      "last_error": null,
+      "last_success_at": "2026-11-07T05:25:24+00:00",
+      "last_success_jobs": 3790
     }
   }
 }

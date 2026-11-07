@@ -42,6 +42,7 @@ def test_html_to_text() -> None:
         ("Austin, Texas", Location("Austin", "TX", "US")),
         ("Toronto, ON, Canada", Location("Toronto", "ON", "CA")),
         ("Montreal, Quebec", Location("Montreal", "QC", "CA")),
+        ("Montreal, Québec, Canada", Location("Montreal", "QC", "CA")),
         ("Berlin, Germany", Location("Berlin", None, "DE")),
         ("London, UK", Location("London", None, "GB")),
         ("Bordeaux, Nouvelle-Aquitaine, France", Location("Bordeaux", "Nouvelle-Aquitaine", "FR")),

@@ -66,3 +66,19 @@ async def test_add_source_rejects_page_without_platform(
 def test_crawl_missing_source(capsys: pytest.CaptureFixture[str]) -> None:
     assert main(["crawl", "999"], Registry()) == 2
     assert "does not exist" in capsys.readouterr().err
+
+
+@pytest.mark.usefixtures("settings_env")
+async def test_set_company(
+    fake_registry: Registry, session: AsyncSession, capsys: pytest.CaptureFixture[str]
+) -> None:
+    assert (
+        await asyncio.to_thread(main, ["add-source", "https://jobs.fake.test/acme"], fake_registry)
+        == 0
+    )
+    assert await asyncio.to_thread(main, ["set-company", "1", "Acme GmbH"], fake_registry) == 0
+    assert "'Acme' -> 'Acme GmbH'" in capsys.readouterr().out
+    source = (await session.scalars(select(Source))).one()
+    assert source.company_name == "Acme GmbH"
+    assert await asyncio.to_thread(main, ["set-company", "99", "X"], fake_registry) == 2
+    assert await asyncio.to_thread(main, ["set-company", "1", "  "], fake_registry) == 2

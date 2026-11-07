@@ -162,14 +162,15 @@ def test_results_roundtrip(tmp_path: Path) -> None:
 
 async def test_crawl_and_render(monkeypatch: pytest.MonkeyPatch) -> None:
     platforms = [p for p in load_platforms() if p.key in {"greenhouse", "smartrecruiters"}]
-    robots_sr = "User-agent: LinkedInBot\nAllow: /v1/companies/\nUser-agent: *\nDisallow: /\n"
+    # Ubisoft2 opted out via www.smartrecruiters.com/robots.txt -> the connector refuses it.
+    robots_sr = "User-agent: *\nDisallow: /Ubisoft2/*\n"
     http, _ = mock_http(
         {
             "boards-api.greenhouse.io/v1/boards/discord/jobs": httpx.Response(
                 200, text=load_fixture("greenhouse", "discord_jobs.json")
             ),
             # gitlab is not routed -> 404
-            "api.smartrecruiters.com/robots.txt": httpx.Response(200, text=robots_sr),
+            "www.smartrecruiters.com/robots.txt": httpx.Response(200, text=robots_sr),
         }
     )
     results = Results()

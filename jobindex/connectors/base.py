@@ -109,7 +109,14 @@ class RawJob:
         return {f.name: getattr(self, f.name) for f in fields(self)}
 
     def content_hash(self) -> str:
+        """Hash of the meaningful fields (normalize.HASH_FIELDS) — drives change tracking."""
         return content_hash(self.as_dict())
+
+    def raw_hash(self) -> str:
+        """Hash of *every* field as given; call it before :meth:`normalized` to fingerprint
+        what the source sent (tells source changes from our own parser changes)."""
+        data = self.as_dict()
+        return content_hash(data, keys=tuple(sorted(data)))
 
 
 # Pulls URLs out of HTML/JS/JSON: absolute, protocol-relative, and JSON-escaped ("\/").

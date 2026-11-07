@@ -1,6 +1,7 @@
 from decimal import Decimal
 from typing import Any
 
+import pytest
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
@@ -212,3 +213,49 @@ async def test_details_fetched_only_for_new_or_changed_postings(
     assert jobs["1"].description_text == "One"
     assert jobs["2"].description_text == "Two v2"
     assert _counts(result) == (2, 0, 1, 0)
+
+
+async def _causes(session: AsyncSession) -> list[tuple[str, str, int]]:
+    rows = (await session.scalars(select(JobChange).order_by(JobChange.id))).all()
+    return [(c.field, c.cause.value, c.parser_version) for c in rows]
+
+
+async def test_change_causes_upstream_parser_local(
+    session: AsyncSession,
+    session_factory: Factory,
+    fake_registry: Registry,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from jobindex import crawler, normalize
+    from jobindex.connectors import base
+    from jobindex.normalize import Location
+
+    source_id = await _make_source(session)
+    FakeConnector.result = [_raw("1", location_raw="Berlin, Germany")]
+    await _crawl(session_factory, source_id, fake_registry)
+    job = (await _jobs(session))["1"]
+    assert (job.parser_version, len(job.raw_hash or "")) == (normalize.PARSER_VERSION, 64)
+
+    # 1. The source changes the title -> upstream.
+    FakeConnector.result = [_raw("1", title="Lead", location_raw="Berlin, Germany")]
+    await _crawl(session_factory, source_id, fake_registry)
+
+    # 2. Same source data, our parser now reads the city differently and the version was
+    #    bumped -> parser.
+    monkeypatch.setattr(base, "parse_location", lambda raw: Location("Berlin-Mitte", None, "DE"))
+    monkeypatch.setattr(crawler, "PARSER_VERSION", normalize.PARSER_VERSION + 1)
+    await _crawl(session_factory, source_id, fake_registry)
+
+    # 3. Same source data and parser, we set a company name -> local.
+    source = await session.get(Source, source_id)
+    assert source is not None
+    source.company_name = "Acme GmbH"
+    await session.commit()
+    await _crawl(session_factory, source_id, fake_registry)
+
+    v = normalize.PARSER_VERSION + 1
+    assert await _causes(session) == [
+        ("title", "upstream", v - 1),
+        ("city", "parser", v),
+        ("company", "local", v),
+    ]

@@ -4,6 +4,7 @@ Commands:
     add-source <url> [--company-name NAME]   register a job board (hosted board URL,
                                              embed URL or custom-domain careers page)
     crawl <source_id> | --all                crawl one source, or every active one
+    set-company <source_id> <name>           set the company name used for the source's jobs
 """
 
 import argparse
@@ -32,6 +33,10 @@ def _build_parser() -> argparse.ArgumentParser:
     add = sub.add_parser("add-source", help="register a job board by URL")
     add.add_argument("url")
     add.add_argument("--company-name", help="override the company name")
+
+    company = sub.add_parser("set-company", help="set a source's company name")
+    company.add_argument("source_id", type=int)
+    company.add_argument("name")
 
     crawl = sub.add_parser("crawl", help="crawl a source now")
     target = crawl.add_mutually_exclusive_group(required=True)
@@ -94,6 +99,30 @@ async def add_source(
         return 0
 
 
+async def set_company(
+    session_factory: async_sessionmaker[AsyncSession], source_id: int, name: str
+) -> int:
+    """Set ``sources.company_name``. Jobs whose platform gives no company name pick it up
+    on the next crawl; those changes are recorded with ``cause = 'local'``."""
+    name = name.strip()
+    if not name:
+        print("error: company name must not be empty", file=sys.stderr)
+        return 2
+    async with session_factory() as session:
+        source = await session.get(Source, source_id)
+        if source is None:
+            print(f"error: source {source_id} does not exist", file=sys.stderr)
+            return 2
+        old = source.company_name
+        source.company_name = name
+        await session.commit()
+    print(
+        f"source {source_id} ({source.platform}/{source.board_identifier}): company "
+        f"{old!r} -> {name!r}; applied to its jobs on the next crawl"
+    )
+    return 0
+
+
 async def crawl(
     session_factory: async_sessionmaker[AsyncSession],
     registry: Registry,
@@ -137,6 +166,8 @@ async def _run(args: argparse.Namespace, registry: Registry) -> int:
     engine = create_engine()
     try:
         session_factory = create_session_factory(engine)
+        if args.command == "set-company":
+            return await set_company(session_factory, args.source_id, args.name)
         async with HttpClient.from_settings() as http:
             if args.command == "add-source":
                 return await add_source(

@@ -48,3 +48,19 @@ def test_empty_disallow_and_comments() -> None:
     assert robots.can_fetch(UA, "https://x.test/anything")
     assert RobotsTxt.disallow_all().can_fetch(UA, "https://x.test/") is False
     assert RobotsTxt.allow_all().can_fetch(UA, "https://x.test/") is True
+
+
+def test_sitemaps_are_collected() -> None:
+    robots = RobotsTxt.parse(
+        "Sitemap: https://x.test/sitemap.xml\nUser-agent: *\nDisallow: /a\n"
+        "Sitemap: https://x.test/jobs.xml\n"
+    )
+    assert robots.sitemaps == ["https://x.test/sitemap.xml", "https://x.test/jobs.xml"]
+    assert not robots.can_fetch(UA, "https://x.test/a")
+
+
+def test_explain_returns_deciding_rule() -> None:
+    robots = RobotsTxt.parse("User-agent: *\nDisallow: /jobs\nAllow: /jobs/public\n")
+    assert robots.explain(UA, "https://x.test/jobs/1") == (False, "Disallow: /jobs")
+    assert robots.explain(UA, "https://x.test/jobs/public/1") == (True, "Allow: /jobs/public")
+    assert robots.explain(UA, "https://x.test/other") == (True, None)

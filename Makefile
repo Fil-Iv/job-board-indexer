@@ -1,7 +1,7 @@
 COMPOSE ?= docker compose
 RUN     := $(COMPOSE) run --rm app
 
-.PHONY: help up down logs migrate test test-live lint format crawl coverage shell
+.PHONY: help up down logs migrate test test-live lint format crawl coverage parser-fingerprint shell
 
 help:  ## List targets
 	@grep -E '^[a-z-]+:.*##' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-10s %s\n", $$1, $$2}'
@@ -38,6 +38,9 @@ crawl:  ## Crawl one source (make crawl SOURCE=<id>) or all active sources (make
 
 coverage:  ## Live-crawl done platforms' examples and regenerate docs/COVERAGE.md
 	$(RUN) python scripts/coverage_report.py $(ARGS)
+
+parser-fingerprint:  ## Record normalize.py behaviour after bumping PARSER_VERSION
+	$(RUN) python -m tests.parser_corpus --write
 
 shell:  ## Open a shell in the app container
 	$(RUN) bash

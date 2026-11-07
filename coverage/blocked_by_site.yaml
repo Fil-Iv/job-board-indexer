@@ -1,0 +1,82 @@
+# Platforms where the site refuses our crawler (robots.txt rule or HTTP 401/403/429).
+# Every entry is a real request made with jobindex.access.check_access, User-Agent
+# "JobIndexBot/0.1 (+https://example.com/jobindex-bot)". DNS/TLS failures and robots.txt
+# 5xx are outages, not blocks, and are deliberately NOT listed (pass 2 had mislabelled
+# jobs.dzone.com, jobs.techcrunch.com, boolerang.co.uk, jobkit.dev, jobs.mlops.community).
+# Raw data: .research/access3*.jsonl, robots.txt copies: .research/robots3.txt.
+blocked_by_site:
+  - platform: SmartRecruiters
+    scope: api
+    impact: "Public Posting API refused (only LinkedInBot allowed); connector uses the public career pages instead."
+    evidence:
+      - {url: "https://api.smartrecruiters.com/v1/companies/Ubisoft2/postings", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://api.smartrecruiters.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+      - {url: "https://api.smartrecruiters.com/v1/companies/BoschGroup/postings", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://api.smartrecruiters.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+  - platform: Paycor
+    scope: platform
+    impact: "Every career page on recruitingbypaycor.com is disallowed; no allowed route."
+    evidence:
+      - {url: "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883c675e27bdc0175e769980602a5", checked_at: "2026-11-07T06:16:09+00:00", http_status: null, robots_url: "https://recruitingbypaycor.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+      - {url: "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883c66a3387ef016a55a8046515ad", checked_at: "2026-11-07T06:02:00+00:00", http_status: null, robots_url: "https://recruitingbypaycor.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+  - platform: UltiPro
+    scope: platform
+    impact: "Job search JSON (JobBoardView/LoadSearchResults) and sitemap.xml are disallowed; the allowed board page contains no job data, so jobs cannot be listed."
+    evidence:
+      - {url: "https://recruiting.ultipro.com/SOU1036SOUND/JobBoard/dcc5dbea-875e-4cd1-bfd2-8e046cecc54f/JobBoardView/LoadSearchResults", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://recruiting.ultipro.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: */JobBoardView"}
+      - {url: "https://recruiting.ultipro.com/sitemap.xml", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://recruiting.ultipro.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+  - platform: Eightfold AI
+    scope: api
+    impact: "/api/apply/v2/jobs is allowed by robots.txt but answers 403 on every tenant; /api/pcsx/search and the /careers sitemap still work."
+    evidence:
+      - {url: "https://paypal.eightfold.ai/api/apply/v2/jobs?domain=paypal.com&num=10&start=0", checked_at: "2026-11-07T06:02:00+00:00", http_status: 403, robots_url: "https://paypal.eightfold.ai/robots.txt", robots_http_status: 200, robots_rule: null}
+      - {url: "https://vodafone.eightfold.ai/api/apply/v2/jobs?domain=vodafone.com&num=10", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://vodafone.eightfold.ai/robots.txt", robots_http_status: 200, robots_rule: null}
+      - {url: "https://careers.qualcomm.com/api/apply/v2/jobs?domain=qualcomm.com&num=10", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://careers.qualcomm.com/robots.txt", robots_http_status: 200, robots_rule: null}
+  - platform: Freshteam
+    scope: platform
+    impact: "Only /jobs (an 889-byte JS shell) is allowed; the jobs JSON widget it loads is disallowed."
+    evidence:
+      - {url: "https://scrut.freshteam.com/hire/widgets/jobs.json", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://scrut.freshteam.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+      - {url: "https://bipartisanpolicy.freshteam.com/hire/widgets/jobs.json", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://bipartisanpolicy.freshteam.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+  - platform: Dover
+    scope: api
+    impact: "Careers JSON API disallowed; HTML pages + sitemap allowed but carry no JobPosting."
+    evidence:
+      - {url: "https://app.dover.com/api/v1/careers-page-slug/dover", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://app.dover.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /api/"}
+  - platform: CareerPlug
+    scope: api
+    impact: "jobs.json disallowed; server-rendered /jobs HTML is allowed."
+    evidence:
+      - {url: "https://culligan-careers.careerplug.com/jobs.json", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://culligan-careers.careerplug.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /jobs.js"}
+  - platform: Pinpoint
+    scope: tenant
+    impact: "Some tenants disallow everything (davies, indrive allowed)."
+    evidence:
+      - {url: "https://dazn.pinpointhq.com/postings.json", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://dazn.pinpointhq.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+      - {url: "https://osapiens.pinpointhq.com/postings.json", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://osapiens.pinpointhq.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+  - platform: JOIN.com
+    scope: api
+    impact: "Jobs sitemap index answers 403 although robots.txt allows it."
+    evidence:
+      - {url: "https://join.com/companies/sitemap-jobs-index.xml", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://join.com/robots.txt", robots_http_status: 200, robots_rule: null}
+  - platform: JobBoardFire
+    scope: platform
+    impact: "403 on every page incl. robots.txt (vendor site, subdomain and custom-domain boards)."
+    evidence:
+      - {url: "https://www.jobboardfire.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://www.jobboardfire.com/robots.txt", robots_http_status: 403, robots_rule: null}
+      - {url: "https://productmarketing.jobboardfire.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://productmarketing.jobboardfire.com/robots.txt", robots_http_status: 403, robots_rule: null}
+      - {url: "https://jobs.sfaac.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://jobs.sfaac.com/robots.txt", robots_http_status: 403, robots_rule: null}
+  - platform: Wiley Madgex
+    scope: tenant
+    impact: "Some boards answer 403 incl. robots.txt (pharmiweb.jobs is open)."
+    evidence:
+      - {url: "https://jobs.theguardian.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://jobs.theguardian.com/robots.txt", robots_http_status: 403, robots_rule: null}
+      - {url: "https://www.nejmcareercenter.org/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://www.nejmcareercenter.org/robots.txt", robots_http_status: 403, robots_rule: null}
+  - platform: CareerSiteCloud
+    scope: platform
+    impact: "Vendor site answers 403 incl. robots.txt; no customer board found yet."
+    evidence:
+      - {url: "https://www.careersitecloud.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://www.careersitecloud.com/robots.txt", robots_http_status: 403, robots_rule: null}
+  - platform: JobMount
+    scope: tenant
+    impact: "Vendor demo board disallows all; customer board jobnet.wacities.org is open."
+    evidence:
+      - {url: "https://demo.jobboardmount.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://demo.jobboardmount.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: *"}

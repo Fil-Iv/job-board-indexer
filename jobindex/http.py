@@ -86,6 +86,8 @@ class HttpClient:
         )
         self._throttles: dict[str, _HostThrottle] = {}
         self._robots: dict[str, RobotsTxt] = {}
+        #: HTTP status of each origin's robots.txt fetch (None = unreachable), for evidence.
+        self.robots_status: dict[str, int | None] = {}
         self._robots_locks: dict[str, asyncio.Lock] = {}
 
     @classmethod
@@ -141,7 +143,9 @@ class HttpClient:
         headers: Mapping[str, str] | None = None,
         json: Any = None,
     ) -> httpx.Response:
-        if self.respect_robots and not await self._allowed_by_robots(url):
+        # robots.txt itself is always fetchable (RFC 9309); "Disallow: /" must not hide it.
+        is_robots_file = urlsplit(url).path == "/robots.txt"
+        if self.respect_robots and not is_robots_file and not await self._allowed_by_robots(url):
             raise RobotsDisallowedError(f"robots.txt disallows {url}", url=url)
 
         attempt = 0
@@ -196,6 +200,19 @@ class HttpClient:
         )
         await asyncio.sleep(delay)
 
+    async def robots_sitemaps(self, url: str) -> list[str]:
+        """``Sitemap:`` URLs declared in the robots.txt of ``url``'s origin."""
+        await self._allowed_by_robots(url)
+        parts = urlsplit(url)
+        return list(self._robots[f"{parts.scheme}://{parts.netloc}".lower()].sitemaps)
+
+    async def robots_verdict(self, url: str) -> tuple[bool, str | None]:
+        """``(allowed, deciding rule)`` for ``url`` under its host's robots.txt."""
+        await self._allowed_by_robots(url)
+        parts = urlsplit(url)
+        robots = self._robots[f"{parts.scheme}://{parts.netloc}".lower()]
+        return robots.explain(self.user_agent, url)
+
     async def _allowed_by_robots(self, url: str) -> bool:
         parts = urlsplit(url)
         origin = f"{parts.scheme}://{parts.netloc}".lower()
@@ -219,7 +236,9 @@ class HttpClient:
             response = await self._client.get(robots_url)
         except httpx.TransportError as exc:
             log.warning("could not fetch %s (%s); treating host as disallowed", robots_url, exc)
+            self.robots_status[origin] = None
             return RobotsTxt.disallow_all()
+        self.robots_status[origin] = response.status_code
         if response.status_code >= 500:
             log.warning(
                 "%s returned %d; treating host as disallowed", robots_url, response.status_code

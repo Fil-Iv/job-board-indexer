@@ -26,6 +26,7 @@ log = logging.getLogger(__name__)
 
 ROOT = Path(__file__).resolve().parent.parent
 PLATFORMS_FILE = ROOT / "coverage" / "platforms.yaml"
+BLOCKED_FILE = ROOT / "coverage" / "blocked_by_site.yaml"
 RESULTS_FILE = ROOT / "coverage" / "results.json"
 REPORT_FILE = ROOT / "docs" / "COVERAGE.md"
 
@@ -38,6 +39,11 @@ STATUSES = ("todo", "in_progress", "done")
 TIERS = ("easy", "medium", "hard")
 PUBLIC_API = ("yes", "partial", "feed", "no", "unknown")
 ROBOTS = ("allowed", "blocked", "per-tenant", "unknown")
+#: Would the generic sitemap/RSS + schema.org JobPosting connector cover the platform?
+#: yes = every evaluated board passed; partial = some boards / some pages; no = evaluated,
+#: failed; untested = not evaluated (``scripts/evaluate_generic.py``).
+GENERIC = ("yes", "partial", "no", "untested")
+BLOCK_SCOPES = ("platform", "api", "tenant")
 TIER_LABELS = {
     "easy": "Easy — public JSON API (or structured XML/RSS feed)",
     "medium": "Medium — structured HTML / embedded JSON",
@@ -64,6 +70,28 @@ class Platform:
     verified: date | None
     notes: str
     connector: str | None = None
+    generic: str = "untested"
+
+
+@dataclass(frozen=True, slots=True)
+class BlockEvidence:
+    """One request a site refused (robots.txt rule or HTTP 401/403/429) — see
+    ``coverage/blocked_by_site.yaml``."""
+
+    url: str
+    checked_at: str
+    http_status: int | None  # None = not fetched because robots.txt disallows it
+    robots_url: str
+    robots_http_status: int | None
+    robots_rule: str | None
+
+
+@dataclass(frozen=True, slots=True)
+class BlockedPlatform:
+    platform: str
+    scope: str  # platform = no allowed route; api = API blocked, HTML route open; tenant
+    impact: str
+    evidence: tuple[BlockEvidence, ...]
 
 
 @dataclass(slots=True)
@@ -170,6 +198,7 @@ def _platform(entry: dict[str, Any], index: int) -> Platform:
         verified=verified,
         notes=str(entry.get("notes") or ""),
         connector=str(connector) if connector else None,
+        generic=_choice({"generic": entry.get("generic", "untested")}, "generic", GENERIC, where),
     )
 
 
@@ -183,6 +212,43 @@ def load_platforms(path: Path = PLATFORMS_FILE) -> list[Platform]:
         if dupes:
             raise PlanError(f"duplicate {attr}: {', '.join(dupes)}")
     return platforms
+
+
+def load_blocked(path: Path = BLOCKED_FILE) -> list[BlockedPlatform]:
+    """The blocked_by_site evidence list. Every item needs at least one refused request:
+    a robots.txt rule (robots_rule) or an HTTP 401/403/429. Outages (DNS errors,
+    robots.txt 5xx) are not blocks and are rejected."""
+    if not path.exists():
+        return []
+    raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    items = raw.get("blocked_by_site") if isinstance(raw, dict) else None
+    if not isinstance(items, list):
+        raise PlanError(f"{path}: expected a top-level 'blocked_by_site' list")
+    blocked = []
+    for i, item in enumerate(items):
+        where = f"blocked_by_site[{i}] ({item.get('platform', '?')})"
+        scope = _choice(item, "scope", BLOCK_SCOPES, where)
+        evidence = []
+        for ev in item.get("evidence") or []:
+            status, rule = ev.get("http_status"), ev.get("robots_rule")
+            if not rule and status not in (401, 403, 429):
+                raise PlanError(f"{where}: {ev.get('url')} has no robots rule or 401/403/429")
+            evidence.append(
+                BlockEvidence(
+                    url=str(ev["url"]),
+                    checked_at=str(ev["checked_at"]),
+                    http_status=status,
+                    robots_url=str(ev["robots_url"]),
+                    robots_http_status=ev.get("robots_http_status"),
+                    robots_rule=str(rule) if rule else None,
+                )
+            )
+        if not evidence:
+            raise PlanError(f"{where}: needs at least one evidence entry")
+        blocked.append(
+            BlockedPlatform(str(item["platform"]), scope, str(item["impact"]), tuple(evidence))
+        )
+    return blocked
 
 
 # ---------------------------------------------------------------------------
@@ -260,7 +326,35 @@ def _success_cell(result: ExampleResult | None) -> str:
     return result.last_success_at.replace("T", " ").replace("+00:00", " UTC")
 
 
-def render_report(platforms: list[Platform], results: Results, generated_at: datetime) -> str:
+def _render_blocked(blocked: list[BlockedPlatform]) -> list[str]:
+    lines = [
+        "## Blocked by site",
+        "",
+        f"{len(blocked)} platforms refuse at least part of what we need (source: "
+        "`coverage/blocked_by_site.yaml`; scope: platform = no allowed route, api = the "
+        "JSON API is refused but HTML pages are open, tenant = only some employers/boards).",
+        "",
+        "| Platform | Scope | Refused request | Status | robots.txt rule | Checked (UTC) |",
+        "|---|---|---|---|---|---|",
+    ]
+    for b in blocked:
+        for i, ev in enumerate(b.evidence):
+            head = (b.platform, b.scope) if i == 0 else ("", "")
+            status = str(ev.http_status) if ev.http_status is not None else "not fetched"
+            rule = f"`{_cell(ev.robots_rule)}` ({ev.robots_url})" if ev.robots_rule else "—"
+            lines.append(
+                f"| {' | '.join(head)} | `{_cell(ev.url)}` | {status} | {rule} | "
+                f"{ev.checked_at.replace('T', ' ').replace('+00:00', '')} |"
+            )
+    return [*lines, ""]
+
+
+def render_report(
+    platforms: list[Platform],
+    results: Results,
+    generated_at: datetime,
+    blocked: list[BlockedPlatform] | None = None,
+) -> str:
     by_status = Counter(p.status for p in platforms)
     by_type = Counter(p.type for p in platforms)
     todo = [p for p in platforms if p.status != "done"]
@@ -310,16 +404,17 @@ def render_report(platforms: list[Platform], results: Results, generated_at: dat
         lines += [
             f"### {TIER_LABELS[tier]} ({len(tier_platforms)})",
             "",
-            "| Platform | Type | Public API | Endpoint | URL patterns | robots.txt | Verified "
-            "| Notes |",
-            "|---|---|---|---|---|---|---|---|",
+            "| Platform | Type | Public API | Endpoint | URL patterns | robots.txt | Generic "
+            "| Verified | Notes |",
+            "|---|---|---|---|---|---|---|---|---|",
         ]
         for p in tier_platforms:
             patterns = "<br>".join(f"`{_cell(u)}`" for u in p.url_patterns) or "—"
             verified = p.verified.isoformat() if p.verified else "no"
             lines.append(
                 f"| {p.name} | {'ATS' if p.type == 'ats' else 'Job board'} | {p.public_api} | "
-                f"`{_cell(p.api)}` | {patterns} | {p.robots} | {verified} | {_cell(p.notes)} |"
+                f"`{_cell(p.api)}` | {patterns} | {p.robots} | {p.generic} | {verified} | "
+                f"{_cell(p.notes)} |"
             )
         lines.append("")
 
@@ -333,9 +428,13 @@ def render_report(platforms: list[Platform], results: Results, generated_at: dat
         "",
         '"Verified" means the endpoint and examples answered a live request on that date; '
         '"no" means the entry comes from documentation or prior knowledge and must be '
-        "re-checked before implementation.",
+        "re-checked before implementation. "
+        '"Generic" = whether the generic sitemap/RSS + schema.org JobPosting approach worked '
+        "on the evaluated boards (`scripts/evaluate_generic.py`).",
         "",
     ]
+    if blocked:
+        lines += _render_blocked(blocked)
     return "\n".join(lines)
 
 
@@ -351,14 +450,16 @@ def run(
     platforms_file: Path = PLATFORMS_FILE,
     results_file: Path = RESULTS_FILE,
     report_file: Path = REPORT_FILE,
+    blocked_file: Path = BLOCKED_FILE,
 ) -> str:
     """Load the plan, optionally live-crawl done platforms, write results + report."""
     platforms = load_platforms(platforms_file)
+    blocked = load_blocked(blocked_file)
     results = Results.load(results_file)
     if crawl:
         asyncio.run(_crawl(platforms, results, only))
         results.save(results_file)
-    report = render_report(platforms, results, datetime.now(UTC))
+    report = render_report(platforms, results, datetime.now(UTC), blocked)
     report_file.parent.mkdir(parents=True, exist_ok=True)
     report_file.write_text(report, encoding="utf-8")
     return report

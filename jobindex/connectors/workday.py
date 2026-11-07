@@ -13,13 +13,16 @@ Board identifier: ``{host}/{tenant}/{site}``, e.g.
 ``wd3.myworkdaysite.com/pwc/Global_Experienced_Careers``.
 
 Pagination quirks (verified 2026-11-07):
-* Past the real end, Workday does not return an empty page: it serves page 1 again
-  (verified on NVIDIA at offsets 2820..7000). We stop when a page adds no new posting.
-* ``total`` is only filled in on the first page (later pages say 0), and on some tenants
-  it is capped at 2000 while paging past offset 2000 still returns jobs (NVIDIA: total=2000,
-  real count 2810). The real count is the sum of the ``timeType`` facet. We page until a
-  short page, de-duplicate, and refuse to return fewer jobs than expected (one retry,
-  because offset paging over a list that changes mid-crawl can skip postings).
+* A single query returns at most 2000 postings. Past that (and past the real end),
+  Workday does not return an empty page: it serves page 1 again (NVIDIA, offsets
+  2000..7000). We stop paging when a page adds no new posting.
+* ``total`` is only set on the first page (later pages say 0) and is itself capped at
+  2000. The real count is the sum of a single-valued facet (``timeType``; NVIDIA: 2810).
+* Boards above the cap are split with ``appliedFacets`` by a facet that partitions them
+  (counts sum to the total, e.g. ``jobFamilyGroup``: NVIDIA's largest slice is 1779),
+  recursively if a slice is still too big.
+* The union is checked against the expected total; short results are re-fetched once,
+  then refused (offset paging over a list that changes mid-crawl can skip postings).
 
 URL formats recognised:
     {tenant}.wd{n}.myworkdayjobs.com/[{locale}/]{site}[/job/{location}/{slug}_{id}]
@@ -28,6 +31,7 @@ URL formats recognised:
 Custom-domain career pages: links/iframes to any of the above (generic HTML detection).
 """
 
+import asyncio
 import logging
 import re
 from dataclasses import replace
@@ -50,6 +54,10 @@ log = logging.getLogger(__name__)
 
 PAGE_SIZE = 20  # Workday rejects larger pages
 MAX_PAGES = 1000  # 20k postings
+RESULT_CAP = 2000  # one query never returns more than this many postings
+MAX_SPLIT_DEPTH = 3
+NON_JSON_RETRIES = 2
+NON_JSON_BACKOFF_SECONDS = 2.0
 _JOBS_HOST = re.compile(r"^(?P<tenant>[a-z0-9-]+)\.(?P<dc>wd\d+)\.myworkdayjobs\.com$")
 _SITE_HOST = re.compile(r"^(?:[a-z0-9-]+\.)?(?P<dc>wd\d+)\.myworkdaysite\.com$")
 _LOCALE = re.compile(r"^[a-z]{2}(?:-[A-Za-z]{2,4})?$")
@@ -127,7 +135,7 @@ class WorkdayConnector(BaseConnector):
         return f"https://{host}/wday/cxs/{tenant}/{site}"
 
     async def fetch_jobs(self, board_identifier: str) -> list[RawJob]:
-        postings, expected = await self._fetch_all(board_identifier)
+        postings, expected = await self._collect_all(board_identifier)
         if expected is not None and len(postings) < expected:
             log.info(
                 "workday %s: got %d of %d postings, re-paging once",
@@ -135,7 +143,7 @@ class WorkdayConnector(BaseConnector):
                 len(postings),
                 expected,
             )
-            postings, expected = await self._fetch_all(board_identifier)
+            postings, expected = await self._collect_all(board_identifier)
             if expected is not None and len(postings) < expected:
                 raise ConnectorError(
                     f"workday: got {len(postings)} of {expected} postings; "
@@ -144,33 +152,98 @@ class WorkdayConnector(BaseConnector):
         base = _public_base(board_identifier)
         return [self._map_list(p, base) for p in postings.values()]
 
-    async def _fetch_all(
+    async def _collect_all(
         self, board_identifier: str
     ) -> tuple[dict[str, dict[str, Any]], int | None]:
-        url = f"{self._api(board_identifier)}/jobs"
+        first = await self._page(board_identifier, {}, 0)
+        expected = _expected_total(first)
+        postings = await self._collect(board_identifier, {}, first, expected, depth=0)
+        return postings, expected
+
+    async def _collect(
+        self,
+        board_identifier: str,
+        applied: dict[str, list[str]],
+        first: dict[str, Any],
+        expected: int | None,
+        depth: int,
+    ) -> dict[str, dict[str, Any]]:
+        """All postings matching ``applied`` facets. Above RESULT_CAP, split by a facet."""
+        if expected is None or expected <= RESULT_CAP:
+            return await self._page_through(board_identifier, applied, first, expected)
+        if depth >= MAX_SPLIT_DEPTH:
+            raise ConnectorError(f"workday: cannot split {expected} postings below {RESULT_CAP}")
+        split = _partition_facet(first, expected, applied)
+        if split is None:
+            raise ConnectorError(
+                f"workday: {expected} postings exceed the {RESULT_CAP} result cap and no "
+                "facet partitions them; refusing a partial result"
+            )
+        param, values = split
+        log.info(
+            "workday %s: %d postings > %d cap, splitting by %s (%d values)",
+            board_identifier,
+            expected,
+            RESULT_CAP,
+            param,
+            len(values),
+        )
         postings: dict[str, dict[str, Any]] = {}
-        expected: int | None = None
-        for page in range(MAX_PAGES):
+        for value_id, count in values:
+            sub_applied = {**applied, param: [value_id]}
+            sub_first = await self._page(board_identifier, sub_applied, 0)
+            sub_expected = _expected_total(sub_first) or count
+            postings.update(
+                await self._collect(
+                    board_identifier, sub_applied, sub_first, sub_expected, depth + 1
+                )
+            )
+        return postings
+
+    async def _page(
+        self, board_identifier: str, applied: dict[str, list[str]], page: int
+    ) -> dict[str, Any]:
+        body = {
+            "limit": PAGE_SIZE,
+            "offset": page * PAGE_SIZE,
+            "appliedFacets": applied,
+            "searchText": "",
+        }
+        # Workday occasionally answers 200 with an empty/non-JSON body (seen on NVIDIA,
+        # 2026-11-07); the HTTP client only retries error statuses, so retry here.
+        for attempt in range(NON_JSON_RETRIES + 1):
             response = await self.http.request(
                 "POST",
-                url,
-                json={
-                    "limit": PAGE_SIZE,
-                    "offset": page * PAGE_SIZE,
-                    "appliedFacets": {},
-                    "searchText": "",
-                },
+                f"{self._api(board_identifier)}/jobs",
+                json=body,
                 headers={"Accept": "application/json"},
             )
             try:
                 data = response.json()
             except ValueError as exc:
-                raise ConnectorError("workday: list response is not JSON") from exc
-            batch = data.get("jobPostings") if isinstance(data, dict) else None
-            if not isinstance(batch, list):
+                if attempt == NON_JSON_RETRIES:
+                    raise ConnectorError("workday: list response is not JSON") from exc
+                log.info("workday %s: non-JSON page %d, retrying", board_identifier, page)
+                await asyncio.sleep(NON_JSON_BACKOFF_SECONDS * (attempt + 1))
+                continue
+            if not isinstance(data, dict) or not isinstance(data.get("jobPostings"), list):
                 raise ConnectorError("workday: response has no 'jobPostings' list")
-            if page == 0:
-                expected = _expected_total(data)
+            return data
+        raise AssertionError("unreachable")  # pragma: no cover
+
+    async def _page_through(
+        self,
+        board_identifier: str,
+        applied: dict[str, list[str]],
+        first: dict[str, Any],
+        expected: int | None,
+    ) -> dict[str, dict[str, Any]]:
+        postings: dict[str, dict[str, Any]] = {}
+        data = first
+        for page in range(MAX_PAGES):
+            if page > 0:
+                data = await self._page(board_identifier, applied, page)
+            batch = data["jobPostings"]
             before = len(postings)
             for posting in batch:
                 path = posting.get("externalPath")
@@ -179,9 +252,9 @@ class WorkdayConnector(BaseConnector):
             # End of list: a short page, or — Workday's quirk past the real end — a full page
             # that only repeats postings we already have (it wraps around to page 1).
             if len(batch) < PAGE_SIZE or len(postings) == before:
-                return postings, expected
+                return postings
             if expected is not None and len(postings) >= expected:
-                return postings, expected
+                return postings
         raise ConnectorError(f"workday: more than {MAX_PAGES} pages; refusing a partial result")
 
     async def fetch_job_detail(self, board_identifier: str, job: RawJob) -> RawJob | None:
@@ -254,3 +327,23 @@ def _expected_total(first_page: dict[str, Any]) -> int | None:
             facet_total = sum(int(v.get("count") or 0) for v in facet.get("values") or [])
     candidates = [n for n in (total, facet_total) if n]
     return max(candidates) if candidates else None
+
+
+def _partition_facet(
+    first_page: dict[str, Any], expected: int, applied: dict[str, list[str]]
+) -> tuple[str, list[tuple[str, int]]] | None:
+    """A flat facet whose value counts sum to ``expected`` (so every posting has exactly
+    one value), preferring the one with the smallest largest slice."""
+    best: tuple[int, str, list[tuple[str, int]]] | None = None
+    for facet in first_page.get("facets") or []:
+        param = facet.get("facetParameter")
+        values = facet.get("values") or []
+        if not param or param in applied or any("values" in v for v in values):
+            continue  # nested (hierarchical) facets overlap; skip them
+        pairs = [(str(v["id"]), int(v.get("count") or 0)) for v in values if v.get("id")]
+        if len(pairs) < 2 or sum(c for _, c in pairs) != expected:
+            continue
+        largest = max(c for _, c in pairs)
+        if best is None or largest < best[0]:
+            best = (largest, param, pairs)
+    return (best[1], best[2]) if best else None

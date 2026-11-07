@@ -10,12 +10,19 @@
 
 All functions are pure and conservative: when unsure they return ``None`` / ``UNKNOWN``
 rather than guess.
+
+**PARSER_VERSION must be bumped whenever this module's output changes** (new location
+rule, salary format, ...). It is stored with every job and job change so that changes we
+cause ourselves can be filtered out (``job_changes.cause = 'parser'``).
+``tests/test_parser_version.py`` fails if the output changes without a bump; after
+bumping, run ``make parser-fingerprint``.
 """
 
 import hashlib
 import html as html_lib
 import json
 import re
+import unicodedata
 from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -29,6 +36,14 @@ import pycountry
 from selectolax.lexbor import LexborHTMLParser
 
 from jobindex.models.enums import RemoteType
+
+#: Version of the normalisation rules. History:
+#:   1 — everything before versioning (initial parser up to the Workday batch)
+#:   2 — country-first locations ("US, CA, Santa Clara"), "… UTC" timestamps, bullet-
+#:       separated multi-locations; first version recorded in the database
+#:   3 — French/Spanish employment types ("Temps plein", "Tiempo completo", "CDD", ...);
+#:       accent-insensitive region names ("Québec" -> QC)
+PARSER_VERSION = 3
 
 # ---------------------------------------------------------------------------
 # HTML
@@ -192,6 +207,12 @@ _CITY_ALIASES = {
 }
 
 
+def _fold(text: str) -> str:
+    """Lower-case and strip accents: "Québec" -> "quebec"."""
+    decomposed = unicodedata.normalize("NFKD", text)
+    return "".join(c for c in decomposed if not unicodedata.combining(c)).lower()
+
+
 @lru_cache(maxsize=1)
 def _country_index() -> dict[str, str]:
     index: dict[str, str] = {}
@@ -215,6 +236,7 @@ def _subdivisions() -> dict[str, dict[str, str]]:
             code = sub.code.split("-", 1)[1]
             mapping[code.lower()] = code
             mapping[sub.name.lower()] = code
+            mapping[_fold(sub.name)] = code
         result[country] = mapping
     result["US"]["d.c."] = result["US"]["dc"] = "DC"
     return result
@@ -235,7 +257,8 @@ def normalize_region(region: str | None, country: str | None) -> str | None:
         return None
     region = region.strip()
     if country in _subdivisions():
-        return _subdivisions()[country].get(region.lower(), region)
+        mapping = _subdivisions()[country]
+        return mapping.get(region.lower()) or mapping.get(_fold(region), region)
     return region
 
 
@@ -587,14 +610,26 @@ _EMPLOYMENT_PATTERNS: list[tuple[re.Pattern[str], str]] = [
         re.compile(r"intern(ship)?|co-?op|praktikum|stage\b|werkstudent|working student"),
         "internship",
     ),
-    (re.compile(r"apprentic|ausbildung"), "apprenticeship"),
-    (re.compile(r"part[\s_-]?time|teilzeit"), "part_time"),
+    (re.compile(r"apprentic|ausbildung|alternance|aprendiz"), "apprenticeship"),
+    (
+        re.compile(r"part[\s_-]?time|teilzeit|temps partiel|tiempo parcial|medio tiempo"),
+        "part_time",
+    ),
     (re.compile(r"contract|freelance|contractor|consultant"), "contract"),
     (
-        re.compile(r"temp(orary)?\b|fixed[\s_-]?term|short[\s_-]?term|seasonal|befristet"),
+        re.compile(
+            r"temp(orary)?\b|fixed[\s_-]?term|short[\s_-]?term|seasonal|befristet|\bcdd\b|"
+            r"temporal"
+        ),
         "temporary",
     ),
-    (re.compile(r"full[\s_-]?time|permanent|regular|vollzeit|unbefristet|cdi\b"), "full_time"),
+    (
+        re.compile(
+            r"full[\s_-]?time|permanent|regular|vollzeit|unbefristet|cdi\b|temps plein|"
+            r"tiempo completo|jornada completa|indefinido"
+        ),
+        "full_time",
+    ),
 ]
 
 

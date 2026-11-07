@@ -47,5 +47,8 @@ another team, so it has to be clean, documented and easy to run.
 
 - Type hints everywhere; `ruff check`, `ruff format --check` and `mypy` (strict) must pass.
 - Run `make lint` and `make test` before considering a change done.
+- Any change to `jobindex/normalize.py` behaviour bumps `normalize.PARSER_VERSION` (and
+  its history comment), then `make parser-fingerprint`. `tests/test_parser_version.py`
+  enforces this. It lets `job_changes.cause` separate parser noise from real changes.
 - Schema changes go through an Alembic migration; `tests/test_migrations.py` fails if the
   models and migrations drift apart.
