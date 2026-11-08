@@ -37,5 +37,18 @@ htmlcov/
 # Production database dumps (docker-compose.prod.yml backup service)
 backups/
 
-# Scratch output of research sessions (raw page dumps, throwaway scripts)
-.research/tmp/
+# Research sessions: raw third-party page dumps and throwaway scripts stay local.
+# Only the request-level evidence cited by coverage/blocked_by_site.yaml is committed.
+.research/*
+!.research/access*.jsonl
+!.research/robots3.txt
+
+# Local data: database dumps, SQLite files, Vercel/Supabase CLI state
+*.dump
+*.pgdump
+*.sql.gz
+*.sqlite
+*.sqlite3
+/data/
+.vercel/
+supabase/.temp/
