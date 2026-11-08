@@ -6,6 +6,8 @@ from jobindex.discovery import (
     evaluate_board,
     looks_like_detail_url,
     looks_like_job_url,
+    parse_feed,
+    parse_sitemap,
     pick_sample,
     tenant_prefix,
 )
@@ -198,3 +200,24 @@ async def test_discover_keeps_own_tenant_on_shared_host() -> None:
     async with http:
         d = await discover(http, "https://shared.test/acme")
     assert d.job_urls == ["https://shared.test/acme/1234567/description"]
+
+
+def test_sitemap_and_feed_urls_are_xml_unescaped() -> None:
+    # JobBoard.io child sitemaps (jobs.hireheroesusa.org, 2026-11-08): with "&amp;" kept,
+    # the chunk URL loses start_id and the server returns an empty urlset.
+    index = (
+        "<sitemapindex><sitemap><loc>https://b.test/sitemaps/jobs/job_sitemap_details.xml"
+        "?finish_id=2&amp;start_id=1</loc></sitemap></sitemapindex>"
+    )
+    children, _ = parse_sitemap(index, "https://b.test/sitemap.xml")
+    assert children == [
+        "https://b.test/sitemaps/jobs/job_sitemap_details.xml?finish_id=2&start_id=1"
+    ]
+    urlset = (
+        "<urlset><url><loc>https://b.test/j?a=1&amp;b=2</loc></url>"
+        "<url><loc><![CDATA[https://b.test/k?a=1&amp;b=2]]></loc></url></urlset>"
+    )
+    _, entries = parse_sitemap(urlset, "https://b.test/sitemap.xml")
+    assert [e.url for e in entries] == ["https://b.test/j?a=1&b=2", "https://b.test/k?a=1&amp;b=2"]
+    feed = "<rss><channel><item><link>https://b.test/j?x=1&amp;y=2</link></item></channel></rss>"
+    assert parse_feed(feed, "https://b.test/rss") == ["https://b.test/j?x=1&y=2"]

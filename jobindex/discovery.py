@@ -15,6 +15,7 @@ import logging
 import re
 from collections import Counter
 from dataclasses import dataclass, field
+from html import unescape
 from typing import Any
 from urllib.parse import urljoin, urlsplit
 
@@ -35,11 +36,12 @@ _JOB_PATH = re.compile(
     r"careersection/[^/]+/jobdetail)\b",
     re.IGNORECASE,
 )
-_LOC = re.compile(r"<loc>\s*(?:<!\[CDATA\[)?\s*([^<\]\s]+)\s*(?:\]\]>)?\s*</loc>", re.I)
+# Group 1: CDATA content (literal); group 2: plain text (XML-escaped, "&amp;" -> "&").
+_LOC = re.compile(r"<loc>\s*(?:<!\[CDATA\[\s*([^<\]\s]+)\s*\]\]>|([^<\s]+))\s*</loc>", re.I)
 _LASTMOD = re.compile(r"<lastmod>\s*([^<\s]+)\s*</lastmod>", re.I)
 _SITEMAP_TAG = re.compile(r"<sitemap>(.*?)</sitemap>", re.I | re.S)
 _URL_TAG = re.compile(r"<url>(.*?)</url>", re.I | re.S)
-_RSS_LINK = re.compile(r"<item\b.*?<link>\s*(?:<!\[CDATA\[)?\s*([^<\]\s]+)", re.I | re.S)
+_RSS_LINK = re.compile(r"<item\b.*?<link>\s*(?:<!\[CDATA\[\s*([^<\]\s]+)|([^<\s]+))", re.I | re.S)
 _ATOM_LINK = re.compile(r"<entry\b.*?<link[^>]*href=\"([^\"]+)\"", re.I | re.S)
 _COMMON_FEEDS = ("/feed/", "/jobs/feed/", "/rss", "/jobs.rss", "/?feed=job_feed", "/feed/jobs")
 
@@ -60,8 +62,8 @@ def parse_sitemap(text: str, base_url: str) -> tuple[list[str], list[SitemapEntr
     """
     children = _SITEMAP_TAG.findall(text)
     if children or "<sitemapindex" in text.lower():
-        locs = [m for c in children for m in _LOC.findall(c)] or _LOC.findall(text)
-        return _absolute(base_url, locs), []
+        locs = [_value(m) for c in children for m in _LOC.findall(c)]
+        return _absolute(base_url, locs or [_value(m) for m in _LOC.findall(text)]), []
     entries: list[SitemapEntry] = []
     blocks = _URL_TAG.findall(text)
     for block in blocks:
@@ -69,16 +71,19 @@ def parse_sitemap(text: str, base_url: str) -> tuple[list[str], list[SitemapEntr
         if not loc:
             continue
         lastmod = _LASTMOD.search(block)
-        for url in _absolute(base_url, [loc.group(1)]):
+        for url in _absolute(base_url, [_value(loc.groups())]):
             entries.append(SitemapEntry(url, lastmod.group(1) if lastmod else None))
     if not blocks:  # <loc> without <url> wrappers (seen on hand-written sitemaps)
-        entries = [SitemapEntry(u) for u in _absolute(base_url, _LOC.findall(text))]
+        locs = [_value(m) for m in _LOC.findall(text)]
+        entries = [SitemapEntry(u) for u in _absolute(base_url, locs)]
     return [], entries
 
 
 def parse_feed(text: str, base_url: str) -> list[str]:
     """Item links of an RSS or Atom feed."""
-    return _absolute(base_url, _RSS_LINK.findall(text) + _ATOM_LINK.findall(text))
+    links = [_value(m) for m in _RSS_LINK.findall(text)]
+    links += [unescape(href) for href in _ATOM_LINK.findall(text)]
+    return _absolute(base_url, links)
 
 
 def decode_body(url: str, content: bytes, encoding: str | None) -> str:
@@ -98,6 +103,13 @@ class Discovery:
     job_urls: list[str] = field(default_factory=list)  # candidates that look like job pages
     blocked: list[str] = field(default_factory=list)  # URLs robots.txt/403 kept us from
     errors: list[str] = field(default_factory=list)
+
+
+def _value(groups: tuple[str | None, ...]) -> str:
+    """A ``<loc>``/``<link>`` match: CDATA content as is, plain text XML-unescaped (a
+    ``&amp;`` left in a child sitemap URL fetched an empty JobBoard.io sitemap chunk)."""
+    cdata, plain = groups
+    return cdata or unescape(plain or "")
 
 
 def _absolute(base: str, urls: list[str]) -> list[str]:
