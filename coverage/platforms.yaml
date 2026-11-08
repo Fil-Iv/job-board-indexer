@@ -112,15 +112,18 @@
 - name: BrassRing
   key: brassring
   type: ats
-  status: todo
-  tier: hard
+  status: done
+  connector: jobindex.connectors.brassring
   public_api: partial
-  api: "GET {host}/TGnewUI/Search/Home/HomeWithPreLoad?partnerid={p}&siteid={s}&PageType=searchResults (preloadJSON: first 50 jobs + JobsCount) + PageType=JobDetails&jobid={reqid} (full posting); more than 50 only via POST /TgNewUI/Search/Ajax/ProcessSortAndShowMoreJobs"
+  api: "GET {host}/TGnewUI/Search/Home/HomeWithPreLoad?partnerid={p}&siteid={s}&PageType=searchResults (preLoadJSON: up to 50 jobs + JobsCount) + PageType=JobDetails&jobid={reqid} (posting)"
   url_patterns: ["{sjobs|krb-sjobs|xjobs}.brassring.com/TGnewUI/Search/Home/Home?partnerid={p}&siteid={s}", "…/HomeWithPreLoad?partnerid={p}&siteid={s}&PageType=JobDetails&jobid={reqid}"]
-  examples: []
+  examples:
+    - https://sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=25749&siteid=5764
+    - https://sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=25103&siteid=5041
   robots: allowed
-  verified: null
-  notes: "Not built (2026-11-08): no allowed route lists more than 50 jobs. robots.txt is 404 on sjobs/krb-sjobs/xjobs.brassring.com. The server-rendered HomeWithPreLoad?PageType=searchResults page embeds the first 50 jobs and the true JobsCount, and ignores every paging/keyword/sort parameter (PageNumber, page, pageno, keyword, SortType tried). Job details are complete over GET (PageType=JobDetails). Further pages exist only as POST /TgNewUI/Search/Ajax/ProcessSortAndShowMoreJobs carrying encryptedSessionValue (#CookieValue) and the RFT/__RequestVerificationToken issued by the page: page-issued tokens are not used. Sites checked: 9 live sites have 155-24,005 jobs (FCPS 25103/5042: 56; Home Depot 25526/5032: 24,005; 26235/5374: 681; 25771/5403: 2,164; 25879/5295: 949; 25633/5439: 1,350; 25307/5238: 319; xjobs 25348/5039: 155), 3 have 0 (Lockheed Martin migrated). A connector limited to boards of 50 jobs or fewer would work but no such live board was found."
+  verified: 2026-11-08
+  generic: no
+  notes: "LIMITED: only sites with 50 jobs or fewer. The server-rendered preload page holds the first 50 jobs and the true JobsCount and ignores every paging/keyword/sort parameter; further pages need POST /TgNewUI/Search/Ajax/ProcessSortAndShowMoreJobs with the page-issued encryptedSessionValue and RFT token (not used). A site with more than 50 jobs fails the crawl with an explicit error, never a partial list. Examples: Halifax Regional Municipality (36 jobs), Fairfax County Public Schools leadership site 5041 (17; some postings are internal-only, labelled so in the title). Of 21 live sites checked, 14 have 54-24,005 jobs (FCPS main site 56, Home Depot 24,005) and 5 have none, so most BrassRing customers stay out of reach; an example that grows past 50 jobs will start failing."
 
 - name: Breezy HR
   key: breezy
