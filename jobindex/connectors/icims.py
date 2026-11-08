@@ -24,6 +24,7 @@ _PLACEHOLDERS = frozenset({"unavailable", "n/a", "na", "none"})
 @register
 class ICIMSConnector(HostedBoardConnector):
     platform = "icims"
+    company_name_sources = (re.compile(r"Job Listings at (?P<name>.+)$"),)
     native_suffix = ".icims.com"
     page_fingerprint = re.compile(r"//cdn\d*\.icims\.com/")
     job_path = re.compile(r"/jobs/(?P<id>\d+)/[^/]*/job/?")

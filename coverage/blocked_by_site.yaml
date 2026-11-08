@@ -77,10 +77,18 @@ blocked_by_site:
       - {url: "https://jobs.sfaac.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://jobs.sfaac.com/robots.txt", robots_http_status: 403, robots_rule: null}
   - platform: Wiley Madgex
     scope: tenant
-    impact: "Some boards answer 403 incl. robots.txt (pharmiweb.jobs is open)."
+    impact: "Some boards answer 403 (or disallow everything); jobs.sciencecareers.org, timeshighereducation.com/unijobs and jobs.chronicle.com are open and indexed."
     evidence:
       - {url: "https://jobs.theguardian.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://jobs.theguardian.com/robots.txt", robots_http_status: 403, robots_rule: null}
       - {url: "https://www.nejmcareercenter.org/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://www.nejmcareercenter.org/robots.txt", robots_http_status: 403, robots_rule: null}
+      - {url: "https://jobs.economist.com/jobs/", checked_at: "2026-11-08T04:43:05+00:00", http_status: 403, robots_url: "https://jobs.economist.com/robots.txt", robots_http_status: 403, robots_rule: null}
+      - {url: "https://jobs.campaignlive.co.uk/jobs/", checked_at: "2026-11-08T04:43:05+00:00", http_status: 403, robots_url: "https://jobs.campaignlive.co.uk/robots.txt", robots_http_status: 200, robots_rule: "Allow: /"}
+      - {url: "https://careers.bmj.com/jobs/", checked_at: "2026-11-08T04:43:05+00:00", http_status: null, robots_url: "https://careers.bmj.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+  - platform: PageUp
+    scope: tenant
+    impact: "Internal-candidate portals (/{id}/ci/...) are disallowed; the external portals (/{id}/cw/...) of the same employers are open and indexed."
+    evidence:
+      - {url: "https://careers.pageuppeople.com/851/ci/en-us/rss", checked_at: "2026-11-08T04:48:54+00:00", http_status: null, robots_url: "https://careers.pageuppeople.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /*/ci/"}
   - platform: CareerSiteCloud
     scope: platform
     impact: "Vendor site answers 403 incl. robots.txt; no customer board found yet."

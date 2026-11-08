@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import Any
+from typing import Any, ClassVar
 
 import pytest
 from sqlalchemy import select
@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from jobindex.connectors.base import ConnectorError, RawJob
 from jobindex.connectors.registry import Registry
-from jobindex.crawler import CrawlResult, crawl_source
+from jobindex.crawler import CrawlResult, crawl_source, crawl_sources
 from jobindex.http import FetchError, HttpClient
 from jobindex.models import FetchRun, FetchStatus, Job, JobChange, JobStatus, RemoteType, Source
 from tests.fakes import FakeConnector, FakeDetailConnector
@@ -259,3 +259,80 @@ async def test_change_causes_upstream_parser_local(
         ("city", "parser", v),
         ("company", "local", v),
     ]
+
+
+class _PoolProbeConnector(FakeConnector):
+    """Records how many pooled DB connections are checked out while fetching."""
+
+    platform = "fake-pool-probe"
+    engine: Any = None
+    checked_out: ClassVar[list[int]] = []
+
+    async def fetch_jobs(self, board_identifier: str) -> list[RawJob]:
+        type(self).checked_out.append(type(self).engine.sync_engine.pool.checkedout())
+        return [_raw("1")]
+
+
+async def test_no_db_connection_held_during_fetch(
+    session: AsyncSession, session_factory: Factory
+) -> None:
+    """A slow fetch must not pin a pooled connection, or `crawl --all` with a high
+    CRAWL_CONCURRENCY exhausts the pool (seen in a live run: QueuePool limit reached)."""
+    source_id = await _make_source(session, platform="fake-pool-probe")
+    await session.close()  # the test's own session returns its connection
+    _PoolProbeConnector.engine = session_factory.kw["bind"]
+    _PoolProbeConnector.checked_out = []
+    registry = Registry()
+    registry.add(_PoolProbeConnector)
+    result = await _crawl(session_factory, source_id, registry)
+    assert result.status is FetchStatus.SUCCESS
+    assert _PoolProbeConnector.checked_out == [0]
+
+
+async def test_crashing_source_does_not_cancel_the_others(
+    session: AsyncSession, session_factory: Factory, fake_registry: Registry
+) -> None:
+    source_id = await _make_source(session)
+    FakeConnector.result = [_raw("1")]
+    async with HttpClient(user_agent="test") as http:
+        results = await crawl_sources(
+            [999_999, source_id],
+            session_factory=session_factory,
+            http=http,
+            registry=fake_registry,
+        )
+    by_id = {r.source_id: r for r in results}
+    assert by_id[999_999].status is FetchStatus.FAILED
+    assert by_id[999_999].fetch_run_id is None
+    assert "LookupError" in (by_id[999_999].error or "")
+    assert by_id[source_id].status is FetchStatus.SUCCESS
+
+
+class _NamedBoardConnector(FakeConnector):
+    """Postings without a company; the board page names the employer."""
+
+    platform = "fake-named"
+    names: ClassVar[list[str]] = []
+
+    async def fetch_company_name(self, board_identifier: str) -> str | None:
+        type(self).names.append(board_identifier)
+        return "Acme Corporation"
+
+
+async def test_missing_company_name_is_fetched_once(
+    session: AsyncSession, session_factory: Factory
+) -> None:
+    source = Source(platform="fake-named", board_identifier="acme", base_url="https://x")
+    session.add(source)
+    await session.commit()
+    registry = Registry()
+    registry.add(_NamedBoardConnector)
+    _NamedBoardConnector.names = []
+    _NamedBoardConnector.result = [_raw("1"), _raw("2", company="Agency Ltd")]
+    assert (await _crawl(session_factory, source.id, registry)).status is FetchStatus.SUCCESS
+    assert (await _crawl(session_factory, source.id, registry)).status is FetchStatus.SUCCESS
+    jobs = await _jobs(session)
+    assert (jobs["1"].company, jobs["2"].company) == ("Acme Corporation", "Agency Ltd")
+    await session.refresh(source)
+    assert source.company_name == "Acme Corporation"
+    assert _NamedBoardConnector.names == ["acme"]  # stored, not fetched on every crawl

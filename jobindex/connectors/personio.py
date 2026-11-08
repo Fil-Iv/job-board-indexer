@@ -84,6 +84,7 @@ def _description(position: Element) -> str | None:
 @register
 class PersonioConnector(BaseConnector):
     platform = "personio"
+    company_name_sources = (re.compile(r"^Jobs (?:at|bei) (?P<name>.+)$"),)
 
     @classmethod
     def detect(cls, url: str) -> str | None:

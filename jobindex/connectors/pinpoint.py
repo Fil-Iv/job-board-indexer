@@ -85,6 +85,7 @@ def _location(location: dict[str, Any]) -> str | None:
 @register
 class PinpointConnector(BaseConnector):
     platform = "pinpoint"
+    company_name_sources = (re.compile(r"^Jobs at (?P<name>.+?) \|"),)
 
     @classmethod
     def detect(cls, url: str) -> str | None:

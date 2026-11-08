@@ -190,6 +190,10 @@ async def test_openapi_is_documented(client: httpx.AsyncClient) -> None:
         operation = spec["paths"][path]["get"]
         assert operation["summary"], path
         assert operation["description"], path
+        for param in operation.get("parameters", []):
+            where = f"{path} {param['name']}"
+            assert param.get("description"), where
+            assert param.get("examples") or param["schema"].get("examples"), where
 
 
 async def test_search_page(client: httpx.AsyncClient, session: AsyncSession) -> None:

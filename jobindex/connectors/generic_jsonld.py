@@ -21,6 +21,8 @@ How a crawl works
    A posting that is over — ``validThrough`` in the past, a "this job is closed/expired"
    notice, HTTP 404/410, or a redirect away from the job — is returned with ``expires_at``
    set; the crawler stores it closed and skips it while its ``list_version`` is unchanged.
+   A page with no JobPosting that is still a job page is mapped from its HTML by
+   ``parse_page_html`` where the platform implements it (GoHire, Rival).
 
 Safety
 ------
@@ -127,6 +129,10 @@ class GenericJsonLdConnector(BaseConnector):
     #: Child sitemaps of an index that may contain job URLs (searched in the child URL);
     #: ``None`` follows every child.
     child_sitemap: ClassVar[re.Pattern[str] | None] = None
+    #: Bump when the platform's page parsing changes in a way that needs every stored
+    #: page re-read (it is part of ``list_version``, so each page is fetched once more,
+    #: spread over normal crawls as the checkpoint allows). 0 = no suffix.
+    detail_version: ClassVar[int] = 0
     #: False for platforms whose ``validThrough`` is not the real end of the posting
     #: (Hireology: date posted + 30 days on jobs that are still open).
     trust_valid_through: ClassVar[bool] = True
@@ -178,8 +184,20 @@ class GenericJsonLdConnector(BaseConnector):
         """Platform-specific fix-ups of the mapped posting (``item`` = the JobPosting)."""
         return job
 
+    def adjust_page(self, job: RawJob, html: str) -> RawJob:
+        """Fill gaps of the mapped posting from the rest of the page (``og:title`` etc.)
+        for platforms whose JobPosting omits fields; runs after :meth:`adjust`."""
+        return job
+
     def is_closed_page(self, text: str) -> bool:
         return any(p.search(text) for p in self.closed_patterns)
+
+    def parse_page_html(self, html: str, stub: RawJob) -> RawJob | None:
+        """Fallback for an open job page *without* a JobPosting (some platforms drop it
+        for older postings that are still listed): map the page's own markup, or return
+        ``None`` (default) to count the page as unexplained. Only called when the page
+        is not a closed notice."""
+        return None
 
     # -- BaseConnector -------------------------------------------------------
 
@@ -287,10 +305,12 @@ class GenericJsonLdConnector(BaseConnector):
             raise ConnectorError(f"cannot decompress {url}: {exc}") from exc
 
     def _list_version(self, url: str, lastmod: str | None) -> str:
+        suffix = f"#v{self.detail_version}" if self.detail_version else ""
         if lastmod:
-            return lastmod[:64]
+            return lastmod[: 64 - len(suffix)] + suffix
         day = (datetime.now(UTC) - datetime(2000, 1, 1, tzinfo=UTC)).days
-        return refresh_token(url, max(1, get_settings().generic_refresh_days), day)
+        token = refresh_token(url, max(1, get_settings().generic_refresh_days), day)
+        return token[: 64 - len(suffix)] + suffix
 
     async def _fetch_page(self, board_identifier: str, stub: RawJob) -> RawJob:
         url = stub.source_url or ""
@@ -309,6 +329,11 @@ class GenericJsonLdConnector(BaseConnector):
         if not items:
             moved = self.job_id(final_url, board_identifier) != stub.external_id
             if not (moved or self.is_closed_page(text)):
+                fallback = self.parse_page_html(html, stub)
+                if fallback is not None and fallback.title:
+                    return replace(
+                        _plausible_salary(fallback), expires_at=None, list_version=stub.list_version
+                    )
                 self._unexplained += 1
                 limit = max(MAX_UNEXPLAINED, self._fetched * MAX_UNEXPLAINED_SHARE)
                 if self._unexplained > limit:
@@ -322,7 +347,7 @@ class GenericJsonLdConnector(BaseConnector):
         raw = to_raw_job(item, external_id=stub.external_id, source_url=url)
         if raw.posted_at is None and isinstance(item.get("datePosted"), str):
             raw = replace(raw, posted_at=self.parse_date(item["datePosted"].strip()))
-        raw = self.adjust(_plausible_salary(raw), item)
+        raw = self.adjust_page(self.adjust(_plausible_salary(raw), item), html)
         expires_at = self._valid_through(item) if self.trust_valid_through else None
         if self.is_closed_page(text):
             expires_at = now if expires_at is None else min(expires_at, now)

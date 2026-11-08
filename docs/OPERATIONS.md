@@ -38,8 +38,22 @@ $CLI add-source https://boards.greenhouse.io/acme --company-name "Acme Inc."
 ```
 
 `add-source` accepts board URLs, job URLs, embed/API URLs and custom-domain careers pages
-(it looks for platform fingerprints in the page). It prints the new source id. If the
-platform has no company name in its data, set one: `$CLI set-company <id> "Acme Inc."`.
+(it looks for platform fingerprints in the page). It prints the new source id and the
+employer name it found on the board page (for platforms whose postings name no company;
+the crawler retries this while the name is empty). If none was found, set one:
+`$CLI set-company <id> "Acme Inc."` (needed for HiBob, ADP and PageUp, whose data never
+names the employer).
+
+A fresh install can be filled with real data in one step:
+
+```sh
+$CLI seed-demo                      # every example board of every done platform (~105)
+$CLI seed-demo --platform lever     # only some platforms
+$CLI crawl --all                    # first crawl: ~2-3 h (detail pages at 1 req/s per host)
+```
+
+`seed-demo` reads `coverage/platforms.yaml` (`examples`, plus `example_companies` for
+platforms without a company name in their data) and is idempotent.
 The worker crawls the new source within a minute; to see the result immediately run
 `$CLI crawl <id>`.
 
@@ -75,6 +89,11 @@ skips sources with a `running` fetch run. Workday and generic sitemap crawls are
 
 **`GET /sources?failing=true`** — every source whose last crawl failed, with
 `consecutive_failures` and `last_error`.
+
+**`$CLI fill-rates`** (`make fill-rates`, `--markdown` for a table) — per platform, the
+share of open postings that have each field (title, company, description, location,
+source/apply URL, salary, employment type, remote, posting date). `--strict` exits 1 when a
+required field has gaps, for a cron check.
 
 Useful SQL (`$P exec db psql -U jobindex`):
 

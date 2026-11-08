@@ -71,6 +71,9 @@ class Platform:
     notes: str
     connector: str | None = None
     generic: str = "untested"
+    #: ``{example URL: employer}`` for platforms whose data never names the employer
+    #: (HiBob, ADP, PageUp); ``seed-demo`` stores it as ``sources.company_name``.
+    example_companies: tuple[tuple[str, str], ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -184,6 +187,9 @@ def _platform(entry: dict[str, Any], index: int) -> Platform:
             raise PlanError(f"{where}: done platforms need a connector module")
         if len(examples) < 2:
             raise PlanError(f"{where}: done platforms need at least 2 example URLs")
+    companies = entry.get("example_companies") or {}
+    if not isinstance(companies, dict) or not set(companies) <= set(examples):
+        raise PlanError(f"{where}: example_companies must map example URLs to names")
     return Platform(
         name=str(entry["name"]),
         key=str(entry["key"]),
@@ -199,6 +205,7 @@ def _platform(entry: dict[str, Any], index: int) -> Platform:
         notes=str(entry.get("notes") or ""),
         connector=str(connector) if connector else None,
         generic=_choice({"generic": entry.get("generic", "untested")}, "generic", GENERIC, where),
+        example_companies=tuple((str(u), str(n)) for u, n in companies.items()),
     )
 
 

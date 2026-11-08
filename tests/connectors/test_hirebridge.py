@@ -5,6 +5,8 @@ Fixtures (captured 2026-11-07; <style>, <script>, <link>, <svg>, __VIEWSTATE rem
                           (99 links = 44 jobs, some at several locations)
     eab_job_604256.html   GET .../v3/Jobs/JobDetails.aspx?cid=7856&jid=604256&locvalue=1036
     eab_job_unknown.html  GET .../JobDetails.aspx?cid=7856&jid=1&locvalue=1036 (empty fields)
+    menard_job_413822.html  GET .../JobDetails.aspx?cid=5535&jid=413822&bid=1 (2026-11-08;
+                          the list shows no location for Menard jobs, the page does)
 """
 
 import httpx
@@ -97,3 +99,21 @@ async def test_live(cid: str) -> None:
     assert all(j.title and j.source_url for j in jobs)
     assert detail is not None
     assert detail.description_html
+
+
+async def test_location_from_job_page_when_the_list_has_none() -> None:
+    page = load_fixture("hirebridge", "menard_job_413822.html")
+    http, _ = mock_http({DETAILS: httpx.Response(200, text=page)})
+    url = f"https://{DETAILS}?cid=5535&jid=413822&bid=1"
+    stub = RawJob(external_id="413822", title="Part-Time Sales", source_url=url)
+    async with http:
+        job = await HireBridgeConnector(http).fetch_job_detail("5535", stub)
+    assert job is not None
+    assert job.location_raw == "EFFINGHAM, IL"
+    assert job.employment_type == "part_time"
+
+
+def test_cache_key_is_the_list_location_not_the_stored_one() -> None:
+    # location_raw is a detail field; the list location lives in list_version
+    assert "location_raw" in HireBridgeConnector.detail_fields
+    assert "location_raw" not in HireBridgeConnector.detail_cache_key

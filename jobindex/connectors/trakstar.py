@@ -36,6 +36,7 @@ _RESERVED = {"www", "app", "api", "jsapi", "support", "status", "help", "blog", 
 @register
 class TrakstarConnector(BaseConnector):
     platform = "trakstar"
+    company_name_sources = (re.compile(r"^(?P<name>.+?) jobs\s*\|"),)
 
     @classmethod
     def detect(cls, url: str) -> str | None:

@@ -63,6 +63,7 @@ def _remote_type(opening: dict[str, Any]) -> RemoteType:
 @register
 class BambooHRConnector(BaseConnector):
     platform = "bamboohr"
+    company_name_sources = ("og:site_name",)
     needs_detail = True
     detail_cache_key = ("title", "location_raw")
     detail_fields = (

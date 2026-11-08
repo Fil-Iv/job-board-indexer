@@ -83,11 +83,11 @@
     },
     "https://careers.airindia.com/": {
       "url": "https://careers.airindia.com/",
-      "last_run_at": "2026-11-07T20:57:22+00:00",
+      "last_run_at": "2026-11-08T08:41:47+00:00",
       "last_status": "ok",
       "last_jobs_found": 14,
       "last_error": null,
-      "last_success_at": "2026-11-07T20:57:22+00:00",
+      "last_success_at": "2026-11-08T08:41:47+00:00",
       "last_success_jobs": 14
     },
     "https://careers.butterball.com/us/en": {
@@ -137,11 +137,11 @@
     },
     "https://careers.nttdata-solutions.com/": {
       "url": "https://careers.nttdata-solutions.com/",
-      "last_run_at": "2026-11-07T20:57:39+00:00",
+      "last_run_at": "2026-11-08T08:41:51+00:00",
       "last_status": "ok",
       "last_jobs_found": 365,
       "last_error": null,
-      "last_success_at": "2026-11-07T20:57:39+00:00",
+      "last_success_at": "2026-11-08T08:41:51+00:00",
       "last_success_jobs": 365
     },
     "https://careers.pageuppeople.com/851/ci/en-us/listing": {
@@ -153,13 +153,22 @@
       "last_success_at": "2026-11-07T20:56:53+00:00",
       "last_success_jobs": 144
     },
+    "https://careers.pageuppeople.com/851/cw/en-us/listing": {
+      "url": "https://careers.pageuppeople.com/851/cw/en-us/listing",
+      "last_run_at": "2026-11-08T05:30:52+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 115,
+      "last_error": null,
+      "last_success_at": "2026-11-08T05:30:52+00:00",
+      "last_success_jobs": 115
+    },
     "https://careers.pageuppeople.com/889/usw/en/listing/": {
       "url": "https://careers.pageuppeople.com/889/usw/en/listing/",
-      "last_run_at": "2026-11-07T20:57:27+00:00",
+      "last_run_at": "2026-11-08T05:30:55+00:00",
       "last_status": "ok",
       "last_jobs_found": 53,
       "last_error": null,
-      "last_success_at": "2026-11-07T20:57:27+00:00",
+      "last_success_at": "2026-11-08T05:30:55+00:00",
       "last_success_jobs": 53
     },
     "https://careers.shutterstock.com/us/en": {
@@ -179,6 +188,15 @@
       "last_error": "blocked by robots.txt (https://www.smartrecruiters.com/BoschGroup/)",
       "last_success_at": null,
       "last_success_jobs": null
+    },
+    "https://careers.smartrecruiters.com/Wise": {
+      "url": "https://careers.smartrecruiters.com/Wise",
+      "last_run_at": "2026-11-08T09:34:42+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 427,
+      "last_error": null,
+      "last_success_at": "2026-11-08T09:34:42+00:00",
+      "last_success_jobs": 427
     },
     "https://careers.werecruit.io/fr/declic-immo": {
       "url": "https://careers.werecruit.io/fr/declic-immo",
@@ -200,11 +218,11 @@
     },
     "https://careers.yash.com/": {
       "url": "https://careers.yash.com/",
-      "last_run_at": "2026-11-07T20:56:49+00:00",
+      "last_run_at": "2026-11-08T08:41:43+00:00",
       "last_status": "ok",
       "last_jobs_found": 329,
       "last_error": null,
-      "last_success_at": "2026-11-07T20:56:49+00:00",
+      "last_success_at": "2026-11-08T08:41:43+00:00",
       "last_success_jobs": 329
     },
     "https://catalyx.hirehive.com/": {
@@ -281,11 +299,11 @@
     },
     "https://firstadvantage.applytojob.com/apply": {
       "url": "https://firstadvantage.applytojob.com/apply",
-      "last_run_at": "2026-11-08T04:25:01+00:00",
+      "last_run_at": "2026-11-08T05:30:50+00:00",
       "last_status": "ok",
       "last_jobs_found": 31,
       "last_error": null,
-      "last_success_at": "2026-11-08T04:25:01+00:00",
+      "last_success_at": "2026-11-08T05:30:50+00:00",
       "last_success_jobs": 31
     },
     "https://fmals.de/": {
@@ -326,11 +344,11 @@
     },
     "https://ilsos.applytojob.com/apply": {
       "url": "https://ilsos.applytojob.com/apply",
-      "last_run_at": "2026-11-08T04:25:03+00:00",
+      "last_run_at": "2026-11-08T05:30:52+00:00",
       "last_status": "ok",
       "last_jobs_found": 24,
       "last_error": null,
-      "last_success_at": "2026-11-08T04:25:03+00:00",
+      "last_success_at": "2026-11-08T05:30:52+00:00",
       "last_success_jobs": 24
     },
     "https://indrive.pinpointhq.com": {
@@ -470,20 +488,20 @@
     },
     "https://jobs.gohire.io/dexerto-de5jlhjo/": {
       "url": "https://jobs.gohire.io/dexerto-de5jlhjo/",
-      "last_run_at": "2026-11-08T04:25:02+00:00",
+      "last_run_at": "2026-11-08T05:30:51+00:00",
       "last_status": "ok",
       "last_jobs_found": 16,
       "last_error": null,
-      "last_success_at": "2026-11-08T04:25:02+00:00",
+      "last_success_at": "2026-11-08T05:30:51+00:00",
       "last_success_jobs": 16
     },
     "https://jobs.gohire.io/su9lyitg": {
       "url": "https://jobs.gohire.io/su9lyitg",
-      "last_run_at": "2026-11-08T04:25:05+00:00",
+      "last_run_at": "2026-11-08T05:30:54+00:00",
       "last_status": "ok",
       "last_jobs_found": 18,
       "last_error": null,
-      "last_success_at": "2026-11-08T04:25:05+00:00",
+      "last_success_at": "2026-11-08T05:30:54+00:00",
       "last_success_jobs": 18
     },
     "https://jobs.imdiversity.com/": {
@@ -576,31 +594,40 @@
       "last_success_at": "2026-11-07T20:56:42+00:00",
       "last_success_jobs": 77
     },
+    "https://jobs.sciencecareers.org/jobs/": {
+      "url": "https://jobs.sciencecareers.org/jobs/",
+      "last_run_at": "2026-11-08T08:42:07+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 530,
+      "last_error": null,
+      "last_success_at": "2026-11-08T08:42:07+00:00",
+      "last_success_jobs": 530
+    },
     "https://jobs.silkroad.com/BU/External": {
       "url": "https://jobs.silkroad.com/BU/External",
-      "last_run_at": "2026-11-08T04:10:57+00:00",
+      "last_run_at": "2026-11-08T08:45:39+00:00",
       "last_status": "ok",
       "last_jobs_found": 200,
       "last_error": null,
-      "last_success_at": "2026-11-08T04:10:57+00:00",
+      "last_success_at": "2026-11-08T08:45:39+00:00",
       "last_success_jobs": 200
     },
     "https://jobs.silkroad.com/SOCCo/Careers": {
       "url": "https://jobs.silkroad.com/SOCCo/Careers",
-      "last_run_at": "2026-11-08T04:07:36+00:00",
+      "last_run_at": "2026-11-08T08:42:19+00:00",
       "last_status": "ok",
       "last_jobs_found": 39,
       "last_error": null,
-      "last_success_at": "2026-11-08T04:07:36+00:00",
+      "last_success_at": "2026-11-08T08:42:19+00:00",
       "last_success_jobs": 39
     },
     "https://jobs.smartrecruiters.com/Ubisoft2": {
       "url": "https://jobs.smartrecruiters.com/Ubisoft2",
-      "last_run_at": "2026-11-08T04:25:19+00:00",
+      "last_run_at": "2026-11-08T09:34:22+00:00",
       "last_status": "ok",
       "last_jobs_found": 298,
       "last_error": null,
-      "last_success_at": "2026-11-08T04:25:19+00:00",
+      "last_success_at": "2026-11-08T09:34:22+00:00",
       "last_success_jobs": 298
     },
     "https://jobsboard.edsurge.com/": {
@@ -701,6 +728,15 @@
       "last_error": null,
       "last_success_at": "2026-11-07T20:56:40+00:00",
       "last_success_jobs": 25
+    },
+    "https://paypal.eightfold.ai/careers?domain=paypal.com": {
+      "url": "https://paypal.eightfold.ai/careers?domain=paypal.com",
+      "last_run_at": "2026-11-08T05:30:52+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 305,
+      "last_error": null,
+      "last_success_at": "2026-11-08T05:30:52+00:00",
+      "last_success_jobs": 305
     },
     "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=5535": {
       "url": "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=5535",
@@ -810,6 +846,15 @@
       "last_success_at": "2026-11-07T20:57:13+00:00",
       "last_success_jobs": 1421
     },
+    "https://vodafone.eightfold.ai/careers?domain=vodafone.com": {
+      "url": "https://vodafone.eightfold.ai/careers?domain=vodafone.com",
+      "last_run_at": "2026-11-08T05:30:54+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 1210,
+      "last_error": null,
+      "last_success_at": "2026-11-08T05:30:54+00:00",
+      "last_success_jobs": 1210
+    },
     "https://wd3.myworkdaysite.com/recruiting/pwc/Global_Experienced_Careers": {
       "url": "https://wd3.myworkdaysite.com/recruiting/pwc/Global_Experienced_Careers",
       "last_run_at": "2026-11-07T21:04:10+00:00",
@@ -899,6 +944,15 @@
       "last_error": null,
       "last_success_at": "2026-11-07T20:58:56+00:00",
       "last_success_jobs": 4725
+    },
+    "https://www.timeshighereducation.com/unijobs/listings/": {
+      "url": "https://www.timeshighereducation.com/unijobs/listings/",
+      "last_run_at": "2026-11-08T08:43:09+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 1203,
+      "last_error": null,
+      "last_success_at": "2026-11-08T08:43:09+00:00",
+      "last_success_jobs": 1203
     }
   }
 }

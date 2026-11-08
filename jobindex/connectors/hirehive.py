@@ -51,6 +51,7 @@ def _epoch_seconds(value: Any) -> datetime | None:
 @register
 class HireHiveConnector(BaseConnector):
     platform = "hirehive"
+    company_name_sources = (re.compile(r"Jobs at (?P<name>.+)$"),)
 
     @classmethod
     def detect(cls, url: str) -> str | None:

@@ -45,6 +45,7 @@ async def test_fetch_from_fixture() -> None:
     assert job.title == "Campus Security Officer (SC - Short Term)"
     assert job.company == "South Orange County Community College District"
     assert (job.city, job.country) == ("Mission Viejo", "US")
+    assert job.region == "CA"  # addressRegion "California - CA"
     # "...accept applications, until the position is filled" is not a closed notice:
     # expires_at is the validThrough
     assert job.expires_at == datetime(2026, 12, 6, 7, 50, 33, tzinfo=UTC)

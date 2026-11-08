@@ -1,0 +1,18 @@
+User-agent: *
+Disallow: /
+Allow: /$
+Allow: /careers
+Allow: /api/apply
+Allow: /api/pcsx
+Allow: /candidate/login
+Allow: /login
+Allow: /events/candidate
+Allow: /events/open
+Allow: /api/events
+Allow: /careerhub/explore/jobs
+Allow: /api/career_hub
+Allow: /static/gen
+Allow: /gen
+
+Sitemap: https://paypal.eightfold.ai/careers/sitemap_index.xml?domain=paypal.com
+

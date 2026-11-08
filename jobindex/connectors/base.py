@@ -149,6 +149,34 @@ def urls_in_html(html: str) -> list[str]:
     return urls
 
 
+_OG_SITE_NAME = re.compile(
+    r"<meta[^>]+property=[\"']og:site_name[\"'][^>]+content=[\"']([^\"']*)[\"']"
+    r"|<meta[^>]+content=[\"']([^\"']*)[\"'][^>]+property=[\"']og:site_name[\"']",
+    re.I,
+)
+_TITLE = re.compile(r"<title[^>]*>(.*?)</title>", re.I | re.S)
+
+
+def company_name_from_page(html: str, sources: tuple[str | re.Pattern[str], ...]) -> str | None:
+    """First non-empty employer name found by ``sources`` (see
+    ``BaseConnector.company_name_sources``); whitespace is collapsed."""
+    title_match = _TITLE.search(html)
+    title = " ".join(unescape(title_match.group(1)).split()) if title_match else ""
+    for source in sources:
+        if source == "og:site_name":
+            meta = _OG_SITE_NAME.search(html)
+            value = (meta.group(1) or meta.group(2)) if meta else None
+        elif isinstance(source, re.Pattern):
+            match = source.search(title)
+            value = match.group("name") if match else None
+        else:
+            raise ValueError(f"unknown company name source {source!r}")
+        name = " ".join(unescape(value or "").split()).strip(" -|")
+        if name:
+            return name
+    return None
+
+
 class BaseConnector(ABC):
     #: Unique platform key, stored in ``sources.platform`` (e.g. ``"greenhouse"``).
     platform: ClassVar[str]
@@ -218,6 +246,21 @@ class BaseConnector(ABC):
         look like a board that closed most of its jobs."""
         return None
 
+    #: Where the board's own page names the employer, tried in order: ``"og:site_name"``
+    #: (the meta tag) or a regex on the page ``<title>`` with a named group ``name``.
+    #: Used by the default :meth:`fetch_company_name` for single-employer platforms whose
+    #: postings carry no company (Lever, Ashby, ...); empty = not available.
+    company_name_sources: ClassVar[tuple[str | re.Pattern[str], ...]] = ()
+
+    def company_page_url(self, board_identifier: str) -> str:
+        """Page read by :meth:`fetch_company_name` (default: the board URL)."""
+        return self.board_url(board_identifier)
+
     async def fetch_company_name(self, board_identifier: str) -> str | None:
-        """Company name for ``add-source``, if the platform exposes it."""
-        return None
+        """Company name for ``sources.company_name`` (set by ``add-source`` and, when still
+        empty, by the crawler), if the platform exposes it. The crawler uses it for
+        postings that carry no company of their own."""
+        if not self.company_name_sources:
+            return None
+        response = await self.http.get(self.company_page_url(board_identifier))
+        return company_name_from_page(response.text, self.company_name_sources)

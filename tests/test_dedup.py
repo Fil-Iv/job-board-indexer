@@ -10,7 +10,8 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from jobindex.dedup import Posting, cluster, run_dedup
-from jobindex.dedup.keys import company_key, title_key, url_key
+from jobindex.dedup.cluster import description_words, overlap
+from jobindex.dedup.keys import company_key, posting_keys, title_key, url_key
 from jobindex.models import Job, JobStatus, RemoteType, Source
 
 T0 = datetime(2026, 10, 1, tzinfo=UTC)
@@ -206,3 +207,165 @@ async def test_run_dedup_fills_canonical_job_id(session: AsyncSession) -> None:
 
     again = await run_dedup(session, now=T0 + timedelta(days=1))
     assert again.updated == 0  # idempotent
+
+
+@pytest.mark.parametrize(
+    ("a", "b"),
+    [
+        (  # Workday: /details/ link (job boards) vs /job/{location}/ (the API's URL)
+            "https://umd.wd1.myworkdayjobs.com/en-US/UMCES/details/Assistant-Professor_JR105179",
+            "https://umd.wd1.myworkdayjobs.com/UMCES/job/UMCES-IMET/Assistant-Professor_JR105179",
+        ),
+        (
+            "https://wd3.myworkdaysite.com/recruiting/pwc/Global_Careers/job/NY/Analyst_123",
+            "https://wd3.myworkdaysite.com/en-US/recruiting/pwc/Global_Careers/details/A_123",
+        ),
+        (
+            "https://jobs.lever.co/acme/0b2b2d5e-1b44-4c1a-9a43-8e2a9f2b3c4d",
+            "https://jobs.lever.co/acme/0b2b2d5e-1b44-4c1a-9a43-8e2a9f2b3c4d/apply",
+        ),
+        (
+            "https://boards.greenhouse.io/gitlab/jobs/123?gh_src=x",
+            "https://job-boards.greenhouse.io/gitlab/jobs/123",
+        ),
+        (
+            "https://ssp.applytojob.com/apply/53cgB6lfr4/Biochemistry-Director?referrer=x",
+            "https://ssp.applytojob.com/apply/53cgB6lfr4",
+        ),
+        (
+            "https://faculty-acme.icims.com/jobs/39228/doctoral-research-faculty/job?mode=view",
+            "https://faculty-acme.icims.com/jobs/39228/job",
+        ),
+    ],
+)
+def test_posting_keys_match_url_variants_of_one_posting(a: str, b: str) -> None:
+    assert posting_keys(a) & posting_keys(b)
+
+
+def test_posting_keys_keep_different_postings_apart() -> None:
+    one = "https://umd.wd1.myworkdayjobs.com/UMCES/job/X/Assistant-Professor_JR105179"
+    other = "https://umd.wd1.myworkdayjobs.com/UMCES/job/X/Assistant-Professor_JR105195"
+    other_site = "https://umd.wd1.myworkdayjobs.com/UMCP/job/X/Assistant-Professor_JR105179"
+    assert not posting_keys(one) & posting_keys(other)
+    assert not posting_keys(one) & posting_keys(other_site)
+
+
+def test_description_link_to_another_sources_posting_merges() -> None:
+    """Real case (2026-11-08): Science Careers re-lists a UMCES Workday requisition under a
+    longer title, a different city and company spelling, and links to it in the text."""
+    ats = posting(
+        1,
+        company=None,
+        title="Assistant Professor-Microbiome and Symbiosis",
+        city="UMCES Institute of Marine and Environmental Technology",
+        source_url="https://umd.wd1.myworkdayjobs.com/UMCES/job/UMCES-IMET/"
+        "Assistant-Professor-Microbiome-and-Symbiosis_JR105179",
+    )
+    board = posting(
+        2,
+        company="University of MD Center For Environmental Science",
+        title="Assistant Professor-Microbiome and Symbiosis Studies",
+        city="Baltimore",
+        source_url="https://jobs.sciencecareers.org/job/680993/x/",
+        linked_urls=(
+            "https://umd.wd1.myworkdayjobs.com/en-US/UMCES/details/"
+            "Assistant-Professor-Microbiome-and-Symbiosis_JR105179",
+            "https://www.umces.edu/",
+        ),
+    )
+    assert groups([ats, board]) == {frozenset({ats.id, board.id})}
+
+
+def test_description_linking_several_postings_of_a_source_proves_nothing() -> None:
+    a = posting(1, title="Chemist", source_url="https://acme.applytojob.com/apply/AAAAAA11")
+    b = posting(1, title="Physicist", source_url="https://acme.applytojob.com/apply/BBBBBB22")
+    roundup = posting(
+        2,
+        title="Summer teaching opportunities",
+        linked_urls=(
+            "https://acme.applytojob.com/apply/AAAAAA11/Chemist",
+            "https://acme.applytojob.com/apply/BBBBBB22/Physicist",
+        ),
+    )
+    assert len(groups([a, b, roundup])) == 3
+
+
+async def test_run_dedup_follows_links_in_descriptions(session: AsyncSession) -> None:
+    ats = Source(platform="workday", board_identifier="umd/UMCES", base_url="https://x")
+    board = Source(platform="madgex", board_identifier="sc/jobs", base_url="https://y")
+    session.add_all([ats, board])
+    await session.flush()
+    workday = "https://umd.wd1.myworkdayjobs.com/UMCES/job/IMET/Professor_JR105179"
+    session.add_all(
+        [
+            Job(
+                source_id=ats.id,
+                external_id="w",
+                title="Professor",
+                source_url=workday,
+                city="IMET",
+                content_hash="w",
+            ),
+            Job(
+                source_id=board.id,
+                external_id="m",
+                title="Professor of Symbiosis",
+                company="UMCES",
+                city="Baltimore",
+                description_html=(
+                    '<p>Apply <a href="https://umd.wd1.myworkdayjobs.com/en-US/UMCES/details/'
+                    'Professor_JR105179?q=a&amp;b=c">here</a>.</p>'
+                ),
+                content_hash="m",
+            ),
+        ]
+    )
+    await session.commit()
+    result = await run_dedup(session, now=T0)
+    assert (result.postings, result.openings) == (2, 1)
+
+
+def test_board_relisting_a_still_open_requisition_months_later_merges() -> None:
+    """Real case (2026-11-08): JPMorgan's Oracle requisition posted 2026-08-07 and still
+    listed; the ALA job board re-lists it on 2026-11-02 (87 days later)."""
+    ats = posting(1, posted_at=T0, last_seen_at=T0 + timedelta(days=100))
+    board = posting(2, posted_at=T0 + timedelta(days=87), last_seen_at=T0 + timedelta(days=100))
+    assert len(groups([ats, board])) == 1
+
+
+def test_new_york_city_is_new_york() -> None:
+    columbia = posting(1, city="New York")
+    board = posting(2, city="New York City")
+    assert len(groups([columbia, board])) == 1
+    assert len(groups([posting(3, city="New York"), posting(4, city="York")])) == 2
+
+
+def test_same_generic_title_with_different_descriptions_stays_separate() -> None:
+    """Real case (2026-11-08): Columbia's "Lecturer in Discipline" on Science Careers
+    (Psychology) and on IMDiversity (Ethnicity and Race) - same title, city and dates."""
+    psych = posting(1, title="Lecturer in Discipline", city="New York City")
+    race = posting(2, title="Lecturer in Discipline", city="New York")
+    words = {
+        psych.id: description_words(
+            "The Psychology Department invites applications for a lecturer position in "
+            "cognitive neuroscience research methods statistics undergraduate courses"
+        ),
+        race.id: description_words(
+            "The Center for the Study of Ethnicity and Race invites applications for a "
+            "lecturer teaching comparative ethnic studies seminars"
+        ),
+    }
+    assert len(groups([psych, race])) == 1  # without descriptions: merged
+    by_head: dict[int, set[int]] = {}
+    for job_id, head in cluster([psych, race], descriptions=words).items():
+        by_head.setdefault(head, set()).add(job_id)
+    assert len(by_head) == 2
+
+
+def test_overlap_of_relisted_description() -> None:
+    original = description_words("Join a dynamic legal team that shapes consumer banking")
+    relisted = description_words(
+        "Senior Counsel at JPMorgan. Join a dynamic legal team that shapes consumer banking"
+    )
+    assert overlap(original, relisted) == 1.0
+    assert overlap(original, frozenset()) is None

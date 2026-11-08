@@ -15,7 +15,15 @@ from jobindex.config import get_settings
 
 
 def create_engine(url: str | None = None) -> AsyncEngine:
-    return create_async_engine(url or get_settings().database_url, pool_pre_ping=True)
+    """Async engine whose pool fits ``CRAWL_CONCURRENCY`` crawls (one connection each
+    while it writes) plus dedup, the API and checkpoint writes."""
+    settings = get_settings()
+    return create_async_engine(
+        url or settings.database_url,
+        pool_pre_ping=True,
+        pool_size=max(5, settings.crawl_concurrency + 2),
+        max_overflow=10,
+    )
 
 
 def create_session_factory(engine: AsyncEngine) -> async_sessionmaker[AsyncSession]:

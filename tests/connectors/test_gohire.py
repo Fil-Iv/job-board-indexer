@@ -15,7 +15,7 @@ from decimal import Decimal
 import httpx
 import pytest
 
-from jobindex.connectors.base import ConnectorError
+from jobindex.connectors.base import ConnectorError, RawJob
 from jobindex.connectors.gohire import GoHireConnector
 from jobindex.models.enums import RemoteType
 from tests.connectors.jsonld_helpers import crawl_fixture, live_check
@@ -114,3 +114,27 @@ async def test_unknown_board_and_changed_template_raise() -> None:
 @pytest.mark.parametrize("board", ["dexerto-de5jlhjo", "su9lyitg"])
 async def test_live(board: str) -> None:
     await live_check(GoHireConnector, board)
+
+
+async def test_listed_job_without_jsonld_is_parsed_from_html() -> None:
+    """Older postings that are still listed have no JSON-LD (dexerto_job_275480_no_jsonld:
+    GET .../senior-brand-partnerships-director-us-275480/, 2026-11-08)."""
+    url = f"https://{HOST}/{BOARD}/senior-brand-partnerships-director-us-275480/"
+    page = load_fixture("gohire", "dexerto_job_275480_no_jsonld.html")
+    http, _ = mock_http({url.split("://", 1)[1]: httpx.Response(200, text=page)})
+    stub = RawJob(external_id="275480", title="", source_url=url, list_version="v")
+    async with http:
+        job = await GoHireConnector(http).fetch_job_detail(BOARD, stub)
+    assert job is not None
+    assert job.expires_at is None
+    job = job.normalized()
+    assert job.title == "Senior Brand Partnerships Director (US)"
+    assert job.company == "Dexerto"
+    assert job.location_raw == "Remote, United States"
+    assert job.remote_type is RemoteType.REMOTE
+    assert job.employment_type == "full_time"
+    assert job.posted_at is not None
+    assert job.posted_at.date().isoformat() == "2026-03-02"
+    assert job.description_text
+    assert "Company Overview" in job.description_text
+    assert job.apply_url == url

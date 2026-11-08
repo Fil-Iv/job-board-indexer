@@ -45,6 +45,7 @@ def _locations(post: dict[str, Any]) -> str | None:
 @register
 class GemConnector(BaseConnector):
     platform = "gem"
+    company_name_sources = (re.compile(r"^(?P<name>.+?) Careers$"),)
 
     @classmethod
     def detect(cls, url: str) -> str | None:

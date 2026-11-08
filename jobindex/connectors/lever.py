@@ -51,6 +51,7 @@ def _decimal(value: Any) -> Decimal | None:
 @register
 class LeverConnector(BaseConnector):
     platform = "lever"
+    company_name_sources = (re.compile(r"^(?P<name>.+)$"),)
     html_fingerprints = (
         re.compile(
             r"""leverJobsOptions\s*=\s*\{[^}]*?accountName["']?\s*:\s*["'](?P<id>[A-Za-z0-9._-]+)["']"""

@@ -9,6 +9,9 @@ List: GET https://jobs.silkroad.com/{company}/{portal}?page={n}   (n = 1, 2, ...
       without the counter raises (no empty board was available to verify).
 Job:  JSON-LD JobPosting (title, description, datePosted, employmentType,
       hiringOrganization, jobLocation; addressRegion is ISO 3166-2, "US-OH" -> "OH").
+      Older postings that are still listed have no JSON-LD (BU, 2026-11-08): they are
+      mapped from the page markup (``parse_page_html``: ``#Jobs_JobDetail_TitleText``,
+      the ``ConfigurablePageDetail__*`` blocks, the company from the page title).
       Generic sitemap + JSON-LD machinery
       (``generic_jsonld``, ``listed_pages`` override): pages are fetched for new jobs and
       every GENERIC_REFRESH_DAYS, with checkpoints.
@@ -24,13 +27,16 @@ Verified on SOCCo/Careers and BU/External (2026-11-08).
 
 import re
 from dataclasses import replace
+from datetime import UTC, datetime
 from typing import Any
 from urllib.parse import urlsplit
+
+from selectolax.lexbor import LexborHTMLParser
 
 from jobindex.connectors.base import ConnectorError, RawJob
 from jobindex.connectors.generic_jsonld import GenericJsonLdConnector
 from jobindex.connectors.registry import register
-from jobindex.normalize import split_url
+from jobindex.normalize import normalize_employment_type, split_url
 
 HOST = "jobs.silkroad.com"
 MAX_PAGES = 500
@@ -99,3 +105,46 @@ class RivalConnector(GenericJsonLdConnector):
         # addressRegion is an ISO 3166-2 code ("US-OH"): keep the subdivision part.
         match = _ISO_REGION.match(job.region or "")
         return replace(job, region=match["code"]) if match else job
+
+    def parse_page_html(self, html: str, stub: RawJob) -> RawJob | None:
+        tree = LexborHTMLParser(html)
+        heading = tree.css_first("#Jobs_JobDetail_TitleText")
+        section = tree.css_first("section.sr-job-detail__description")
+        if heading is None or section is None:
+            return None
+
+        def field(name: str) -> str | None:
+            node = tree.css_first(f"#ConfigurablePageDetail__{name} > div")
+            return (node.text(strip=True) or None) if node is not None else None
+
+        parts = [
+            node.html or ""
+            for name in ("JobDescription", "RequiredSkills")
+            if (node := tree.css_first(f"#ConfigurablePageDetail__{name}")) is not None
+        ]
+        title = " ".join(heading.text().split())
+        description = "".join(parts) or section.html
+        title_tag = tree.css_first("title")
+        # "<job title> - <location> - <company>"
+        company = ([*title_tag.text(strip=True).rsplit(" - ", 1), ""])[1] if title_tag else ""
+        apply = tree.css_first("#Base_BackToJobs_Multiform_ApplyLink")
+        apply_path = (apply.attributes.get("href") or "") if apply is not None else ""
+        return RawJob(
+            external_id=stub.external_id,
+            title=title,
+            company=company or None,
+            description_html=description,
+            location_raw=field("DisplayLocation"),
+            employment_type=normalize_employment_type(field("DisplayPosition")),
+            posted_at=_posted(field("PostingDate")),
+            source_url=stub.source_url,
+            apply_url=f"https://{HOST}{apply_path}" if apply_path.startswith("/") else None,
+        )
+
+
+def _posted(value: str | None) -> datetime | None:
+    """``"2/9/2026"`` (US month/day/year) -> 2026-02-09 UTC."""
+    try:
+        return datetime.strptime(value or "", "%m/%d/%Y").replace(tzinfo=UTC)
+    except ValueError:
+        return None

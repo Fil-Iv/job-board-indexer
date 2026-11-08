@@ -9,7 +9,7 @@ Fixtures (captured 2026-11-08; <style>, <link>, <svg>, non-JSON-LD <script> remo
 import httpx
 import pytest
 
-from jobindex.connectors.base import ConnectorError
+from jobindex.connectors.base import ConnectorError, RawJob
 from jobindex.connectors.rival import RivalConnector
 from tests.connectors.jsonld_helpers import crawl_fixture, live_check
 from tests.fakes import load_fixture, mock_http
@@ -89,3 +89,26 @@ async def test_live(board: str) -> None:
     # BU/External (the second example, ~200 jobs) is checked by `make coverage`: at the
     # site's Crawl-delay of 10 s a full list + sample takes several minutes.
     await live_check(RivalConnector, board)
+
+
+async def test_listed_job_without_jsonld_is_parsed_from_html() -> None:
+    """Older postings that are still listed have no JSON-LD (bu_job_316357_no_jsonld:
+    GET https://jobs.silkroad.com/BU/External/jobs/316357, 2026-11-08)."""
+    url = "https://jobs.silkroad.com/BU/External/jobs/316357"
+    page = load_fixture("rival", "bu_job_316357_no_jsonld.html")
+    http, _ = mock_http({url.split("://", 1)[1]: httpx.Response(200, text=page)})
+    stub = RawJob(external_id="316357", title="", source_url=url, list_version="v")
+    async with http:
+        job = await RivalConnector(http).fetch_job_detail("BU/External", stub)
+    assert job is not None
+    assert job.expires_at is None
+    job = job.normalized()
+    assert job.title == "Senior Program Coordinator, Auxiliary, Office of Housing"
+    assert job.company == "Boston University"
+    assert (job.city, job.region, job.country) == ("BOSTON", "MA", "US")  # as the page writes it
+    assert job.employment_type == "full_time"
+    assert job.posted_at is not None
+    assert job.posted_at.date().isoformat() == "2026-02-09"
+    assert job.description_text
+    assert "furniture warehouse" in job.description_text
+    assert job.apply_url == "https://jobs.silkroad.com/BU/External/Apply/MultiForm/316357"

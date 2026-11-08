@@ -112,6 +112,18 @@ async def test_lists_job_urls_from_sitemap_index_with_versions() -> None:
     assert all(r.url.path != "/sitemap-pages.xml" for r in seen)
 
 
+async def test_detail_version_forces_one_refetch_of_stored_pages() -> None:
+    class Reparsed(ExampleConnector):
+        detail_version = 2
+
+    sitemap = _sitemap(("/job/1-engineer", "2026-11-01"), ("/job/2-designer", None))
+    http, _ = mock_http(_routes(sitemap, {}))
+    async with http:
+        jobs = await Reparsed(http).fetch_jobs(HOST)
+    assert jobs[0].list_version == "2026-11-01#v2"  # differs from the stored "2026-11-01"
+    assert (jobs[1].list_version or "").endswith("#v2")
+
+
 async def test_native_host_redirecting_to_custom_domain() -> None:
     # e.g. alanet.mysmartjobboard.com -> jobs.alanet.org: the sitemap lists the latter.
     native = "acme.example-boards.test"

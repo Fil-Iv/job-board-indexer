@@ -4,6 +4,10 @@ Fixtures (captured 2026-11-07; <style>, <script>, <link>, <svg> removed):
     ilsos_apply.html                    GET https://ilsos.applytojob.com/apply (24 jobs)
     firstadvantage_job_5BCvO7JygF.html  GET https://firstadvantage.applytojob.com/apply/
                                         5BCvO7JygF/Senior-Technical-Product-Manager-IC-Remote
+    nonprofittalent_legacy_list.html    GET https://nonprofittalent.applytojob.com/apply
+                                        (2026-11-08; legacy "resumator" theme, 1 job)
+    nonprofittalent_legacy_job.html     GET .../apply/n5RRfdb50q/Chief-Executive-Officer-
+                                        Hello-Neighbor (2026-11-08, legacy theme)
 """
 
 import httpx
@@ -115,3 +119,27 @@ async def test_live(company: str) -> None:
     assert all(j.title and j.source_url for j in jobs)
     assert detail is not None
     assert detail.description_html
+
+
+async def test_legacy_resumator_theme() -> None:
+    host = "nonprofittalent.applytojob.com"
+    job_path = "/apply/n5RRfdb50q/Chief-Executive-Officer-Hello-Neighbor"
+    routes = {
+        f"{host}/apply": httpx.Response(
+            200, text=load_fixture("jazzhr", "nonprofittalent_legacy_list.html")
+        ),
+        f"{host}{job_path}": httpx.Response(
+            200, text=load_fixture("jazzhr", "nonprofittalent_legacy_job.html")
+        ),
+    }
+    http, _ = mock_http(routes)
+    async with http:
+        connector = JazzHRConnector(http)
+        jobs = await connector.fetch_jobs("nonprofittalent")
+        assert [(j.external_id, j.title, j.location_raw) for j in jobs] == [
+            ("n5RRfdb50q", "Chief Executive Officer, Hello Neighbor", "Pittsburgh, PA")
+        ]
+        detail = await connector.fetch_job_detail("nonprofittalent", jobs[0])
+    assert detail is not None
+    assert detail.description_html
+    assert detail.employment_type == "full_time"

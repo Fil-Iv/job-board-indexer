@@ -1,11 +1,12 @@
 import asyncio
+from pathlib import Path
 
 import httpx
 import pytest
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from jobindex.cli import add_source, main
+from jobindex.cli import add_source, main, seed_demo
 from jobindex.connectors.base import RawJob
 from jobindex.connectors.registry import Registry
 from jobindex.models import FetchRun, FetchStatus, Job, Source
@@ -82,3 +83,49 @@ async def test_set_company(
     assert source.company_name == "Acme GmbH"
     assert await asyncio.to_thread(main, ["set-company", "99", "X"], fake_registry) == 2
     assert await asyncio.to_thread(main, ["set-company", "1", "  "], fake_registry) == 2
+
+
+async def test_seed_demo_registers_examples(
+    fake_registry: Registry,
+    session_factory: async_sessionmaker[AsyncSession],
+    session: AsyncSession,
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    plan = tmp_path / "platforms.yaml"
+    plan.write_text(
+        """
+- name: Fake
+  key: fake
+  type: ats
+  status: done
+  connector: tests.fakes
+  public_api: "yes"
+  api: "GET /"
+  examples: ["https://jobs.fake.test/acme", "https://jobs.fake.test/globex"]
+  example_companies: {"https://jobs.fake.test/globex": "Globex Corporation"}
+  robots: allowed
+  verified: 2026-11-08
+  notes: ""
+- name: Todo
+  key: todo
+  type: ats
+  status: todo
+  tier: hard
+  public_api: "no"
+  api: "?"
+  examples: ["https://todo.test/x"]
+  robots: unknown
+  verified: null
+  notes: ""
+""",
+        encoding="utf-8",
+    )
+    http, _ = mock_http({})
+    async with http:
+        assert await seed_demo(session_factory, fake_registry, http, platforms_file=plan) == 0
+        # idempotent; todo platforms are skipped
+        assert await seed_demo(session_factory, fake_registry, http, platforms_file=plan) == 0
+    rows = (await session.execute(select(Source.board_identifier, Source.company_name))).all()
+    names = {board: company for board, company in rows}
+    assert names == {"acme": "Acme", "globex": "Globex Corporation"}

@@ -8,10 +8,14 @@ List:   GET https://{company}.applytojob.com/apply
         container (else: error) and the generic job-drop guard (``max_job_drop``,
         GENERIC_MAX_JOB_DROP) refuses a result that suddenly lost most jobs.
         Unknown companies redirect to www.jazzhr.com (no container): error.
+        Older boards use the legacy "resumator" theme (nonprofittalent, 2026-11-08):
+        ``#resumator-content-left.resumator-home-joblist .resumator-job`` with
+        ``a.resumator-job-title-link`` and ``.resumator-job-info`` ("Location: ...").
 Detail: GET https://{company}.applytojob.com/apply/{id}/{slug}  (only for new/changed)
         ``.job-header h2`` (title), ``.job-attributes-container [title=Location|Type]``,
         ``#job-description`` (HTML). No JSON-LD and no posting date. Closed jobs answer
-        410 (unknown ids too).
+        410 (unknown ids too). Legacy theme: ``#resumator-job-description`` and
+        ``#resumator-job-employment`` ("Type: Full Time").
 
 Not used: the XML export ``app.jazz.co/feeds/export/jobs/{company}`` (410 Gone); the
 official API (needs the customer's key); and the sitemaps robots.txt names
@@ -24,7 +28,8 @@ URL formats recognised:
     {company}.applytojob.com[/apply[/{id}/{slug}]]
 Custom-domain career pages: links/iframes to the above (generic HTML detection).
 
-Verified on firstadvantage, ilsos and landing (2026-11-07).
+Verified on firstadvantage, ilsos and landing (2026-11-07); legacy theme on
+nonprofittalent (2026-11-08).
 """
 
 import re
@@ -52,6 +57,7 @@ def _clean(text: str | None) -> str:
 @register
 class JazzHRConnector(BaseConnector):
     platform = "jazzhr"
+    company_name_sources = (re.compile(r"^(?P<name>.+?) - Career Page$"),)
     needs_detail = True
     detail_fields = ("description_html", "description_text", "employment_type")
 
@@ -78,23 +84,38 @@ class JazzHRConnector(BaseConnector):
         if split_url(str(response.url))[0] != f"{board_identifier}{_SUFFIX}":
             raise ConnectorError(f"jazzhr: {url} redirected to {response.url} (unknown company?)")
         tree = LexborHTMLParser(response.text)
-        container = tree.css_first(".jobs-list")
-        if container is None:
-            raise ConnectorError(f"jazzhr: no job list on {url}; template changed?")
         host = f"{board_identifier}{_SUFFIX}"
+        container = tree.css_first(".jobs-list")
+        legacy = tree.css_first("#resumator-content-left.resumator-home-joblist")
+        if container is not None:
+            items = [
+                (item.css_first(".list-group-item-heading a"), item)
+                for item in container.css("li.list-group-item")
+            ]
+        elif legacy is not None:
+            items = [
+                (item.css_first("a.resumator-job-title-link"), item)
+                for item in legacy.css(".resumator-job")
+            ]
+        else:
+            raise ConnectorError(f"jazzhr: no job list on {url}; template changed?")
         jobs: dict[str, RawJob] = {}
-        for item in container.css("li.list-group-item"):
-            link = item.css_first(".list-group-item-heading a")
+        for link, item in items:
             href = urlsplit((link.attributes.get("href") or "") if link else "")
             match = _JOB_PATH.match(href.path)
             if link is None or match is None or (href.hostname or host).lower() != host:
                 continue
-            details = [_clean(li.text()) for li in item.css("ul.list-group-item-text li")]
+            if container is not None:
+                details = [_clean(li.text()) for li in item.css("ul.list-group-item-text li")]
+                location = details[0] if details else ""
+            else:
+                info = item.css_first(".resumator-job-info")
+                location = _clean(info.text() if info else "").removeprefix("Location:").strip()
             job_url = f"https://{host}{href.path.rstrip('/')}"
             jobs[match["id"]] = RawJob(
                 external_id=match["id"],
                 title=_clean(link.text()),
-                location_raw=(details[0] or None) if details else None,
+                location_raw=location or None,
                 source_url=job_url,
                 apply_url=job_url,
             )
@@ -111,13 +132,18 @@ class JazzHRConnector(BaseConnector):
         if _JOB_PATH.match(response.url.path) is None:
             return None  # redirected away: the job is closed
         tree = LexborHTMLParser(response.text)
-        description = tree.css_first("#job-description")
+        description = tree.css_first("#job-description") or tree.css_first(
+            "#resumator-job-description"
+        )
         if description is None:
             raise ConnectorError(f"jazzhr: no #job-description on {url}; template changed?")
         attributes = {
             n.attributes.get("title"): _clean(n.text())
             for n in tree.css(".job-attributes-container [title]")
         }
+        legacy_type = tree.css_first("#resumator-job-employment")
+        if legacy_type is not None and "Type" not in attributes:
+            attributes["Type"] = _clean(legacy_type.text()).removeprefix("Type:").strip()
         return replace(
             job,
             description_html=(description.inner_html or "").strip() or None,

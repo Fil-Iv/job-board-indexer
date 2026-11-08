@@ -80,8 +80,13 @@ def title_key(title: str | None) -> str:
     return " ".join(_TITLE_WORDS.get(w, w) for w in words)
 
 
+# Spellings of one city that sources use interchangeably (folded, no spaces).
+_CITY_ALIASES = {"newyorkcity": "newyork", "nyc": "newyork"}
+
+
 def city_key(city: str | None) -> str:
-    return _NON_ALNUM.sub("", fold(city)) if city else ""
+    key = _NON_ALNUM.sub("", fold(city)) if city else ""
+    return _CITY_ALIASES.get(key, key)
 
 
 def locations_compatible(
@@ -141,3 +146,61 @@ def url_key(url: str | None) -> str:
     )
     path = parts.path.rstrip("/")
     return f"{host}{path}" + (f"?{urlencode(query)}" if query else "")
+
+
+# Platform URL shapes that name the same posting in different ways. Each maps to a
+# ``posting:{platform}:{...}`` key; the job id is part of every key, so two *different*
+# postings can never share one.
+_POSTING_URLS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    # Workday: /{lang}/{site}/details/{slug}_{req} and /{site}/job/{location}/{slug}_{req}
+    (
+        "workday",
+        re.compile(
+            r"^(?P<host>(?:[a-z0-9-]+\.)?wd\d+\.myworkday(?:jobs|site)\.com)"
+            r"(?:/[a-z]{2}-[A-Z]{2})?(?:/recruiting/(?P<tenant>[^/]+))?(?:/[a-z]{2}-[A-Z]{2})?"
+            r"/(?P<site>[^/]+)/(?:job/(?:[^/]+/)?|details/)[^/]*?_(?P<id>[A-Za-z0-9-]+)$"
+        ),
+    ),
+    # Lever: jobs.lever.co/{site}/{uuid}[/apply]
+    (
+        "lever",
+        re.compile(
+            r"^(?:jobs\.(?:eu\.)?lever\.co)/(?P<site>[^/]+)/(?P<id>[0-9a-f-]{36})(?:/apply)?$"
+        ),
+    ),
+    # Greenhouse: boards. / job-boards. / boards.eu. hosts, /{token}/jobs/{id}
+    (
+        "greenhouse",
+        re.compile(
+            r"^(?:job-boards|boards)(?:\.eu)?\.greenhouse\.io/(?:embed/job_app\?for=)?"
+            r"(?P<site>[^/?]+)/jobs/(?P<id>\d+)$"
+        ),
+    ),
+    # JazzHR: {company}.applytojob.com/apply/{code}[/{slug}]
+    (
+        "jazzhr",
+        re.compile(r"^(?P<site>[a-z0-9-]+)\.applytojob\.com/apply/(?P<id>[A-Za-z0-9]{6,})"),
+    ),
+    # iCIMS: {host}.icims.com/jobs/{id}[/{slug}/job]
+    ("icims", re.compile(r"^(?P<site>[a-z0-9-]+)\.icims\.com/jobs/(?P<id>\d+)(?:/|$)")),
+)
+
+
+def posting_keys(url: str | None) -> set[str]:
+    """Every key under which ``url`` identifies a posting: its ``url_key`` and, for
+    platforms with several URL shapes per posting, a platform key
+    (``posting:workday:umd.wd1.myworkdayjobs.com/umces/JR105179``)."""
+    key = url_key(url)
+    if not key:
+        return set()
+    keys = {key}
+    path_only = key.split("?", 1)[0]
+    for platform, pattern in _POSTING_URLS:
+        match = pattern.match(path_only)
+        if match:
+            groups = match.groupdict()
+            prefix = "/".join(g for g in (groups.get("host"), groups.get("tenant")) if g)
+            site = f"{prefix}/{groups['site'].lower()}"
+            keys.add(f"posting:{platform}:{site.strip('/')}/{groups['id']}")
+            break
+    return keys

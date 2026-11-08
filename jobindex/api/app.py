@@ -7,7 +7,7 @@ from datetime import date
 from decimal import Decimal
 from typing import Annotated
 
-from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, HTTPException, Path, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy import func, select, text
 
@@ -74,37 +74,75 @@ def search_params(
         str | None,
         Query(
             description='Full-text query (web-search syntax): `python "data engineer" -senior`.'
-            " Ranked by title, then company, then description."
+            " Ranked by title, then company, then description.",
+            examples=['python "data engineer" -senior'],
         ),
     ] = None,
-    company: Annotated[str | None, Query(description="Company name contains (any case).")] = None,
+    company: Annotated[
+        str | None,
+        Query(description="Company name contains (any case).", examples=["gitlab"]),
+    ] = None,
     location: Annotated[
         str | None,
         Query(
             description="City, region or country (name or ISO code); comma-separate to combine,"
-            " e.g. `Austin, TX` or `Berlin, Germany`."
+            " e.g. `Austin, TX` or `Berlin, Germany`.",
+            examples=["Berlin, Germany"],
         ),
     ] = None,
-    remote_type: RemoteType | None = None,
-    employment_type: EmploymentType | None = None,
+    remote_type: Annotated[
+        RemoteType | None,
+        Query(description="Work arrangement as detected from the posting.", examples=["remote"]),
+    ] = None,
+    employment_type: Annotated[
+        EmploymentType | None,
+        Query(description="Normalised employment type.", examples=["full_time"]),
+    ] = None,
     salary_min: Annotated[
         Decimal | None,
-        Query(ge=0, description="Upper end of the published salary range is at least this."),
+        Query(
+            ge=0,
+            description="Upper end of the published salary range is at least this"
+            " (postings without a salary are excluded).",
+            examples=[80000],
+        ),
     ] = None,
     salary_currency: Annotated[
-        str | None, Query(min_length=3, max_length=3, description="ISO 4217, e.g. `USD`.")
+        str | None,
+        Query(min_length=3, max_length=3, description="ISO 4217, e.g. `USD`.", examples=["USD"]),
     ] = None,
     posted_since: Annotated[
         date | None,
-        Query(description="Posted on or after this date (first-seen date if none is given)."),
+        Query(
+            description="Posted on or after this date (first-seen date if none is given).",
+            examples=["2026-11-01"],
+        ),
     ] = None,
     status: Annotated[
-        StatusFilter, Query(description="`any` returns open and closed openings.")
+        StatusFilter,
+        Query(description="`any` returns open and closed openings.", examples=["open"]),
     ] = StatusFilter.OPEN,
-    platform: Annotated[str | None, Query(description="Only this platform, e.g. `lever`.")] = None,
-    source_id: int | None = None,
-    page: Annotated[int, Query(ge=1)] = 1,
-    size: Annotated[int, Query(ge=1, le=MAX_PAGE_SIZE)] = 20,
+    platform: Annotated[
+        str | None,
+        Query(
+            description="Only this platform (connector key, see `GET /stats`).",
+            examples=["lever"],
+        ),
+    ] = None,
+    source_id: Annotated[
+        int | None,
+        Query(description="Only this source (`GET /sources` lists the IDs).", examples=[3]),
+    ] = None,
+    page: Annotated[int, Query(ge=1, description="1-based page number.", examples=[1])] = 1,
+    size: Annotated[
+        int,
+        Query(
+            ge=1,
+            le=MAX_PAGE_SIZE,
+            description=f"Openings per page (max {MAX_PAGE_SIZE}).",
+            examples=[20],
+        ),
+    ] = 20,
 ) -> SearchParams:
     return SearchParams(
         q=q.strip() if q and q.strip() else None,
@@ -149,7 +187,15 @@ async def search_jobs(
     summary="Get one opening",
     responses={404: {"description": "No posting with this ID."}},
 )
-async def get_job(job_id: int, session: SessionDep) -> JobDetailOut:
+async def get_job(
+    job_id: Annotated[
+        int,
+        Path(
+            description="Any posting ID of the opening (`id` or `sources[].job_id`).", examples=[1]
+        ),
+    ],
+    session: SessionDep,
+) -> JobDetailOut:
     """The opening with its description. Any listing's `job_id` resolves to its opening."""
     opening = await get_opening(session, job_id)
     if opening is None:
@@ -160,9 +206,15 @@ async def get_job(job_id: int, session: SessionDep) -> JobDetailOut:
 @app.get("/sources", response_model=list[SourceOut], tags=["sources"], summary="List sources")
 async def list_sources(
     session: SessionDep,
-    platform: str | None = None,
+    platform: Annotated[
+        str | None, Query(description="Only this platform (connector key).", examples=["lever"])
+    ] = None,
     failing: Annotated[
-        bool | None, Query(description="`true`: only sources whose last crawl failed.")
+        bool | None,
+        Query(
+            description="`true`: only sources whose last crawl failed; `false`: only healthy.",
+            examples=[True],
+        ),
     ] = None,
 ) -> list[SourceOut]:
     """Every registered job board with its crawl state."""

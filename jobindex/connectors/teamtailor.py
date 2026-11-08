@@ -68,6 +68,7 @@ def _rfc822(value: str | None) -> Any:
 @register
 class TeamtailorConnector(BaseConnector):
     platform = "teamtailor"
+    company_name_sources = ("og:site_name",)
 
     @classmethod
     def detect(cls, url: str) -> str | None:

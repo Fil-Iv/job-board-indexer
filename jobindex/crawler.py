@@ -55,7 +55,7 @@ MAX_ERROR_LENGTH = 4000
 @dataclass(frozen=True, slots=True)
 class CrawlResult:
     source_id: int
-    fetch_run_id: int
+    fetch_run_id: int | None  # None: crashed before its fetch_runs row was written
     status: FetchStatus
     jobs_found: int = 0
     jobs_new: int = 0
@@ -103,14 +103,23 @@ async def crawl_sources(
     concurrency: int = 4,
     registry: Registry | None = None,
 ) -> list[CrawlResult]:
-    """Crawl several sources concurrently; per-host rate limits still apply via ``http``."""
+    """Crawl several sources concurrently; per-host rate limits still apply via ``http``.
+
+    One source crashing (e.g. the database is briefly unreachable before its run row
+    exists) is reported as a failed result; it does not cancel the other crawls.
+    """
     semaphore = asyncio.Semaphore(concurrency)
 
     async def one(source_id: int) -> CrawlResult:
         async with semaphore:
-            return await crawl_source(
-                source_id, session_factory=session_factory, http=http, registry=registry
-            )
+            try:
+                return await crawl_source(
+                    source_id, session_factory=session_factory, http=http, registry=registry
+                )
+            except Exception as exc:
+                log.exception("crawl of source %s crashed", source_id)
+                error = f"{type(exc).__name__}: {exc}"[:MAX_ERROR_LENGTH]
+                return CrawlResult(source_id, None, FetchStatus.FAILED, error=error)
 
     return list(await asyncio.gather(*(one(sid) for sid in source_ids)))
 
@@ -142,9 +151,10 @@ async def _crawl(
             job.external_id: job
             for job in (await session.scalars(select(Job).where(Job.source_id == source_id))).all()
         }
-        await session.commit()  # don't hold a transaction open during a slow fetch
-        connector = registry.get(source.platform)(http, SourceCheckpoint(session, source))
         previous = await _last_success_count(session, source_id)
+        # Don't hold a transaction (and a pooled connection) open during a slow fetch.
+        await session.commit()
+        connector = registry.get(source.platform)(http, SourceCheckpoint(session, source))
         listed = await connector.fetch_jobs(source.board_identifier)
         # Early check (list level, before slow detail fetches); the open count can only
         # be lower than this.
@@ -153,6 +163,8 @@ async def _crawl(
             raw_jobs = await _with_details(connector, source.board_identifier, listed, existing)
         else:
             raw_jobs = [(raw, raw.raw_hash()) for raw in listed]
+        if source.company_name is None and any(raw.company is None for raw, _ in raw_jobs):
+            source.company_name = await _company_name(connector, source.board_identifier)
         postings = [
             (raw.normalized(company_fallback=source.company_name), raw_hash)
             for raw, raw_hash in raw_jobs
@@ -227,6 +239,16 @@ async def _with_details(
         if detailed is not None:  # None = posting vanished between list and detail
             result.append((detailed, detailed.raw_hash()))
     return result
+
+
+async def _company_name(connector: BaseConnector, board_identifier: str) -> str | None:
+    """The board's employer name, for postings without one (one request; a failure only
+    logs: it must not fail the crawl)."""
+    try:
+        return await connector.fetch_company_name(board_identifier)
+    except Exception as exc:
+        log.warning("company name of %s %s: %s", connector.platform, board_identifier, exc)
+        return None
 
 
 async def _last_success_count(session: AsyncSession, source_id: int) -> int | None:

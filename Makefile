@@ -2,7 +2,7 @@ COMPOSE ?= docker compose
 RUN     := $(COMPOSE) run --rm app
 PROD    := docker compose -f docker-compose.prod.yml --env-file .env.prod
 
-.PHONY: help up down logs migrate test test-live lint format crawl coverage parser-fingerprint shell \
+.PHONY: help up down logs migrate test test-live lint format seed-demo crawl dedup dedup-report fill-rates coverage parser-fingerprint shell \
         prod-up prod-down prod-logs prod-backup
 
 help:  ## List targets
@@ -35,8 +35,20 @@ lint:  ## ruff check + ruff format --check + mypy
 format:  ## Auto-fix lint issues and format code
 	$(RUN) sh -c "ruff check --fix . && ruff format ."
 
+seed-demo:  ## Register the example boards of every done platform (coverage/platforms.yaml)
+	$(RUN) python -m jobindex.cli seed-demo $(if $(PLATFORM),--platform $(PLATFORM),)
+
 crawl:  ## Crawl one source (make crawl SOURCE=<id>) or all active sources (make crawl)
 	$(RUN) python -m jobindex.cli crawl $(if $(SOURCE),$(SOURCE),--all)
+
+dedup:  ## Recompute cross-source duplicates
+	$(RUN) python -m jobindex.cli dedup
+
+dedup-report:  ## Merged openings + near misses / false-merge checks (Markdown)
+	$(RUN) python scripts/dedup_report.py $(ARGS)
+
+fill-rates:  ## Field fill rates of open postings per platform (ARGS=--markdown)
+	$(RUN) python -m jobindex.cli fill-rates $(ARGS)
 
 coverage:  ## Live-crawl done platforms' examples and regenerate docs/COVERAGE.md
 	$(RUN) python scripts/coverage_report.py $(ARGS)

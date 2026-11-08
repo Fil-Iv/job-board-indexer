@@ -16,10 +16,17 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 
-from sqlalchemy import or_, select, text, update
+from sqlalchemy import literal_column, or_, select, text, update
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.sql.expression import ColumnClause
 
-from jobindex.dedup.cluster import DEFAULT_DATE_WINDOW, Posting, cluster
+from jobindex.dedup.cluster import (
+    DEFAULT_DATE_WINDOW,
+    Posting,
+    cluster,
+    description_words,
+    fuzzy_candidates,
+)
 from jobindex.models import Job, JobStatus, Source
 from jobindex.models.base import utcnow
 
@@ -29,6 +36,17 @@ log = logging.getLogger(__name__)
 
 #: pg_advisory_xact_lock key: one dedup run at a time across all processes.
 _LOCK_KEY = 0x6A6F6264  # "jobd"
+
+
+#: URLs in the description, extracted by Postgres (descriptions are not loaded).
+_LINKED_URLS: ColumnClause[list[str] | None] = literal_column(
+    "ARRAY(SELECT DISTINCT m[1] FROM regexp_matches(jobs.description_html, "
+    "'https?://[^\\s\"''<>()]+', 'g') AS m LIMIT 50)"
+)
+
+
+def _chunks(ids: list[int], size: int) -> list[list[int]]:
+    return [ids[i : i + size] for i in range(0, len(ids), size)]
 
 
 @dataclass(frozen=True, slots=True)
@@ -64,6 +82,7 @@ async def run_dedup(
             Job.apply_url,
             Job.source_url,
             Job.canonical_job_id,
+            _LINKED_URLS.label("linked_urls"),
         )
         .join(Source, Source.id == Job.source_id)
         .where(or_(Job.status == JobStatus.OPEN, Job.closed_at >= now - window))
@@ -87,10 +106,20 @@ async def run_dedup(
                 status=row.status,
                 apply_url=row.apply_url,
                 source_url=row.source_url,
+                linked_urls=tuple(
+                    u.replace("&amp;", "&").rstrip(".,;") for u in row.linked_urls or ()
+                ),
             )
         )
 
-    canonical = cluster(postings, window)
+    candidates = fuzzy_candidates(postings)
+    descriptions: dict[int, frozenset[str]] = {}
+    for chunk in _chunks(sorted(candidates), 1000):
+        for job_id, text_ in await session.execute(
+            select(Job.id, Job.description_text).where(Job.id.in_(chunk))
+        ):
+            descriptions[job_id] = description_words(text_)
+    canonical = cluster(postings, window, descriptions)
     changes = [
         {"id": job_id, "canonical_job_id": head}
         for job_id, head in canonical.items()

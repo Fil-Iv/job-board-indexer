@@ -43,6 +43,7 @@ def _decimal(value: Any) -> Decimal | None:
 @register
 class AshbyConnector(BaseConnector):
     platform = "ashby"
+    company_name_sources = (re.compile(r"^(?P<name>.+?) Jobs$"),)
 
     @classmethod
     def detect(cls, url: str) -> str | None:

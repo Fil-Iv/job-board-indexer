@@ -10,6 +10,7 @@ List:   GET https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid={cid}
         ``/v3/Application/AppErrMsg.aspx``: error.
 Detail: GET .../JobDetails.aspx?cid={cid}&jid={jid}&locvalue={first location}
         (only for new/changed jobs). Elements by id suffix: ``_jobtitle``, ``_jobtype``,
+        ``_jobloc`` (used when the list has no location: Menard, 2026-11-08),
         ``_jobdesc``, ``_skilldesc``, ``_qualificationsdesc`` (HTML). No JSON-LD. A closed
         or unknown job is a 200 page with an empty ``_jobtitle``: closed.
 robots.txt disallows /application, /company and /jobseeker2|4 only.
@@ -24,6 +25,7 @@ Custom-domain career pages: links/iframes to the above (generic HTML detection).
 Verified on EAB (7856) and Menard, Inc (5535), 2026-11-07.
 """
 
+import hashlib
 from dataclasses import replace
 from urllib.parse import parse_qs, urlsplit
 
@@ -56,7 +58,10 @@ def _by_suffix(tree: LexborHTMLParser, suffix: str) -> LexborNode | None:
 class HireBridgeConnector(BaseConnector):
     platform = "hirebridge"
     needs_detail = True
-    detail_fields = ("description_html", "description_text", "employment_type")
+    detail_fields = ("description_html", "description_text", "employment_type", "location_raw")
+    # The list's own location is in ``list_version``: the stored ``location_raw`` may come
+    # from the job page (when the list has none), so it cannot be compared with the list.
+    detail_cache_key = ("title", "list_version")
 
     @classmethod
     def detect(cls, url: str) -> str | None:
@@ -109,6 +114,7 @@ class HireBridgeConnector(BaseConnector):
                 location_raw="; ".join(places) or None,
                 source_url=job_url,
                 apply_url=job_url,
+                list_version="loc:" + hashlib.sha1("; ".join(places).encode()).hexdigest(),
             )
             for jid, (title_text, job_url, places) in rows.items()
         ]
@@ -136,8 +142,11 @@ class HireBridgeConnector(BaseConnector):
             if _clean(node.text() if node else ""):
                 sections.append(f"<h3>{heading}</h3>{html}" if heading else html)
         job_type = _by_suffix(tree, "_jobtype")
+        place = _by_suffix(tree, "_jobloc")
         return replace(
             job,
             description_html="\n".join(sections) or None,
             employment_type=normalize_employment_type(job_type.text()) if job_type else None,
+            # some boards leave the list's location column empty (Menard): use the page's
+            location_raw=job.location_raw or (_clean(place.text()) if place else "") or None,
         )

@@ -222,7 +222,7 @@ async def test_html_detail_from_schemaorg_microdata() -> None:
 
 
 @pytest.mark.live
-@pytest.mark.parametrize("company", ["Ubisoft2", "Equinox"])
+@pytest.mark.parametrize("company", ["Ubisoft2", "Wise"])
 async def test_live_html(company: str) -> None:
     async with HttpClient.from_settings() as http:
         connector = SmartRecruitersConnector(http)

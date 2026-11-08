@@ -106,6 +106,12 @@ platform on custom domains.
 4. Safety: more than `GENERIC_MAX_JOB_DROP` (50%) fewer open jobs than the last
    successful crawl fails the run instead of closing them; progress is checkpointed every
    100 pages so a failed first crawl of a big board resumes.
+5. Gaps: `adjust(job, item)` fixes the mapped JobPosting, `adjust_page(job, html)` fills
+   fields the JobPosting omits from the rest of the page (SuccessFactors: title from
+   `og:title`, location from the job URL slug), and `parse_page_html(html, stub)` maps an
+   *open* job page that has no JobPosting at all (GoHire and Rival drop it for older
+   postings that are still listed). Pages that are neither are counted as "unexplained";
+   more than 20% of them fails the crawl (the template probably changed).
 
 | Platform | Module | Job list | Board identifier |
 |---|---|---|---|
@@ -115,6 +121,8 @@ platform on custom domains.
 | Deel, Kula | `deel`, `kula` | `jobs.deel.com/{org}/sitemap.xml`, `careers.kula.ai/{company}/sitemap.xml` | slug |
 | JobBoard.io | `jobboardio` | `{board}/sitemap.xml` -> `/sitemaps/jobs/` chunks | host (custom domains) |
 | Rival (SilkRoad) | `rival` | paged board `?page={n}` (overrides `listed_pages`; Crawl-delay 10) | `company/portal` |
+| Wiley Madgex | `madgex` | paged listing `{board}/{n}/` checked against "Found N jobs" (overrides `listed_pages`) | listing URL (`jobs.sciencecareers.org/jobs`) |
+| Eightfold AI | `eightfold` | `{site}/careers/sitemap_index.xml?domain=` (from robots.txt); the JSON API answers 403 | host (`{tenant}.eightfold.ai` or custom domain) |
 | Hireology | `hireology` | `careers.hireology.com/sitemap_index.xml` (all tenants, ~8 MB) | slug |
 | iCIMS | `icims` | `{host}/sitemap.xml` | host |
 | Jobboardly, JBoard, Niceboard, SmartJobBoard | `jobboardly`, `jboard`, `niceboard`, `smartjobboard` | `{board}/sitemap.xml` | host |
@@ -153,7 +161,11 @@ careers pages such as `www.figma.com/careers/` resolve to their ATS board.
    real employers. Note the fixture's URL and capture date in the test docstring.
 6. **Coverage.** Mark the platform `done` in `coverage/platforms.yaml` (module + two
    example boards) and run `make coverage` (live crawl, regenerates `COVERAGE.md`).
-7. `make lint && make test`. If you changed `jobindex/normalize.py` behaviour, bump
+7. **Company name.** If postings carry no employer (single-employer ATS boards), set
+   `company_name_sources` on the class: `"og:site_name"` and/or a regex on the board
+   page's `<title>` with a `name` group (`lever.py`, `ashby.py`). `add-source` and the
+   crawler (when `sources.company_name` is empty) use it; `make fill-rates` shows gaps.
+8. `make lint && make test`. If you changed `jobindex/normalize.py` behaviour, bump
    `normalize.PARSER_VERSION` and run `make parser-fingerprint`.
 
 ## Deduplication

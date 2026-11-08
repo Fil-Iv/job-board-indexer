@@ -12,6 +12,10 @@ Job:  JSON-LD JobPosting (title, description, hiringOrganization, jobLocation,
       jobLocationType, employmentType, baseSalary, datePosted, identifier = job id).
       ``validThrough`` is ignored: listed open jobs carry past dates (2026-09-12 on a job
       still listed on 2026-11-07). Closed jobs answer 404.
+      Older postings that are still listed have no JSON-LD at all (4 of 15 on Dexerto,
+      2026-11-08): they are mapped from the page markup (``parse_page_html``: ``<h1>``
+      "{title}  at {company}", the Location / Job Type / Date Posted items, the
+      ``.jp-text`` description).
       Generic sitemap + JSON-LD machinery (``generic_jsonld``): pages are fetched for new
       jobs and every GENERIC_REFRESH_DAYS.
 
@@ -28,11 +32,14 @@ Verified on dexerto-de5jlhjo and su9lyitg (Axented), 2026-11-07.
 """
 
 import re
+from datetime import UTC, datetime
 
-from jobindex.connectors.base import ConnectorError
+from selectolax.lexbor import LexborHTMLParser
+
+from jobindex.connectors.base import ConnectorError, RawJob
 from jobindex.connectors.generic_jsonld import GenericJsonLdConnector
 from jobindex.connectors.registry import register
-from jobindex.normalize import split_url
+from jobindex.normalize import normalize_employment_type, split_url
 
 HOST = "jobs.gohire.io"
 MAX_PAGES = 500  # x 10 jobs
@@ -44,6 +51,7 @@ _TOTAL = re.compile(
     r"\s*Total\s*(?:<[^>]+>\s*)*(\d+)",
     re.I,
 )
+_ORDINAL = re.compile(r"(\d+)(?:st|nd|rd|th)\b")
 _LINK = re.compile(r"href=[\"']((?:https?://jobs\.gohire\.io)?/[^\"'?#]+)[\"']", re.I)
 
 
@@ -114,3 +122,42 @@ class GoHireConnector(GenericJsonLdConnector):
         if len(urls) != total:
             raise ConnectorError(f"gohire: {board_identifier} reports {total}, got {len(urls)}")
         return [(url, None) for url in urls.values()]
+
+    def parse_page_html(self, html: str, stub: RawJob) -> RawJob | None:
+        tree = LexborHTMLParser(html)
+        heading = tree.css_first(".jp-view h1")
+        body = tree.css_first(".jp-text")
+        if heading is None or body is None:
+            return None
+        title, _, company = heading.text(strip=True).rpartition(" at ")
+        if not title:
+            title, company = heading.text(strip=True), ""
+        items: dict[str, str] = {}
+        for item in tree.css(".jp-header .jp-sidebar-item"):
+            key, value = (
+                item.css_first(".jp-sidebar-item-title"),
+                item.css_first(".jp-sidebar-item-data"),
+            )
+            if key is not None and value is not None:
+                items[key.text(strip=True).lower()] = value.text(strip=True)
+        return RawJob(
+            external_id=stub.external_id,
+            title=title.strip(),
+            company=company.strip() or None,
+            description_html=body.html,
+            location_raw=items.get("location") or None,
+            employment_type=normalize_employment_type(items.get("job type")),
+            posted_at=_posted(items.get("date posted")),
+            source_url=stub.source_url,
+            apply_url=stub.source_url,  # "Apply Now" opens a form on the same page
+        )
+
+
+def _posted(value: str | None) -> datetime | None:
+    """``"March 2nd, 2026"`` -> 2026-03-02 UTC."""
+    if not value:
+        return None
+    try:
+        return datetime.strptime(_ORDINAL.sub(r"\1", value), "%B %d, %Y").replace(tzinfo=UTC)
+    except ValueError:
+        return None

@@ -39,6 +39,8 @@
   examples:
     - https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=d4d64eb4-d344-423a-868e-ae5d37380d2f&ccId=19000101_000001&lang=en_US
     - https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=8d16626f-48ae-43f6-b57e-79339726ccf4&ccId=19000101_000001&lang=en_CA
+  example_companies:
+    "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=8d16626f-48ae-43f6-b57e-79339726ccf4&ccId=19000101_000001&lang=en_CA": "Old Port of Montréal"
   robots: allowed
   verified: 2026-11-07
   generic: no
@@ -220,15 +222,18 @@
 - name: Eightfold AI
   key: eightfold
   type: ats
-  status: todo
-  tier: hard
+  status: done
+  connector: jobindex.connectors.eightfold
   public_api: partial
-  api: "GET {tenant}.eightfold.ai/api/apply/v2/jobs?domain={domain}&start=0&num=10"
-  url_patterns: ["{tenant}.eightfold.ai/careers", "custom domains (careers.{company}.com) on Eightfold"]
-  examples: []
+  api: "GET {site}/careers/sitemap_index.xml?domain={domain} -> /careers/sitemap.xml (job URLs + lastmod) + GET /careers/job/{id}-{slug} (JSON-LD JobPosting)"
+  url_patterns: ["{tenant}.eightfold.ai/careers[?domain=]", "{tenant}.eightfold.ai/careers/job/{id}-{slug}", "custom domains (careers.{company}.com) on Eightfold"]
+  examples:
+    - https://paypal.eightfold.ai/careers?domain=paypal.com
+    - https://vodafone.eightfold.ai/careers?domain=vodafone.com
   robots: allowed
-  verified: null
-  notes: "The JSON endpoint exists but returned HTTP 403 for our User-Agent on paypal/vodafone tenants (2026-11-07): bot protection. Do not spoof a browser UA; ask Eightfold/tenants or treat as hard."
+  verified: 2026-11-08
+  generic: yes
+  notes: "The JSON endpoint /api/apply/v2/jobs answers 403 on every tenant (blocked_by_site.yaml, scope api; never spoof a browser UA). The /careers sitemap (declared in robots.txt) lists every job page with <lastmod>, and job pages carry JSON-LD JobPosting, so the generic connector covers it. Custom domains (careers.qualcomm.com) are recognised by static.vscdn.net/images/careers/ assets."
 
 - name: FirstStage
   key: firststage
@@ -313,6 +318,9 @@
   examples:
     - https://sapiens.careers.hibob.com/
     - https://liquidia.careers.hibob.com/
+  example_companies:
+    "https://sapiens.careers.hibob.com/": "Sapiens"
+    "https://liquidia.careers.hibob.com/": "Liquidia"
   robots: allowed
   verified: 2026-11-07
   generic: no
@@ -517,6 +525,9 @@
   examples:
     - https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions
     - https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions
+  example_companies:
+    "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions": "JPMorgan Chase & Co."
+    "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions": "Oracle"
   robots: allowed
   verified: 2026-11-07
   notes: "200 rows/page, deep offsets OK. TotalJobsCount is consistently 1-2 above what the list returns (Oracle 2841/2843, JPMorgan 7119/7120): a shortfall up to max(2, 0.1%) is accepted, more is re-paged once then refused. Descriptions need one detail request per job (7k jobs ~2h on the first crawl at 1 req/s; cached afterwards)."
@@ -530,12 +541,15 @@
   api: "GET careers.pageuppeople.com/{id}/{portal}/{lang}/rss (RSS with job: namespace, every open job with description)"
   url_patterns: ["careers.pageuppeople.com/{id}/{portal}/{lang}[/listing|/job/{refNo}]"]
   examples:
-    - https://careers.pageuppeople.com/851/ci/en-us/listing
+    - https://careers.pageuppeople.com/851/cw/en-us/listing
     - https://careers.pageuppeople.com/889/usw/en/listing/
+  example_companies:
+    "https://careers.pageuppeople.com/851/cw/en-us/listing": "Universal Orlando Resort"
+    "https://careers.pageuppeople.com/889/usw/en/listing/": "Flight Centre Travel Group"
   robots: allowed
   verified: 2026-11-07
   generic: no
-  notes: "One request: the portal RSS is complete (matched the paged listing: 20 + 124 = 144 and 20 + 33 = 53). job:closingDate becomes expires_at. Landing URLs without portal/lang (careers.pageuppeople.com/902) cannot be resolved offline. robots.txt only blocks test/staging portals."
+  notes: "One request: the portal RSS is complete (matched the paged listing: 20 + 124 = 144 and 20 + 33 = 53). job:closingDate becomes expires_at. Landing URLs without portal/lang (careers.pageuppeople.com/902) cannot be resolved offline. robots.txt blocks test/staging portals and, since 2026-11-08, internal-candidate portals (/ci/, /CI/): the Universal example moved from 851/ci/en-us to the external portal 851/cw/en-us (115 jobs)."
 
 - name: Paradox
   key: paradox
@@ -603,6 +617,8 @@
   examples:
     - https://tado.jobs.personio.de
     - https://thermondo.jobs.personio.de
+  example_companies:
+    "https://thermondo.jobs.personio.de": "thermondo GmbH"
   robots: per-tenant
   verified: 2026-11-07
   notes: "XML feed with full descriptions and structured salary, parsed with defusedxml. Never pass ?language=: positions in another language come back without descriptions (thermondo with language=en: 7 of 196). .de and .com serve the same accounts; unknown subdomains have a deny-all robots.txt."
@@ -739,14 +755,14 @@
   status: done
   connector: jobindex.connectors.smartrecruiters
   public_api: "yes"
-  api: "GET api.smartrecruiters.com/v1/companies/{id}/postings (+ detail per posting)"
+  api: "public career pages careers.smartrecruiters.com/{id} (+ job pages); the Posting API api.smartrecruiters.com/v1/companies/{id}/postings is behind SMARTRECRUITERS_USE_API"
   url_patterns: ["jobs.smartrecruiters.com/{id}", "careers.smartrecruiters.com/{id}"]
   examples:
     - https://jobs.smartrecruiters.com/Ubisoft2
-    - https://careers.smartrecruiters.com/BoschGroup
-  robots: blocked
-  verified: 2026-11-07
-  notes: "Implemented, but api.smartrecruiters.com/robots.txt allows only LinkedInBot, so live crawls are refused. Needs permission/partner access."
+    - https://careers.smartrecruiters.com/Wise
+  robots: per-tenant
+  verified: 2026-11-08
+  notes: "api.smartrecruiters.com/robots.txt allows only LinkedInBot, so the connector reads the public career pages. Companies can opt out per company in www.smartrecruiters.com/robots.txt (BoschGroup did; the former example was replaced by Wise, 427 jobs, 2026-11-08); evidence in blocked_by_site.yaml."
 
 - name: talentReef
   key: talentreef
@@ -875,6 +891,9 @@
   examples:
     - https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite
     - https://wd3.myworkdaysite.com/recruiting/pwc/Global_Experienced_Careers
+  example_companies:
+    "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite": "NVIDIA"
+    "https://wd3.myworkdaysite.com/recruiting/pwc/Global_Experienced_Careers": "PwC"
   robots: allowed
   verified: 2026-11-07
   notes: "Undocumented but public CXS JSON. One query returns at most 2000 postings (and total is capped at 2000, set only on page 1): above that the board is split by a partitioning facet (jobFamilyGroup etc.) and the union is checked against the timeType facet sum. Paging is resumable: progress is checkpointed in sources.crawl_checkpoint every 25 pages and a failed crawl resumes there (checkpoints expire after 2h). Descriptions need one request per job (first crawl of a 3k-job tenant ~50 min at 1 req/s, progress logged every 100); later crawls only fetch new/retitled jobs."
@@ -925,6 +944,8 @@
   examples:
     - https://startjob.dk/
     - https://fmals.de/
+  example_companies:
+    "https://fmals.de/": "F mal s GmbH"  # recruitment agency posting for unnamed clients
   robots: allowed
   verified: 2026-11-07
   notes: "WordPress plugin, so boards live on arbitrary domains and are only recognised from page HTML. REST lists publish posts only (expired excluded); _filled listings are dropped. The AJAX list /jm-ajax/get_listings/ is not used: HTML only, no descriptions, and on some themes includes expired listings (clsrecruitment.ie ~420 vs 29 open). Sites with the REST API disabled (kiwiconseil.fr: 404) or plain permalinks (?rest_route=) are not supported and fail loudly. Also verified on clsrecruitment.ie (29 jobs)."
@@ -1040,17 +1061,18 @@
 - name: Wiley Madgex
   key: madgex
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: feed
-  api: "{board}/jobsrss/ (RSS, query params to confirm); listings {board}/jobs/ (HTML)"
-  url_patterns: ["custom domains: /job/{id}/{slug}/, /jobs/, /jobsrss/"]
+  status: done
+  connector: jobindex.connectors.madgex
+  public_api: "no"
+  api: "GET {board}/ then {board}/{n}/ (HTML listing, 20/page, \"Found N jobs\") + job pages {root}/job/{id}/{slug}/ (JSON-LD JobPosting)"
+  url_patterns: ["custom domains: {root}/jobs/[{n}/]", "{root}/listings/[{n}/]", "{root}/job/{id}/{slug}/", "{root}/listing/{id}/{slug}/"]
   examples:
-    - https://jobs.newscientist.com/
-    - https://jobs.theguardian.com/
+    - https://jobs.sciencecareers.org/jobs/
+    - https://www.timeshighereducation.com/unijobs/listings/
   robots: allowed
-  verified: null
-  notes: "Checked 2026-11-07: /jobsrss/ is either HTML (pharmiweb.jobs) or capped at the 20 newest items (timeshighereducation.com/unijobs), so not a complete list; THE's sitemaps list 755 job URLs but sampled job pages have no JobPosting. Needs HTML parsing of listings + job pages."
+  verified: 2026-11-08
+  generic: partial
+  notes: "Re-checked 2026-11-08: job pages now carry JSON-LD JobPosting. The list comes from the paged listing (distinct ids checked against 'Found N jobs'); /jobsrss/ is capped at 20 items or disallowed and sitemaps omit jobs. jobs.newscientist.com closed (redirects to a 'New Scientist Jobs has now closed' page); jobs.theguardian.com, nejmcareercenter.org, jobs.economist.com and jobs.campaignlive.co.uk answer 403; careers.bmj.com disallows /jobs/ in robots.txt. jobs.chronicle.com/jobs has the same template (28,798 jobs: ~8 h first crawl at 1 request/second)."
 
 - name: Talenetic
   key: talenetic

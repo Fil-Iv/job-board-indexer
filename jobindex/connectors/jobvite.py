@@ -85,6 +85,7 @@ def parse_search_page(html: str, company: str) -> tuple[list[RawJob], int | None
 @register
 class JobviteConnector(BaseConnector):
     platform = "jobvite"
+    company_name_sources = (re.compile(r"^(?P<name>.+?) Careers$"),)
     needs_detail = True
     detail_fields = (
         "description_html",

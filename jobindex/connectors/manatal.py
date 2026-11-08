@@ -49,6 +49,7 @@ _RESERVED = {"www", "api", "app", "static", "help", "jobs", "job", "login", "sig
 @register
 class ManatalConnector(BaseConnector):
     platform = "manatal"
+    company_name_sources = (re.compile(r"^-?\s*(?P<name>.+?) \| Career Page$"),)
 
     @classmethod
     def detect(cls, url: str) -> str | None:

@@ -3,9 +3,13 @@
 Commands:
     add-source <url> [--company-name NAME]   register a job board (hosted board URL,
                                              embed URL or custom-domain careers page)
+    seed-demo [--platform KEY ...]           register every example board of every `done`
+                                             platform in coverage/platforms.yaml
     crawl <source_id> | --all                crawl one source, or every active one (then dedup)
     set-company <source_id> <name>           set the company name used for the source's jobs
     dedup                                    recompute cross-source duplicates
+    fill-rates [--markdown] [--strict]       share of open postings with each field, per
+                                             platform (--strict: exit 1 on required gaps)
     schedule                                 crawl continuously (the worker process)
 """
 
@@ -16,17 +20,20 @@ import signal
 import sys
 from collections.abc import Sequence
 from datetime import timedelta
+from pathlib import Path
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from jobindex.config import get_settings
 from jobindex.connectors.registry import Registry, default_registry
+from jobindex.coverage import PLATFORMS_FILE, load_platforms
 from jobindex.crawler import CrawlResult, active_source_ids, crawl_sources
 from jobindex.db import create_engine, create_session_factory
 from jobindex.dedup import run_dedup
 from jobindex.http import FetchError, HttpClient
 from jobindex.models import FetchStatus, Source
+from jobindex.quality import fill_rates, render_markdown, render_text
 from jobindex.scheduler import CrawlScheduler
 
 
@@ -40,6 +47,11 @@ def _build_parser() -> argparse.ArgumentParser:
     add.add_argument("url")
     add.add_argument("--company-name", help="override the company name")
 
+    seed = sub.add_parser(
+        "seed-demo", help="register the example boards from coverage/platforms.yaml"
+    )
+    seed.add_argument("--platform", nargs="+", metavar="KEY", help="only these platform keys")
+
     company = sub.add_parser("set-company", help="set a source's company name")
     company.add_argument("source_id", type=int)
     company.add_argument("name")
@@ -50,6 +62,9 @@ def _build_parser() -> argparse.ArgumentParser:
     target.add_argument("--all", action="store_true", help="crawl every active source")
 
     sub.add_parser("dedup", help="recompute cross-source duplicates (canonical_job_id)")
+    fill = sub.add_parser("fill-rates", help="field fill rates of open postings per platform")
+    fill.add_argument("--markdown", action="store_true", help="print a Markdown table")
+    fill.add_argument("--strict", action="store_true", help="exit 1 if a required field has gaps")
     sub.add_parser("schedule", help="crawl every active source on its interval, forever")
     return parser
 
@@ -86,6 +101,10 @@ async def add_source(
                 f"source already exists: id={existing.id} "
                 f"({existing.platform}/{existing.board_identifier})"
             )
+            if company_name and not existing.company_name:
+                existing.company_name = company_name
+                await session.commit()
+                print(f"  company set to {company_name!r}")
             return 0
 
         connector_cls = registry.get(board.platform)
@@ -106,6 +125,31 @@ async def add_source(
         suffix = f" company={company_name!r}" if company_name else " (set --company-name)"
         print(f"added source id={source.id} ({source.platform}/{source.board_identifier}){suffix}")
         return 0
+
+
+async def seed_demo(
+    session_factory: async_sessionmaker[AsyncSession],
+    registry: Registry,
+    http: HttpClient,
+    only: set[str] | None = None,
+    platforms_file: Path = PLATFORMS_FILE,
+) -> int:
+    """Register every example board of every ``done`` platform (idempotent).
+
+    Gives a fresh install a realistic index: two or more real employers per platform.
+    Returns 1 if any example could not be registered (the others are still added).
+    """
+    failed = 0
+    for platform in load_platforms(platforms_file):
+        if platform.status != "done" or (only and platform.key not in only):
+            continue
+        companies = dict(platform.example_companies)
+        for url in platform.examples:
+            if await add_source(session_factory, registry, http, url, companies.get(url)) != 0:
+                failed += 1
+    if failed:
+        print(f"seed-demo: {failed} example(s) could not be registered", file=sys.stderr)
+    return 1 if failed else 0
 
 
 async def set_company(
@@ -175,6 +219,15 @@ async def dedup(session_factory: async_sessionmaker[AsyncSession]) -> int:
     return 0
 
 
+async def report_fill_rates(
+    session_factory: async_sessionmaker[AsyncSession], markdown: bool, strict: bool
+) -> int:
+    async with session_factory() as session:
+        rows = await fill_rates(session)
+    print(render_markdown(rows) if markdown else render_text(rows), end="")
+    return 1 if strict and any(r.gaps() for r in rows) else 0
+
+
 async def schedule(
     session_factory: async_sessionmaker[AsyncSession], registry: Registry, http: HttpClient
 ) -> int:
@@ -210,9 +263,14 @@ async def _run(args: argparse.Namespace, registry: Registry) -> int:
             return await set_company(session_factory, args.source_id, args.name)
         if args.command == "dedup":
             return await dedup(session_factory)
+        if args.command == "fill-rates":
+            return await report_fill_rates(session_factory, args.markdown, args.strict)
         async with HttpClient.from_settings() as http:
             if args.command == "schedule":
                 return await schedule(session_factory, registry, http)
+            if args.command == "seed-demo":
+                only = set(args.platform) if args.platform else None
+                return await seed_demo(session_factory, registry, http, only)
             if args.command == "add-source":
                 return await add_source(
                     session_factory, registry, http, args.url, args.company_name
