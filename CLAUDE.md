@@ -11,6 +11,15 @@ another team, so it has to be clean, documented and easy to run.
 - **No other infrastructure** (queues, caches, search engines, cloud services, etc.)
   without explicit approval from the project owner. Plain Python libraries that support
   the stack are fine; mention new dependencies when you add them.
+- **Approved hosting (2026-11-08)** for the public demo — nothing else without approval:
+  Supabase Postgres (free tier, 500 MB) as the database, Vercel for the API + search page
+  (Python function, read-only DB use, no crawling/scheduling there), GitHub Actions for
+  the crawler, migrations and CI. All connections go through the Supabase pooler
+  (session :5432 for crawler/migrations, transaction :6543 for Vercel; prepared
+  statements off). The repository is **public**: never commit secrets, `.env` files,
+  dumps or personal data. docker-compose stays the local dev setup; the single-VPS
+  deployment stays documented as the alternative (docs/DEPLOY.md).
+- The demo must stay under ~400 MB (docs/OPERATIONS.md#size-budget).
 
 ## Connectors
 

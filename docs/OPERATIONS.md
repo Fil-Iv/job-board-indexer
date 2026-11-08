@@ -1,7 +1,9 @@
 # Operating JobIndex
 
 Day-to-day tasks for a running deployment ([DEPLOY.md](DEPLOY.md)). Commands are shown
-for production; locally replace the prefix with `docker compose run --rm app`.
+for the VPS setup; locally replace the prefix with `docker compose run --rm app`. For the
+hosted demo (Supabase + Vercel + GitHub Actions) see [Hosted demo](#hosted-demo) first;
+the same CLI commands work there with `DATABASE_URL` set to the Supabase session pooler.
 
 ```sh
 P="docker compose -f docker-compose.prod.yml --env-file .env.prod"
@@ -28,6 +30,84 @@ app (FastAPI) ── /jobs, /jobs/{id}, /sources, /stats, / (search page) ──
   crawl that no longer lists them.
 * **Dedup** groups postings of the same opening on different sources; the API returns one
   result per opening with all its links ([CONNECTORS.md](CONNECTORS.md#deduplication)).
+
+## Hosted demo
+
+The free hosted setup ([DEPLOY.md, part A](DEPLOY.md#a-hosted-demo-supabase--vercel--github-actions))
+replaces the `worker` with GitHub Actions and the `app` container with Vercel:
+
+| Workflow | When | What |
+|---|---|---|
+| `crawl.yml` | every 6 h (`17 */6 * * *` UTC) + **Run workflow** | `plan` → `crawl` matrix → `finalize` (below) |
+| `migrate.yml` | push to `main` touching migrations/models, + manual | `alembic upgrade head` |
+| `ci.yml` | every push / pull request | `make lint`, `make test` |
+
+**crawl.yml in detail**
+
+1. **plan**: `crawl-plan --shards 4 --recover-after-hours 5.5` marks runs left `running`
+   by a killed job as failed, then splits the active sources into shards. All sources of
+   a platform stay in one shard (the per-host rate limit only holds within one process);
+   platforms are balanced by the duration of their latest run, longest first.
+2. **crawl** (one job per shard, in parallel): `crawl --ids … --deadline-minutes 270
+   --no-dedup --allow-failures`. At the deadline, crawls still running are cancelled and
+   recorded as failed; Workday and sitemap boards keep their checkpoint, so the next run
+   continues where this one stopped (generic pages: checkpoint valid 24 h; Workday: 2 h).
+   The job timeout is 5 h, GitHub's hard limit 6 h. Failed sources are a warning, not a
+   failed job; they are in the summary.
+3. **finalize** (also after failed shards): `prune`, `dedup`, `crawl-summary` (Markdown
+   job summary: runs, found/new/updated/closed per platform, failures) and `db-size`
+   (warning above `DB_WARN_MB`, **fails the run above `DB_FAIL_MB`**, so GitHub e-mails
+   you).
+
+The workflow's concurrency group `crawl` guarantees two crawls never overlap; a scheduled
+run waits for a manual one. With 4 shards × `DATABASE_POOL_SIZE=3` the crawl uses at most
+12 connections of the free session pooler (~15). More shards → lower the pool size.
+
+**Add a demo board**: add it to `coverage/demo_sources.yaml` (or regenerate the file with
+`make demo-sources` after `make coverage`), push, then **Actions → crawl → Run workflow**
+with *seed* ticked. **Remove one**: set `active = false` in Supabase (**Table Editor →
+sources**) — jobs stay as they are.
+
+## Size budget
+
+The free Supabase database holds 500 MB; JobIndex aims to stay under ~400 MB. Measured
+locally (Nov 2026): **≈ 15 KB per stored posting** including description text, HTML, the
+full-text `tsvector`, indexes and history (43k postings = 675 MB). So 400 MB ≈ 25k
+postings. The demo stores far fewer:
+
+| Lever | Hosted demo value | Effect |
+|---|---|---|
+| `coverage/demo_sources.yaml` | ~90 boards, 1–2 per done platform, preferring 5–400 jobs | no 14k Marriott / 7k JPMorgan boards |
+| `MAX_JOBS_PER_SOURCE` | 200 | ≤ ~10k open postings (≈ 7k with the current boards) → ≈ 110–150 MB |
+| `DESCRIPTION_HTML_MAX_CHARS` | 20000 | HTML longer than this is stored as `""` (≈ top 1–2%); `description_text` is always kept and the API falls back to it |
+| `JOB_CHANGE_VALUE_MAX_CHARS` | 500 | `job_changes` old/new values cut (a changed description no longer stores two full copies) |
+| `CLOSED_JOB_RETENTION_DAYS` | 14 | `prune` deletes postings closed longer ago (and their history) |
+| `JOB_CHANGE_RETENTION_DAYS` | 60 | `prune` deletes older `job_changes` |
+| `FETCH_RUN_RETENTION_DAYS` | 30 | `prune` deletes older `fetch_runs` (keeps each source's latest success) |
+| `DB_WARN_MB` / `DB_FAIL_MB` | 400 / 450 | `db-size` warning / failed workflow |
+
+All are environment variables (defaults: no limits, keep everything — the VPS setup
+keeps full history); in the hosted demo they are set in `crawl.yml` and can be overridden
+with repository **variables**.
+
+How the cap works: the connector still fetches the **complete** list (the completeness
+and failure rules are unchanged); the crawler then keeps at most N postings — those
+already stored first (no churn), then new ones, newest first — and fetches detail pages
+only for those. A posting is closed only when it is missing from the full list, never
+because the cap left it out. Lowering the cap does not delete stored postings; they stay
+until they close and are pruned.
+
+```sh
+$CLI db-size                        # total + per table (sizes include indexes and TOAST)
+$CLI db-size --markdown --warn-above-mb 400 --fail-above-mb 450
+$CLI prune                          # uses the *_RETENTION_DAYS settings
+$CLI prune --closed-days 7 --changes-days 30 --runs-days 14
+```
+
+Postgres reuses the space of deleted rows (autovacuum) but does not give it back to the
+file system, so `db-size` drops only after a `VACUUM FULL` (locks the table; run it by
+hand if ever needed). Approaching the limit: lower `MAX_JOBS_PER_SOURCE` or the retention
+days, remove big boards, or move to a paid tier ([below](#paid-upgrade-path)).
 
 ## Add a source
 
@@ -159,6 +239,36 @@ boards) do not hold up the queue; the CPU cost is small.
 
 ## Capacity and monthly cost
 
+### Hosted demo: €0/month
+
+Supabase Free + Vercel Hobby + GitHub Actions on a public repository cost nothing. The
+limits that matter (as published by the providers in 2026; check their pricing pages):
+
+| Service | Free tier | What it means for JobIndex |
+|---|---|---|
+| Supabase Free | **500 MB database**, 5 GB egress/month, shared pooler (~15 session connections), 2 free projects per account, no downloadable backups | The [size budget](#size-budget) keeps the demo at ~150 MB; `crawl.yml` fails loudly above 450 MB |
+| | **Paused after 7 days without activity** | The 6-hourly crawl keeps it active. If the crawl stops (e.g. disabled workflow), restore the project in the dashboard |
+| Vercel Hobby | Free, **non-commercial use only**; 100 GB transfer/month; function limits (duration, invocations) far above a demo's traffic | Fine for a demo; a commercial service needs Vercel Pro |
+| GitHub Actions | **Free and unlimited on standard runners for public repositories**; job max 6 h; ~20 concurrent jobs | 4 shards × ≤ 5 h every 6 h fits. A **private** repository gets only 2,000 free minutes/month — the crawl alone uses far more (see below) |
+| | Scheduled workflows are **disabled after 60 days without repository activity** (public repos); cron runs can start late under load | Push a commit (or re-enable the workflow in the Actions tab) at least every 60 days, otherwise crawling stops and Supabase pauses a week later |
+
+### Paid upgrade path
+
+When the demo outgrows the free tiers, upgrade only the part that hits a limit:
+
+| Need | Upgrade | Price (2026 list) |
+|---|---|---|
+| More than ~400 MB of postings, no pausing, daily backups | Supabase **Pro** (8 GB disk included, then per GB; daily backups 7 days) | $25/month (≈ €23) + usage |
+| Commercial use of the website, team members | Vercel **Pro** | $20/user/month |
+| Private repository | GitHub Actions minutes cost $0.008/min (Linux) beyond 2,000/month: a 4-shard crawl at ~1 h each, 4×/day ≈ 29k min/month ≈ $220/month — run the crawler on a VPS instead | VPS ≈ €5–10/month |
+| Full index (~1,000+ boards, continuous crawling, full history) | [One VPS](DEPLOY.md#b-alternative-one-vps-docker-compose) for everything (below) | ≈ €10–35/month |
+
+A sensible middle step is Supabase Pro + Vercel (Hobby or Pro) + the crawler `worker` on a
+small VPS pointed at Supabase (`DATABASE_URL` = session pooler, or the direct connection if
+the VPS has IPv6): continuous crawling without the 6-hour cadence.
+
+### VPS: estimates for planning
+
 Estimates for planning, based on the response sizes and request patterns of the 31
 connectors measured in `docs/COVERAGE.md` (Nov 2026). Prices are typical small-VPS list
 prices; check the provider's current pricing.
@@ -195,25 +305,35 @@ APIs are used. At 10,000 boards: ≈ €30–120.
 
 Runtime services:
 
+* Hosted demo only (approved by the project owner, see CLAUDE.md): **Supabase** (Postgres,
+  free tier), **Vercel** (API + search page), **GitHub Actions** (crawler, migrations, CI).
 * **The crawled platforms' public endpoints** (see [CONNECTORS.md](CONNECTORS.md)) — no
   accounts, keys or contracts; their availability and terms decide what we can index.
   Undocumented endpoints (Workday CXS, BambooHR, Rippling, Breezy JSON, Pinpoint, Trakstar,
   Oracle CE) can change without notice.
-* **Let's Encrypt** (ACME) via Caddy — certificate issuance/renewal; needs ports 80/443.
-* **DNS** for `DOMAIN` (any registrar/DNS host).
-* A **VPS** with Docker Engine and the Compose plugin (v2.24+).
+* VPS setup: **Let's Encrypt** (ACME) via Caddy — certificate issuance/renewal; needs
+  ports 80/443; **DNS** for `DOMAIN` (any registrar/DNS host); a **VPS** with Docker Engine
+  and the Compose plugin (v2.24+).
 
 Build-time:
 
 * Docker Hub images: `python:3.12-slim`, `postgres:16`, `caddy:2`.
 * PyPI packages (`pyproject.toml`): fastapi, uvicorn, sqlalchemy, alembic, psycopg,
-  httpx, apscheduler, pydantic-settings, selectolax, pycountry, defusedxml, jinja2;
-  dev: pytest, pytest-asyncio, ruff, mypy, pyyaml, type stubs.
+  httpx, apscheduler, pydantic-settings, selectolax, pycountry, defusedxml, jinja2, pyyaml;
+  dev: pytest, pytest-asyncio, ruff, mypy, type stubs. Vercel installs `requirements.txt`
+  (the same list without uvicorn, APScheduler and Alembic).
+* GitHub Actions: `actions/checkout`, `actions/setup-python`.
 
-Nothing else: no queue, cache, search engine or cloud service. Off-site backup storage is
-the one recommended addition and needs the project owner's approval.
+Nothing else: no queue, cache, search engine or other cloud service. Off-site backup
+storage is the one recommended addition and needs the project owner's approval.
 
 ## Routine maintenance
+
+Hosted demo: glance at the latest **crawl** run summary weekly (failures, database size);
+make sure the repository has activity at least every 60 days (scheduled workflows stop
+otherwise); `make demo-sources` after `make coverage` when boards change.
+
+VPS:
 
 * **Weekly**: glance at `/stats` (`failing_sources`, platforms whose `last_success_at` is
   old). Fix or deactivate sources failing for days.
