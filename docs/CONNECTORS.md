@@ -1,9 +1,9 @@
 # Connectors
 
-A connector turns one platform's public job data into `RawJob`s. There are 47 today
-(29 API/feed/HTML connectors + 18 on the generic sitemap + JSON-LD base);
+A connector turns one platform's public job data into `RawJob`s. There are 49 today
+(29 API/feed/HTML connectors + 20 on the generic sitemap + JSON-LD base);
 [COVERAGE.md](COVERAGE.md) lists all 78 target platforms, live job counts for two real
-employers per done platform, and the plan for the remaining 31.
+employers per done platform, and the plan for the remaining 29.
 
 Every connector module starts with a docstring giving its exact endpoints, response shape,
 URL formats it recognises and the quirks found while building it. That docstring is the
@@ -113,6 +113,8 @@ platform on custom domains.
 | GoHire | `gohire` | paged board `jobs.gohire.io/{board}/?page={n}` checked against "Total N" (overrides `listed_pages`; `validThrough` ignored) | board slug |
 | HiringThing | `hiringthing` | `{company}.hiringthing.com/api/rss.xml` (RSS feed; no per-tenant sitemap) | host |
 | Deel, Kula | `deel`, `kula` | `jobs.deel.com/{org}/sitemap.xml`, `careers.kula.ai/{company}/sitemap.xml` | slug |
+| JobBoard.io | `jobboardio` | `{board}/sitemap.xml` -> `/sitemaps/jobs/` chunks | host (custom domains) |
+| Rival (SilkRoad) | `rival` | paged board `?page={n}` (overrides `listed_pages`; Crawl-delay 10) | `company/portal` |
 | Hireology | `hireology` | `careers.hireology.com/sitemap_index.xml` (all tenants, ~8 MB) | slug |
 | iCIMS | `icims` | `{host}/sitemap.xml` | host |
 | Jobboardly, JBoard, Niceboard, SmartJobBoard | `jobboardly`, `jboard`, `niceboard`, `smartjobboard` | `{board}/sitemap.xml` | host |

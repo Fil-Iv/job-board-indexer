@@ -405,6 +405,24 @@
       "last_success_at": "2026-11-07T20:56:44+00:00",
       "last_success_jobs": 171
     },
+    "https://jobs.blooloop.com/": {
+      "url": "https://jobs.blooloop.com/",
+      "last_run_at": "2026-11-08T04:07:02+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 15,
+      "last_error": null,
+      "last_success_at": "2026-11-08T04:07:02+00:00",
+      "last_success_jobs": 15
+    },
+    "https://jobs.cityandstateny.com/": {
+      "url": "https://jobs.cityandstateny.com/",
+      "last_run_at": "2026-11-08T04:06:59+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 16,
+      "last_error": null,
+      "last_success_at": "2026-11-08T04:06:59+00:00",
+      "last_success_jobs": 16
+    },
     "https://jobs.deel.com/apmc-careers": {
       "url": "https://jobs.deel.com/apmc-careers",
       "last_run_at": "2026-11-07T20:56:41+00:00",
@@ -557,6 +575,24 @@
       "last_error": null,
       "last_success_at": "2026-11-07T20:56:42+00:00",
       "last_success_jobs": 77
+    },
+    "https://jobs.silkroad.com/BU/External": {
+      "url": "https://jobs.silkroad.com/BU/External",
+      "last_run_at": "2026-11-08T04:10:57+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 200,
+      "last_error": null,
+      "last_success_at": "2026-11-08T04:10:57+00:00",
+      "last_success_jobs": 200
+    },
+    "https://jobs.silkroad.com/SOCCo/Careers": {
+      "url": "https://jobs.silkroad.com/SOCCo/Careers",
+      "last_run_at": "2026-11-08T04:07:36+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 39,
+      "last_error": null,
+      "last_success_at": "2026-11-08T04:07:36+00:00",
+      "last_success_jobs": 39
     },
     "https://jobs.smartrecruiters.com/Ubisoft2": {
       "url": "https://jobs.smartrecruiters.com/Ubisoft2",

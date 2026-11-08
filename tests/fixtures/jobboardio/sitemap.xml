@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>https://jobs.cityandstateny.com/sitemaps/jobs/job_sitemap_details.xml?finish_id=640025768&amp;start_id=621269973</loc>
+    <lastmod>2026-11-08T03:51:33+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://jobs.cityandstateny.com/sitemaps/pages/page_sitemap_details.xml</loc>
+    <lastmod>2026-11-08T03:51:33+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://jobs.cityandstateny.com/sitemaps/taxonomy/taxonomy_sitemap_details.xml</loc>
+    <lastmod>2026-11-08T03:51:33+00:00</lastmod>
+  </sitemap>
+</sitemapindex>

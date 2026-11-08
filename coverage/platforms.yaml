@@ -703,15 +703,18 @@
 - name: Rival
   key: rival
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
-  examples: []
-  robots: unknown
-  verified: null
-  notes: ""
+  status: done
+  connector: jobindex.connectors.rival
+  public_api: "no"
+  api: "GET jobs.silkroad.com/{company}/{portal}?page={n} (HTML, 10/page, \"Page 1 of N\") + job pages /{company}/{portal}/jobs/{id} (JSON-LD JobPosting)"
+  url_patterns: ["jobs.silkroad.com/{company}/{portal}[/jobs/{id}]"]
+  examples:
+    - https://jobs.silkroad.com/SOCCo/Careers
+    - https://jobs.silkroad.com/BU/External
+  robots: allowed
+  verified: 2026-11-08
+  generic: partial
+  notes: "Generic JSON-LD job pages listed from the paged board (listed_pages): no job total, only a page count, so every page must add new jobs. robots.txt has Crawl-delay: 10 and starts with a UTF-8 BOM (which made jobindex.robots ignore it until fixed 2026-11-08); the /*/*/Ajax/ endpoints are disallowed. First crawl of BU (~200 jobs) takes ~40 min; checkpointed. Portal names vary (Careers, External)."
 
 - name: SAP SuccessFactors
   key: successfactors
@@ -939,7 +942,7 @@
   robots: allowed
   verified: null
   generic: yes
-  notes: "Generic sitemap + JSON-LD works on jobs.rubyonrails.org (13 jobs, 6/6 pages, 2026-11-07); a thin generic_jsonld subclass is enough. Blocked on a second live board: railsworld.jobkit.io and jobs.jobkit.io list 0 jobs, web search found no other JobKit boards."
+  notes: "Generic sitemap + JSON-LD works on jobs.rubyonrails.org (13 jobs, 6/6 pages). Still blocked on a second live board (2026-11-08): railsworld.jobkit.io and jobs.jobkit.io list 0 jobs; searches for other JobKit boards return unrelated products named JobKit."
 
 - name: Jobboardly
   key: jobboardly
@@ -1021,15 +1024,18 @@
 - name: JobBoard.io
   key: jobboardio
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
-  examples: []
-  robots: unknown
-  verified: null
-  notes: ""
+  status: done
+  connector: jobindex.connectors.jobboardio
+  public_api: "no"
+  api: "GET {board}/sitemap.xml (index) -> /sitemaps/jobs/job_sitemap_details.xml?finish_id=&start_id= (lastmod) + /jobs/{id}-{slug} (JSON-LD JobPosting)"
+  url_patterns: ["custom domains only (theme stylesheet /assets/boards/{theme}-theme-{hash}.css)"]
+  examples:
+    - https://jobs.cityandstateny.com/
+    - https://jobs.blooloop.com/
+  robots: allowed
+  verified: 2026-11-08
+  generic: yes
+  notes: "Generic sitemap + JSON-LD; only the /sitemaps/jobs/ children are followed (page/taxonomy sitemaps skipped). Child URLs are XML-escaped (&amp;), which discovery.parse_sitemap did not unescape until 2026-11-08 (chunks came back empty). Boards also seen: jobs.motionographer.com, jobs.tdwi.org, jobs.hireheroesusa.org (2,500+ jobs per chunk, incl. backfill)."
 
 - name: Wiley Madgex
   key: madgex
@@ -1138,7 +1144,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: ""
+  notes: "Checked 2026-11-08: no customer board identified. jobs.macslist.org / njschooljobs.com (pass-2 guesses) carry no jobBoardHQ marker; vendor listings (fantastic.jobs, Capterra) name no customer sites; job API is Enterprise-plan only."
 
 - name: Nodex
   key: nodex
