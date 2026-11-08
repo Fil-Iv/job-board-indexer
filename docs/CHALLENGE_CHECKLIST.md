@@ -9,8 +9,8 @@ queries. Every claim below names the command, endpoint, test or file that shows 
 
 | # | Criterion | Status | Summary |
 |---|---|---|---|
-| 1 | Working coverage across all 78 platforms | 🟡 | 51 platforms work on ≥ 2 real employers; 10 are refused by the site (evidence in `blocked_by_site.yaml`); 17 are not built |
-| 2 | Consistent job records | 🟡 | 43,203 open postings: title, source URL, apply URL 100%; company, description 100% (rounded), location 99%. 40 of 51 platforms have no gap at all; every remaining gap is a field empty at the source (listed), except 7 ADP postings whose employer is unknown |
+| 1 | Working coverage across all 78 platforms | 🟡 | 56 platforms work on ≥ 2 real employers; 11 are refused by the site (evidence in `blocked_by_site.yaml`); 11 are not built, each with the exact reason in `platforms.yaml` |
+| 2 | Consistent job records | 🟡 | 43,203 open postings: title, source URL, apply URL 100%; company, description 100% (rounded), location 99%. 40 of 51 platforms have no gap at all; every remaining gap is a field empty at the source (listed); the ADP example that never named its employer was replaced (see the ADP row) |
 | 3 | Automatic updates | ✅ | Scheduler worker, change log, closing, failure ≠ closure: shown on live data and in tests |
 | 4 | Deduplication | ✅ | 16 real cross-source duplicates found and merged (43,203 open postings → 43,187 openings); 2,924 same-employer same-title groups, 667 cross-employer titles and 4 cross-source near misses kept apart, each checked |
 | 5 | Searchable output | ✅ | `/` search page + `/jobs` API with keyword, company, location (+ 7 more) filters, pagination; every OpenAPI parameter documented with an example |
@@ -37,12 +37,12 @@ queries. Every claim below names the command, endpoint, test or file that shows 
 
 | Group | Count | Platforms |
 |---|---|---|
-| Working (connector + 2 live employers) | **51** | ADP, ApplicantPro, Ashby, BambooHR, Breezy HR, Comeet, Deel, **Eightfold AI** (new), Gem, GoHire, Greenhouse, HiBob, HireBridge, HireHive, Hireology, HiringThing, iCIMS, iSolved Hire, JazzHR, Kula, Lever, Manatal, Oracle Recruiting, PageUp, Paylocity, Personio, Phenom, Pinpoint, Polymer, Recooty, Recruitee, Rippling, Rival, SAP SuccessFactors, SmartRecruiters, Teamtailor, Trakstar, TriNet, WeRecruit, Workable, Workday (ATS); JBoard, JobBoard.io, Jobboardly, Jobiqo, JobMount, Niceboard, SmartJobBoard, **Wiley Madgex** (new), WP Job Manager (job boards) |
+| Working (connector + 2 live employers) | **56** | ADP, ApplicantPro, Ashby, **Avature** (new), BambooHR, Breezy HR, Comeet, Deel, Eightfold AI, Gem, GoHire, Greenhouse, HiBob, HireBridge, HireHive, Hireology, HiringThing, iCIMS, iSolved Hire, JazzHR, Kula, Lever, Manatal, Oracle Recruiting, PageUp, **Paradox** (new), Paylocity, Personio, Phenom, Pinpoint, Polymer, Recooty, Recruitee, Rippling, Rival, SAP SuccessFactors, SmartRecruiters, **Taleo** (new), Teamtailor, Trakstar, TriNet, WeRecruit, Workable, Workday, **Zoho Recruit** (new) (ATS); JBoard, **JobBoard.com** (new), JobBoard.io, Jobboardly, Jobiqo, JobMount, Niceboard, SmartJobBoard, Wiley Madgex, WP Job Manager (job boards) |
 | Blocked by the site — no allowed route | 5 | Paycor (`Disallow: /`), UltiPro (`Disallow: */JobBoardView` + sitemap), Freshteam (jobs widget disallowed), JobBoardFire (403 incl. robots.txt), CareerSiteCloud (403 incl. robots.txt) |
-| Blocked by the site — job API refused, no other complete source | 5 | Paycom (401, page-issued token), Dover (`Disallow: /api/`), CareerPlug (`Disallow: /jobs.js`, job pages under disallowed `/apps/`), JOIN.com (jobs sitemap 403), Dayforce (search API 403) |
-| Not built | 17 | JS/session-token platforms: BrassRing, CSOD, Paradox, talentReef, Taleo; HTML-only, not finished: Avature, Zoho Recruit (no descriptions anywhere), FirstStage (listing count inconsistent); no second live board found: JobKit; vendor with no identifiable customer board: Artha, eJobBoard, ejobsitesoftware.com, JobBoard.com, jobboardsoftware.com, jobBoardHQ, Nodex, Talenetic |
+| Blocked by the site — job API refused, no other complete source | 6 | **CSOD** (search API 401 without the page's bearer token; pages are JS shells), Paycom (401, page-issued token), Dover (`Disallow: /api/`), CareerPlug (`Disallow: /jobs.js`, job pages under disallowed `/apps/`), JOIN.com (jobs sitemap 403), Dayforce (search API 403) |
+| Not built | 11 | Route needs page-issued state: BrassRing (GET preload stops at 50 jobs, paging needs `encryptedSessionValue`/RFT), jobBoardHQ (paging only via `__VIEWSTATE` postback); listing not complete or countable: FirstStage ("80 jobs open", 79 linked), ejobsitesoftware.com (feeds capped at 200/20, POST search); awaiting owner decision: talentReef (public but `internal`-named Elasticsearch proxy); no second live board: JobKit (8 `*.jobkit.io` boards, all empty); no customer board found: Artha, eJobBoard, jobboardsoftware.com (Exenzo), Nodex, Talenetic |
 
-Blocked-platform evidence: `coverage/blocked_by_site.yaml` (17 entries; each is a real
+Blocked-platform evidence: `coverage/blocked_by_site.yaml` (18 entries; each is a real
 request with URL, timestamp, HTTP status and the deciding robots.txt rule, rendered in the
 "Blocked by site" section of `COVERAGE.md`). Tenant-level blocks are listed there too
 (SmartRecruiters/Bosch opted out, Pinpoint/dazn, Wiley Madgex/Guardian, Economist,
@@ -77,6 +77,28 @@ Campaign, BMJ, PageUp internal `/ci/` portals).
   for its whole fetch, and one crash cancelled every other crawl. Fixed in
   `jobindex/crawler.py` / `jobindex/db.py`; tests
   `test_no_db_connection_held_during_fetch`, `test_crashing_source_does_not_cancel_the_others`.
+
+**Second pass (2026-11-08, later the same day): the 17 platforms that were not built**
+
+* **Taleo** — `jobindex/connectors/taleo.py`: Taleo's own career-section sitemap
+  (`/careersection/sitemap.jss?portalCode={section}`) + `jobdetail.ftl` pages (posting parsed
+  from the page's `fillList` data; JSON-LD where the tenant enables Google markup). An
+  empty sitemap of a switched-off section fails the crawl. Live: WSP, Stantec (HDR too).
+* **Paradox** — `jobindex/connectors/paradox.py`: employer-domain career sites (CNAME
+  `*.sites.paradox.ai`) via per-brand/per-locale sitemaps + JSON-LD; translations folded into
+  the default-language page. Live: FedEx (~4,735 jobs), Marriott (~14,188).
+* **Avature** — `jobindex/connectors/avature.py`: portal sitemap, checked against the
+  search page's "N results"; the paged search is not used because its order is unstable
+  (Bloomberg: 9 of 323 jobs on two pages, 9 on none). Live: Bloomberg (323), UCLA Health (739).
+* **Zoho Recruit** — `jobindex/connectors/zoho.py`: job list embedded in the careers page,
+  full posting in the job page's inline JSON (the earlier "no descriptions" finding came
+  from a truncated read of the 1.7 MB page). Live: Cause Capacity, Zoho USA.
+* **JobBoard.com** — `jobindex/connectors/jobboardcom.py`: customer boards found in the
+  vendor's `example-sites.js`; generic sitemap + JSON-LD. Live: ACEVO, Homeless Link.
+* **CSOD** — added to `blocked_by_site.yaml` (search API 401 without the page token).
+* Every other not-built platform has its exact reason in `platforms.yaml` (table above).
+* `HttpClient` now retries `httpx.DecodingError` (corrupt gzip bodies seen on Taleo);
+  `GenericJsonLdConnector.is_closed_html` lets a platform recognise a closed page by markup.
 
 **Live database runs** (`make seed-demo`, `make crawl`; snapshot at the end of the audit)
 
@@ -145,13 +167,18 @@ Not yet successful in the DB at the time of writing, with the reason:
   /BoschGroup/*`); every crawl is a recorded failure, no job touched. The example was
   replaced by **Wise** (427 jobs). Source kept active as live evidence of the failure path.
 
-Every example board of all 51 done platforms has a successful live run in
-`docs/COVERAGE.md` (job count + timestamp, regenerated 2026-11-08).
+Every example board of all 56 done platforms has a successful live run in
+`docs/COVERAGE.md` (job count + timestamp, regenerated 2026-11-08 14:08–14:17 UTC; new:
+Taleo/WSP 160 + Stantec, Paradox/FedEx 4,735 + Marriott 14,188, Avature/Bloomberg 323 + UCLA
+Health, Zoho Recruit/Cause Capacity 6 + Zoho USA, JobBoard.com/ACEVO 15 + Homeless Link,
+ADP/nou Systems 43). The database table above is the earlier audit snapshot: the new
+connectors were verified by `make coverage` and `make test-live`, not by a full DB crawl.
 
-**Gap:** 27 of 78 platforms have no working connector (10 refused by the site, 17 not
-built). The "not built" ones need either a headless browser (not allowed without
-justification per `CLAUDE.md`), page-issued session tokens (policy: not used), or a
-customer board to build against.
+**Gap:** 22 of 78 platforms have no working connector (11 refused by the site, 11 not
+built). None of the 11 needs a headless browser: they need page-issued state (policy: not
+used), an owner decision (talentReef), a complete/countable listing the site does not
+offer, or a live customer board to build against. Exact reasons: `notes` in
+`coverage/platforms.yaml`.
 
 ---
 
@@ -245,7 +272,7 @@ publishes them (structured fields first, then `normalize.find_salary` /
 
 | Platform | Field | Postings | Why |
 |---|---|---|---|
-| ADP | company | 7 of 10 | The US example (`cid=d4d64eb4…`, a Miami Beach restaurant) never names its employer: not in the API (no organization fields), not on the page (title "Recruitment"), not in the descriptions. Needs `set-company` by the operator. |
+| ADP | company | 7 of 10 | The old US example (`cid=d4d64eb4…`, a Miami Beach restaurant) never names its employer: not in the API (no organization fields), not on the page (title "Recruitment"), not in the descriptions. **Fixed 2026-11-08:** the example is now nou Systems (`cid=9e26f425…`, 43 jobs, every description names the employer; `example_companies` sets it). The old source is still active in the audit database (no CLI command deactivates a source); `set-company` or removing it closes this gap there. |
 | WP Job Manager | company | 11 of 406 | startjob.dk listings whose `_company_name` is empty in the WordPress data (multi-employer board, so no fallback). |
 | Manatal | location | 239 of 2,476 | MR DIY store jobs with empty `city`/`state`/`country`/`location_display` in the API (the store is only in the title). |
 | Workday | location | 58 of 6,609 | PwC requisitions whose detail endpoint returns `location: ""` (checked live). |

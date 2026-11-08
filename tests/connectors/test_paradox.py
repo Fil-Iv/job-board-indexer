@@ -37,6 +37,16 @@ def test_custom_domain_detected_from_page() -> None:
     assert set(ParadoxConnector.detect_in_html(page)) == {BOARD}
 
 
+def test_shared_cdn_variant_detected() -> None:
+    # careers.marriott.com loads its bundle from the shared CDN host (no brand segment)
+    page = (
+        '<link rel="canonical" href="https://careers.marriott.com/">'
+        '<script src="https://cdn.sites.paradox.ai/paradox-prod-careersites/df2326f41b/'
+        'main.bundle.js"></script>'
+    )
+    assert set(ParadoxConnector.detect_in_html(page)) == {"careers.marriott.com"}
+
+
 @pytest.mark.parametrize(
     ("path", "job_id"),
     [

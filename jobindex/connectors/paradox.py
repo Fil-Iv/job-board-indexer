@@ -16,7 +16,8 @@ Job:  JSON-LD JobPosting (title, description, datePosted, hiringOrganization,
 Board identifier: the employer's site host (``{brand}.sites.paradox.ai`` serves the same
 site, but the sitemaps list the employer's domain, so URLs are never detected from the host
 alone). Pages are recognised by their assets
-(``cdn.sites.{brand}.paradox.ai/{brand}-prod-careersites/...``) + canonical URL; the
+(``cdn.sites.{brand}.paradox.ai/{brand}-prod-careersites/...``, or
+``cdn.sites.paradox.ai/paradox-prod-careersites/...`` on Marriott) + canonical URL; the
 ``*.sites.paradox.ai`` DNS is a wildcard, so host names alone prove nothing.
 Verified on careers.fedex.com (~4,700 job URLs) and careers.marriott.com, 2026-11-08.
 Not every Paradox customer fits: jobs.mchire.com (McDonald's franchisees) has ~1,000
@@ -37,7 +38,7 @@ _LOCALE = r"[a-z]{2}(?:-[a-z]{2,4})?"
 class ParadoxConnector(HostedBoardConnector):
     platform = "paradox"
     page_fingerprint = re.compile(
-        r"cdn\.sites\.[a-z0-9-]+\.paradox\.ai/[a-z0-9-]+-prod-careersites/"
+        r"cdn\.sites\.(?:[a-z0-9-]+\.)?paradox\.ai/[a-z0-9-]+-prod-careersites/"
     )
     job_path: ClassVar[re.Pattern[str]] = re.compile(
         rf"/(?:{_LOCALE}/)?[^/]+/job/(?P<id>[A-Za-z0-9-]+?)(?:__{_LOCALE})?/?"
