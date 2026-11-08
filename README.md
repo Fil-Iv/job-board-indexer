@@ -143,7 +143,7 @@ Sites that refuse us (robots.txt rule or HTTP 403) are listed with request-level
 | `jobindex/quality.py` | Field fill rates of open postings per platform (`fill-rates`) |
 | `jobindex/coverage.py` | Coverage report logic (`scripts/coverage_report.py`, `make coverage`) |
 | `coverage/platforms.yaml` | All 78 target platforms: status, tier, endpoints, URL patterns, examples |
-| `coverage/blocked_by_site.yaml` | Platforms whose sites refuse us, with the exact evidence |
+| `coverage/blocked_by_site.yaml` | Platforms whose sites refuse us (or whose only route is one we decided not to use, e.g. an internal host), with the exact evidence |
 | `scripts/` | `coverage_report.py`, `capture_fixture.py` (save a real response as a fixture), `check_access.py`, `evaluate_generic.py` |
 | `migrations/` | Alembic migrations |
 | `docker-compose.prod.yml`, `docker/` | Production stack (Caddy, backups); see docs/DEPLOY.md |

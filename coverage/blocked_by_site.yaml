@@ -1,4 +1,6 @@
-# Platforms where the site refuses our crawler (robots.txt rule or HTTP 401/403/429).
+# Platforms where the site refuses our crawler (robots.txt rule or HTTP 401/403/429), or
+# where the only route is one we decided not to use: such evidence carries a `policy`
+# reason (e.g. an internal host) instead of a refusal.
 # Every entry is a real request made with jobindex.access.check_access, User-Agent
 # "JobIndexBot/0.1 (+https://example.com/jobindex-bot)". DNS/TLS failures and robots.txt
 # 5xx are outages, not blocks, and are deliberately NOT listed (pass 2 had mislabelled
@@ -111,3 +113,10 @@ blocked_by_site:
     evidence:
       - {url: "https://americares.csod.com/services/x/career-site/v1/search", checked_at: "2026-11-08T13:07:14+00:00", http_status: 401, robots_url: "https://americares.csod.com/robots.txt", robots_http_status: 200, robots_rule: null}
       - {url: "https://ymca.csod.com/services/x/career-site/v1/search", checked_at: "2026-11-08T13:07:25+00:00", http_status: 401, robots_url: "https://ymca.csod.com/robots.txt", robots_http_status: 200, robots_rule: null}
+  - platform: talentReef
+    scope: platform
+    impact: "Only route is an internal search service, no public listing. Career pages (apply.jobappnetwork.com) are a 751-byte JS shell and sitemap.xml answers 403; the app reads jobs from an Elasticsearch proxy on prod-kong.internal.talentreef.com, which answers without a token but is an internal host and is not used (owner decision 2026-11-08)."
+    evidence:
+      - {url: "https://apply.jobappnetwork.com/sitemap.xml", checked_at: "2026-11-08T16:26:22+00:00", http_status: 403, robots_url: "https://apply.jobappnetwork.com/robots.txt", robots_http_status: 200, robots_rule: null}
+      - {url: "https://apply.jobappnetwork.com/clients/10556", checked_at: "2026-11-08T16:26:11+00:00", http_status: 200, robots_url: "https://apply.jobappnetwork.com/robots.txt", robots_http_status: 200, robots_rule: null, policy: "751-byte JS shell, no job data"}
+      - {url: "https://prod-kong.internal.talentreef.com/apply/proxy-es/search-en-us/posting/_search?size=1", checked_at: "2026-11-08T13:17:30+00:00", http_status: 200, robots_url: "https://prod-kong.internal.talentreef.com/robots.txt", robots_http_status: 404, robots_rule: null, policy: "internal host (owner decision)"}

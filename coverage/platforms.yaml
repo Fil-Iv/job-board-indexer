@@ -785,7 +785,7 @@
   examples: []
   robots: allowed
   verified: null
-  notes: "Not built: waiting for an owner decision (2026-11-08). Career pages are a JS shell; the production app bundle sends its job search, without any token, to an Elasticsearch proxy at prod-kong.internal.talentreef.com/apply/proxy-es/{search-en-us|search-fr-ca|search-es-us}/posting/_search (robots.txt 404). One GET ?size=1 returned 200 with full postings (title, HTML description, address, brand, clientId/clientName, contractType, internalOrExternal; 190,608 hits in the index). The host is named internal and takes arbitrary Elasticsearch queries, so further use was stopped pending approval. The public site filters by clientId.raw (+ brand.raw, location.id) and, for external candidates, internalOrExternal = externalOnly."
+  notes: "Not built: blocked (coverage/blocked_by_site.yaml, scope platform). Owner decision 2026-11-08: the internal host is not used, so there is no public listing. Career pages are a JS shell (sitemap.xml 403); the production app bundle sends its job search, without any token, to an Elasticsearch proxy at prod-kong.internal.talentreef.com/apply/proxy-es/{search-en-us|search-fr-ca|search-es-us}/posting/_search (robots.txt 404). One GET ?size=1 returned 200 with full postings (title, HTML description, address, brand, clientId/clientName, contractType, internalOrExternal; 190,608 hits in the index). The host is named internal and takes arbitrary Elasticsearch queries, so it was used for that one request only. The public site filters by clientId.raw (+ brand.raw, location.id) and, for external candidates, internalOrExternal = externalOnly."
 
 - name: Taleo
   key: taleo
@@ -1131,7 +1131,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: ""
+  notes: "Not built (2026-11-08): no customer board identified, and the vendor site refuses us (www.careersitecloud.com answers 403 to every page incl. robots.txt and its blog; blocked_by_site.yaml, scope platform). CareerSiteCloud (Aspen Technology Labs) sells white-label career sites / satellite job boards on customer domains, often embedded by iframe; web searches for the product and for Powered by CareerSiteCloud, and the fantastic.jobs platform page, name no customer site."
 
 - name: JobBoard.com
   key: jobboardcom

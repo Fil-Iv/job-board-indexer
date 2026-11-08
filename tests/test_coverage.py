@@ -12,7 +12,9 @@ from jobindex.connectors.registry import default_registry
 from jobindex.coverage import (
     PlanError,
     Results,
+    _render_blocked,
     crawl_done_platforms,
+    load_blocked,
     load_platforms,
     render_report,
 )
@@ -150,6 +152,34 @@ def test_invalid_plan_is_rejected(tmp_path: Path) -> None:
     )
     with pytest.raises(PlanError, match="tier"):
         load_platforms(bad)
+
+
+def test_blocked_list_loads_and_every_item_has_evidence() -> None:
+    blocked = {b.platform: b for b in load_blocked()}
+    assert all(b.evidence for b in blocked.values())
+    tr = blocked["talentReef"]
+    assert tr.scope == "platform"
+    assert [ev.policy for ev in tr.evidence if ev.policy] == [
+        "751-byte JS shell, no job data",
+        "internal host (owner decision)",
+    ]
+
+
+_EV = (
+    '{url: "https://x.test/jobs", checked_at: "2026-11-08T00:00:00+00:00", http_status: 200, '
+    'robots_url: "https://x.test/robots.txt", robots_http_status: 200, robots_rule: null'
+)
+
+
+def test_blocked_evidence_needs_a_refusal_or_a_policy_reason(tmp_path: Path) -> None:
+    path = tmp_path / "blocked.yaml"
+    item = "blocked_by_site:\n  - {platform: X, scope: platform, impact: i, evidence: [%s}]}\n"
+    path.write_text(item % _EV, encoding="utf-8")
+    with pytest.raises(PlanError, match="policy reason"):
+        load_blocked(path)
+    path.write_text(item % (_EV + ', policy: "internal host"'), encoding="utf-8")
+    (b,) = load_blocked(path)
+    assert "| 200 — not used: internal host | — |" in "\n".join(_render_blocked([b]))
 
 
 def test_failure_keeps_last_success() -> None:

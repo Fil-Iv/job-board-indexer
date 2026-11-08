@@ -78,8 +78,9 @@ class Platform:
 
 @dataclass(frozen=True, slots=True)
 class BlockEvidence:
-    """One request a site refused (robots.txt rule or HTTP 401/403/429) — see
-    ``coverage/blocked_by_site.yaml``."""
+    """One request behind a block — see ``coverage/blocked_by_site.yaml``. Either the site
+    refused it (robots.txt rule or HTTP 401/403/429), or it is a route the site leaves open
+    that we decided not to use, with the reason in ``policy`` (e.g. an internal host)."""
 
     url: str
     checked_at: str
@@ -87,6 +88,7 @@ class BlockEvidence:
     robots_url: str
     robots_http_status: int | None
     robots_rule: str | None
+    policy: str | None = None  # why an open route is not used; None = the site refused it
 
 
 @dataclass(frozen=True, slots=True)
@@ -223,7 +225,8 @@ def load_platforms(path: Path = PLATFORMS_FILE) -> list[Platform]:
 
 def load_blocked(path: Path = BLOCKED_FILE) -> list[BlockedPlatform]:
     """The blocked_by_site evidence list. Every item needs at least one refused request:
-    a robots.txt rule (robots_rule) or an HTTP 401/403/429. Outages (DNS errors,
+    a robots.txt rule (robots_rule), an HTTP 401/403/429, or — for a route the site leaves
+    open that we decided not to use — a ``policy`` reason. Outages (DNS errors,
     robots.txt 5xx) are not blocks and are rejected."""
     if not path.exists():
         return []
@@ -237,9 +240,11 @@ def load_blocked(path: Path = BLOCKED_FILE) -> list[BlockedPlatform]:
         scope = _choice(item, "scope", BLOCK_SCOPES, where)
         evidence = []
         for ev in item.get("evidence") or []:
-            status, rule = ev.get("http_status"), ev.get("robots_rule")
-            if not rule and status not in (401, 403, 429):
-                raise PlanError(f"{where}: {ev.get('url')} has no robots rule or 401/403/429")
+            status, rule, policy = ev.get("http_status"), ev.get("robots_rule"), ev.get("policy")
+            if not rule and status not in (401, 403, 429) and not policy:
+                raise PlanError(
+                    f"{where}: {ev.get('url')} has no robots rule, 401/403/429 or policy reason"
+                )
             evidence.append(
                 BlockEvidence(
                     url=str(ev["url"]),
@@ -248,6 +253,7 @@ def load_blocked(path: Path = BLOCKED_FILE) -> list[BlockedPlatform]:
                     robots_url=str(ev["robots_url"]),
                     robots_http_status=ev.get("robots_http_status"),
                     robots_rule=str(rule) if rule else None,
+                    policy=str(policy) if policy else None,
                 )
             )
         if not evidence:
@@ -339,7 +345,8 @@ def _render_blocked(blocked: list[BlockedPlatform]) -> list[str]:
         "",
         f"{len(blocked)} platforms refuse at least part of what we need (source: "
         "`coverage/blocked_by_site.yaml`; scope: platform = no allowed route, api = the "
-        "JSON API is refused but HTML pages are open, tenant = only some employers/boards).",
+        "JSON API is refused but HTML pages are open, tenant = only some employers/boards; "
+        '"not used" = the site answers, but we decided not to use that route).',
         "",
         "| Platform | Scope | Refused request | Status | robots.txt rule | Checked (UTC) |",
         "|---|---|---|---|---|---|",
@@ -348,6 +355,8 @@ def _render_blocked(blocked: list[BlockedPlatform]) -> list[str]:
         for i, ev in enumerate(b.evidence):
             head = (b.platform, b.scope) if i == 0 else ("", "")
             status = str(ev.http_status) if ev.http_status is not None else "not fetched"
+            if ev.policy:
+                status += f" — not used: {_cell(ev.policy)}"
             rule = f"`{_cell(ev.robots_rule)}` ({ev.robots_url})" if ev.robots_rule else "—"
             lines.append(
                 f"| {' | '.join(head)} | `{_cell(ev.url)}` | {status} | {rule} | "
