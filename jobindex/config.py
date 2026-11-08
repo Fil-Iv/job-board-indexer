@@ -9,6 +9,18 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     database_url: str = "postgresql+psycopg://jobindex:jobindex@localhost:5432/jobindex"
+    # Connection tuning (jobindex/db.py). Defaults suit docker-compose / a VPS; the
+    # hosted demo (docs/DEPLOY.md) goes through the Supabase pooler.
+    #   None = auto: server-side prepared statements are disabled for pooler URLs
+    #   (*.pooler.supabase.com, port 6543, ?pgbouncer=true), which do not support them.
+    database_prepared_statements: bool | None = None
+    database_pool_size: int | None = None  # None = CRAWL_CONCURRENCY + 2 (at least 5)
+    database_max_overflow: int = 10
+    database_pool_timeout_seconds: float = 30.0
+    # Serverless (Vercel): no pool kept between requests; the pooler does the pooling.
+    database_null_pool: bool = False
+    # Every transaction is READ ONLY (the public API never writes).
+    database_read_only: bool = False
 
     # HTTP / crawling etiquette
     http_user_agent: str = "JobIndexBot/0.1 (+https://example.com/jobindex-bot)"

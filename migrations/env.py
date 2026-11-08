@@ -6,6 +6,7 @@ from alembic import context
 from sqlalchemy import create_engine, pool
 
 from jobindex.config import get_settings
+from jobindex.db import create_sync_engine_args
 from jobindex.models import Base
 
 config = context.config
@@ -22,8 +23,9 @@ def _database_url() -> str:
 
 
 def run_migrations_offline() -> None:
+    url, _ = create_sync_engine_args(_database_url())
     context.configure(
-        url=_database_url(),
+        url=url,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -33,7 +35,9 @@ def run_migrations_offline() -> None:
 
 
 def run_migrations_online() -> None:
-    engine = create_engine(_database_url(), poolclass=pool.NullPool)
+    # Works through the Supabase session pooler too (prepared statements off there).
+    url, connect_args = create_sync_engine_args(_database_url())
+    engine = create_engine(url, poolclass=pool.NullPool, connect_args=connect_args)
     with engine.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata)
         with context.begin_transaction():
