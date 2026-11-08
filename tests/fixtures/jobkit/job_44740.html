@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+  <head>
+    <title>Lead Engineer, AI Accounting at Exponent</title>
+    <meta name="description" content="About Exponent
+Exponent is a financial platform built for franchise and multi-location restaurant operators. We offer three integrated products: fi...">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="turbo-cache-control" content="no-preview">
+    <meta name="turbo-prefetch" content="false">
+    <meta name="view-transition" content="same-origin">
+    <script type="application/ld+json">{
+  "@context": "https://schema.org/",
+  "@type": "JobPosting",
+  "title": "Lead Engineer, AI Accounting",
+  "description": "\u003ch3\u003eAbout Exponent\u003c/h3\u003e\n\n\u003cp\u003eExponent is a financial platform built for franchise and multi-location restaurant operators. We offer three integrated products: financing programs including a charge card, acquisition and build-out loans, and an AI-powered Accountant. Operators get one place to manage spend, get growth capital and automate their financial operations. We have secured significant equity and credit capital, and we\u0026#39;re backed by leading institutional investors and family offices who run large franchise portfolios.\u003c/p\u003e\n\n\u003ch3\u003eThe role\u003c/h3\u003e\n\n\u003cp\u003eYou\u0026#39;ll own core systems in our AI Accountant, built on Ruby on Rails. It pulls in an operator\u0026#39;s POS, banking, payroll and processor data, classifies and reconciles it, and automates the monthly close.\u003c/p\u003e\n\n\u003cp\u003eThis is a full-stack role with a focus on backend architecture. You\u0026#39;ll report to our Head of AI Accounting \u0026amp; Engineering, on a small, experienced team that ships to production multiple times a day. It\u0026#39;s hands-on IC work, with a path to leading engineers as the team grows.\u003c/p\u003e\n\n\u003ch3\u003eWhat you\u0026#39;ll do\u003c/h3\u003e\n\n\u003cul\u003e\n\u003cli\u003e\u003cstrong\u003eOwn systems end to end.\u003c/strong\u003e Design, build, ship and run systems in production, from schema to UI to deploy to on-call. You own what you build after it goes live.\u003c/li\u003e\n\u003cli\u003e\u003cstrong\u003eShape the backend architecture.\u003c/strong\u003e Make the calls on how the AI Accountant\u0026#39;s data, jobs and services fit together as it grows.\u003c/li\u003e\n\u003cli\u003e\u003cstrong\u003eMake unreliable data reliable.\u003c/strong\u003e Integrate with difficult third-party APIs. Build ingestion that is idempotent by default (deduplication, safe replay, historical backfill), so any source can be re-pulled and re-processed without corrupting the ledger.\u003c/li\u003e\n\u003cli\u003e\u003cstrong\u003eKeep every account in sync.\u003c/strong\u003e Own the background job system that keeps thousands of accounts in sync: scheduling, locking, retries, failure handling, and the monitoring that tells us when a sync quietly stopped. A stuck job is a product bug, not an ops chore.\u003c/li\u003e\n\u003cli\u003e\u003cstrong\u003ePut LLMs and ML into the product path.\u003c/strong\u003e Models already do classification and reconciliation in the product, and we\u0026#39;re taking it from build to first pilots. That\u0026#39;s when the real decisions get made about output validation, confidence thresholds, fallbacks and failure handling. You\u0026#39;ll make them, and make a probabilistic component behave inside a system that has to be deterministic where it counts.\u003c/li\u003e\n\u003cli\u003e\u003cstrong\u003eHelp build the company.\u003c/strong\u003e Small team, broad scope. Every engineer owns what they ship and uses judgment instead of waiting for direction. You\u0026#39;ll learn how our technology helps operators move faster and run better.\u003c/li\u003e\n\u003c/ul\u003e\n\n\u003ch3\u003eThe ideal candidate\u003c/h3\u003e\n\n\u003cul\u003e\n\u003cli\u003e\u003cstrong\u003eYou ship fast.\u003c/strong\u003e You\u0026#39;ve taken a feature from idea to production in a week. You\u0026#39;d rather ship a small thing this week than a big thing next month.\u003c/li\u003e\n\u003cli\u003e\u003cstrong\u003eYou know when to slow down and focus on the big thing.\u003c/strong\u003e Ledgers, money movement and anything a customer trusts us with get the time they need.\u003c/li\u003e\n\u003cli\u003e\u003cstrong\u003eThoughtful critique makes you better.\u003c/strong\u003e You ask for review early, take hard feedback well and give it with care.\u003c/li\u003e\n\u003cli\u003e\u003cstrong\u003eYou make the people around you smarter.\u003c/strong\u003e You share what you know, say \u0026quot;I don\u0026#39;t know\u0026quot; without hesitating, and work hard at explaining things clearly.\u003c/li\u003e\n\u003cli\u003e\u003cstrong\u003eYou want to build something new.\u003c/strong\u003e You\u0026#39;d rather shape a product early than maintain a finished one, and having no playbook appeals to you.\u003c/li\u003e\n\u003cli\u003e\u003cstrong\u003eQuality is part of every step.\u003c/strong\u003e Fast means a smaller scope, not rougher work. Tests, error states and the words an operator reads all count from the start.\u003c/li\u003e\n\u003c/ul\u003e\n\n\u003ch3\u003eRequirements\u003c/h3\u003e\n\n\u003cul\u003e\n\u003cli\u003e5+ years of engineering, with end-to-end ownership of systems in production\u003c/li\u003e\n\u003cli\u003eFull-stack experience, with depth on the backend\u003c/li\u003e\n\u003cli\u003eDeep experience in a server-side framework: Rails, Django, Phoenix, TypeScript or similar\u003c/li\u003e\n\u003cli\u003eExpertise in AI-assisted development: you use AI tools in your daily work and know where they help and where they don\u0026#39;t\u003c/li\u003e\n\u003cli\u003ePostgreSQL: schema design, indexing, transactional correctness\u003c/li\u003e\n\u003cli\u003eIntegrating with unreliable third-party APIs: thin docs, no webhooks, surprise format changes, duplicate or partial data\u003c/li\u003e\n\u003cli\u003eIdempotent data ingestion (deduplication, replay, backfill) and background job infrastructure (scheduling, locking, retries, failure handling)\u003c/li\u003e\n\u003c/ul\u003e\n\n\u003ch3\u003eStrongly preferred\u003c/h3\u003e\n\n\u003cul\u003e\n\u003cli\u003eFintech experience, or anywhere getting money math right was the job\u003c/li\u003e\n\u003cli\u003eRuby on Rails experience. It doesn\u0026#39;t need to be recent\u003c/li\u003e\n\u003cli\u003ePOS or restaurant data: Square, Toast, Qu, Revel, delivery platform payouts, processor settlement files\u003c/li\u003e\n\u003cli\u003eAccounting platforms: QuickBooks Online, Sage Intacct, NetSuite, Restaurant365\u003c/li\u003e\n\u003cli\u003eFinancial data aggregators: Plaid, Rutter, Stripe\u003c/li\u003e\n\u003c/ul\u003e\n\n\u003ch3\u003eNice to have\u003c/h3\u003e\n\n\u003cul\u003e\n\u003cli\u003eProduction LLM experience: LLMs in a product path, including output validation and failure handling\u003c/li\u003e\n\u003cli\u003eLedger, double-entry or reconciliation system design\u003c/li\u003e\n\u003cli\u003eClassification models with measurable evaluation\u003c/li\u003e\n\u003cli\u003eCSV and file-based import pipelines at scale\u003c/li\u003e\n\u003c/ul\u003e\n\n\u003ch3\u003eThe details\u003c/h3\u003e\n\n\u003cul\u003e\n\u003cli\u003e$160,000–$200,000 base salary, commensurate with experience, plus equity\u003c/li\u003e\n\u003cli\u003eHybrid, based at our Flatiron office in New York: at least 2 days a week in the office, 3+ preferred. Commuting in from NJ, Westchester, Connecticut, Long Island or Philly works.\u003c/li\u003e\n\u003cli\u003eBenefits: PTO, healthcare, HSA/FSA, 401(k)\u003c/li\u003e\n\u003c/ul\u003e\n\n\u003ch3\u003eHow to apply\u003c/h3\u003e\n\n\u003cp\u003eEmail \u003ca href=\"mailto:careers@exponentfi.com\"\u003ecareers@exponentfi.com\u003c/a\u003e with a short note on why this role interests you.\u003c/p\u003e\n",
+  "identifier": {
+    "@type": "PropertyValue",
+    "name": "Exponent",
+    "value": 44740
+  },
+  "datePosted": "2026-11-03",
+  "validThrough": "2027-01-02",
+  "employmentType": "Full-time",
+  "directApply": true,
+  "hiringOrganization": {
+    "@type": "Organization",
+    "name": "Exponent",
+    "sameAs": "https://exponentfi.com",
+    "logo": "https://jobs.rubyonrails.org/files/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTQwODksInB1ciI6ImJsb2JfaWQifX0=--5de568c5b279a11acb7f0ab096a2449bb07ce3c3/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fZmlsbCI6WzEyOCwxMjhdfSwicHVyIjoidmFyaWF0aW9uIn19--539c1950d94df9972d6c5a98e921f74f9ecd5632/exponent-mark-color-on-black.png"
+  },
+  "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": {
+      "@type": "QuantitativeValue",
+      "value": "160,000–200,000 + equity",
+      "unitText": "YEAR"
+    }
+  },
+  "jobLocation": {
+    "@type": "Place",
+    "address": {
+      "addressLocality": "New York, NY (Flatiron)"
+    }
+  }
+}</script>
+      
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="EzQetoGOdNYyODEocat7GoWfKtuQEGRWZJeM-swhW1gch6WXUXqBKdeCQOqOxZvlgEoUnqGpHhrFADh9dwnzTw" />
+    
+          
+      
+
+      <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@jobkitsite">
+  <meta name="twitter:image:src" content="https://jobs.rubyonrails.org/jobs/44740-lead-engineer-ai-accounting-exponent.png">
+  <meta name="twitter:title" content="Lead Engineer, AI Accounting at Exponent">
+  <meta name="twitter:description" content="About Exponent
+Exponent is a financial platform built for franchise and multi-location restaurant operators. We offer three integrated products: fi...">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="JobKit">
+  <meta property="og:image" content="https://jobs.rubyonrails.org/jobs/44740-lead-engineer-ai-accounting-exponent.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:title" content="Lead Engineer, AI Accounting at Exponent">
+  <meta property="og:description" content="About Exponent
+Exponent is a financial platform built for franchise and multi-location restaurant operators. We offer three integrated products: fi...">
+  <meta property="og:url" content="https://jobs.rubyonrails.org/jobs/44740-lead-engineer-ai-accounting-exponent">
+
+      <link href="https://jobs.rubyonrails.org/jobs/44740-lead-engineer-ai-accounting-exponent" rel="canonical">
+      
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+
+  <body class="h-full bg-white dark:bg-gray-900 dark:text-white" data-theme="red">
+      <div class="lg:flex h-full max-w-screen-2xl mx-auto divide-y lg:divide-y-0 lg:divide-x dark:divide-gray-800">
+        <nav class="p-6 sm:p-8 flex-none">
+  <div class="sm:flex lg:flex-col sm:justify-between sm:items-center h-full">
+    <div class="flex justify-between" id="logo-bar" data-turbo-permanent>
+      <a class="group relative inline-flex sm:flex gap-3 items-center sm:justify-center shrink-0" href="/">
+          <img srcset="/files/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6Mjg0NCwicHVyIjoiYmxvYl9pZCJ9fQ==--4b7dab03d287c383c78913d288470d1f32a1e47d/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fZmlsbCI6WzgwLDgwXX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--454eea9ed73f49616339a40ce9f8c0f6dbee799f/rubyonrails.png 2x" alt="Rails Job Board&#39;s logo" width="40" height="40" class="rounded-lg w-10 h-10" loading="lazy" src="https://jobs.rubyonrails.org/files/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6Mjg0NCwicHVyIjoiYmxvYl9pZCJ9fQ==--4b7dab03d287c383c78913d288470d1f32a1e47d/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fZmlsbCI6WzQwLDQwXX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--c562d2f248896d48613aa157303e94353dca3d70/rubyonrails.png" />
+
+
+        <div class="font-semibold sm:font-medium max-sm:text-lg sm:absolute sm:z-10 sm:top-auto sm:left-full sm:group-hover:translate-x-3 sm:transition-transform sm:whitespace-nowrap">
+          <div class="sm:hidden sm:group-hover:block sm:py-2 sm:px-3 sm:bg-gray-950/70 sm:text-white sm:dark:bg-white/85 sm:dark:text-black sm:rounded-lg sm:backdrop-blur-sm">
+            Rails Job Board
+          </div>
+        </div>
+</a>
+      <button type="button" class="sm:hidden p-2 rounded-lg opacity-60 hover:opacity-100 hover:bg-gray-500/10 transition-all" command="show-modal" commandfor="mobile-nav" aria-label="Toggle navigation menu">
+        
+      </button>
+    </div>
+
+
+      <ul class="hidden sm:flex lg:block">
+          <li>
+            <a class="group relative flex items-center justify-center font-medium text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white" aria-label="Jobs" href="/">
+              <div class="p-4 rounded-lg group-hover:bg-gray-100 dark:group-hover:bg-gray-800/70 transition-all">
+                
+              </div>
+
+              <div class="absolute z-10 top-full lg:top-auto lg:left-full lg:-translate-x-3 lg:group-hover:translate-x-2 transition-transform whitespace-nowrap">
+                <span class="hidden group-hover:block lg:py-2 md:px-3 lg:bg-gray-950/70 text-white lg:dark:bg-white/85 lg:dark:text-black lg:backdrop-blur-sm lg:rounded-lg">
+                  Jobs
+                </span>
+              </div>
+</a>          </li>
+          <li>
+            <a class="group relative flex items-center justify-center font-medium text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white" aria-label="Add new job" href="/jobs/new">
+              <div class="p-4 rounded-lg group-hover:bg-gray-100 dark:group-hover:bg-gray-800/70 transition-all">
+                
+              </div>
+
+              <div class="absolute z-10 top-full lg:top-auto lg:left-full lg:-translate-x-3 lg:group-hover:translate-x-2 transition-transform whitespace-nowrap">
+                <span class="hidden group-hover:block lg:py-2 md:px-3 lg:bg-gray-950/70 text-white lg:dark:bg-white/85 lg:dark:text-black lg:backdrop-blur-sm lg:rounded-lg">
+                  Add new job
+                </span>
+              </div>
+</a>          </li>
+      </ul>
+      <ul class="hidden sm:flex lg:block">
+          <li>
+            <a class="group relative flex items-center justify-center font-medium text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white" aria-label="Login" href="/users/sign_in">
+              <div class="p-4 rounded-lg group-hover:bg-gray-100 dark:group-hover:bg-gray-800/70 transition-all">
+                
+              </div>
+
+              <div class="absolute z-10 top-full lg:top-auto lg:left-full lg:-translate-x-3 lg:group-hover:translate-x-2 transition-transform whitespace-nowrap">
+                <span class="hidden group-hover:block lg:py-2 md:px-3 lg:bg-gray-950/70 text-white lg:dark:bg-white/85 lg:dark:text-black lg:backdrop-blur-sm lg:rounded-lg">
+                  Login
+                </span>
+              </div>
+</a>          </li>
+      </ul>
+  </div>
+
+  <el-dialog>
+    <dialog id="mobile-nav" class="backdrop:bg-transparent sm:hidden">
+      <el-dialog-backdrop class="fixed inset-0 bg-gray-950/50 dark:bg-gray-950/70 transition-opacity duration-300 ease-out data-closed:opacity-0"></el-dialog-backdrop>
+
+      <div tabindex="0" class="fixed inset-0 flex justify-end focus:outline-none">
+        <el-dialog-panel class="w-full max-w-xs overflow-y-auto bg-white p-6 dark:bg-gray-900 dark:text-white transition duration-300 ease-in-out data-closed:translate-x-full">
+          <div class="flex justify-end">
+            <button type="button" class="p-2 rounded-lg opacity-60 hover:opacity-100 hover:bg-gray-500/10 transition-all" command="close" commandfor="mobile-nav">
+              <span class="sr-only">Close</span>
+              
+            </button>
+          </div>
+
+          <div class="mt-2 divide-y divide-gray-100 dark:divide-gray-800">
+              <ul class="py-2">
+                  <li>
+                    <a class="flex items-center gap-4 rounded-lg p-2 -mx-2 font-medium text-gray-600 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-gray-800/70 dark:hover:text-white" href="/">
+                      
+                      Jobs
+</a>                  </li>
+                  <li>
+                    <a class="flex items-center gap-4 rounded-lg p-2 -mx-2 font-medium text-gray-600 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-gray-800/70 dark:hover:text-white" href="/jobs/new">
+                      
+                      Add new job
+</a>                  </li>
+              </ul>
+              <ul class="py-2">
+                  <li>
+                    <a class="flex items-center gap-4 rounded-lg p-2 -mx-2 font-medium text-gray-600 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-gray-800/70 dark:hover:text-white" href="/users/sign_in">
+                      
+                      Login
+</a>                  </li>
+              </ul>
+          </div>
+        </el-dialog-panel>
+      </div>
+    </dialog>
+  </el-dialog>
+</nav>
+
+
+        <main class="flex-auto divide-y dark:divide-gray-800 overflow-auto relative [&:has(.expand)]:overflow-y-hidden">
+          
+<div>
+  <header class="p-6 sm:p-8 flex flex-col sm:flex-row text-center sm:text-left sm:items-center gap-4 max-w-3xl mx-auto" style="view-transition-name: job_job_44740">
+    <a class="block mx-auto" title="Open Exponent website" target="blank" href="https://exponentfi.com">
+      <div class="flex-none rounded-full p-0.5 bg-white ring-1 ring-gray-200 dark:ring-gray-950 size-16" style="view-transition-name: job_logo_job_44740">
+    <img srcset="/files/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTQwODksInB1ciI6ImJsb2JfaWQifX0=--5de568c5b279a11acb7f0ab096a2449bb07ce3c3/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fZmlsbCI6WzEyOCwxMjhdfSwicHVyIjoidmFyaWF0aW9uIn19--539c1950d94df9972d6c5a98e921f74f9ecd5632/exponent-mark-color-on-black.png 2x" alt="Exponent&#39;s logo" width="64" height="64" class="rounded-full" loading="lazy" src="https://jobs.rubyonrails.org/files/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTQwODksInB1ciI6ImJsb2JfaWQifX0=--5de568c5b279a11acb7f0ab096a2449bb07ce3c3/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fZmlsbCI6WzY0LDY0XX0sInB1ciI6InZhcmlhdGlvbiJ9fQ==--a625692c89e2669e8d69c0eb7631abcf66b88d9b/exponent-mark-color-on-black.png" />
+</div>
+</a>
+    <div class="flex-auto sm:overflow-hidden" style="view-transition-name: job_details_job_44740">
+      <h1 class="text-2xl font-medium sm:truncate">
+        <span class="text-2xl">Lead Engineer, AI Accounting</span>
+        <span class="block sm:inline text-lg sm:text-2xl">at Exponent</span>
+      </h1>
+
+      <ul class="text-gray-500 flex flex-col sm:flex-row gap-1 sm:gap-5 pt-2 sm:pt-0">
+    <li class="truncate">
+      
+      Full-time
+    </li>
+    <li class="truncate">
+      
+      Hybrid, New York, NY (Flatiron)
+    </li>
+    <li class="truncate">
+      
+      $160 yearly
+    </li>
+</ul>
+
+    </div>
+
+
+    
+  </header>
+</div>
+
+<div>
+  <div class="p-6 sm:p-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 max-w-3xl mx-auto">
+    <div class="flex flex-col sm:flex-row gap-2">
+        <a class="btn" href="/cdn-cgi/l/email-protection#2142405344445352614459514e4f444f5547480f424e4c1e5254434b4442551c6d444045041311644f46484f44445304136204131160680413116042424e544f55484f4604131140550413116459514e4f444f55">
+    
+    Apply now
+</a>
+      <el-dropdown class="relative inline-block text-left">
+  <button type="button" class="btn btn-muted w-full">
+    Share
+    
+  </button>
+
+  <el-menu
+    anchor="bottom start"
+    popover
+    class="w-(--button-width) sm:w-36 origin-top rounded-lg bg-white text-gray-900 dark:bg-gray-800 dark:text-white shadow-xl ring-1 ring-black/5 [--anchor-gap:--spacing(2)] transition transition-discrete data-closed:scale-95 data-closed:opacity-0 data-enter:duration-150 data-enter:ease-out data-leave:duration-100 data-leave:ease-in"
+  >
+    <div class="py-1 text-center sm:text-left sm:text-sm font-medium">
+        <a target="blank" class="block px-4 py-2 focus:bg-gray-100 dark:focus:bg-gray-700/50 focus:outline-hidden" href="https://twitter.com/intent/tweet?text=Lead+Engineer%2C+AI+Accounting+at+Exponent&amp;url=https%3A%2F%2Fjobs.rubyonrails.org%2Fjobs%2F44740-lead-engineer-ai-accounting-exponent">Twitter</a>
+        <a target="blank" class="block px-4 py-2 focus:bg-gray-100 dark:focus:bg-gray-700/50 focus:outline-hidden" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fjobs.rubyonrails.org%2Fjobs%2F44740-lead-engineer-ai-accounting-exponent">Facebook</a>
+        <a target="blank" class="block px-4 py-2 focus:bg-gray-100 dark:focus:bg-gray-700/50 focus:outline-hidden" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fjobs.rubyonrails.org%2Fjobs%2F44740-lead-engineer-ai-accounting-exponent">LinkedIn</a>
+
+      <a class="block px-4 py-2 focus:bg-gray-100 dark:focus:bg-gray-700/50 focus:outline-hidden" href="/cdn-cgi/l/email-protection#407f222f24397d062f352e24657270342829336572702a2f226572702f2e6572701221292c336572700a2f22657270022f21322465730165727028343430336573016572066572062a2f22336e323522392f2e3221292c336e2f32276572062a2f223365720674747774706d2c2521246d252e27292e2525326d21296d2123232f352e34292e276d2538302f2e252e3466212d307b3335222a2523347d0c252124657270052e27292e25253265720365727001096572700123232f352e34292e2765727021346572700538302f2e252e34">Email</a>
+    </div>
+  </el-menu>
+</el-dropdown>
+
+    </div>
+
+  </div>
+</div>
+
+<div>
+  <div class="prose sm:prose-lg prose-headings:font-semibold prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg dark:prose-invert max-w-3xl p-6 sm:p-8 mx-auto">
+    <h3>About Exponent</h3>
+
+<p>Exponent is a financial platform built for franchise and multi-location restaurant operators. We offer three integrated products: financing programs including a charge card, acquisition and build-out loans, and an AI-powered Accountant. Operators get one place to manage spend, get growth capital and automate their financial operations. We have secured significant equity and credit capital, and we&#39;re backed by leading institutional investors and family offices who run large franchise portfolios.</p>
+
+<h3>The role</h3>
+
+<p>You&#39;ll own core systems in our AI Accountant, built on Ruby on Rails. It pulls in an operator&#39;s POS, banking, payroll and processor data, classifies and reconciles it, and automates the monthly close.</p>
+
+<p>This is a full-stack role with a focus on backend architecture. You&#39;ll report to our Head of AI Accounting &amp; Engineering, on a small, experienced team that ships to production multiple times a day. It&#39;s hands-on IC work, with a path to leading engineers as the team grows.</p>
+
+<h3>What you&#39;ll do</h3>
+
+<ul>
+<li><strong>Own systems end to end.</strong> Design, build, ship and run systems in production, from schema to UI to deploy to on-call. You own what you build after it goes live.</li>
+<li><strong>Shape the backend architecture.</strong> Make the calls on how the AI Accountant&#39;s data, jobs and services fit together as it grows.</li>
+<li><strong>Make unreliable data reliable.</strong> Integrate with difficult third-party APIs. Build ingestion that is idempotent by default (deduplication, safe replay, historical backfill), so any source can be re-pulled and re-processed without corrupting the ledger.</li>
+<li><strong>Keep every account in sync.</strong> Own the background job system that keeps thousands of accounts in sync: scheduling, locking, retries, failure handling, and the monitoring that tells us when a sync quietly stopped. A stuck job is a product bug, not an ops chore.</li>
+<li><strong>Put LLMs and ML into the product path.</strong> Models already do classification and reconciliation in the product, and we&#39;re taking it from build to first pilots. That&#39;s when the real decisions get made about output validation, confidence thresholds, fallbacks and failure handling. You&#39;ll make them, and make a probabilistic component behave inside a system that has to be deterministic where it counts.</li>
+<li><strong>Help build the company.</strong> Small team, broad scope. Every engineer owns what they ship and uses judgment instead of waiting for direction. You&#39;ll learn how our technology helps operators move faster and run better.</li>
+</ul>
+
+<h3>The ideal candidate</h3>
+
+<ul>
+<li><strong>You ship fast.</strong> You&#39;ve taken a feature from idea to production in a week. You&#39;d rather ship a small thing this week than a big thing next month.</li>
+<li><strong>You know when to slow down and focus on the big thing.</strong> Ledgers, money movement and anything a customer trusts us with get the time they need.</li>
+<li><strong>Thoughtful critique makes you better.</strong> You ask for review early, take hard feedback well and give it with care.</li>
+<li><strong>You make the people around you smarter.</strong> You share what you know, say &quot;I don&#39;t know&quot; without hesitating, and work hard at explaining things clearly.</li>
+<li><strong>You want to build something new.</strong> You&#39;d rather shape a product early than maintain a finished one, and having no playbook appeals to you.</li>
+<li><strong>Quality is part of every step.</strong> Fast means a smaller scope, not rougher work. Tests, error states and the words an operator reads all count from the start.</li>
+</ul>
+
+<h3>Requirements</h3>
+
+<ul>
+<li>5+ years of engineering, with end-to-end ownership of systems in production</li>
+<li>Full-stack experience, with depth on the backend</li>
+<li>Deep experience in a server-side framework: Rails, Django, Phoenix, TypeScript or similar</li>
+<li>Expertise in AI-assisted development: you use AI tools in your daily work and know where they help and where they don&#39;t</li>
+<li>PostgreSQL: schema design, indexing, transactional correctness</li>
+<li>Integrating with unreliable third-party APIs: thin docs, no webhooks, surprise format changes, duplicate or partial data</li>
+<li>Idempotent data ingestion (deduplication, replay, backfill) and background job infrastructure (scheduling, locking, retries, failure handling)</li>
+</ul>
+
+<h3>Strongly preferred</h3>
+
+<ul>
+<li>Fintech experience, or anywhere getting money math right was the job</li>
+<li>Ruby on Rails experience. It doesn&#39;t need to be recent</li>
+<li>POS or restaurant data: Square, Toast, Qu, Revel, delivery platform payouts, processor settlement files</li>
+<li>Accounting platforms: QuickBooks Online, Sage Intacct, NetSuite, Restaurant365</li>
+<li>Financial data aggregators: Plaid, Rutter, Stripe</li>
+</ul>
+
+<h3>Nice to have</h3>
+
+<ul>
+<li>Production LLM experience: LLMs in a product path, including output validation and failure handling</li>
+<li>Ledger, double-entry or reconciliation system design</li>
+<li>Classification models with measurable evaluation</li>
+<li>CSV and file-based import pipelines at scale</li>
+</ul>
+
+<h3>The details</h3>
+
+<ul>
+<li>$160,000–$200,000 base salary, commensurate with experience, plus equity</li>
+<li>Hybrid, based at our Flatiron office in New York: at least 2 days a week in the office, 3+ preferred. Commuting in from NJ, Westchester, Connecticut, Long Island or Philly works.</li>
+<li>Benefits: PTO, healthcare, HSA/FSA, 401(k)</li>
+</ul>
+
+<h3>How to apply</h3>
+
+<p>Email <a href="/cdn-cgi/l/email-protection#771416051212050437120f071819121903111e5914181a"><span class="__cf_email__" data-cfemail="5c3f3d2e39392e2f1c39242c33323932283a35723f3331">[email&#160;protected]</span></a> with a short note on why this role interests you.</p>
+
+  </div>
+</div>
+
+<div>
+  <div class="max-w-3xl p-6 sm:p-8 mx-auto text-gray-500 text-sm space-y-3">
+    <p>
+      Published
+      <span title="November 03, 2026 17:33">5 days ago</span>
+
+
+        &bull; Expires January 02, 2027 17:33
+    </p>
+  </div>
+</div>
+
+        </main>
+
+        <aside class="p-6 sm:p-8 flex-initial lg:w-96 overflow-y-auto">
+  <div class="flex flex-col justify-between h-full">
+    <div>
+
+          <h3 class="font-semibold mb-2">Categories</h3>
+
+
+          <ul class="flex flex-wrap gap-1 mb-6">
+              <li><a class="btn btn-muted" href="/?category=300">Senior</a></li>
+              <li><a class="btn btn-muted" href="/?category=301">Mid-level</a></li>
+              <li><a class="btn btn-muted" href="/?category=302">Junior</a></li>
+
+          </ul>
+
+          <h3 class="font-semibold mb-2">Terms</h3>
+
+
+          <ul class="flex flex-wrap gap-1 mb-6">
+              <li><a class="btn btn-muted" href="/?term=1">Full-time</a></li>
+              <li><a class="btn btn-muted" href="/?term=4">Contract</a></li>
+              <li><a class="btn btn-muted" href="/?term=2">Part-time</a></li>
+              <li><a class="btn btn-muted" href="/?term=5">Internship</a></li>
+              <li><a class="btn btn-muted" href="/?term=3">Freelance</a></li>
+
+          </ul>
+    </div>
+
+    <div>
+      <form class="flex flex-col gap-3" action="/subscribers" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="zE6Sbo4YfLGH7NZjrVMNeQoAmHrqdgpH1m6MPja_AyzNFgKDDMv3ltILHyAIpWcWzULnrkADMG4k6xLewnJbcw" />
+  <div>
+    <h3 class="font-semibold mb-1">Don&#39;t miss a job</h3>
+    <p class="text-gray-500">
+      Sign up for weekly job updates in your inbox or subscribe to the
+      <a class="text-gray-600 dark:text-gray-400" href="https://jobs.rubyonrails.org/jobs.rss">RSS feed</a>.
+    </p>
+  </div>
+
+  <input type="email" placeholder="Your email address" required="required" name="subscriber[email]" id="subscriber_email" />
+  <div class="vzmnpfqyke-xal_1794156175"><label for="vzmnpfqyke-xal">If you are a human, ignore this field</label><input type="text" name="vzmnpfqyke-xal" id="vzmnpfqyke-xal" autocomplete="off" tabindex="-1" /><input type="hidden" name="spinner" value="cb33db729c330b099e773159cc3a94ff" /></div>
+  <input type="submit" name="commit" value="Subscribe" class="btn" data-disable-with="Subscribe" />
+</form>
+
+      <div class="text-center text-sm text-gray-500 pt-4">
+        Powered by
+        <a class="font-medium hover:text-gray-900 dark:hover:text-gray-100" target="blank" href="https://www.jobkit.io/">JobKit</a>
+      </div>
+    </div>
+  </div>
+</aside>
+
+      </div>
+
+    
+    
+    <el-dialog data-controller="confirm">
+  <dialog aria-labelledby="confirm-message" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+    <el-dialog-backdrop class="fixed inset-0 bg-gray-950/50 dark:bg-gray-950/70 transition-opacity data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"></el-dialog-backdrop>
+
+    <div class="flex min-h-full items-end justify-center p-4 sm:items-center">
+      <el-dialog-panel
+        class="group relative w-full max-w-md rounded-xl bg-white p-6 shadow-xl ring-1 ring-black/5 dark:bg-gray-900 dark:text-white dark:ring-white/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in sm:data-closed:translate-y-0 sm:data-closed:scale-95"
+        data-confirm-target="panel"
+      >
+        <p id="confirm-message" data-confirm-target="message"></p>
+
+        <div class="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+          <button type="button" class="btn btn-muted" data-action="confirm#cancel" autofocus>
+            Cancel
+          </button>
+          <button type="button" class="btn group-data-[variant=danger]:bg-red-600 group-data-[variant=danger]:hover:bg-red-700 group-data-[variant=danger]:focus-visible:ring-red-500/50 group-data-[variant=success]:bg-green-600 group-data-[variant=success]:hover:bg-green-700 group-data-[variant=success]:focus-visible:ring-green-500/50" data-action="confirm#accept" data-confirm-target="button">Confirm</button>
+        </div>
+      </el-dialog-panel>
+    </div>
+  </dialog>
+</el-dialog>
+
+</body></html>

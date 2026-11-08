@@ -21,6 +21,8 @@
 #   robots       allowed | blocked | per-tenant | unknown   (for the API/listing host)
 #   verified     date the api + examples were confirmed with a live request; null = from
 #                docs/prior knowledge only, re-check before implementing
+#   partial      done platforms only: why coverage is partial (e.g. "only one live board
+#                found"); allows a single example. The evidence goes in notes.
 #   notes        anything the implementer must know
 #
 # Research for this file was done on 2026-11-07 (one request per endpoint, robots.txt
@@ -245,15 +247,17 @@
 - name: FirstStage
   key: firststage
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "GET {tenant}.firststage.co/jobs (Next.js, server-rendered job cards grouped by category) + /jobs/{id}/view (JSON-LD)"
+  status: done
+  connector: jobindex.connectors.firststage
+  partial: "only one live board found"
+  public_api: "no"
+  api: "GET {tenant}.firststage.co/jobs (Next.js, server-rendered job cards grouped by category, '<h2>N jobs open</h2>') + /jobs/{id}/view (JSON-LD JobPosting)"
   url_patterns: ["{tenant}.firststage.co/jobs", "{tenant}.firststage.co/jobs/{id}/view"]
-  examples: []
+  examples:
+    - https://agility-gwg.firststage.co/jobs
   robots: allowed
-  verified: null
-  notes: "Not built (rechecked 2026-11-08): only one live board is known and its listing cannot be shown to be complete. agility-gwg.firststage.co/jobs says 80 jobs open but links 79 distinct jobs (97 cards in the category layout, 194 links with ?layout=list, same 79 ids in the RSC payload); no sitemap (404), robots.txt 404. Web searches for firststage.co boards return only the unrelated firststage.org theatre; wayve.firststage.co is 404."
+  verified: 2026-11-08
+  notes: "Indexes the jobs the listing links. Count mismatch: agility-gwg.firststage.co/jobs says 80 jobs open but links 79 distinct jobs (97 cards in the category layout, 194 links with ?layout=list, same 79 ids in the RSC payload), so one counted job is not reachable; the connector tolerates up to 1 unlinked job (MAX_UNLINKED) and fails the crawl on any larger gap, more links than the count, or a missing heading. No sitemap (404), robots.txt 404. Search for a second board (2026-11-08): web searches for firststage.co boards return only the unrelated firststage.org theatre; wayve.firststage.co is 404."
 
 - name: Freshteam
   key: freshteam
@@ -970,17 +974,18 @@
 - name: JobKit
   key: jobkit
   type: jobboard
-  status: todo
-  tier: medium
+  status: done
+  connector: jobindex.connectors.jobkit
+  partial: "only one live board found"
   public_api: "no"
   api: "GET {board}/sitemap.xml (lastmod) + GET /jobs/{id}-{slug} (JSON-LD JobPosting); REST API needs the owner's key"
-  url_patterns: ["{board}.jobkit.io", "custom domains (link to www.jobkit.io)", "{board}/jobs/{id}-{slug}"]
+  url_patterns: ["{board}.jobkit.io", "custom domains (<meta name=twitter:site content=@jobkitsite>)", "{board}/jobs/{id}-{slug}"]
   examples:
     - https://jobs.rubyonrails.org/
   robots: allowed
-  verified: null
-  generic: True
-  notes: "Generic sitemap + JSON-LD works on jobs.rubyonrails.org (13 jobs, 6/6 pages). Not built: no second live board (rechecked 2026-11-08). *.jobkit.io is wildcard DNS; unknown boards answer 404. Of 33 likely names, 8 boards exist (ai, django, elixir, golang, jobs (GPTDevs), laravel, railsworld, remote).jobkit.io and all 8 list 0 jobs (empty sitemaps). jobkit.io links only jobs.rubyonrails.org; web searches find no custom-domain board. Fingerprint for later: <meta name=\"twitter:site\" content=\"@jobkitsite\"> + Powered by JobKit footer."
+  verified: 2026-11-08
+  generic: yes
+  notes: "Generic sitemap + JSON-LD (13 jobs on jobs.rubyonrails.org, 2026-11-08); baseSalary value is free text and addressLocality holds the whole location, both fixed up in the connector. Search for a second board (2026-11-08): *.jobkit.io is wildcard DNS and unknown boards answer 404; of 33 likely names, 8 boards exist (ai, django, elixir, golang, jobs (GPTDevs), laravel, railsworld, remote).jobkit.io and all 8 list 0 jobs (empty sitemaps). jobkit.io links only jobs.rubyonrails.org; web searches find no custom-domain board."
 
 - name: Jobboardly
   key: jobboardly

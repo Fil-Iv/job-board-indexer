@@ -130,7 +130,7 @@ def test_done_platforms_match_registered_connectors() -> None:
             # platforms that recognise them from the page (make coverage resolves those).
             assert connector.detect(url) or custom_domains, f"{p.key} does not detect {url}"
         boards = {connector.detect(u) or urlsplit(u).netloc for u in p.examples}
-        assert len(boards) >= 2, "examples must differ"
+        assert len(boards) >= (1 if p.partial else 2), "examples must differ"
 
 
 def test_verified_entries_have_two_examples() -> None:
@@ -152,6 +152,22 @@ def test_invalid_plan_is_rejected(tmp_path: Path) -> None:
     )
     with pytest.raises(PlanError, match="tier"):
         load_platforms(bad)
+
+
+def test_partial_platform_may_have_one_example(tmp_path: Path) -> None:
+    plan = tmp_path / "platforms.yaml"
+    entry = (
+        "- {{name: X, key: x, type: ats, status: {status}, public_api: 'no', api: a,"
+        " robots: allowed, connector: jobindex.connectors.x, examples: [https://a]{extra}}}\n"
+    )
+    plan.write_text(entry.format(status="done", extra=""))
+    with pytest.raises(PlanError, match="2 example URLs"):
+        load_platforms(plan)
+    plan.write_text(entry.format(status="done", extra=", partial: only one live board found"))
+    assert load_platforms(plan)[0].partial == "only one live board found"
+    plan.write_text(entry.format(status="todo", extra=", tier: easy, partial: x"))
+    with pytest.raises(PlanError, match="partial is only for done"):
+        load_platforms(plan)
 
 
 def test_blocked_list_loads_and_every_item_has_evidence() -> None:

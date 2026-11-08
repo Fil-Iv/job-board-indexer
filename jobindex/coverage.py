@@ -74,6 +74,9 @@ class Platform:
     #: ``{example URL: employer}`` for platforms whose data never names the employer
     #: (HiBob, ADP, PageUp); ``seed-demo`` stores it as ``sources.company_name``.
     example_companies: tuple[tuple[str, str], ...] = ()
+    #: Why a ``done`` platform is only partly covered (e.g. "only one live board found");
+    #: such a platform may have a single example. The evidence goes in ``notes``.
+    partial: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -184,11 +187,14 @@ def _platform(entry: dict[str, Any], index: int) -> Platform:
         raise PlanError(f"{where}: verified must be a date (YYYY-MM-DD) or null")
     examples = tuple(str(u) for u in entry.get("examples") or [])
     connector = entry.get("connector")
+    partial = str(entry["partial"]).strip() if entry.get("partial") else None
+    if partial and status != "done":
+        raise PlanError(f"{where}: partial is only for done platforms")
     if status == "done":
         if not connector:
             raise PlanError(f"{where}: done platforms need a connector module")
-        if len(examples) < 2:
-            raise PlanError(f"{where}: done platforms need at least 2 example URLs")
+        if len(examples) < (1 if partial else 2):
+            raise PlanError(f"{where}: done platforms need at least 2 example URLs (1 if partial)")
     companies = entry.get("example_companies") or {}
     if not isinstance(companies, dict) or not set(companies) <= set(examples):
         raise PlanError(f"{where}: example_companies must map example URLs to names")
@@ -208,6 +214,7 @@ def _platform(entry: dict[str, Any], index: int) -> Platform:
         connector=str(connector) if connector else None,
         generic=_choice({"generic": entry.get("generic", "untested")}, "generic", GENERIC, where),
         example_companies=tuple((str(u), str(n)) for u, n in companies.items()),
+        partial=partial,
     )
 
 
@@ -320,6 +327,11 @@ async def crawl_done_platforms(
 # ---------------------------------------------------------------------------
 
 
+def _partial_note(platforms: list[Platform]) -> str:
+    partial = sorted(p.name for p in platforms if p.partial)
+    return f" ({len(partial)} partial: {', '.join(partial)})" if partial else ""
+
+
 def _cell(text: str) -> str:
     return text.replace("|", "\\|").replace("\n", " ")
 
@@ -383,7 +395,8 @@ def render_report(
         "",
         f"Generated {generated_at.strftime('%Y-%m-%d %H:%M UTC')}. "
         f"**{len(platforms)} platforms** ({by_type['ats']} ATS, {by_type['jobboard']} job boards): "
-        f"**{by_status['done']} done**, {by_status['in_progress']} in progress, "
+        f"**{by_status['done']} done**{_partial_note(platforms)}, "
+        f"{by_status['in_progress']} in progress, "
         f"{by_status['todo']} todo "
         f"(easy {by_tier['easy']} / medium {by_tier['medium']} / hard {by_tier['hard']}).",
         "",
@@ -402,6 +415,8 @@ def render_report(
     )
     for p in ordered:
         status = p.status if p.status == "done" else f"{p.status} ({p.tier})"
+        if p.partial:
+            status = f"done (partial: {_cell(p.partial)})"
         type_label = "ATS" if p.type == "ats" else "Job board"
         if not p.examples:
             lines.append(f"| {p.name} | {type_label} | {status} | — | — | — |")
