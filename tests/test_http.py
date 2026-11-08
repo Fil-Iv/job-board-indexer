@@ -179,3 +179,104 @@ async def test_robots_txt_cache_expires(monkeypatch: pytest.MonkeyPatch) -> None
         "/robots.txt",
         "/jobs",
     ]
+
+
+def _redirecting(
+    robots: dict[str, str], pages: dict[str, httpx.Response], seen: list[httpx.Request]
+) -> httpx.MockTransport:
+    """Hosts' robots.txt from ``robots`` (404 = allow all); pages keyed ``host/path``."""
+
+    def handle(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        host = request.url.host
+        if request.url.path == "/robots.txt":
+            return httpx.Response(200, text=robots[host]) if host in robots else httpx.Response(404)
+        return pages.get(f"{host}{request.url.path}", httpx.Response(404))
+
+    return httpx.MockTransport(handle)
+
+
+def _to(location: str, status: int = 302) -> httpx.Response:
+    return httpx.Response(status, headers={"Location": location})
+
+
+async def test_follows_redirects_checking_each_hosts_robots() -> None:
+    seen: list[httpx.Request] = []
+    pages = {
+        "a.test/job": _to("https://b.test/job"),
+        "b.test/job": _to("/final", 301),
+        "b.test/final": httpx.Response(200, text="ok"),
+    }
+    async with _client(_redirecting({"b.test": ROBOTS}, pages, seen)) as http:
+        response = await http.get("https://a.test/job")
+    assert response.text == "ok"
+    assert str(response.url) == "https://b.test/final"
+    assert [r.status_code for r in response.history] == [302, 301]
+    assert [f"{r.url.host}{r.url.path}" for r in seen] == [
+        "a.test/robots.txt",
+        "a.test/job",
+        "b.test/robots.txt",
+        "b.test/job",
+        "b.test/final",
+    ]
+
+
+async def test_redirect_to_disallowed_target_is_never_fetched() -> None:
+    seen: list[httpx.Request] = []
+    pages = {
+        "a.test/job": _to("https://b.test/private/job"),
+        "b.test/private/job": httpx.Response(200),
+    }
+    async with _client(_redirecting({"b.test": ROBOTS}, pages, seen)) as http:
+        with pytest.raises(RobotsDisallowedError) as info:
+            await http.get("https://a.test/job")
+    assert info.value.url == "https://b.test/private/job"
+    assert "b.test/private/job" not in [f"{r.url.host}{r.url.path}" for r in seen]
+
+
+async def test_redirect_within_host_to_disallowed_path_is_refused() -> None:
+    seen: list[httpx.Request] = []
+    pages = {"a.test/job": _to("/private/login"), "a.test/private/login": httpx.Response(200)}
+    async with _client(_redirecting({"a.test": ROBOTS}, pages, seen)) as http:
+        with pytest.raises(RobotsDisallowedError):
+            await http.get("https://a.test/job")
+    assert [r.url.path for r in seen] == ["/robots.txt", "/job"]
+
+
+async def test_at_most_five_redirects() -> None:
+    seen: list[httpx.Request] = []
+    five = {f"a.test/{i}": _to(f"/{i + 1}") for i in range(5)} | {"a.test/5": httpx.Response(200)}
+    async with _client(_redirecting({}, five, seen)) as http:
+        assert len((await http.get("https://a.test/0")).history) == 5
+
+    six = {f"a.test/{i}": _to(f"/{i + 1}") for i in range(6)} | {"a.test/6": httpx.Response(200)}
+    async with _client(_redirecting({}, six, seen)) as http:
+        with pytest.raises(FetchError, match="more than 5 redirects"):
+            await http.get("https://a.test/0")
+
+
+async def test_303_after_post_becomes_get() -> None:
+    seen: list[httpx.Request] = []
+    pages = {"a.test/search": _to("/results", 303), "a.test/results": httpx.Response(200)}
+    async with _client(_redirecting({}, pages, seen)) as http:
+        await http.request("POST", "https://a.test/search", json={"q": "x"})
+    assert [(r.method, r.url.path) for r in seen if r.url.path != "/robots.txt"] == [
+        ("POST", "/search"),
+        ("GET", "/results"),
+    ]
+
+
+async def test_robots_txt_redirect_is_followed() -> None:
+    pages = {
+        "a.test/robots.txt": _to("https://www.a.test/robots.txt", 301),
+        "a.test/private/x": httpx.Response(200),
+    }
+
+    def handle(request: httpx.Request) -> httpx.Response:
+        if request.url.host == "www.a.test":
+            return httpx.Response(200, text=ROBOTS)
+        return pages.get(f"{request.url.host}{request.url.path}", httpx.Response(404))
+
+    async with _client(httpx.MockTransport(handle)) as http:
+        with pytest.raises(RobotsDisallowedError):
+            await http.get("https://a.test/private/x")

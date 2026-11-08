@@ -8,7 +8,10 @@ Enforces the crawling rules from CLAUDE.md:
 * requests to one host start at least ``min_interval_per_host`` seconds apart (default 1s),
   or the host's ``Crawl-delay`` if that is longer;
 * timeouts, and retries with exponential backoff (+ jitter, honouring ``Retry-After``)
-  for connection errors, timeouts, 429 and 5xx.
+  for connection errors, timeouts, 429 and 5xx;
+* redirects are followed manually (at most ``MAX_REDIRECTS`` hops), and every target is
+  checked against the robots.txt of *its own* host and throttled per host before it is
+  fetched; a disallowed target raises :class:`RobotsDisallowedError`.
 
 Anything that still fails raises :class:`FetchError`; the crawler records it as a fetch
 failure. Connectors must use this client and never create their own ``httpx`` clients.
@@ -33,6 +36,8 @@ log = logging.getLogger(__name__)
 
 RETRYABLE_STATUS = frozenset({429, 500, 502, 503, 504})
 MAX_RETRY_AFTER_SECONDS = 120.0
+#: Redirect hops followed per request; one more raises FetchError.
+MAX_REDIRECTS = 5
 
 
 class FetchError(Exception):
@@ -94,7 +99,8 @@ class HttpClient:
         self._client = httpx.AsyncClient(
             headers={"User-Agent": user_agent},
             timeout=timeout,
-            follow_redirects=True,
+            # Redirects are followed in request() so every hop is checked against robots.txt.
+            follow_redirects=False,
             transport=transport,
         )
         self._throttles: dict[str, _HostThrottle] = {}
@@ -157,8 +163,35 @@ class HttpClient:
         headers: Mapping[str, str] | None = None,
         json: Any = None,
     ) -> httpx.Response:
+        current = self._client.build_request(method, url, params=params, headers=headers, json=json)
+        history: list[httpx.Response] = []
+        while True:
+            response = await self._send(current)
+            if not response.is_redirect:
+                response.history = history
+                return response
+            next_request = response.next_request
+            if next_request is None:  # 3xx without a usable Location: nothing to follow
+                response.history = history
+                return response
+            await response.aclose()
+            history.append(response)
+            if len(history) > MAX_REDIRECTS:
+                raise FetchError(
+                    f"more than {MAX_REDIRECTS} redirects from {url}",
+                    url=str(current.url),
+                    status_code=response.status_code,
+                )
+            log.debug(
+                "%s redirected (%d) to %s", current.url, response.status_code, next_request.url
+            )
+            current = next_request
+
+    async def _send(self, request: httpx.Request) -> httpx.Response:
+        """One hop: robots.txt check, throttle, retries. Redirects are returned as is."""
+        url = str(request.url)
         # robots.txt itself is always fetchable (RFC 9309); "Disallow: /" must not hide it.
-        is_robots_file = urlsplit(url).path == "/robots.txt"
+        is_robots_file = request.url.path == "/robots.txt"
         if self.respect_robots and not is_robots_file and not await self._allowed_by_robots(url):
             raise RobotsDisallowedError(f"robots.txt disallows {url}", url=url)
 
@@ -166,9 +199,7 @@ class HttpClient:
         while True:
             await self._throttle(url)
             try:
-                response = await self._client.request(
-                    method, url, params=params, headers=headers, json=json
-                )
+                response = await self._client.send(request)
             except httpx.TransportError as exc:
                 if attempt >= self.max_retries:
                     raise FetchError(f"{type(exc).__name__}: {exc}", url=url) from exc
@@ -254,7 +285,8 @@ class HttpClient:
         robots_url = f"{origin}/robots.txt"
         await self._throttle(robots_url)
         try:
-            response = await self._client.get(robots_url)
+            # RFC 9309 §2.3.1.2: follow (at least five) redirects for robots.txt itself.
+            response = await self._client.get(robots_url, follow_redirects=True)
         except httpx.TransportError as exc:
             log.warning("could not fetch %s (%s); treating host as disallowed", robots_url, exc)
             self.robots_status[origin] = None

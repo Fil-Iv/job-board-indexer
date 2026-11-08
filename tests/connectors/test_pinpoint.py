@@ -1,9 +1,10 @@
 """Pinpoint connector.
 
-Fixtures (captured 2026-11-07, 2 postings each, otherwise untouched):
-    indrive_postings.json  GET https://indrive.pinpointhq.com/postings.json (174 postings)
-    davies_postings.json   GET https://davies.pinpointhq.com/postings.json (276 postings;
-                           "Home United States" remote location, visible USD salary)
+Fixtures (2 postings each, otherwise untouched):
+    lush_postings.json     GET https://lush.pinpointhq.com/postings.json (2026-11-08,
+                           32 postings; hybrid AUD yearly and onsite GBP hourly salaries)
+    davies_postings.json   GET https://davies.pinpointhq.com/postings.json (2026-11-07,
+                           276 postings; "Home United States" remote, visible USD salary)
 """
 
 from decimal import Decimal
@@ -18,18 +19,18 @@ from jobindex.http import HttpClient, RobotsDisallowedError
 from jobindex.models.enums import RemoteType
 from tests.fakes import load_fixture, mock_http
 
-POSTING = "4bfcf26d-9a07-4a83-89ac-bf4686a9509e"
+POSTING = "c9777e06-9c98-4003-8a62-b2dd5829f02f"
 
 
 @pytest.mark.parametrize(
     ("url", "expected"),
     [
-        ("https://indrive.pinpointhq.com", "indrive"),
-        ("https://indrive.pinpointhq.com/", "indrive"),
-        (f"https://indrive.pinpointhq.com/en/postings/{POSTING}", "indrive"),
-        (f"https://indrive.pinpointhq.com/postings/{POSTING}/applications/new", "indrive"),
-        ("https://indrive.pinpointhq.com/jobs/436036", "indrive"),
-        ("https://indrive.pinpointhq.com/postings.json", "indrive"),
+        ("https://lush.pinpointhq.com", "lush"),
+        ("https://lush.pinpointhq.com/", "lush"),
+        (f"https://lush.pinpointhq.com/en/postings/{POSTING}", "lush"),
+        (f"https://lush.pinpointhq.com/postings/{POSTING}/applications/new", "lush"),
+        ("https://lush.pinpointhq.com/jobs/607459", "lush"),
+        ("https://lush.pinpointhq.com/postings.json", "lush"),
         ("https://Davies.PinpointHQ.com/en", "davies"),
         ("https://www.pinpointhq.com/", None),
         ("https://developers.pinpointhq.com/docs", None),
@@ -53,27 +54,30 @@ def _routes() -> dict[str, httpx.Response]:
         f"{c}.pinpointhq.com/postings.json": httpx.Response(
             200, text=load_fixture("pinpoint", f"{c}_postings.json")
         )
-        for c in ("indrive", "davies")
+        for c in ("lush", "davies")
     }
 
 
 async def test_fetch_jobs_from_fixture() -> None:
     http, _ = mock_http(_routes())
     async with http:
-        risk, support = await PinpointConnector(http).fetch_jobs("indrive")
+        analyst, assistant = await PinpointConnector(http).fetch_jobs("lush")
         controller, expert = await PinpointConnector(http).fetch_jobs("davies")
 
-    assert (risk.external_id, risk.title) == ("426478", "Risk Ops Engineer")
-    assert risk.remote_type is RemoteType.HYBRID
-    assert risk.employment_type == "full_time"
-    assert risk.location_raw == "Limassol, Cyprus"
-    assert risk.source_url == f"https://indrive.pinpointhq.com/en/postings/{POSTING}"
-    assert risk.description_html is not None
-    assert "<h3>Key Responsibilities</h3>" in risk.description_html
-    assert risk.salary_min is None  # compensation_minimum: null
+    assert (analyst.external_id, analyst.title) == ("607459", "Digital Business Analyst - APAC")
+    assert analyst.remote_type is RemoteType.HYBRID
+    assert analyst.employment_type == "full_time"  # "permanent_full_time"
+    assert analyst.location_raw == "Villawood, NSW, Villawood - Hybrid"
+    assert analyst.source_url == f"https://lush.pinpointhq.com/en/postings/{POSTING}"
+    assert analyst.description_html is not None
+    assert "<h3>" in analyst.description_html
+    assert (analyst.salary_min, analyst.salary_max) == (Decimal(85000), Decimal(100000))
+    assert (analyst.salary_currency, analyst.salary_period) == ("AUD", "year")
 
-    assert (support.salary_min, support.salary_max) == (Decimal(2300), Decimal(2300))
-    assert (support.salary_currency, support.salary_period) == ("PEN", "month")
+    assert assistant.remote_type is RemoteType.ONSITE
+    assert assistant.employment_type == "part_time"  # "seasonal_part_time"
+    assert (assistant.salary_min, assistant.salary_max) == (Decimal("13.45"), Decimal("13.45"))
+    assert (assistant.salary_currency, assistant.salary_period) == ("GBP", "hour")
 
     assert controller.remote_type is RemoteType.REMOTE
     assert controller.location_raw == "Alabama, United States"  # "Home" placeholder dropped
@@ -100,7 +104,7 @@ async def test_unexpected_payload_is_refused() -> None:
 
 
 @pytest.mark.live
-@pytest.mark.parametrize("company", ["indrive", "davies"])
+@pytest.mark.parametrize("company", ["lush", "davies"])
 async def test_live(company: str) -> None:
     async with HttpClient.from_settings() as http:
         jobs = await PinpointConnector(http).fetch_jobs(company)

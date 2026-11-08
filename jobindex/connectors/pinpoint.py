@@ -8,10 +8,10 @@ List: GET https://{company}.pinpointhq.com/postings.json
                     name}, job{department, ...}}]}
       Every published posting, with descriptions, in one response (no pagination).
 
-Board identifier: the Pinpoint subdomain, e.g. ``indrive``.
+Board identifier: the Pinpoint subdomain, e.g. ``lush``.
 
 Quirks (verified 2026-11-07):
-* robots.txt is per tenant (davies/indrive allow us; dazn/osapiens ``Disallow: /``). The
+* robots.txt is per tenant (davies/lush allow us; dazn/osapiens ``Disallow: /``). The
   HttpClient enforces it per host, so a disallowed tenant fails with RobotsDisallowedError.
 * ``location.name`` is a free label (a country, a city, "Home United States"); "Home" is
   Pinpoint's placeholder for home-based roles and is dropped from the location text.

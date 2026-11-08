@@ -561,7 +561,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: "Checked 2026-11-07: the v4 career page is a micro-frontend; robots.txt (www.paycomonline.net and portal-applicant-tracking.us-cent.paycomonline.net) allows /api/ats/job-postings/ and /api/ats/company-name, but the portal sends an Authorization token issued by the page, so it was not used (same policy as Comeet's page token). /v4/ats/sitemap.php answers 404. Needs a decision from the project owner."
+  notes: "Checked 2026-11-07: the v4 career page is a micro-frontend; robots.txt (www.paycomonline.net and portal-applicant-tracking.us-cent.paycomonline.net) allows /api/ats/job-postings/ and /api/ats/company-name, but the portal sends an Authorization token issued by the page, so it was not used (same policy as Comeet's page token). /v4/ats/sitemap.php answers 404. Decision 2026-11-08: page-issued tokens are not used; listed in blocked_by_site.yaml (scope api)."
 
 - name: Paycor
   key: paycor
@@ -633,10 +633,10 @@
   url_patterns: ["{company}.pinpointhq.com[/{locale}][/postings/{uuid}]", "{company}.pinpointhq.com/jobs/{id}", "{company}.pinpointhq.com/postings.json", "custom domains: links/iframes to the above"]
   examples:
     - https://davies.pinpointhq.com
-    - https://indrive.pinpointhq.com
+    - https://lush.pinpointhq.com
   robots: per-tenant
   verified: 2026-11-07
-  notes: "One request, full descriptions + structured salary/workplace type. robots.txt is per tenant: davies/indrive allow us; dazn/osapiens Disallow: / (see blocked_by_site.yaml) and fail with RobotsDisallowedError."
+  notes: "One request, full descriptions + structured salary/workplace type. robots.txt is per tenant: davies/lush allow us; dazn/osapiens Disallow: / (see blocked_by_site.yaml) and fail with RobotsDisallowedError."
 
 - name: Polymer
   key: polymer
