@@ -28,7 +28,7 @@ from pathlib import Path
 from typing import Any
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from sqlalchemy import func, select, update
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from jobindex.config import Settings
@@ -36,6 +36,7 @@ from jobindex.connectors.registry import Registry
 from jobindex.crawler import CrawlResult, crawl_source
 from jobindex.dedup import run_dedup
 from jobindex.http import HttpClient
+from jobindex.maintenance import recover_abandoned_runs
 from jobindex.models import FetchRun, FetchStatus, Source
 from jobindex.models.base import utcnow
 
@@ -202,20 +203,7 @@ class CrawlScheduler:
         """Mark ``running`` rows older than ``CRAWL_STALE_AFTER_HOURS`` as failed (their
         process died). Jobs are not touched."""
         async with self.session_factory() as session:
-            result = await session.execute(
-                update(FetchRun)
-                .where(
-                    FetchRun.status == FetchStatus.RUNNING,
-                    FetchRun.started_at <= utcnow() - self.stale_after,
-                )
-                .values(
-                    status=FetchStatus.FAILED,
-                    finished_at=utcnow(),
-                    error="abandoned: the crawling process stopped before finishing",
-                )
-            )
-            await session.commit()
-        count: int = getattr(result, "rowcount", 0) or 0
+            count = await recover_abandoned_runs(session, self.stale_after)
         if count:
             log.warning("scheduler: marked %d abandoned runs as failed", count)
         return count

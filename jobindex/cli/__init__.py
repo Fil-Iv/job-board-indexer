@@ -7,12 +7,18 @@ Commands:
                                              platform in coverage/platforms.yaml
     seed-demo --file coverage/demo_sources.yaml
                                              register the boards listed in that file
-    crawl <source_id> | --all                crawl one source, or every active one (then dedup)
+    crawl <source_id> | --all | --ids 1,2,3  crawl one source, every active one, or a list
+          [--deadline-minutes M] [--no-dedup] [--allow-failures]
+                                             (then dedup); see `crawl --help`
+    crawl-plan --shards N [--recover-after-hours H] [--github-output FILE]
+                                             split active sources into N shards (JSON)
+    crawl-summary --since ISO-TIME           Markdown summary of the runs since then
     set-company <source_id> <name>           set the company name used for the source's jobs
     dedup                                    recompute cross-source duplicates
     fill-rates [--markdown] [--strict]       share of open postings with each field, per
                                              platform (--strict: exit 1 on required gaps)
-    db-size [--markdown] [--fail-above-mb N] database and table sizes (exit 1 above N MB)
+    db-size [--markdown] [--warn-above-mb W] [--fail-above-mb N]
+                                             database and table sizes (exit 1 above N MB)
     prune [--closed-days N] [--changes-days N] [--runs-days N]
                                              delete old closed postings / history / runs
                                              (defaults: *_RETENTION_DAYS settings)
@@ -21,11 +27,13 @@ Commands:
 
 import argparse
 import asyncio
+import json
 import logging
+import os
 import signal
 import sys
 from collections.abc import Sequence
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import yaml
@@ -36,10 +44,11 @@ from jobindex.config import get_settings
 from jobindex.connectors.registry import Registry, default_registry
 from jobindex.coverage import PLATFORMS_FILE, load_platforms
 from jobindex.crawler import CrawlResult, active_source_ids, crawl_sources
+from jobindex.crawlplan import crawl_summary, plan_shards, render_summary, source_estimates
 from jobindex.db import create_engine, create_session_factory
 from jobindex.dedup import run_dedup
 from jobindex.http import FetchError, HttpClient
-from jobindex.maintenance import db_size, prune, render_db_size
+from jobindex.maintenance import db_size, prune, recover_abandoned_runs, render_db_size
 from jobindex.models import FetchStatus, Source
 from jobindex.quality import fill_rates, render_markdown, render_text
 from jobindex.scheduler import CrawlScheduler
@@ -73,6 +82,42 @@ def _build_parser() -> argparse.ArgumentParser:
     target = crawl.add_mutually_exclusive_group(required=True)
     target.add_argument("source_id", nargs="?", type=int)
     target.add_argument("--all", action="store_true", help="crawl every active source")
+    target.add_argument(
+        "--ids", type=_id_list, metavar="1,2,3", help="crawl these sources (crawl-plan output)"
+    )
+    crawl.add_argument(
+        "--deadline-minutes",
+        type=float,
+        metavar="M",
+        help="cancel crawls still running after M minutes (recorded as failed; resumable "
+        "connectors continue from their checkpoint next time) and skip unstarted ones",
+    )
+    crawl.add_argument("--no-dedup", action="store_true", help="skip dedup afterwards")
+    crawl.add_argument(
+        "--allow-failures",
+        action="store_true",
+        help="exit 0 even if some sources failed (failures are recorded and printed)",
+    )
+
+    plan = sub.add_parser("crawl-plan", help="split active sources into shards (JSON)")
+    plan.add_argument("--shards", type=int, required=True, metavar="N")
+    plan.add_argument(
+        "--recover-after-hours",
+        type=float,
+        metavar="H",
+        help="first mark runs still 'running' after H hours as failed (killed jobs)",
+    )
+    plan.add_argument(
+        "--github-output",
+        type=Path,
+        metavar="FILE",
+        help="append matrix=... and started_at=... to FILE ($GITHUB_OUTPUT) and print a "
+        "readable plan instead of JSON",
+    )
+    summary = sub.add_parser("crawl-summary", help="Markdown summary of recent fetch runs")
+    summary.add_argument(
+        "--since", type=_aware_datetime, required=True, metavar="ISO-TIME", help="UTC if no zone"
+    )
 
     sub.add_parser("dedup", help="recompute cross-source duplicates (canonical_job_id)")
     fill = sub.add_parser("fill-rates", help="field fill rates of open postings per platform")
@@ -80,6 +125,7 @@ def _build_parser() -> argparse.ArgumentParser:
     fill.add_argument("--strict", action="store_true", help="exit 1 if a required field has gaps")
     size = sub.add_parser("db-size", help="database and table sizes")
     size.add_argument("--markdown", action="store_true", help="print a Markdown table")
+    size.add_argument("--warn-above-mb", type=float, metavar="MB", help="warn if larger")
     size.add_argument(
         "--fail-above-mb", type=float, metavar="MB", help="exit 1 if the database is larger"
     )
@@ -89,6 +135,30 @@ def _build_parser() -> argparse.ArgumentParser:
     prune_cmd.add_argument("--runs-days", type=int, metavar="N", help="fetch_runs > N days")
     sub.add_parser("schedule", help="crawl every active source on its interval, forever")
     return parser
+
+
+def _id_list(value: str) -> list[int]:
+    try:
+        ids = [int(part) for part in value.replace(" ", "").split(",") if part]
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"not a comma-separated list of ids: {value!r}") from None
+    return ids
+
+
+def _aware_datetime(value: str) -> datetime:
+    try:
+        parsed = datetime.fromisoformat(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"not an ISO date/time: {value!r}") from None
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
+
+
+def _annotate(level: str, message: str) -> None:
+    """Print to stderr, as a GitHub Actions annotation when running there."""
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        print(f"::{level}::{message}", file=sys.stderr)
+    else:
+        print(f"{level}: {message}", file=sys.stderr)
 
 
 async def add_source(
@@ -215,17 +285,25 @@ async def report_db_size(
     session_factory: async_sessionmaker[AsyncSession],
     markdown: bool,
     fail_above_mb: float | None,
+    warn_above_mb: float | None = None,
 ) -> int:
     async with session_factory() as session:
         size = await db_size(session)
     print(render_db_size(size, markdown=markdown), end="")
-    if fail_above_mb is not None and size.database_mb > fail_above_mb:
-        print(
-            f"error: database is {size.database_mb:.1f} MB, above the {fail_above_mb:g} MB "
-            "limit (see docs/OPERATIONS.md#size-budget)",
-            file=sys.stderr,
+    mb = size.database_mb
+    if fail_above_mb is not None and mb > fail_above_mb:
+        _annotate(
+            "error",
+            f"database is {mb:.1f} MB, above the {fail_above_mb:g} MB limit "
+            "(see docs/OPERATIONS.md#size-budget)",
         )
         return 1
+    if warn_above_mb is not None and mb > warn_above_mb:
+        _annotate(
+            "warning",
+            f"database is {mb:.1f} MB, above the {warn_above_mb:g} MB warning level "
+            "(see docs/OPERATIONS.md#size-budget)",
+        )
     return 0
 
 
@@ -285,31 +363,107 @@ async def crawl(
     registry: Registry,
     http: HttpClient,
     source_id: int | None,
+    *,
+    source_ids: list[int] | None = None,
+    deadline_minutes: float | None = None,
+    run_dedup_after: bool = True,
+    allow_failures: bool = False,
 ) -> int:
+    """Crawl ``source_id``, the ``source_ids`` list, or (both None) every active source."""
     async with session_factory() as session:
-        if source_id is None:
-            source_ids = await active_source_ids(session)
+        if source_ids is not None:
+            known = set(
+                (await session.scalars(select(Source.id).where(Source.id.in_(source_ids)))).all()
+            )
+            if missing := [sid for sid in source_ids if sid not in known]:
+                print(f"error: unknown source ids: {missing}", file=sys.stderr)
+                return 2
+            ids = source_ids
+        elif source_id is None:
+            ids = await active_source_ids(session)
         else:
             if await session.get(Source, source_id) is None:
                 print(f"error: source {source_id} does not exist", file=sys.stderr)
                 return 2
-            source_ids = [source_id]
-    if not source_ids:
-        print("no active sources to crawl")
+            ids = [source_id]
+    if not ids:
+        print("no sources to crawl")
         return 0
 
     results = await crawl_sources(
-        source_ids,
+        ids,
         session_factory=session_factory,
         http=http,
         concurrency=get_settings().crawl_concurrency,
         registry=registry,
+        deadline_seconds=deadline_minutes * 60 if deadline_minutes else None,
     )
     for result in results:
         print(_format_result(result))
-    if any(r.status is FetchStatus.SUCCESS for r in results):
+    ok = sum(r.status is FetchStatus.SUCCESS for r in results)
+    failed = len(results) - ok
+    print(f"crawl: {ok} succeeded, {failed} failed", flush=True)
+    if run_dedup_after and ok:
         await dedup(session_factory)
-    return 1 if any(r.status is FetchStatus.FAILED for r in results) else 0
+    if failed and allow_failures:
+        _annotate("warning", f"{failed} of {len(results)} source(s) failed (see the log)")
+        return 0
+    return 1 if failed else 0
+
+
+async def crawl_plan(
+    session_factory: async_sessionmaker[AsyncSession],
+    shards: int,
+    recover_after_hours: float | None,
+    github_output: Path | None = None,
+) -> int:
+    """Print ``{"started_at": ..., "matrix": {"include": [{"shard", "ids", ...}]}}``.
+
+    Shards without sources are left out of the matrix (GitHub refuses an empty one, so
+    with no active sources there is one shard with ``ids == ""``)."""
+    if shards < 1:
+        print("error: --shards must be >= 1", file=sys.stderr)
+        return 2
+    started_at = datetime.now(UTC)
+    async with session_factory() as session:
+        if recover_after_hours is not None:
+            recovered = await recover_abandoned_runs(session, timedelta(hours=recover_after_hours))
+            if recovered:
+                _annotate("warning", f"marked {recovered} abandoned 'running' run(s) as failed")
+        estimates = await source_estimates(session)
+    plan = [s for s in plan_shards(estimates, shards) if s.source_ids]
+    include = [
+        {
+            "shard": shard.index,
+            "ids": ",".join(map(str, shard.source_ids)),
+            "sources": len(shard.source_ids),
+            "platforms": " ".join(shard.platforms),
+            "estimated_minutes": round(shard.estimated_seconds / 60, 1),
+        }
+        for shard in plan
+    ] or [{"shard": 1, "ids": "", "sources": 0, "platforms": "", "estimated_minutes": 0}]
+    output = {"started_at": started_at.isoformat(), "matrix": {"include": include}}
+    if github_output is None:
+        print(json.dumps(output, separators=(",", ":")))
+        return 0
+    with github_output.open("a", encoding="utf-8") as out:
+        out.write(f"matrix={json.dumps(output['matrix'], separators=(',', ':'))}\n")
+        out.write(f"started_at={output['started_at']}\n")
+    for shard in include:
+        print(
+            f"shard {shard['shard']}: {shard['sources']} sources, "
+            f"~{shard['estimated_minutes']} min: {shard['platforms']}"
+        )
+    return 0
+
+
+async def report_crawl_summary(
+    session_factory: async_sessionmaker[AsyncSession], since: datetime
+) -> int:
+    async with session_factory() as session:
+        summary = await crawl_summary(session, since)
+    print(render_summary(summary), end="")
+    return 0
 
 
 async def dedup(session_factory: async_sessionmaker[AsyncSession]) -> int:
@@ -370,7 +524,15 @@ async def _run(args: argparse.Namespace, registry: Registry) -> int:
         if args.command == "fill-rates":
             return await report_fill_rates(session_factory, args.markdown, args.strict)
         if args.command == "db-size":
-            return await report_db_size(session_factory, args.markdown, args.fail_above_mb)
+            return await report_db_size(
+                session_factory, args.markdown, args.fail_above_mb, args.warn_above_mb
+            )
+        if args.command == "crawl-plan":
+            return await crawl_plan(
+                session_factory, args.shards, args.recover_after_hours, args.github_output
+            )
+        if args.command == "crawl-summary":
+            return await report_crawl_summary(session_factory, args.since)
         if args.command == "prune":
             return await run_prune(
                 session_factory, args.closed_days, args.changes_days, args.runs_days
@@ -388,7 +550,14 @@ async def _run(args: argparse.Namespace, registry: Registry) -> int:
                     session_factory, registry, http, args.url, args.company_name
                 )
             return await crawl(
-                session_factory, registry, http, None if args.all else args.source_id
+                session_factory,
+                registry,
+                http,
+                None if args.all else args.source_id,
+                source_ids=args.ids,
+                deadline_minutes=args.deadline_minutes,
+                run_dedup_after=not args.no_dedup,
+                allow_failures=args.allow_failures,
             )
     finally:
         await engine.dispose()

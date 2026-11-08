@@ -56,6 +56,8 @@ DETAIL_PROGRESS_EVERY = 100  # log detail-fetch progress for large boards
 
 MAX_ERROR_LENGTH = 4000
 
+DEADLINE_ERROR = "deadline reached: cancelled or not started (resumes on the next crawl)"
+
 
 @dataclass(frozen=True, slots=True)
 class CrawlResult:
@@ -107,11 +109,17 @@ async def crawl_sources(
     http: HttpClient,
     concurrency: int = 4,
     registry: Registry | None = None,
+    deadline_seconds: float | None = None,
 ) -> list[CrawlResult]:
     """Crawl several sources concurrently; per-host rate limits still apply via ``http``.
 
     One source crashing (e.g. the database is briefly unreachable before its run row
     exists) is reported as a failed result; it does not cancel the other crawls.
+
+    ``deadline_seconds``: crawls still running then are cancelled (recorded as failed
+    runs; resumable connectors keep their checkpoint, so the next crawl continues where
+    this one stopped) and crawls not started yet are skipped. Both are returned as
+    failed results with :data:`DEADLINE_ERROR`. Results keep the order of ``source_ids``.
     """
     semaphore = asyncio.Semaphore(concurrency)
 
@@ -126,7 +134,21 @@ async def crawl_sources(
                 error = f"{type(exc).__name__}: {exc}"[:MAX_ERROR_LENGTH]
                 return CrawlResult(source_id, None, FetchStatus.FAILED, error=error)
 
-    return list(await asyncio.gather(*(one(sid) for sid in source_ids)))
+    tasks = [asyncio.create_task(one(sid)) for sid in source_ids]
+    if not tasks:
+        return []
+    _, pending = await asyncio.wait(tasks, timeout=deadline_seconds)
+    for task in pending:
+        task.cancel()
+    if pending:
+        log.warning("crawl deadline reached: cancelling %d unfinished crawls", len(pending))
+        await asyncio.wait(pending)
+    return [
+        CrawlResult(sid, None, FetchStatus.FAILED, error=DEADLINE_ERROR)
+        if task.cancelled()
+        else task.result()
+        for sid, task in zip(source_ids, tasks, strict=True)
+    ]
 
 
 async def active_source_ids(session: AsyncSession) -> list[int]:

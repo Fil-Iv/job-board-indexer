@@ -1,0 +1,144 @@
+# Crawl every active source into the hosted database (Supabase), every 6 hours.
+#
+#   plan      -> recovers runs left 'running' by killed jobs, splits the sources into
+#                shards (all sources of a platform in one shard: per-host rate limits)
+#   crawl (N) -> one matrix job per shard, each stopped by a deadline well before the
+#                job timeout; unfinished boards resume from their checkpoint next time
+#   finalize  -> prune, dedup, db-size check (fails loudly near the 500 MB limit),
+#                job summary with counts
+#
+# Setup: docs/DEPLOY.md (secret DATABASE_URL = Supabase *session* pooler, port 5432).
+# Tuning: repository variables (Settings → Secrets and variables → Actions → Variables)
+# override the defaults below; see docs/OPERATIONS.md.
+name: crawl
+
+on:
+  schedule:
+    - cron: "17 */6 * * *" # every 6 h (off the hour: GitHub delays jobs queued at :00)
+  workflow_dispatch:
+    inputs:
+      seed:
+        description: "First register the boards of coverage/demo_sources.yaml (idempotent)"
+        type: boolean
+        default: false
+      shards:
+        description: "Parallel crawl jobs"
+        default: "4"
+
+# Never two crawls at once (a scheduled run waits for a manual one and vice versa).
+concurrency:
+  group: crawl
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  # Identify the crawler honestly; the public repository is the contact page.
+  HTTP_USER_AGENT: ${{ vars.HTTP_USER_AGENT || format('JobIndexBot/0.1 (+https://github.com/{0})', github.repository) }}
+  LOG_LEVEL: ${{ vars.LOG_LEVEL || 'INFO' }}
+  # Size budget for the Supabase free tier (docs/OPERATIONS.md#size-budget).
+  MAX_JOBS_PER_SOURCE: ${{ vars.MAX_JOBS_PER_SOURCE || '200' }}
+  DESCRIPTION_HTML_MAX_CHARS: ${{ vars.DESCRIPTION_HTML_MAX_CHARS || '20000' }}
+  JOB_CHANGE_VALUE_MAX_CHARS: ${{ vars.JOB_CHANGE_VALUE_MAX_CHARS || '500' }}
+  CLOSED_JOB_RETENTION_DAYS: ${{ vars.CLOSED_JOB_RETENTION_DAYS || '14' }}
+  JOB_CHANGE_RETENTION_DAYS: ${{ vars.JOB_CHANGE_RETENTION_DAYS || '60' }}
+  FETCH_RUN_RETENTION_DAYS: ${{ vars.FETCH_RUN_RETENTION_DAYS || '30' }}
+  DB_WARN_MB: ${{ vars.DB_WARN_MB || '400' }}
+  DB_FAIL_MB: ${{ vars.DB_FAIL_MB || '450' }}
+  # Supabase free session pooler: ~15 server connections in total. 4 shards x 3 = 12.
+  CRAWL_CONCURRENCY: "3"
+  DATABASE_POOL_SIZE: "3"
+  DATABASE_MAX_OVERFLOW: "0"
+  DATABASE_POOL_TIMEOUT_SECONDS: "300"
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      started_at: ${{ steps.plan.outputs.started_at }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - run: pip install -e .
+      - name: Check the secret
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "::error::DATABASE_URL secret is not set (docs/DEPLOY.md)"
+            exit 1
+          fi
+      - name: Seed demo sources
+        if: ${{ inputs.seed }}
+        continue-on-error: true # a board that no longer resolves must not block the crawl
+        run: python -m jobindex.cli seed-demo --file coverage/demo_sources.yaml
+      - name: Plan shards
+        id: plan
+        env:
+          SHARDS: ${{ inputs.shards || '4' }}
+        # A crawl job is killed after 5 h, so a run still 'running' after 5.5 h is dead.
+        run: |
+          python -m jobindex.cli crawl-plan --shards "$SHARDS" --recover-after-hours 5.5 \
+            --github-output "$GITHUB_OUTPUT"
+
+  crawl:
+    needs: plan
+    runs-on: ubuntu-latest
+    # GitHub's hard limit is 6 h; the crawl stops itself at the deadline below, so the
+    # job ends cleanly (runs recorded as failed, checkpoints kept) instead of being killed.
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    name: crawl ${{ matrix.shard }} (${{ matrix.sources }} sources)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - run: pip install -e .
+      - name: Crawl
+        env:
+          IDS: ${{ matrix.ids }}
+          PLATFORMS: ${{ matrix.platforms }}
+        run: |
+          echo "platforms: $PLATFORMS"
+          python -m jobindex.cli crawl --ids "$IDS" \
+            --deadline-minutes 270 --no-dedup --allow-failures
+
+  finalize:
+    needs: [plan, crawl]
+    # Also after failed/cancelled shards: what did finish should be deduplicated.
+    if: ${{ always() && needs.plan.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - run: pip install -e .
+      - name: Prune old closed postings, history and runs
+        run: python -m jobindex.cli prune
+      - name: Dedup
+        run: python -m jobindex.cli dedup
+      - name: Job summary
+        env:
+          SINCE: ${{ needs.plan.outputs.started_at }}
+        run: python -m jobindex.cli crawl-summary --since "$SINCE" >> "$GITHUB_STEP_SUMMARY"
+      - name: Database size
+        run: |
+          set -o pipefail
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          python -m jobindex.cli db-size --markdown \
+            --warn-above-mb "$DB_WARN_MB" --fail-above-mb "$DB_FAIL_MB" | tee -a "$GITHUB_STEP_SUMMARY"

@@ -7,7 +7,7 @@ docs/OPERATIONS.md#size-budget for how the limits below keep it under ~400 MB.
 from dataclasses import dataclass
 from datetime import timedelta
 
-from sqlalchemy import and_, delete, func, select, text
+from sqlalchemy import and_, delete, func, select, text, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from jobindex.models import FetchRun, FetchStatus, Job, JobChange, JobStatus
@@ -121,6 +121,22 @@ async def prune(
         runs = _rowcount(result)
     await session.commit()
     return PruneResult(jobs, changes, runs)
+
+
+async def recover_abandoned_runs(session: AsyncSession, older_than: timedelta) -> int:
+    """Mark ``running`` fetch runs started more than ``older_than`` ago as failed: the
+    process crawling them died (or a CI job was killed). Jobs are not touched."""
+    result = await session.execute(
+        update(FetchRun)
+        .where(FetchRun.status == FetchStatus.RUNNING, FetchRun.started_at <= utcnow() - older_than)
+        .values(
+            status=FetchStatus.FAILED,
+            finished_at=utcnow(),
+            error="abandoned: the crawling process stopped before finishing",
+        )
+    )
+    await session.commit()
+    return _rowcount(result)
 
 
 def _rowcount(result: object) -> int:

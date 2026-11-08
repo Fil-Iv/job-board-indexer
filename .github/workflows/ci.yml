@@ -1,0 +1,30 @@
+# make lint + make test on every push and pull request (same containers as local dev:
+# Postgres 16 + the app image; tests never hit the network).
+name: ci
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the app image
+        run: docker compose build app
+      - name: make lint
+        run: make lint
+      - name: make test
+        run: make test
+      - name: Stop containers
+        if: always()
+        run: docker compose down -v
