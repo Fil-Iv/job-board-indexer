@@ -64,3 +64,13 @@ def test_explain_returns_deciding_rule() -> None:
     assert robots.explain(UA, "https://x.test/jobs/1") == (False, "Disallow: /jobs")
     assert robots.explain(UA, "https://x.test/jobs/public/1") == (True, "Allow: /jobs/public")
     assert robots.explain(UA, "https://x.test/other") == (True, None)
+
+
+def test_byte_order_mark_does_not_hide_the_first_group() -> None:
+    # jobs.silkroad.com/robots.txt (2026-11-08) starts with a UTF-8 BOM and CRLF lines.
+    text = "﻿User-agent: *\r\nCrawl-Delay: 10\r\nDisallow: /bin/\r\nDisallow: /*/*/Ajax/\r\n"
+    robots = RobotsTxt.parse(text)
+    assert robots.crawl_delay(UA) == 10.0
+    assert not robots.can_fetch(UA, "https://jobs.silkroad.com/BU/External/Ajax/Jobs")
+    assert not robots.can_fetch(UA, "https://jobs.silkroad.com/bin/x")
+    assert robots.can_fetch(UA, "https://jobs.silkroad.com/BU/External")

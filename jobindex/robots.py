@@ -66,7 +66,10 @@ class RobotsTxt:
         sitemaps: list[str] = []
         current: _Group | None = None
         last_was_agent = False
-        for raw_line in text.splitlines():
+        # A UTF-8 byte-order mark would glue itself to the first key ("\ufeffUser-agent")
+        # and silently drop the whole first group (jobs.silkroad.com: Crawl-delay and
+        # Disallow rules ignored). RFC 9309 parsers must tolerate it.
+        for raw_line in text.removeprefix("\ufeff").splitlines():
             line = raw_line.split("#", 1)[0].strip()
             if ":" not in line:
                 continue
