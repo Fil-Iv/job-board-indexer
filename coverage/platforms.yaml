@@ -80,15 +80,18 @@
 - name: Avature
   key: avature
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "{company}.avature.net/careers/SearchJobs (HTML, paginated)"
-  url_patterns: ["{company}.avature.net/careers", "{company}.avature.net/{portal}/JobDetail/{slug}/{id}", "custom domains"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Checked 2026-11-07 (bloomberg): SearchJobs paged HTML (jobOffset/jobRecordsPerPage, 'of 323'); RSS feed capped at 20 items; per-portal sitemap_index.xml lists 722 job URLs (stale ones included) and job pages have no JSON-LD. Needs per-tenant HTML parsing of heavily customised templates."
+  status: done
+  connector: jobindex.connectors.avature
+  public_api: "no"
+  api: "GET {host}/{portal}/sitemap_index.xml -> sitemap.xml (job pages + lastmod), checked against SearchJobs/?jobOffset=0 aria-label=\"N results\"; job pages /{portal}/JobDetail/{slug}/{id} (HTML, article__content__view__field blocks)"
+  url_patterns: ["{tenant}.avature.net/{portal}[/SearchJobs]", "{tenant}.avature.net/{portal}/JobDetail/{slug}/{id}"]
+  examples:
+    - https://bloomberg.avature.net/careers/SearchJobs
+    - https://uclahealth.avature.net/careers/SearchJobs
+  robots: per-tenant
+  verified: 2026-11-08
+  generic: partial
+  notes: "Avature portals on *.avature.net (custom domains not detected). The paged SearchJobs listing is countable (aria-label=\"323 results\") but its order is unstable (Bloomberg: 9 of 323 jobs on two pages, 9 on none), so jobs are listed from the portal sitemap, which now matches the total exactly (Bloomberg 323, UCLA Health 739; it listed 722 incl. stale jobs on 2026-11-07, so fewer sitemap jobs than the total fails the crawl, more is allowed). RSS /SearchJobs/feed/ is capped at 20. Job pages have no JSON-LD: Avature's standard field template is parsed (labelled fields, one-line Label: value fields, long blocks = description; employer = last part of <title>). Fields vary per tenant; title + description are required. robots.txt is per tenant: most allow /careers (only *qtvc= disallowed); deloitte.avature.net disallows everything but the sitemap."
 
 - name: BambooHR
   key: bamboohr
@@ -241,12 +244,12 @@
   status: todo
   tier: medium
   public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
+  api: "GET {tenant}.firststage.co/jobs (Next.js, server-rendered job cards grouped by category) + /jobs/{id}/view (JSON-LD)"
+  url_patterns: ["{tenant}.firststage.co/jobs", "{tenant}.firststage.co/jobs/{id}/view"]
   examples: []
-  robots: unknown
+  robots: allowed
   verified: null
-  notes: "Checked 2026-11-07: agility-gwg.firststage.co/jobs is server-rendered, job pages /jobs/{id}/view carry JSON-LD, robots.txt and sitemap.xml 404. Not built: the board says '80 jobs open' but links 79 (gap unexplained, so completeness cannot be checked), and the other known board (wayve) now 404s."
+  notes: "Not built (rechecked 2026-11-08): only one live board is known and its listing cannot be shown to be complete. agility-gwg.firststage.co/jobs says 80 jobs open but links 79 distinct jobs (97 cards in the category layout, 194 links with ?layout=list, same 79 ids in the RSC payload); no sitemap (404), robots.txt 404. Web searches for firststage.co boards return only the unrelated firststage.org theatre; wayve.firststage.co is 404."
 
 - name: Freshteam
   key: freshteam
@@ -909,16 +912,18 @@
 - name: Zoho Recruit
   key: zoho
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "{company}.zohorecruit.com/jobs/Careers (JS shell; data loaded by XHR)"
-  url_patterns: ["{company}.zohorecruit.com/jobs/Careers", "{company}.zohorecruit.com/jobs/Careers/{id}/{slug}", "{company}.zohorecruit.eu/..."]
+  status: done
+  connector: jobindex.connectors.zoho
+  public_api: "no"
+  api: "GET {host}/jobs/{portal} (all published jobs in <input type=hidden id=jobs> JSON) + GET /jobs/{portal}/{id} (posting in var jobs = JSON.parse(...))"
+  url_patterns: ["{tenant}.zohorecruit.{com|eu|in|com.au|jp}/jobs/{portal}", "{tenant}.zohorecruit.com/jobs/{portal}/{id}[/{slug}]"]
   examples:
-    - https://zohocorp.zohorecruit.com/jobs/Careers
+    - https://cause-capacity.zohorecruit.com/jobs/Careers
+    - https://us-careers.zohorecruit.in/jobs/Careers
   robots: allowed
-  verified: null
-  notes: "Checked 2026-11-07 (cause-capacity): the careers page embeds all published jobs in <input type=hidden id=jobs> (title, type, city/country, remote flag) but no descriptions, and job pages carry neither JSON-LD nor embedded data. robots.txt allows /recruit/downloadrssfeed and /recruit/sitemapfeed, but without parameters both return the portal HTML. Need the feed parameters (or accept list-only data)."
+  verified: 2026-11-08
+  generic: partial
+  notes: "robots.txt is Disallow: / with Allow: /jobs/* on every tenant. The careers page embeds every published job (no paging seen; boards checked have 5-6 jobs). Job pages do carry the full posting (description, location, Date_Opened, Salary) in an inline script (var jobs = JSON.parse('...')); the 2026-11-07 note said otherwise because only the first part of the 1.7 MB page was read. Gone jobs answer This job is no longer available. (stored closed). /recruit/downloadrssfeed and /recruit/sitemapfeed need tenant parameters and are not used. *.zohorecruit.* resolves for any name, so tenants come from real links (us-careers.zohorecruit.in from a web search; eu.zohorecruit.eu/careers lists 0 jobs). Cause Capacity is a recruiting firm: the employer field is the firm."
 
 # ----------------------------------------------------------------- Job boards (20)
 # Common pattern: most job-board platforms render server-side HTML with schema.org

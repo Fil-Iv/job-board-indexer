@@ -202,4 +202,4 @@ async def test_crawl_and_render(monkeypatch: pytest.MonkeyPatch) -> None:
     assert "| https://job-boards.greenhouse.io/discord | 3 |" in report
     assert "blocked (robots.txt) | never |" in report
     assert "### Easy — public JSON API" in report
-    assert "| Avature | ATS | unknown |" in report  # a todo platform row
+    assert "| CareerPlug | ATS | unknown |" in report  # a todo platform row
