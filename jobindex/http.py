@@ -200,7 +200,8 @@ class HttpClient:
             await self._throttle(url)
             try:
                 response = await self._client.send(request)
-            except httpx.TransportError as exc:
+            except (httpx.TransportError, httpx.DecodingError) as exc:
+                # DecodingError: a corrupt gzip/deflate body (seen intermittently on Taleo)
                 if attempt >= self.max_retries:
                     raise FetchError(f"{type(exc).__name__}: {exc}", url=url) from exc
                 await self._backoff(attempt, url, reason=type(exc).__name__)

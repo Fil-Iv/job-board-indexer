@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+	<html lang="en" class="">	 
+    <head>
+    
+     <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'denied',
+    personalization_storage: 'denied',
+    security_storage: 'granted',
+    wait_for_update: 500
+  });
+</script>
+
+
+<script id="usercentrics-cmp" src="https://web.cmp.usercentrics.eu/ui/loader.js" data-ruleset-id="0eKHfbqB2NSPPg" data-language="en" async></script>
+
+
+<script>
+(function () {
+  // Usercentrics service name (exactly as in the ruleset) -> cookie names; * = prefix
+  var COOKIES_BY_SERVICE = {
+    'Google Analytics':               ['_ga', '_ga_*', '_gid', '_gat*'],
+    'Google Ads Conversion Tracking': ['_gcl_*'],
+    'Meta Pixel':                     ['_fbp', '_fbc'],
+    'TikTok Advertising':             ['_ttp', '_tt_enable_cookie', 'ttcsid*'],
+    'Microsoft Clarity':              ['_uetsid', '_uetvid', '_uetmsclkid'],
+    'Quantcast':                      ['__qca'],
+    'Job ADX':                        ['jdx-user', 'jdx-visit', 'jdx-*']
+  };
+
+  // careers.fedex.com -> ['', '.careers.fedex.com', '.fedex.com']
+  function domains() {
+    var parts = location.hostname.split('.'), list = [''];
+    for (var i = 0; i < parts.length - 1; i++) list.push('.' + parts.slice(i).join('.'));
+    return list;
+  }
+
+  function matches(name, pattern) {
+    return pattern.slice(-1) === '*' ? name.indexOf(pattern.slice(0, -1)) === 0 : name === pattern;
+  }
+
+  function deleteCookies(patterns) {
+    document.cookie.split(';').map(function (c) { return c.split('=')[0].trim(); }).filter(Boolean)
+      .forEach(function (name) {
+        if (!patterns.some(function (p) { return matches(name, p); })) return;
+        domains().forEach(function (d) {
+          document.cookie = name + '=; Max-Age=0; Path=/' + (d ? '; Domain=' + d : '');
+        });
+      });
+  }
+
+  // Turns the Usercentrics event payload into { 'Service Name': true/false }
+  function readConsent(detail) {
+    var out = {}, services = detail && (detail.services || (detail.consent && detail.consent.services));
+    if (services) {
+      Object.keys(services).forEach(function (k) {
+        var s = services[k];
+        out[s.name || k] = !!(s.consent && typeof s.consent === 'object' ? s.consent.given : s.consent);
+      });
+    } else if (detail) {
+      Object.keys(detail).forEach(function (k) { if (typeof detail[k] === 'boolean') out[k] = detail[k]; });
+    }
+    return out;
+  }
+
+  function cleanUp(detail) {
+    var consent = readConsent(detail);
+    Object.keys(COOKIES_BY_SERVICE).forEach(function (service) {
+      if (consent[service] === false) deleteCookies(COOKIES_BY_SERVICE[service]);
+    });
+  }
+
+  window.addEventListener('UC_CONSENT', function (e) { cleanUp(e.detail); }); // current Usercentrics
+  window.addEventListener('ucEvent', function (e) { cleanUp(e.detail); });    // older versions / custom window event
+})();
+</script>
+
+
+ <link rel="preconnect" href="https://d386an9otcxw2c.cloudfront.net">
+ <link rel="preconnect" href="https://d1k5v9flzqpvl0.cloudfront.net">
+ <link rel="preconnect" href="https://d2xra9v1z0mbwm.cloudfront.net">
+ <link rel="preload" href="https://d386an9otcxw2c.cloudfront.net/oms/2634/font/2025/9/24RT7_custom-icons/custom-icons.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+ <link rel="preload" href="https://d386an9otcxw2c.cloudfront.net/oms/2634/font/2025/9/0AL29_FedExSans-Light/FedExSans-Light.woff" as="font" type="font/woff" crossorigin="anonymous">
+ <link rel="preload" href="https://d386an9otcxw2c.cloudfront.net/oms/2634/font/2025/9/U5GHH_FedExSans-Regular/FedExSans-Regular.woff" as="font" type="font/woff" crossorigin="anonymous">
+ <link rel="preload" href="https://d386an9otcxw2c.cloudfront.net/oms/2634/font/2025/9/ZX2IV_FedExSans-Italic/FedExSans-Italic.woff" as="font" type="font/woff" crossorigin="anonymous">
+ <link rel="preload" href="https://d386an9otcxw2c.cloudfront.net/oms/2634/font/2025/9/LUDXX_FedExSans-Medium/FedExSans-Medium.woff" as="font" type="font/woff" crossorigin="anonymous">
+ <link rel="preload" href="https://d386an9otcxw2c.cloudfront.net/oms/2634/font/2025/9/6IDWT_FedExSans-Bold/FedExSans-Bold.woff" as="font" type="font/woff" crossorigin="anonymous">
+ <link rel="preload" href="https://d386an9otcxw2c.cloudfront.net/oms/2634/font/2025/9/5PIL2_FedExSans-XBold/FedExSans-XBold.woff" as="font" type="font/woff" crossorigin="anonymous">
+
+ <meta http-equiv="Content-Script-Type" content="text/javascript">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+ <meta property="og:title" content="Courier/Swing Drvr/DOT in St. Joseph, Missouri | FedEx Careers">
+ <meta property="og:type" content="website">
+ <meta property="og:url" content="https://careers.fedex.com/courier-swing-drvr-dot/job/P25-394285-1">
+ <meta property="og:image" content="https://d2xra9v1z0mbwm.cloudfront.net/oms/000000/image/2024/5/B8QDB_share/share_-1x-1.jpg">
+ <meta property="og:description" content="Apply for a Courier/Swing Drvr/DOT at FedEx.">
+ <meta property="og:site_name" content="Courier/Swing Drvr/DOT in St. Joseph, Missouri | FedEx Careers">
+ <meta name="twitter:card" content="summary">
+ <meta name="twitter:title" content="Courier/Swing Drvr/DOT in St. Joseph, Missouri | FedEx Careers">
+ <meta name="twitter:description" content="Apply for a Courier/Swing Drvr/DOT at FedEx.">
+ <meta name="twitter:image" content="https://d2xra9v1z0mbwm.cloudfront.net/oms/000000/image/2024/5/B8QDB_share/share_-1x-1.jpg">
+ <meta name="description" content="Apply for a Courier/Swing Drvr/DOT at FedEx.">
+
+ <title>Courier/Swing Drvr/DOT in St. Joseph, Missouri | FedEx Careers</title>
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" type="image/x-icon">
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-192x192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="apple-touch-icon" href="/apple-touch-icon-76x76.png" sizes="76x76">
+<link rel="apple-touch-icon" href="/apple-touch-icon-120x120.png" sizes="120x120">
+<link rel="apple-touch-icon" href="/apple-touch-icon-152x152.png" sizes="152x152">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000">
+
+
+<link rel="canonical" href="https://careers.fedex.com/courier-swing-drvr-dot/job/P25-394285-1">
+
+
+
+
+
+ <link rel="stylesheet" href="/app.css?ver=123" crossorigin="anonymous">
+ <link rel="stylesheet" href="/vendor.css" media="print" onload="this.media='all'" crossorigin="anonymous">
+ <link rel="stylesheet" href="/custom.css">
+ <link rel="stylesheet" href="https://cdn.sites.fedex.paradox.ai/common-libraries/font-awesome-4.7.0/css/font-awesome.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'" />
+
+
+<meta id="analytics" data-analytics-master="false" data-analytics-key="G-L3TJJCDL85" data-analytics-preview="false">
+
+
+
+
+<script type="text/plain" data-usercentrics="Google Ads Conversion Tracking" async src="https://www.googletagmanager.com/gtag/js?id=AW-871749997"></script>
+<script type="text/plain" data-usercentrics="Google Ads Conversion Tracking">
+  gtag('js', new Date());
+  gtag('config', 'AW-871749997');
+  gtag('config', 'AW-1061712411');
+</script>
+
+
+<script type="text/plain" data-usercentrics="Meta Pixel">
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+  (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '485909524359387');
+  fbq('track', 'PageView');
+</script>
+
+
+<script type="text/plain" data-usercentrics="TikTok Advertising">
+  !function (w, d, t) {w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i='https://analytics.tiktok.com/i18n/pixel/events.js';ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+  ttq.load('C9JH47RC77U7AD8VR4EG');
+  ttq.page();
+  }(window, document, 'ttq');
+</script>
+
+
+<script type="text/plain" data-usercentrics="Microsoft Clarity">
+  (function (w, d, t, r, u) {
+    var f, n, i;
+    w[u] = w[u] || [], f = function () {
+      var o = { ti: "28001297" };
+      o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad");
+    },
+    n = d.createElement(t), n.src = r, n.async = 1, n.onload = n.onreadystatechange = function () {
+      var s = this.readyState;
+      s && s !== "loaded" && s !== "complete" || (f(), n.onload = n.onreadystatechange = null);
+    },
+    i = d.getElementsByTagName(t)[0], i.parentNode.insertBefore(n, i);
+  })(window, document, "script", "https://bat.bing.com/bat.js", "uetq");
+</script>
+
+
+<script type="text/plain" data-usercentrics="Quantcast">
+  window._qevents = window._qevents || [];
+  (function () {
+    var elem = document.createElement('script');
+    elem.src = "https://secure.quantserve.com/quant.js";
+    elem.async = true;
+    var scpt = document.getElementsByTagName('script')[0];
+    scpt.parentNode.insertBefore(elem, scpt);
+  })();
+  window._qevents.push({ qacct: "p-Rge2W1WKCuKZg", labels: "_fp.event.PageView" });
+</script>
+
+
+<script type="text/plain" data-usercentrics="Simpli.fi">
+  (function () {
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://tag.simpli.fi/sifitag/9f8023fc-4f85-4477-8cd8-ef178d78937a";
+    document.getElementsByTagName('head')[0].appendChild(s);
+  })();
+</script>
+
+
+<script type="text/plain" data-usercentrics="Job ADX" async src="https://optimize-pixel.jobadx.com/v2/pixel.js"></script>
+<script type="text/plain" data-usercentrics="Job ADX">
+  window.jdxLayer = window.jdxLayer || [];
+  function jdxtag(){ jdxLayer.push(arguments); }
+  jdxtag("config", "_setPixel", "1fcb6ce7-7424-48b3-a3e0-078ddc9b445d");
+  jdxtag("config", "_pixelTimeZone", "EST");
+</script>
+
+
+    
+    
+
+
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);    })(window,document,'script','dataLayer','GTM-T97VP2MZ');</script>
+	<link integrity="sha256-boqnNq8X8Vu1DPkxRwhs6tNdCaec2E692WbL66+ogjI=" rel="stylesheet" type="text/css" href="https://cdn.sites.fedex.paradox.ai/fedex-prod-careersites/dded915ad8/main.css" crossorigin="anonymous">
+	<script>
+        window.__PRELOAD_STATE__ = {"jobSearch":{"params":{"filter":{}},"totalJob":0,"isLoading":false,"jobs":[],"similarJobs":[],"triggerSearch":0,"facets":[]},"company":{"apply_url_destination":"job_details","source_tracking_enabled":true,"job_search_configuration_enable":true,"site_available_languages":["zh-tw","zh-cn","vi","th","pt","pl","nl","ko","ja","it","fr-ca","fr","es","de","en","en-us"],"page_attributes":{"jobs_radius_enable_kilometers":false,"jobs_radius_default_radius_item":"15","disable_switch_search_mode":true,"default_page_size":10,"disableJobsListHeaderV2":true},"formattedCustomFields":{},"translation":{"component_close_button_label":"Close modal","component_search_input_commute_time_label":"Commute Time Search Location Starting Point","component_first_page_button_label":"First page","component_previous_page_button_label":"Previous Page","component_next_page_button_label":"Next Page","component_last_page_button_label":"Last page","component_pagination_announcement":"Showing {start_job}-{end_job} of {total} jobs","component_pagination_navigation_label":"Pagination","component_pagination_navigation_control_label":"Page Navigation Controls","component_page_number_label":"Page {page_number}","component_page_size_label":"Page Size","component_first_label":"first","component_previous_label":"prev","component_next_label":"next","component_last_label":"last","component_radius_label":"Radius","component_radius_km":"KM","component_radius_miles":"Miles","component_sort_by_label":"Sort by","component_search_input_keyword_label":"Keyword Search","component_search_input_location_label":"Location Search","component_remove_location_label":"Remove your selection","component_no_jobs_announcement":"No open jobs meet your search criteria","component_jobs_related_announcement":"{total_job} related jobs displayed","component_remove_filter_announcement":"filter removed and jobs are refreshed","component_clear_all_filters_announcement":"All filters cleared. {total_job} related jobs displayed","component_filter_announcement":"Jobs related to {option_title} are displayed","component_go_to_first_page_icon_title":"Go to first page","component_go_to_last_page_icon_title":"Go to last page","component_go_to_previous_page_icon_title":"Go to previous page","component_go_to_next_page_icon_title":"Go to next page","component_remove_filter_selection_title":"Remove {filter_title} search filter selection","component_use_your_location_title":"Use your location","component_filter_header_title":"Filter by {filter_name}","component_jobs_list_only_apply_button_ats_label":"{button_text}, {job_title} (Opens in new tab)","component_location_denied_alert_close_button_label":"Close location permission modal","shared_icons_employment_type_svg_label":"Employment Type","shared_icons_brand_svg_label":"Brand","shared_icons_pin_svg_label":"Job Location","component_jobs_current_searches_no_job":"No open jobs meet your search options","component_hiring_event_list_label":"Hiring Events List","component_hiring_event_search_label":"Search Hiring Events","component_hiring_event_search_keyword_label":"Keyword Hiring Event Search","component_hiring_event_search_location_label":"Location Hiring Event Search","component_hiring_event_list_view_card_register_button_label":"{register_button_label}, {hiring_event_name} (opens in a new tab)","component_shared_icons_calendar_svg_title":"Date","component_shared_icons_clock_svg_title":"Time","component_shared_icons_location_svg_title":"Location"}},"hiringEvents":{"params":{"keyword":"","locationName":""},"events":[],"total":0,"isLoading":false}};
+        window.__BUILD__ = 'dded915ad8';
+        </script>
+	<!-- Job Schema -->
+	<script type="application/ld+json">{"@context":"https://schema.org","@type":"JobPosting","url":"https://careers.fedex.com/courier-swing-drvr-dot/job/P25-394285-1","directApply":true,"title":"Courier/Swing Drvr/DOT","description":"<p>Operates company vehicles and provide courteous and efficient delivery and pick up of packages; to check shipments for conformance to FedEx features of service; Provides coverage for all assigned routes within the station's service area; Provides related customer service functions. Performs other duties as assigned.<br><br><p><strong>Minimum Education</strong></p><p>High school diploma/GED.</p><p></p><p><strong>Minimum Experience</strong></p><p>Six (6) months courier experience preferred. Must be able to demonstrate area knowledge.</p><p></p><p><strong><span>Knowledge, Skills, and Abilities</span></strong></p><p>Ability to lift 50 lbs. Ability to maneuver packages of any weight above 50 lbs with appropriate equipment and/or assistance from another person. Good human relations and verbal communication skills. Thorough knowledge of the station's service area preferred. Demonstrated skills in adaptability, dependability, and excellent courier methods. Must be at least 21 years of age. Ability to read and speak the English language sufficiently to understand traffic signs, communicate with traffic safety officials and to respond to official inquiries and directions in accordance with FMCSA enforcement guidance.</p><p></p><p><strong><span>Job Conditions</span></strong></p><p>Neat appearance since customer contact is required. Must meet and maintain the qualifications as outlined in the federal motor carrier safety regulations. Requires medical exam in accordance with FMCSA or FAA regulations. Note: there are specific requirements for any employee that operates a company vehicle. Please refer to policy 4-48 for exact job requirements. Must obtain and maintain a valid driver's license in accordance with your state requirements for type of vehicle assigned and have good driving record as outlined in policy. Non-covered safety-sensitive position. Ability to work in a constant state of alertness and in a safe manner.  </p><br><p><strong>Preferred Qualifications: </strong><span class=\"highlight-token\" data-value=\"ja-preferred_qualifications_i\" data-denotation-char=\"#\" contenteditable=\"false\"></span> <span class=\"highlight-token\" data-value=\"ja-preferred_qualifications_ii\" data-denotation-char=\"#\" contenteditable=\"false\"></span></p><p><strong>Pay Transparency: </strong><span class=\"highlight-token\" data-value=\"ja-pay_transparency_1\" data-denotation-char=\"#\" contenteditable=\"false\"></span> <span class=\"highlight-token\" data-value=\"ja-pay_transparency_II\" data-denotation-char=\"#\" contenteditable=\"false\"></span> <span class=\"highlight-token\" data-value=\"ja-pay_transparency_iii\" data-denotation-char=\"#\" contenteditable=\"false\"></span></p><p><strong>Pay: </strong> <span class=\"highlight-token\" data-value=\"ja-pay_transparency_posting_range\" data-denotation-char=\"#\" contenteditable=\"false\"></span></p><p><strong>Additional Details: </strong> <span class=\"highlight-token\" data-value=\"ja-custom_description\" data-denotation-char=\"#\" contenteditable=\"false\">FULL TIME SWING - VARIABLE SHIFT</span></p><br><p>Click <a href=\"https://fedex.paradox.ai/njLZWwl\" rel=\"noopener noreferrer\" target=\"_blank\">HERE</a> to learn more about the <span class=\"highlight-token\" data-value=\"job-title\" data-denotation-char=\"#\" contenteditable=\"false\">﻿<span contenteditable=\"false\">Courier/Swing Drvr/DOT</span>﻿</span> position! </p><p><span style=\"font-family: &quot;FedEx Sans Cd Light&quot;, sans-serif\"><strong>For details on our comprehensive benefits, click </strong></span><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://fedex.paradox.ai/oK6mmu2B\"><span style=\"font-family: &quot;FedEx Sans Cd Light&quot;, sans-serif\"><strong>here</strong></span></a><span style=\"font-family: &quot;FedEx Sans Cd Light&quot;, sans-serif\"><strong>.</strong></span></p><p>Federal Express Corporation is an Equal Opportunity Employer including, Vets/Disability.</p><p>Reasonable accommodations are available for qualified individuals with disabilities throughout the application process. Applicants who require reasonable accommodations in the application or hiring process should contact <a href=\"mailto:recruitmentsupport@fedex.com\">recruitmentsupport@fedex.com</a>.</p><p>Applicants have rights under Federal Employment Laws:</p><ul><li><a href=\"https://d386an9otcxw2c.cloudfront.net/oms/2634/document/2025/5/PV3BM_1746574349491/1746574349491.pdf\" target=\"_blank\" rel=\"noopener\">Know Your Rights</a></li><li><a href=\"https://d386an9otcxw2c.cloudfront.net/oms/2634/document/2025/5/BIGIG_PayTransparency2023/PayTransparency2023.pdf\" target=\"_blank\" rel=\"noopener\">Pay Transparency</a></li><li><a href=\"https://www.dol.gov/sites/dolgov/files/WHD/legacy/files/fmlaen.pdf\" target=\"_blank\" rel=\"noopener\">Family and Medical Leave Act (FMLA)</a></li><li><a href=\"https://www.dol.gov/sites/dolgov/files/WHD/legacy/files/eppac.pdf\" target=\"_blank\" rel=\"noopener\">Employee Polygraph Protection Act</a></li></ul><p>E-Verify Program Participant: Federal Express Corporation participates in the Department of Homeland Security U.S. Citizenship and Immigration Services’ E-Verify program (For U.S. applicants and employees only). Please click below to learn more about the E-Verify program:</p><ul><li>E-Verify Notice (<a href=\"https://www.e-verify.gov/sites/default/files/everify/posters/EVerifyParticipationPoster.pdf\" target=\"_blank\" rel=\"noopener\">bilingual</a>)</li><li>Right to Work Notice (<a href=\"https://ftn.fedex.com/careers/OSC_Right_to_Work_Poster.pdf\" target=\"_blank\" rel=\"noopener\">English</a>) / (<a href=\"https://ftn.fedex.com/careers/OSC_Right_to_Work_Poster_ES.pdf\" target=\"_blank\" rel=\"noopener\">Spanish</a>)</li></ul></p>","identifier":{"@type":"PropertyValue","name":"Job ID","value":"P25-394285-1"},"datePosted":"2026-11-05T18:55:58.511918+00:00","employmentType":["FULL_TIME"],"hiringOrganization":{"@type":"Organization","name":"Federal Express Corporation","sameAs":"https://www.fedex.com","logo":"https://d386an9otcxw2c.cloudfront.net/oms/000000/image/2024/5/LGFOE_fedex-google/fedex-google_-1x-1.png"},"jobLocation":[{"@type":"Place","address":{"@type":"PostalAddress","streetAddress":"5501 Providence Hill Dr","addressLocality":"St. Joseph","addressRegion":"MO","postalCode":"64507","addressCountry":"US"}}]}</script>
+</head>
+    
+    <body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T97VP2MZ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <a class="sr-only sr-only-focusable" href="#main">Skip to main content</a>
+
+     
+     
+   <header class="c-header-navigation" id="main__menu" data-module-navigation>
+
+     <div class="c-header-navigation__lang">
+       <div class="o-container">
+         <div class="c-header-navigation__lang-main">
+
+           <span class="c-header-navigation__lang-globe">
+             
+           </span>
+           <div class="c-header-navigation__lang-dropdown">
+            <button tabindex="0" aria-haspopup="true" id="languageDropdown" aria-expanded="false"
+                           class="c-header-navigation__lang-dropdown--btn" type="button" name="button"
+                           aria-label="Select Language (English Español Français (Canada) Français Deutsch Italiano 日本語 (日本) 한국어 (대한민국) Nederland Polska Português ไทย (ประเทศไทย) Tiếng Việt (Việt Nam) 中文 简体 (中国) 中文 繁體 (台灣))">
+                           <span class="c-header-navigation__lang-dropdown--btn-text">English</span>
+                           
+            
+                           <span class="c-header-navigation__lang-dropdown--btn-arrow" aria-hidden="true">
+                             
+                           </span>
+                         </button>
+            <ul class="c-header-navigation__lang-dropdown--content" role="menu" aria-labelledby="languageDropdown">
+              <li><a data-lang="en" href="/">English</a></li>
+              <li><a data-lang="es" href="/es/">Español</a></li>
+              <li><a data-lang="fr-ca" href="/fr-ca/">Français (Canada)</a></li>
+              <li><a data-lang="fr" href="/fr/">Français</a></li>
+              <li><a data-lang="de" href="/de/">Deutsch</a></li>
+              <li><a data-lang="it" href="/it/">Italiano</a></li>
+              <li><a data-lang="ja" href="/ja/">日本語 (日本)</a></li>
+              <li><a data-lang="ko" href="/ko/">한국어 (대한민국)</a></li>
+              <li><a data-lang="nl" href="/nl/">Dutch (Nederland)</a></li>
+              <li><a data-lang="pl" href="/pl/">Polska</a></li>
+              <li><a data-lang="pt" href="/pt/">Português</a></li>
+              <li><a data-lang="th" href="/th/">ไทย (ประเทศไทย)</a></li>
+              <li><a data-lang="vi" href="/vi/">Tiếng Việt (Việt Nam)</a></li>
+              <li><a data-lang="zh-cn" href="/zh-cn/">中文 简体 (中国)</a></li>
+              <li><a data-lang="zh-tw" href="/zh-tw/">中文 繁體 (台灣)</a></li>
+            </ul>
+           </div>
+         </div>
+       </div>
+
+     </div>
+
+     <div class="c-header-navigation__main">
+       <div class="o-container">
+         <div class="c-header-navigation__content">
+           <div class="c-header-navigation__core">
+
+             <div>
+               <a class="c-header-navigation__logo" href="/">
+                 <img class="c-header-navigation__logo--main" alt="logo"
+                   src="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/F65G3_fedexLogo/fedexLogo.svg" width="100"
+                   height="100" />
+
+               </a>
+               <nav class="c-header-navigation__nav">
+                 <ul class="c-header-navigation__list">
+                   <li class="c-header-navigation__item">
+                     <a class="c-header-navigation__link has-drop" data-scroll="to" data-scroll-to-immediate
+                       href="/#career-areas" role="button" aria-haspopup="true" aria-expanded="false"
+                       id="nav-d-1">Career Areas
+
+
+                       <span class="c-header-navigation__item-drop" aria-hidden="true">
+                         
+                       </span>
+                     </a>
+
+                     <ul class="c-header-navigation__item-submenu" aria-labelledby="nav-d-1">
+
+                       <li>
+                         <a href="/career-areas/driver/">
+                           Drivers</a>
+                       </li>
+                       <li>
+                         <a href="/career-areas/facility-operations/">
+                           Facility Operations</a>
+                       </li>
+                       <li>
+                         <a href="/career-areas/maintenance/">
+                           Maintenance</a>
+                       </li>
+
+                       <li>
+                         <a href="/career-areas/package-handler/"> Package Handlers
+                         </a>
+                       </li>
+
+                       <li>
+                         <a href="/career-areas/pilot/">
+                           Pilots</a>
+                       </li>
+
+                       <li>
+                         <a href="/career-areas/professional/">
+                           Professional</a>
+                       </li>
+
+                       <li>
+                         <a href="/career-areas/retail/">
+                           Retail</a>
+                       </li>
+
+                       <li>
+                         <a href="/career-areas/student-programs/">
+                           Student Programs</a>
+                       </li>
+
+
+
+                     </ul>
+
+                   </li>
+                   <li class="c-header-navigation__item">
+                     <a class="c-header-navigation__link" href="/life-at-fedex">Life at FedEx</a>
+                   </li>
+                   
+                   <li class="c-header-navigation__item">
+                     <a class="c-header-navigation__link" href="/hiring-and-development">Hiring & Development</a>
+                   </li>
+                   <li class="c-header-navigation__item">
+                     <a class="c-header-navigation__link has-drop" href="/international/" role="button"
+                       aria-haspopup="true" aria-expanded="false" id="nav-d-2">International
+
+                       <span class="c-header-navigation__item-drop">
+                         
+                       </span>
+                     </a>
+
+
+                     <ul class="c-header-navigation__item-submenu" aria-labelledby="nav-d-2">
+                       <li>
+                         <a href="/international/amea-operations/"> AMEA Operations
+                         </a>
+                       </li>
+                       <li>
+                         <a href="/international/european-operations/">
+                           European Operations</a>
+                       </li>
+                       <li>
+                         <a href="/international/lac-operations/">
+                           LAC Operations</a>
+                       </li>
+                       <li>
+                         <a href="/international/us-and-canada-operations/">
+                           U.S. and Canada Operations</a>
+                       </li>
+                       <li>
+                         <a href="/international/us-and-canada-operations/us-military">
+                           U.S. Military
+                         </a>
+                       </li>
+
+
+                     </ul>
+                   </li>
+                 </ul>
+               </nav>
+
+             </div>
+
+             <div class="c-header-navigation__last-button">
+               <div>
+                 <a class="c-header-navigation__link" href="/jobs">
+                   Career Search
+                   <span class="c-header-navigation__link-icon" aria-hidden="true">
+                     
+                   </span>
+                 </a>
+               </div>
+             </div>
+
+
+
+
+
+           </div>
+
+
+
+
+           <div class="c-header-navigation__menu">
+             <div class="c-header-navigation__menu-wrap u-vertical-center">
+               <button class="c-header-navigation__button" type="button" aria-label="Toggle Navigation" aria-expanded="false" aria-controls="c-mega-menu">
+                 <span class="c-header-navigation__button-line"></span>
+                 <span class="c-header-navigation__button-line"></span>
+                 <span class="c-header-navigation__button-line"></span>
+               </button>
+             </div>
+           </div>
+           <div id="c-mega-menu" class="c-mega-menu">
+             <div class="c-mega-menu__wrap">
+               <ul data-menu="main" class="c-mega-menu__level" role="navigation" aria-label="Main Menu">
+
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link no-transition" aria-haspopup="true" aria-expanded="false" aria-owns="submenu-1" aria-controls="submenu-1" data-submenu="submenu-1"
+                     href="#">Career Areas</a>
+                 </li>
+
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/life-at-fedex">Life at FedEx</a>
+                 </li>
+                 
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/hiring-and-development">Hiring & Development</a>
+                 </li>
+
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link no-transition" data-submenu="submenu-2" aria-owns="submenu-2"  aria-haspopup="true" aria-expanded="false" aria-controls="submenu-2"
+                     href="#">International</a>
+                 </li>
+
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/jobs">Career Search</a>
+                 </li>
+               </ul>
+               
+               <ul aria-label="Career Areas" tabindex="-1" data-menu="submenu-1" id="submenu-1" class="c-mega-menu__level" role="menu"
+                 aria-label="Career Areas">
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/career-areas/driver/">Drivers</a>
+                 </li>
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/career-areas/facility-operations/">Facility Operations</a>
+                 </li>
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/career-areas/maintenance/">Maintenance</a>
+                 </li>
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/career-areas/package-handler/">Package Handler</a>
+                 </li>
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/career-areas/pilot/">Pilot</a>
+                 </li>
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/career-areas/professional/">Professional</a>
+                 </li>
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/career-areas/retail/">Retail</a>
+                 </li>
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/career-areas/student-programs/">Student Programs</a>
+                 </li>
+               </ul>
+
+
+               
+               <ul aria-label="International" tabindex="-1" data-menu="submenu-2" id="submenu-2" class="c-mega-menu__level" role="menu"
+                 aria-label="International">
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/international/">International Overview</a>
+                 </li>
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/international/amea-operations/">AMEA Operations</a>
+                 </li>
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link"  href="/international/european-operations/">European Operations</a>
+                 </li>
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/international/lac-operations/">LAC Operations</a>
+                 </li>
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/international/us-and-canada-operations/">U.S. and Canada
+                     Operations</a>
+
+
+                 </li>
+                 <li class="c-mega-menu__item" role="none">
+                   <a class="c-mega-menu__item-link" href="/international/us-and-canada-operations/us-military">U.S.
+                     Military</a>
+                 </li>
+               </ul>
+
+             </div>
+           </div>
+         </div>
+         <div class="o-overlay"></div>
+
+       </div>
+     </div>
+
+
+     <div class="c-header-navigation__breadcrumb">
+       <div class="o-container">
+         <div class="c-header-navigation__breadcrumb-list" id="breadcrumb">
+           <a href="/">FedEx Careers</a>
+         </div>
+       </div>
+     </div>
+
+
+
+
+
+
+   </header>
+      
+       <div id="breadcrumbinner">
+  <a href="/jobs">Career Search</a>
+</div>
+
+
+    <script>
+var arrows = '<span style="margin:0 10px"> </span>'
+      breadcrumb.innerHTML += Array.from(breadcrumbinner.children).map(c => arrows + c.outerHTML).join('');
+    </script>
+
+
+<main data-namespace="interior" data-page="job-detail" data-module-load data-category="Driver">
+
+  <div class="o-wrap">
+    <div class="o-scroll" data-module-scroll="main" data-load-container>
+      <section data-component="main-hero" id="main">
+        <div class="c-main-hero">
+          <div class="c-main-hero__inner">
+
+            <div class="c-main-hero__container o-container">
+              <div class="c-main-hero__layout o-layout -flex -middle">
+                <div class="c-main-hero__layout-item o-layout__item u-1/1 u-1/3@medium">
+                  <div class="c-main-hero__content">
+                    <span class="c-main-hero__title--em"><span>Req ID:</span>
+                      
+                      <span class="jobidfull">P25-394285-1</span>
+                    </span>
+                    <h1 class="c-main-hero__title">Courier/Swing Drvr/DOT </h1>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <div class="c-main-hero__foreground">
+              <div class="c-main-hero__foreground-shape -job"></div>
+
+            </div>
+            <div class="c-main-hero__background">
+
+              <div class="c-main-hero__background-wrap o-background__wrap" data-scroll="item">
+
+                <picture>
+                <source
+                        srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/22HV7_jobdetail-intro/jobdetail-intro.jpg"
+                        type="image/webp">
+                      <source
+                        srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/22HV7_jobdetail-intro/jobdetail-intro.jpg"
+                        type="image/jpeg">
+                      <img loading="lazy" class="o-background__image"
+                        data-load-src="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/22HV7_jobdetail-intro/jobdetail-intro.jpg"
+                        alt="Driver">
+                </picture>
+
+
+
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section data-component="job-details-brief">
+        <div class="job-details-brief">
+          <div class="job-details-brief__inner">
+            <div class="job-details-brief__container o-container">
+              <div class="job-details-brief__layout o-layout -flex -gutter">
+                <div class="job-details-brief__layout-item o-layout__item u-1/1 u-4/6@medium">
+                  <div class="job-details-brief__description">
+                    <ul class="job-details-brief__description-list">
+                      <li class="job-details-brief__description-list--item">
+                        <span class="label">Company: </span>
+                        <span class="value"> Federal Express Corporation</span>
+                        
+                      </li>
+
+                      <li class="job-details-brief__description-list--item">
+                        <span class="label">Category: </span>
+                        <span class="value">Driver</span>
+                      </li>
+
+                      <li class="job-details-brief__description-list--item">
+                        <span class="label">Employment Type: </span>
+                        <span class="value">Full Time</span>
+                      </li>
+
+                      <li class="job-details-brief__description-list--item">
+                        <span class="label">Worker Sub-Type: </span>
+                        <span class="value">Regular</span>
+                      </li>
+
+                      <li class="job-details-brief__description-list--item">
+                        <span class="label">Scheduled Weekly Hours: </span>
+                        <span class="value"></span>
+                      </li>
+
+                       <li class="job-details-brief__description-list--item">
+                        <span class="label">Posting End Date: </span>
+                        <span class="value" id="endDate"></span>
+                      </li>
+
+                      <li class="job-details-brief__description-list--item">
+                        <span class="label">Remote: </span>
+                        <span class="value">No</span>
+                      </li>
+
+                      <li class="job-details-brief__description-list--item">
+                        <span class="label">Location: </span>
+                        
+
+                        <span class="value">5501 Providence Hill Dr, St. Joseph, MO 64507, United States</span>
+
+                       
+                        
+                        
+                      </li>
+
+                      
+
+                    </ul>
+
+                    
+
+                  </div>
+                </div>
+                <div class="job-details-brief__layout-item o-layout__item u-1/1 u-2/6@medium">
+                  <div class="job-details-brief__side">
+                    <div class="job-details-brief__side-apply">
+                      <a class="o-button apply-button -orange" href="https://fedex.paradox.ai/co/FederalExpressCorporation41/Job?job_id=P25-394285-1&posting_type=1" target="_blank">
+                        <span class="o-button__inner">
+                          <span class="o-button__label">Apply</span>
+                        </span>
+                      </a>
+                    </div>
+
+                    <div class="job-details-brief__side-share">
+                      <span class="job-details-brief__side-share--header"> Share Job</span>
+                      <ul class="job-details-brief__side-share--list">
+                        <li class="job-details-brief__side-share--list-item">
+                          <a class="job-details-brief__side-share--link -facebook"
+                            href="https://www.facebook.com/sharer/sharer.php?u=https://careers.fedex.com/courier-swing-drvr-dot/job/P25-394285-1"
+                            rel="noopener noreferrer" target="_blank">
+                            
+                          </a>
+                        </li>
+                        <li class="job-details-brief__side-share--list-item">
+                          <a class="job-details-brief__side-share--link -twitter"
+                            href="https://twitter.com/intent/tweet?url=https://careers.fedex.com/courier-swing-drvr-dot/job/P25-394285-1"
+                            rel="noopener noreferrer" target="_blank">
+                            
+                          </a>
+                        </li>
+                        <li class="job-details-brief__side-share--list-item">
+                          <a class="job-details-brief__side-share--link -linkedin"
+                            href="https://www.linkedin.com/sharing/share-offsite?url=https://careers.fedex.com/courier-swing-drvr-dot/job/P25-394285-1"
+                            rel="noopener noreferrer" target="_blank">
+                            
+                          </a>
+                        </li>
+                        <li class="job-details-brief__side-share--list-item">
+                          <a class="job-details-brief__side-share--link -mail"
+                            href="mailto:?subject=Check%20Out%20This%20Job%20Opportunity&body=Hi%20there,%0D%0A%0D%0AI%20thought%20you%20might%20be%20interested%20in%20this%20job%20opportunity:%0D%0A%0D%0ACourier/Swing Drvr/DOT%0D%0A%0D%0Ahttps://careers.fedex.com/courier-swing-drvr-dot/job/P25-394285-1"
+                            rel="noopener noreferrer" target="_blank">
+                            
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+
+
+
+                    
+
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      
+
+
+            <section data-component="job-details-content">
+                <div class="c-job-details-content">
+                    <div class="c-job-details-conent__inner">
+                        <div class="c-job-details-conent__container o-container">
+                            <div class="c-job-details-content__layout o-layout -flex -gutter">
+                                <div class="c-job-details-content__layout-item o-layout__item u-1/1 u-6/6@medium">
+            
+                                    <div class="c-job-details__wrapper">
+                                        <div class="c-job-details-content__description">
+                                            <h2 class="l-layout__content-title">Description</h2>
+                                            <p>Operates company vehicles and provide courteous and efficient delivery and pick up of packages; to check shipments for conformance to FedEx features of service; Provides coverage for all assigned routes within the station's service area; Provides related customer service functions. Performs other duties as assigned.<br><br><p><strong>Minimum Education</strong></p><p>High school diploma/GED.</p><p></p><p><strong>Minimum Experience</strong></p><p>Six (6) months courier experience preferred. Must be able to demonstrate area knowledge.</p><p></p><p><strong><span>Knowledge, Skills, and Abilities</span></strong></p><p>Ability to lift 50 lbs. Ability to maneuver packages of any weight above 50 lbs with appropriate equipment and/or assistance from another person. Good human relations and verbal communication skills. Thorough knowledge of the station's service area preferred. Demonstrated skills in adaptability, dependability, and excellent courier methods. Must be at least 21 years of age. Ability to read and speak the English language sufficiently to understand traffic signs, communicate with traffic safety officials and to respond to official inquiries and directions in accordance with FMCSA enforcement guidance.</p><p></p><p><strong><span>Job Conditions</span></strong></p><p>Neat appearance since customer contact is required. Must meet and maintain the qualifications as outlined in the federal motor carrier safety regulations. Requires medical exam in accordance with FMCSA or FAA regulations. Note: there are specific requirements for any employee that operates a company vehicle. Please refer to policy 4-48 for exact job requirements. Must obtain and maintain a valid driver's license in accordance with your state requirements for type of vehicle assigned and have good driving record as outlined in policy. Non-covered safety-sensitive position. Ability to work in a constant state of alertness and in a safe manner.  </p><br><p><strong>Preferred Qualifications: </strong><span class="highlight-token" data-value="ja-preferred_qualifications_i" data-denotation-char="#" contenteditable="false"></span> <span class="highlight-token" data-value="ja-preferred_qualifications_ii" data-denotation-char="#" contenteditable="false"></span></p><p><strong>Pay Transparency: </strong><span class="highlight-token" data-value="ja-pay_transparency_1" data-denotation-char="#" contenteditable="false"></span> <span class="highlight-token" data-value="ja-pay_transparency_II" data-denotation-char="#" contenteditable="false"></span> <span class="highlight-token" data-value="ja-pay_transparency_iii" data-denotation-char="#" contenteditable="false"></span></p><p><strong>Pay: </strong> <span class="highlight-token" data-value="ja-pay_transparency_posting_range" data-denotation-char="#" contenteditable="false"></span></p><p><strong>Additional Details: </strong> <span class="highlight-token" data-value="ja-custom_description" data-denotation-char="#" contenteditable="false">FULL TIME SWING - VARIABLE SHIFT</span></p><br><p>Click <a href="https://fedex.paradox.ai/njLZWwl" rel="noopener noreferrer" target="_blank">HERE</a> to learn more about the <span class="highlight-token" data-value="job-title" data-denotation-char="#" contenteditable="false">﻿<span contenteditable="false">Courier/Swing Drvr/DOT</span>﻿</span> position! </p><p><span style="font-family: &quot;FedEx Sans Cd Light&quot;, sans-serif"><strong>For details on our comprehensive benefits, click </strong></span><a target="_blank" rel="noopener noreferrer nofollow" href="https://fedex.paradox.ai/oK6mmu2B"><span style="font-family: &quot;FedEx Sans Cd Light&quot;, sans-serif"><strong>here</strong></span></a><span style="font-family: &quot;FedEx Sans Cd Light&quot;, sans-serif"><strong>.</strong></span></p><p>Federal Express Corporation is an Equal Opportunity Employer including, Vets/Disability.</p><p>Reasonable accommodations are available for qualified individuals with disabilities throughout the application process. Applicants who require reasonable accommodations in the application or hiring process should contact <a href="mailto:recruitmentsupport@fedex.com">recruitmentsupport@fedex.com</a>.</p><p>Applicants have rights under Federal Employment Laws:</p><ul><li><a href="https://d386an9otcxw2c.cloudfront.net/oms/2634/document/2025/5/PV3BM_1746574349491/1746574349491.pdf" target="_blank" rel="noopener">Know Your Rights</a></li><li><a href="https://d386an9otcxw2c.cloudfront.net/oms/2634/document/2025/5/BIGIG_PayTransparency2023/PayTransparency2023.pdf" target="_blank" rel="noopener">Pay Transparency</a></li><li><a href="https://www.dol.gov/sites/dolgov/files/WHD/legacy/files/fmlaen.pdf" target="_blank" rel="noopener">Family and Medical Leave Act (FMLA)</a></li><li><a href="https://www.dol.gov/sites/dolgov/files/WHD/legacy/files/eppac.pdf" target="_blank" rel="noopener">Employee Polygraph Protection Act</a></li></ul><p>E-Verify Program Participant: Federal Express Corporation participates in the Department of Homeland Security U.S. Citizenship and Immigration Services’ E-Verify program (For U.S. applicants and employees only). Please click below to learn more about the E-Verify program:</p><ul><li>E-Verify Notice (<a href="https://www.e-verify.gov/sites/default/files/everify/posters/EVerifyParticipationPoster.pdf" target="_blank" rel="noopener">bilingual</a>)</li><li>Right to Work Notice (<a href="https://ftn.fedex.com/careers/OSC_Right_to_Work_Poster.pdf" target="_blank" rel="noopener">English</a>) / (<a href="https://ftn.fedex.com/careers/OSC_Right_to_Work_Poster_ES.pdf" target="_blank" rel="noopener">Spanish</a>)</li></ul></p>
+            
+            
+            
+                                            
+                                        </div>
+            
+                                        <div class="job-details-brief__side-similiar">
+                                            <span class="job-details-brief__side-similiar--header"> Similar Jobs</span>
+                                          
+                                          <div class="c-similar-jobs-wrap similar-jobs" data-react-component="similar-jobs"  data-guid="7afbea70-5876-4b0f-b5a7-4b905b7a9a38" data-variant="similar-jobs" data-react-prop-classname="c-similar-jobs" data-react-prop-number_of_similar_jobs="3" data-react-prop-search_radius_enabled="true" data-react-prop-search_radius_value="25" data-react-prop-include_remote_jobs="true" data-react-prop-apply_button_text="Apply Now" data-react-prop-street_format="{street}, {city_state_abbr}" data-react-prop-multi_location_text="More Locations" data-react-prop-remote_location_text="Remote" data-react-prop-score_boost_job_title="10" data-react-prop-score_boost_job_category="10" data-react-prop-score_boost_job_location_city="3" data-react-prop-score_boost_job_location_state="3" data-react-prop-minimum_score_threshold="100" data-react-prop-variant_name="similar-jobs" data-react-prop-variant_id="7afbea70-5876-4b0f-b5a7-4b905b7a9a38"></div>
+                                        </div>
+            
+                                    </div>
+                                </div>
+            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+           <section data-component="job-details-cta">
+            <div class="job-details-cta">
+              <div class="job-details-cta__inner">
+                <div class="o-container">
+                  
+                  <div class="job-details-cta__header">
+                    <div class="l-layout__content">
+                      <h3 class="l-layout__content-title o-h2"> Learn More</h3>
+                    </div>
+
+                  </div>
+
+                  <div class="job-details-cta__cards">
+
+                    <div class="job-details-cta__cards__list">
+                      <div data-category="Driver" class="job-details-cta__cards-item -dynamic-card">
+                        <div class="job-details-cta__cards-item__img">
+                          <div class="o-image__wrapper">
+                            <div class="o-image" data-scroll="item">
+                              <picture>
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/5SVS8_jobdetail-drivers/jobdetail-drivers.webp"
+                                  type="image/webp">
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/PY5U7_jobdetail-drivers/jobdetail-drivers.jpg"
+                                  type="image/jpeg">
+                                <img loading="lazy"
+                                  data-load-src="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/PY5U7_jobdetail-drivers/jobdetail-drivers.jpg"
+                                  alt="FedEx in the desert">
+                              </picture>
+        
+        
+                            </div>
+        
+                          </div>
+
+                        </div>
+                        <div class="job-details-cta__cards-item__content">
+                          <a class="o-button" href="/career-areas/driver/">
+                            <span class="o-button__inner">
+                              <span class="o-button__label">Drivers</span>
+        
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+
+                      <div data-category="Package Handler" class="job-details-cta__cards-item -dynamic-card">
+                        <div class="job-details-cta__cards-item__img">
+                          <div class="o-image__wrapper">
+                            <div class="o-image" data-scroll="item">
+                              <picture>
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/FFZBY_jobdetail-package/jobdetail-package.webp"
+                                  type="image/webp">
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/YO953_jobdetail-package/jobdetail-package.jpg"
+                                  type="image/jpeg">
+                                <img loading="lazy"
+                                  data-load-src="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/YO953_jobdetail-package/jobdetail-package.jpg"
+                                  alt="FedEx in the desert">
+                              </picture>
+        
+        
+                            </div>
+        
+                          </div>
+
+                        </div>
+                        <div class="job-details-cta__cards-item__content">
+                          <a class="o-button" href="/career-areas/package-handler/">
+                            <span class="o-button__inner">
+                              <span class="o-button__label">Package Handler</span>
+        
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+
+                      <div data-category="Pilot" class="job-details-cta__cards-item -dynamic-card">
+                        <div class="job-details-cta__cards-item__img">
+                          <div class="o-image__wrapper">
+                            <div class="o-image" data-scroll="item">
+                              <picture>
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/2NVB7_jobdetail-pilot/jobdetail-pilot.webp"
+                                  type="image/webp">
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/DA6JO_jobdetail-pilot/jobdetail-pilot.jpg"
+                                  type="image/jpeg">
+                                <img loading="lazy"
+                                  data-load-src="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/DA6JO_jobdetail-pilot/jobdetail-pilot.jpg"
+                                  alt="FedEx in the desert">
+                              </picture>
+        
+        
+                            </div>
+        
+                          </div>
+
+                        </div>
+                        <div class="job-details-cta__cards-item__content">
+                          <a class="o-button" href="/career-areas/pilot/">
+                            <span class="o-button__inner">
+                              <span class="o-button__label">Pilot</span>
+        
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+
+                      <div data-category="Professional" class="job-details-cta__cards-item -dynamic-card">
+                        <div class="job-details-cta__cards-item__img">
+                          <div class="o-image__wrapper">
+                            <div class="o-image" data-scroll="item">
+                              <picture>
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/2F8RN_jobdetail-professional/jobdetail-professional.webp"
+                                  type="image/webp">
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/RGDXP_jobdetail-professional/jobdetail-professional.jpg"
+                                  type="image/jpeg">
+                                <img loading="lazy"
+                                  data-load-src="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/RGDXP_jobdetail-professional/jobdetail-professional.jpg"
+                                  alt="FedEx in the desert">
+                              </picture>
+        
+        
+                            </div>
+        
+                          </div>
+
+                        </div>
+                        <div class="job-details-cta__cards-item__content">
+                          <a class="o-button" href="/career-areas/professional/">
+                            <span class="o-button__inner">
+                              <span class="o-button__label">Professional</span>
+        
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+
+                      <div data-category="Retail" class="job-details-cta__cards-item -dynamic-card">
+                        <div class="job-details-cta__cards-item__img">
+                          <div class="o-image__wrapper">
+                            <div class="o-image" data-scroll="item">
+                              <picture>
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/G6POE_jobdetail-retail/jobdetail-retail.webp"
+                                  type="image/webp">
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/O7BB7_jobdetail-retail/jobdetail-retail.jpg"
+                                  type="image/jpeg">
+                                <img loading="lazy"
+                                  data-load-src="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/O7BB7_jobdetail-retail/jobdetail-retail.jpg"
+                                  alt="FedEx in the desert">
+                              </picture>
+        
+        
+                            </div>
+        
+                          </div>
+
+                        </div>
+                        <div class="job-details-cta__cards-item__content">
+                          <a class="o-button" href="/career-areas/retail/">
+                            <span class="o-button__inner">
+                              <span class="o-button__label">Retail</span>
+        
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+
+                      <div data-category="Maintenance" class="job-details-cta__cards-item -dynamic-card">
+                        <div class="job-details-cta__cards-item__img">
+                          <div class="o-image__wrapper">
+                            <div class="o-image" data-scroll="item">
+                              <picture>
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/FCFLB_jobdetail-maintenance/jobdetail-maintenance.webp"
+                                  type="image/webp">
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/B5YYG_jobdetail-maintenance/jobdetail-maintenance.jpg"
+                                  type="image/jpeg">
+                                <img loading="lazy"
+                                  data-load-src="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/B5YYG_jobdetail-maintenance/jobdetail-maintenance.jpg"
+                                  alt="FedEx in the desert">
+                              </picture>
+        
+        
+                            </div>
+        
+                          </div>
+
+                        </div>
+                        <div class="job-details-cta__cards-item__content">
+                          <a class="o-button" href="/career-areas/maintenance/">
+                            <span class="o-button__inner">
+                              <span class="o-button__label">Maintenance</span>
+        
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+
+                      <div data-category="Student Programs" class="job-details-cta__cards-item -dynamic-card">
+                        <div class="job-details-cta__cards-item__img">
+                          <div class="o-image__wrapper">
+                            <div class="o-image" data-scroll="item">
+                              <picture>
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/B2ASL_jobdetail-student/jobdetail-student.webp"
+                                  type="image/webp">
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/WUYZ7_jobdetail-student/jobdetail-student.jpg"
+                                  type="image/jpeg">
+                                <img loading="lazy"
+                                  data-load-src="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/WUYZ7_jobdetail-student/jobdetail-student.jpg"
+                                  alt="FedEx in the desert">
+                              </picture>
+        
+        
+                            </div>
+        
+                          </div>
+
+                        </div>
+                        <div class="job-details-cta__cards-item__content">
+                          <a class="o-button" href="/career-areas/student-programs/">
+                            <span class="o-button__inner">
+                              <span class="o-button__label">Student Programs</span>
+        
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+
+                      <div data-category="Facility Operations" class="job-details-cta__cards-item -dynamic-card">
+                        <div class="job-details-cta__cards-item__img">
+                          <div class="o-image__wrapper">
+                            <div class="o-image" data-scroll="item">
+                              <picture>
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/J6WB4_jobdetail-facility/jobdetail-facility.webp"
+                                  type="image/webp">
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/ZN054_jobdetail-facility/jobdetail-facility.jpg"
+                                  type="image/jpeg">
+                                <img loading="lazy"
+                                  data-load-src="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/ZN054_jobdetail-facility/jobdetail-facility.jpg"
+                                  alt="FedEx in the desert">
+                              </picture>
+        
+        
+                            </div>
+        
+                          </div>
+
+                        </div>
+                        <div class="job-details-cta__cards-item__content">
+                          <a class="o-button" href="/career-areas/facility-operations/">
+                            <span class="o-button__inner">
+                              <span class="o-button__label">Facility Operations</span>
+        
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      <div class="job-details-cta__cards-item">
+                        <div class="job-details-cta__cards-item__img">
+                          <div class="o-image__wrapper">
+                            <div class="o-image" data-scroll="item">
+                              <picture>
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/GE88D_jobdetail-life/jobdetail-life.webp"
+                                  type="image/webp">
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/6W4JM_jobdetail-life/jobdetail-life.jpg"
+                                  type="image/jpeg">
+                                <img loading="lazy"
+                                  data-load-src="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/6W4JM_jobdetail-life/jobdetail-life.jpg"
+                                  alt="FedEx in the desert">
+                              </picture>
+        
+        
+                            </div>
+        
+                          </div>
+
+                        </div>
+                        <div class="job-details-cta__cards-item__content">
+                          <a class="o-button" href="/life-at-fedex">
+                            <span class="o-button__inner">
+                              <span class="o-button__label">Life At FedEx</span>
+        
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="job-details-cta__cards-item">
+                        <div class="job-details-cta__cards-item__img">
+                          <div class="o-image__wrapper">
+                            <div class="o-image" data-scroll="item">
+                              <picture>
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/TQSF0_jobdetail-hiring/jobdetail-hiring.webp"
+                                  type="image/webp">
+                                <source
+                                  srcset="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/6US1Y_jobdetail-hiring/jobdetail-hiring.jpg"
+                                  type="image/jpeg">
+                                <img loading="lazy"
+                                  data-load-src="https://d386an9otcxw2c.cloudfront.net/oms/2634/image/2025/9/6US1Y_jobdetail-hiring/jobdetail-hiring.jpg"
+                                  alt="FedEx in the desert">
+                              </picture>
+        
+        
+                            </div>
+        
+                          </div>
+
+                        </div>
+                        <div class="job-details-cta__cards-item__content">
+                          <a class="o-button" href="/hiring-and-development">
+                            <span class="o-button__inner">
+                              <span class="o-button__label">Hiring & Development</span>
+        
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+
+                    </div>
+ 
+
+                  </div>
+
+
+                </div>
+
+              </div>
+            </div>
+
+
+          </section>
+    </div>
+  </div>
+</main>
+
+
+
+
+
+
+
+<script type="text/javascript">
+window.addEventListener('load', function() {
+    const applyClass = 'apply-button';
+    let element = document.getElementsByClassName(applyClass)[0];
+    if (element && sessionStorage.getItem('utm_search_params')) {
+        var utmSearchParams = sessionStorage.getItem('utm_search_params');
+        if (element.href) {
+            element.href += element.href.includes('?') ? '&' + utmSearchParams : '?' + utmSearchParams;
+            
+        }
+    } 
+    
+    // else {
+    //    if (element.href) {
+    //     element.href += element.href.includes('?') ? '&' + utmSearchParams : '?' + utmSearchParams;
+    //    }
+    // }
+
+
+       document.querySelectorAll('.c-job-details-content__description p').forEach(p => {
+        const highlightTokens = p.querySelectorAll('span.highlight-token');
+        if (highlightTokens.length > 0 && Array.from(highlightTokens).every(span => span.textContent.trim() === '')) {
+            p.classList.add('-noshow');
+        }
+    });
+
+// Assuming the end date value in the format "2024-08-23T00:00:00+00:00"
+let endDateElement = document.getElementById('endDate');
+  if(endDateElement) {
+    let endDate = endDateElement.textContent; 
+    // Extract the date part first 10 characters 
+    let dateOnly = endDate.slice(0, 10);
+    endDateElement.textContent = dateOnly;
+  }
+  
+
+  document.querySelectorAll('.apply-button').forEach(button => {
+    button.addEventListener('click', function() {
+          gtag('event', 'conversion', {'send_to': 'AW-1061712411/F02rCMbZhawcEJvkofoD'});
+          jdxtag("track", { conversionStart: true });
+
+          
+
+    });
+});
+
+// jdxtag("track");
+
+// Only fire for the ACE Graduate Trainee job page
+if (window.location.pathname === '/ace-graduate-trainee/job/517F08698C0602DD963BF5E90370C3DC') {
+fbq('trackCustom', 'ACEApplicationButtonClick');
+}
+});
+
+
+const wrapper = document.querySelector('.c-job-details-content');
+const similarJobs = document.querySelector('[data-react-component="similar-jobs"]');
+
+if (wrapper) {
+if (!similarJobs || similarJobs.innerHTML.trim() === '') {
+wrapper.classList.add('has-no-similar-jobs');
+} else {
+wrapper.classList.remove('has-no-similar-jobs');
+}
+}
+
+
+document.querySelectorAll('.job-details-brief__description-list').forEach(list => {
+  const locationRow = Array.from(
+    list.querySelectorAll('.job-details-brief__description-list--item')
+  ).find(li =>
+    li.querySelector('.label')?.textContent.trim().startsWith('Location')
+  );
+
+  if (!locationRow) return;
+
+  const locationUl = locationRow.querySelector('.value ul');
+  if (!locationUl) return;
+
+  const items = Array.from(locationUl.children);
+
+  const remoteItems = items.filter(li =>
+    li.textContent.toLowerCase().includes('remote')
+  );
+
+  // Move Remote items to the top (preserves order if more than one)
+  remoteItems.reverse().forEach(li => {
+    locationUl.prepend(li);
+  });
+});
+
+  
+</script>
+
+
+
+
+
+
+
+      
+      
+      <footer class="c-footer" data-scroll-section>
+
+  <div class="c-footer__info">
+    <div class="o-container">
+      <div class="c-footer__info-layout o-layout -flex -gutter">
+        <div class="o-layout__item u-1/1 u-3/8@medium">
+          <div class="c-footer__sitemap">
+            <div class="c-footer__sitemap-header">
+              <span>
+                FEDEX CAREERS
+              </span>
+            </div>
+            <ul class="c-footer__sitemap-list">
+              <li> <a data-scroll="to" data-scroll-to-immediate href="/#career-areas">Career Areas</a></li>
+              <li> <a href="/life-at-fedex">Life at FedEx</a></li>
+              
+              <li> <a href="/hiring-and-development">Hiring & Development</a></li>
+              <li> <a href="/international/">International Opportunities</a></li>
+              <li> <a href="/jobs">Career Search</a></li>
+              
+              <li> <a href="/life-at-fedex#benefits">Benefits</a></li>
+              <li> <a href="/international/us-and-canada-operations/us-military">US Military</a></li>
+              <li> <a href="https://fedex.paradox.ai/co/FedEx2/TalentCommunity" target="_blank">Talent Community</a></li>
+
+            </ul>
+
+
+
+          </div>
+        </div>
+        <div class="o-layout__item u-1/1 u-3/8@medium">
+          <div class="c-footer__sitemap">
+            <div class="c-footer__sitemap-header">
+              <span>
+                Fedex.com
+              </span>
+            </div>
+            <ul class="c-footer__sitemap-list -nosplit">
+              <li> <a href="https://www.fedex.com/en-us/about.html" target="_blank">About FedEx</a></li>
+              <li> <a href="https://www.fedex.com/en-us/about/corporate-social-responsibility.html"
+                  target="_blank">Corporate Responsibility</a></li>
+              <li> <a href="https://www.fedex.com/en-us/about/diversity-inclusion.html" target="_blank">Equality, Opportunity and Diversity</a></li>
+              <li> <a href="https://cdn.sites.fedex.paradox.ai/media-public/2634/8be13d9b-aa2b-11f0-9186-0ec010743a59/document/178716942523158117865768576506915fedexeeo.pdf" target="_blank">EEO Statement - US Only</a></li>
+
+
+
+            </ul>
+
+
+
+          </div>
+        </div>
+        <div class="o-layout__item u-1/1 u-2/8@medium">
+
+          <div class="c-footer__language">
+            <div class="c-footer__language-header">
+              <span>
+                LANGUAGE
+              </span>
+            </div>
+          </div>
+          <div class="c-header-navigation__langfooter-dropdown c-header-navigation__lang-dropdown">
+          <button tabindex="0" aria-haspopup="true" id="languageDropdown" aria-expanded="false"
+                         class="c-header-navigation__lang-dropdown--btn" type="button" name="button"
+                         aria-label="Select Language (English Español Français (Canada) Français Deutsch Italiano 日本語 (日本) 한국어 (대한민국) Nederland Polska Português ไทย (ประเทศไทย) Tiếng Việt (Việt Nam) 中文 简体 (中国) 中文 繁體 (台灣))">
+                         <span class="c-header-navigation__lang-dropdown--btn-text">English</span>
+                         
+          
+                         <span class="c-header-navigation__lang-dropdown--btn-arrow" aria-hidden="true">
+                           
+                         </span>
+                       </button>
+          <ul class="c-header-navigation__lang-dropdown--content" role="menu" aria-labelledby="languageDropdown">
+            <li><a data-lang="en" href="/">English</a></li>
+            <li><a data-lang="es" href="/es/">Español</a></li>
+            <li><a data-lang="fr-ca" href="/fr-ca/">Français (Canada)</a></li>
+            <li><a data-lang="fr" href="/fr/">Français</a></li>
+            <li><a data-lang="de" href="/de/">Deutsch</a></li>
+            <li><a data-lang="it" href="/it/">Italiano</a></li>
+            <li><a data-lang="ja" href="/ja/">日本語 (日本)</a></li>
+            <li><a data-lang="ko" href="/ko/">한국어 (대한민국)</a></li>
+            <li><a data-lang="nl" href="/nl/">Dutch (Nederland)</a></li>
+            <li><a data-lang="pl" href="/pl/">Polska</a></li>
+            <li><a data-lang="pt" href="/pt/">Português</a></li>
+            <li><a data-lang="th" href="/th/">ไทย (ประเทศไทย)</a></li>
+            <li><a data-lang="vi" href="/vi/">Tiếng Việt (Việt Nam)</a></li>
+            <li><a data-lang="zh-cn" href="/zh-cn/">中文 简体 (中国)</a></li>
+            <li><a data-lang="zh-tw" href="/zh-tw/">中文 繁體 (台灣)</a></li>
+          </ul>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <div class="c-footer__socialmedia">
+    <div class="o-container">
+
+      <div class="c-footer__social">
+        <div class="c-footer__social-header">
+          <span>FOLLOW FEDEX</span>
+        </div>
+
+        <div class="c-footer__social-item--wrapper">
+          <div class="c-footer__social-item">
+            <a class="c-footer__social-link -linkedin" href="https://www.linkedin.com/company/fedex/"
+              rel="noopener noreferrer" target="_blank">
+              
+            </a>
+          </div>
+          <div class="c-footer__social-item">
+            <a class="c-footer__social-link -twitter" href="https://twitter.com/fedex" rel="noopener noreferrer"
+              target="_blank">
+              
+            </a>
+          </div>
+          <div class="c-footer__social-item">
+            <a class="c-footer__social-link -facebook" href="https://www.facebook.com/FedEx" rel="noopener noreferrer"
+              target="_blank">
+              
+            </a>
+          </div>
+          <div class="c-footer__social-item">
+            <a class="c-footer__social-link -youtube" href="https://www.youtube.com/user/fedex/custom"
+              rel="noopener noreferrer" target="_blank">
+              
+            </a>
+          </div>
+  
+          <div class="c-footer__social-item">
+            <a class="c-footer__social-link -instagram" href="https://www.instagram.com/fedex" rel="noopener noreferrer"
+              target="_blank">
+              
+            </a>
+          </div>
+          <div class="c-footer__social-item">
+            <a class="c-footer__social-link -tiktok" href="https://www.tiktok.com/@fedex" rel="noopener noreferrer"
+              target="_blank">
+              
+            </a>
+          </div>
+        </div>
+
+       
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="c-footer__copy-right">
+    <div class="o-container">
+      <div class="c-footer__copy-right-layout o-layout -gutter-small -flex -middle">
+        <div class="o-layout__item u-1/1 u-3/8@medium">
+          <div class="c-footer__copy-right--brand">
+            <p>©FedEx 1995 - <span id="currentYear"></span> 
+            
+            </p>
+
+          </div>
+        </div>
+        <div class="o-layout__item u-1/1 u-5/8@medium">
+          <div class="c-footer__copy-right--nav">
+
+            <ul class="c-footer__copy-right--nav-list">
+
+                <li class="c-footer__copy-right--nav-list-item">
+                  <a href="javascript:void(0);" id="cookielink">Cookie Consent</a>
+                </li>
+
+              <li class="c-footer__copy-right--nav-list-item"> <a href="https://www.fedex.com/en-us/terms-of-use.html"
+                  target="_blank">Terms of Use</a></li>
+
+              <li class="c-footer__copy-right--nav-list-item"> <a href="https://www.fedex.com/en-us/trust-center.html"
+                  target="_blank">Privacy Policy</a></li>
+              
+
+                  <li class="c-footer__copy-right--nav-list-item"> <a
+                      href="https://d2xra9v1z0mbwm.cloudfront.net/oms/2650/document/2025/10/VWVM9_17618425015033836applicantprivacynotice/17618425015033836applicantprivacynotice.pdf"
+                      target="_blank">Applicant Privacy Notice</a></li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+      <a class="back-to__btn" href="#main" data-scroll="to" aria-label="Back to top" lang="en">
+  <span class="back-to__btn-text">
+    <span class="back-to__btn-text--label" aria-hidden="true">Back to top</span>
+  </span>
+  <span class="back-to__btn-icon">
+    
+  </span>
+</a>
+
+      
+          
+    
+    
+
+      
+      <script>document.addEventListener("DOMContentLoaded",function(){document.getElementById("currentYear").textContent=new Date().getFullYear()});const currentUrl=window.location.href;function normalizeUrl(n){return n.endsWith("/")?n:n+"/"}function getLanguageFromUrl(n){let t=n.match(/\/([a-z]{2}(?:-[a-z]{2})?)\//);return t?t[1]:null}const normalizedCurrentUrl=normalizeUrl(currentUrl),langLinksAll=document.querySelectorAll(".c-header-navigation__lang-dropdown--content a"),languageFromUrl=getLanguageFromUrl(normalizedCurrentUrl);if(languageFromUrl){let n=null;langLinksAll.forEach(function(t){let r=t.getAttribute("data-lang");languageFromUrl===r?n=t.textContent:languageFromUrl.startsWith(r+"-")&&!n&&(n=t.textContent)}),n&&document.querySelectorAll(".c-header-navigation__lang-dropdown--btn-text").forEach(function(t){t.textContent=n})}
+</script>
+
+
+<script defer src="/vendor.js"></script>
+<script defer src="/app.js?ver=1"></script>
+
+<script type='text/plain' data-usercentrics='Paradox AI'>
+    (function(o,l) {
+        window.oliviaChatData = window.oliviaChatData || [];
+        window.oliviaChatBaseUrl = o;
+        window.oliviaChatData.push(['setKey', l]);
+        window.oliviaChatData.push(['start']);
+        var apply = document.createElement('script');
+        apply.type = 'text/javascript';
+        apply.async = true;
+        apply.src = 'https://d386an9otcxw2c.cloudfront.net/static/site/js/widget-client.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(apply, s);
+    })('https://fedex.paradox.ai', 'cmsjzqfqksxtfzyzqzlk');
+</script>
+
+<script>
+  
+document.addEventListener("DOMContentLoaded", function() {
+    if (!sessionStorage.getItem('utm_search_params')) {
+        sessionStorage.setItem('utm_search_params', 'utm_source=CareerSiteOrganic');
+    }
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+
+    const applyUtmSource = getCookie('apply_utm_source');
+    if (!applyUtmSource && !sessionStorage.getItem('apply_utm_source')) {
+        document.cookie = "apply_utm_source=CareerSiteOrganic; path=/";
+    }
+});
+
+
+  (function initCookieSettingsLink() {
+    let attempts = 0;
+    const maxAttempts = 20; // ~10 seconds total
+
+    function tryAttach() {
+      attempts++;
+
+      const link = document.getElementById("cookielink");
+      const uc = window.UC_UI;
+
+      if (!link || !uc) {
+        if (attempts < maxAttempts) {
+          setTimeout(tryAttach, 500);
+        } else {
+          console.warn("Cookie link or UC_UI not found after retries.", { link, uc });
+        }
+        return;
+      }
+
+      console.log("Binding cookie settings click handler");
+
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        console.log("Cookie link clicked");
+
+        if (typeof uc.showSecondLayer === "function") {
+          uc.showSecondLayer();
+        } else {
+          console.warn("UC_UI.showSecondLayer is not a function", uc);
+        }
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", tryAttach);
+    } else {
+      tryAttach();
+    }
+  })();
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const jobDetailPage = document.querySelector('[data-page="job-detail"]');
+
+    if (jobDetailPage) {
+
+      let languageUrls = [];
+
+      
+      
+        languageUrls = [{"lang":"en","url_path":"courier-swing-drvr-dot/job/P25-394285-1"}];
+      
+
+      const languageNames = {
+          "af": "Afrikaans",
+          "ar": "Arabic",
+          "az": "Azerbaijani",
+          "be": "Belarusian",
+          "bg": "Bulgarian",
+          "bn": "Bengali",
+          "bs": "Bosnian",
+          "ca": "Catalan",
+          "cs": "Czech",
+          "cy": "Welsh",
+          "da": "Danish",
+          "de": "Deutsch",
+          "de-at": "Deutsch",
+          "de-be": "Deutsch",
+          "de-ch": "Deutsch",
+          "de-de": "Deutsch",
+          "el": "Greek",
+          "en": "English",
+          "en-au": "English",
+          "en-ca": "English",
+          "en-gb": "English",
+          "en-in": "English",
+          "en-us": "English",
+          "eo": "Esperanto",
+          "es": "Español",
+          "es-ar": "Español",
+          "es-cr": "Español",
+          "es-co": "Español",
+          "es-cl": "Español",
+          "es-do": "Español",
+          "es-es": "Español",
+          "es-gt": "Español",
+          "es-mx": "Español",
+          "es-us": "Español",
+          "et": "Estonian",
+          "eu": "Basque",
+          "fa": "Persian",
+          "fi": "Finnish",
+          "fr": "Français",
+          "fr-be": "Français",
+          "fr-ca": "Français (Canada)",
+          "fr-ch": "Français",
+          "fr-fr": "Français",
+          "ga": "Irish",
+          "gl": "Galician",
+          "gu": "Gujarati",
+          "he": "Hebrew",
+          "hi": "Hindi",
+          "hr": "Croatian",
+          "hu": "Hungarian",
+          "hy": "Armenian",
+          "id": "Indonesian",
+          "is": "Icelandic",
+          "it": "Italiano",
+          "it-ch": "Italiano",
+          "it-it": "Italiano",
+          "ja": "日本語 (日本)",
+          "ja-ja": "日本語 (日本)",
+          "ja-jp": "日本語 (日本)",
+          "ka": "Georgian",
+          "kk": "Kazakh",
+          "km": "Khmer",
+          "kn": "Kannada",
+          "ko": "한국어 (대한민국)",
+          "ko-ko": "한국어 (대한민국)",
+          "ko-kr": "한국어 (대한민국)",
+          "ky": "Kyrgyz",
+          "lt": "Lithuanian",
+          "lv": "Latvian",
+          "mk": "Macedonian",
+          "ml": "Malayalam",
+          "mn": "Mongolian",
+          "mr": "Marathi",
+          "ms": "Malay",
+          "mt": "Maltese",
+          "nb": "Norwegian (Bokmål)",
+          "ne": "Nepali",
+          "nl": "Dutch (Nederland)",
+          "nl-nl": "Dutch (Nederland)",
+          "nl-be": "Dutch (Belgium)",
+          "no": "Norwegian",
+          "pa": "Punjabi",
+          "pl": "Polska",
+          "pl-pl": "Polska",
+          "pt": "Português",
+          "pt-br": "Português",
+          "pt-pt": "Português",
+          "ro": "Romanian",
+          "ru": "Russian",
+          "si": "Sinhala",
+          "sk": "Slovak",
+          "sl": "Slovenian",
+          "sq": "Albanian",
+          "sr": "Serbian",
+          "sv": "Swedish",
+          "sv-fi": "Swedish (Finland)",
+          "sv-se": "Swedish (Sweden)",
+          "sw": "Swahili",
+          "ta": "Tamil",
+          "te": "Telugu",
+          "th": "ไทย (ประเทศไทย)",
+          "th-th": "ไทย (ประเทศไทย)",
+          "tr": "Turkish",
+          "uk": "Ukrainian",
+          "ur": "Urdu",
+          "uz": "Uzbek",
+          "vi": "Tiếng Việt (Việt Nam)",
+          "vi-vi": "Tiếng Việt (Việt Nam)",
+          "vi-vn": "Tiếng Việt (Việt Nam)",
+          "zh": "Chinese",
+          "zh-cn": "中文 简体 (中国)",
+          "zh-hk": "Chinese (Hong Kong)",
+          "zh-tw": "中文 繁體 (台灣)"
+      };
+
+      const langDropdownMenus = document.querySelectorAll(".c-header-navigation__lang-dropdown--content");
+
+      function populateLanguageMenus() {
+        langDropdownMenus.forEach(menu => {
+          menu.innerHTML = "";
+
+          languageUrls.forEach(entry => {
+            const lang = entry.lang;
+            const urlPath = entry.url_path || "";
+            const languageName = languageNames[lang] || lang.toUpperCase();
+
+            const listItem = document.createElement("li");
+            const link = document.createElement("a");
+
+            // url_path from the backend already has the correct
+            // language prefix/suffix baked in (e.g. "pt-pt/…__pt-pt"),
+            // so we just need to prepend the leading slash.
+            const finalUrl = urlPath.startsWith("/") ? urlPath : `/${urlPath}`;
+
+            link.setAttribute("data-lang", lang);
+            link.setAttribute("href", finalUrl);
+            link.textContent = languageName;
+            listItem.appendChild(link);
+            menu.appendChild(listItem);
+          });
+        });
+      }
+
+      populateLanguageMenus();
+    }
+  });
+</script>
+
+    	<script integrity="sha256-KcicuaODMwwaKLc6ih/W4QPRD8kvMTXRZVO2afn8vwQ=" src="https://cdn.sites.fedex.paradox.ai/fedex-prod-careersites/dded915ad8/vendors.bundle.js" crossorigin="anonymous"></script>
+	<script integrity="sha256-dNKjsjKT2EwZwfIIrvw21JGwU606/4Ajs96MwgT1bWY=" src="https://cdn.sites.fedex.paradox.ai/fedex-prod-careersites/dded915ad8/main.bundle.js" crossorigin="anonymous"></script>
+	<script integrity="sha256-vxo1WqGKXIjZe7OsIUs7OnJ/RIlEPH7wfHZhevw+t1M=" src="https://cdn.sites.fedex.paradox.ai/fedex-prod-careersites/dded915ad8/similar-jobs.bundle.js" crossorigin="anonymous"></script>
+</body>
+
+	</html>

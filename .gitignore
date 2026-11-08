@@ -36,3 +36,6 @@ htmlcov/
 
 # Production database dumps (docker-compose.prod.yml backup service)
 backups/
+
+# Scratch output of research sessions (raw page dumps, throwaway scripts)
+.research/tmp/

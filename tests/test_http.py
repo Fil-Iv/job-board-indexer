@@ -79,6 +79,23 @@ async def test_retries_transport_errors() -> None:
     assert calls == 2
 
 
+async def test_corrupt_gzip_body_is_retried_then_a_fetch_error() -> None:
+    calls = 0
+
+    def handle(request: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        if request.url.path == "/robots.txt":
+            return httpx.Response(404)
+        calls += 1
+        body = b"not gzip" if calls < 3 else b""
+        return httpx.Response(200, content=body, headers={"Content-Encoding": "gzip"})
+
+    async with _client(httpx.MockTransport(handle), max_retries=1) as http:
+        with pytest.raises(FetchError, match="DecodingError"):
+            await http.get("https://example.test/jobs")
+    assert calls == 2
+
+
 async def test_respects_robots_txt() -> None:
     seen: list[httpx.Request] = []
     async with _client(_router({"/private/x": [httpx.Response(200)]}, seen)) as http:

@@ -105,3 +105,9 @@ blocked_by_site:
     evidence:
       - {url: "https://jobs.dayforcehcm.com/api/geo/loco/jobposting/search", checked_at: "2026-11-07T20:54:30+00:00", http_status: 403, robots_url: "https://jobs.dayforcehcm.com/robots.txt", robots_http_status: 200, robots_rule: null}
       - {url: "https://jobs.dayforcehcm.com/api/geo/costa/jobposting/search", checked_at: "2026-11-07T20:54:30+00:00", http_status: 403, robots_url: "https://jobs.dayforcehcm.com/robots.txt", robots_http_status: 200, robots_rule: null}
+  - platform: CSOD (Cornerstone)
+    scope: api
+    impact: "Career-site search API answers 401 without the bearer token the page issues (csod.context.token); career-site and requisition pages are 5 KB JS shells with no job data, sitemap.xml is 404 and the careersite sitemap redirects to login. Page-issued tokens are not used."
+    evidence:
+      - {url: "https://americares.csod.com/services/x/career-site/v1/search", checked_at: "2026-11-08T13:07:14+00:00", http_status: 401, robots_url: "https://americares.csod.com/robots.txt", robots_http_status: 200, robots_rule: null}
+      - {url: "https://ymca.csod.com/services/x/career-site/v1/search", checked_at: "2026-11-08T13:07:25+00:00", http_status: 401, robots_url: "https://ymca.csod.com/robots.txt", robots_http_status: 200, robots_rule: null}

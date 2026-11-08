@@ -110,13 +110,13 @@
   type: ats
   status: todo
   tier: hard
-  public_api: "no"
-  api: "POST sjobs.brassring.com/TgNewUI/Search/Ajax/ProcessSortAndShowMoreJobs (session + RFT token)"
-  url_patterns: ["sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid={p}&siteid={s}"]
+  public_api: partial
+  api: "GET {host}/TGnewUI/Search/Home/HomeWithPreLoad?partnerid={p}&siteid={s}&PageType=searchResults (preloadJSON: first 50 jobs + JobsCount) + PageType=JobDetails&jobid={reqid} (full posting); more than 50 only via POST /TgNewUI/Search/Ajax/ProcessSortAndShowMoreJobs"
+  url_patterns: ["{sjobs|krb-sjobs|xjobs}.brassring.com/TGnewUI/Search/Home/Home?partnerid={p}&siteid={s}", "…/HomeWithPreLoad?partnerid={p}&siteid={s}&PageType=JobDetails&jobid={reqid}"]
   examples: []
-  robots: unknown
+  robots: allowed
   verified: null
-  notes: "IBM Kenexa BrassRing. Angular SPA; JSON calls need cookies and an anti-forgery token from the shell page."
+  notes: "Not built (2026-11-08): no allowed route lists more than 50 jobs. robots.txt is 404 on sjobs/krb-sjobs/xjobs.brassring.com. The server-rendered HomeWithPreLoad?PageType=searchResults page embeds the first 50 jobs and the true JobsCount, and ignores every paging/keyword/sort parameter (PageNumber, page, pageno, keyword, SortType tried). Job details are complete over GET (PageType=JobDetails). Further pages exist only as POST /TgNewUI/Search/Ajax/ProcessSortAndShowMoreJobs carrying encryptedSessionValue (#CookieValue) and the RFT/__RequestVerificationToken issued by the page: page-issued tokens are not used. Sites checked: 9 live sites have 155-24,005 jobs (FCPS 25103/5042: 56; Home Depot 25526/5032: 24,005; 26235/5374: 681; 25771/5403: 2,164; 25879/5295: 949; 25633/5439: 1,350; 25307/5238: 319; xjobs 25348/5039: 155), 3 have 0 (Lockheed Martin migrated). A connector limited to boards of 50 jobs or fewer would work but no such live board was found."
 
 - name: Breezy HR
   key: breezy
@@ -167,13 +167,13 @@
   type: ats
   status: todo
   tier: hard
-  public_api: "no"
+  public_api: partial
   api: "POST {company}.csod.com/services/x/career-site/v1/search (bearer token from page)"
   url_patterns: ["{company}.csod.com/ux/ats/careersite/{n}/home?c={company}", "{company}.csod.com/ats/careersite/JobDetails.aspx?id={id}"]
   examples: []
-  robots: unknown
+  robots: allowed
   verified: null
-  notes: "Cornerstone OnDemand. SPA; search API requires a short-lived token minted by the career-site shell."
+  notes: "Not built: blocked (coverage/blocked_by_site.yaml). robots.txt allows everything (Crawl-delay: 10). The career site (/ux/ats/careersite/{n}/home?c={corp}) and requisition pages are 5 KB JS shells; jobs come only from POST /services/x/career-site/v1/search with the bearer token in csod.context.token (401 without it on americares and ymca, 2026-11-08). No sitemap (/sitemap.xml 404, careersite sitemap redirects to login), legacy JobDetails.aspx/search.aspx redirect to the shell."
 
 - name: Dayforce
   key: dayforce
@@ -554,15 +554,18 @@
 - name: Paradox
   key: paradox
   type: ats
-  status: todo
-  tier: hard
+  status: done
+  connector: jobindex.connectors.paradox
   public_api: "no"
-  api: "unknown — JS career sites on custom domains"
-  url_patterns: ["custom domains; Olivia chat apply flows"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Conversational/chat-driven apply; job lists rendered client-side. Likely Playwright."
+  api: "GET {site}/sitemap.xml (index of sitemap-{brand}-{locale}.xml: every job page, with lastmod) + GET /{slug}/job/{id} (JSON-LD JobPosting)"
+  url_patterns: ["employer domains (CNAME {brand}.sites.paradox.ai) with assets on cdn.sites.{brand}.paradox.ai/{brand}-prod-careersites/", "{site}/[{locale}/]{slug}/job/{id}[__{locale}]"]
+  examples:
+    - https://careers.fedex.com/
+    - https://careers.marriott.com/
+  robots: allowed
+  verified: 2026-11-08
+  generic: yes
+  notes: "Paradox (Workday since 2025) Conversational Career Sites. Found via DNS: careers.fedex.com is a CNAME to fedex.sites.paradox.ai; *.sites.paradox.ai is wildcard DNS, so boards are detected by the page assets + canonical URL, never by host. Job lists are client-rendered, but each site publishes a complete per-brand/per-locale sitemap; translations repeat jobs (/fr-ca/... same id, or /es/.../{id}__es) and are folded into the default-language page. FedEx ~4,735 jobs, Marriott ~14,188 (first crawl ~4 h at 1 req/s; checkpointed). jobs.mchire.com (McDonald's franchisees) has ~1,000 sitemaps, over the 500-sitemap safety limit, so it is not supported as is."
 
 - name: Paycom
   key: paycom
@@ -769,26 +772,31 @@
   type: ats
   status: todo
   tier: hard
-  public_api: "no"
-  api: "apply.jobappnetwork.com/{brand} (JS SPA)"
-  url_patterns: ["apply.jobappnetwork.com/{brand}", "jobappnetwork.com/..."]
+  public_api: partial
+  api: "apply.jobappnetwork.com/clients/{clientId} (React SPA, 751-byte shell); data from POST prod-kong.internal.talentreef.com/apply/proxy-es/search-en-us/posting/_search (Elasticsearch query, filter clientId.raw)"
+  url_patterns: ["apply.jobappnetwork.com/clients/{clientId}", "apply.jobappnetwork.com/clients/{clientId}/posting/{jobId}[/{locale}]", "apply.jobappnetwork.com/{templateURL}"]
   examples: []
-  robots: unknown
+  robots: allowed
   verified: null
-  notes: "Hourly/restaurant hiring (Mitratech). Client-rendered."
+  notes: "Not built: waiting for an owner decision (2026-11-08). Career pages are a JS shell; the production app bundle sends its job search, without any token, to an Elasticsearch proxy at prod-kong.internal.talentreef.com/apply/proxy-es/{search-en-us|search-fr-ca|search-es-us}/posting/_search (robots.txt 404). One GET ?size=1 returned 200 with full postings (title, HTML description, address, brand, clientId/clientName, contractType, internalOrExternal; 190,608 hits in the index). The host is named internal and takes arbitrary Elasticsearch queries, so further use was stopped pending approval. The public site filters by clientId.raw (+ brand.raw, location.id) and, for external candidates, internalOrExternal = externalOnly."
 
 - name: Taleo
   key: taleo
   type: ats
-  status: todo
-  tier: hard
+  status: done
+  connector: jobindex.connectors.taleo
   public_api: "no"
-  api: "POST {company}.taleo.net/careersection/rest/jobboard/searchjobs?lang=en&portal={id} (needs portal id + headers)"
-  url_patterns: ["{company}.taleo.net/careersection/{section}/jobsearch.ftl", "{company}.taleo.net/careersection/{section}/jobdetail.ftl?job={id}"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Oracle Taleo Enterprise. JS-heavy; the REST search endpoint needs a portal id scraped from the page and specific headers."
+  api: "GET {host}/careersection/sitemap.jss?portalCode={section}&lang=en (every open job of the section) + GET /careersection/{section}/jobdetail.ftl?job={number}&lang=en (posting in the api.fillList(...descRequisition...) data; JSON-LD on tenants that enable it)"
+  url_patterns: ["{tenant}.taleo.net/careersection/{section}/jobsearch.ftl", "{tenant}.taleo.net/careersection/{section}/jobdetail.ftl?job={number}", "custom domains with /careersection/{section}/*.ftl"]
+  examples:
+    - https://wsp.taleo.net/careersection/globalcareersection/jobsearch.ftl?lang=en
+    - https://stantec.taleo.net/careersection/ex/jobsearch.ftl?lang=en
+  example_companies:
+    "https://stantec.taleo.net/careersection/ex/jobsearch.ftl?lang=en": "Stantec"
+  robots: allowed
+  verified: 2026-11-08
+  generic: partial
+  notes: "Taleo Enterprise only (Taleo Business Edition tbe.taleo.net not covered). Board = one career section ({host}/{section}); sitemap.jss without portalCode lists a tenant's sections (malformed: no <loc>). robots.txt is 404 on *.taleo.net. Job pages have no JSON-LD unless the tenant enables Taleo's Google markup (Stantec does): the posting is parsed from the fillList argument list (title, job number, description blocks, then (value, tooltip) pairs from Primary Location to the Job Posting date), title cross-checked with og:title. Gone jobs are served as unavailablerequisition.ftl (stored closed). A switched-off section serves an empty sitemap, so an empty sitemap fails unless the search page is up. The REST search (POST /careersection/rest/jobboard/searchjobs) is not used. Also live: hdr.taleo.net/ex (2,317 jobs)."
 
 - name: Teamtailor
   key: teamtailor

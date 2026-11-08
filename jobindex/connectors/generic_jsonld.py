@@ -192,6 +192,12 @@ class GenericJsonLdConnector(BaseConnector):
     def is_closed_page(self, text: str) -> bool:
         return any(p.search(text) for p in self.closed_patterns)
 
+    def is_closed_html(self, html: str) -> bool:
+        """True if a page without a JobPosting is a "job closed" page by its markup (for
+        platforms whose notice is filled in by JavaScript, so it is not in the visible
+        text). Default: never."""
+        return False
+
     def parse_page_html(self, html: str, stub: RawJob) -> RawJob | None:
         """Fallback for an open job page *without* a JobPosting (some platforms drop it
         for older postings that are still listed): map the page's own markup, or return
@@ -328,7 +334,7 @@ class GenericJsonLdConnector(BaseConnector):
         text = _visible_text(html)
         if not items:
             moved = self.job_id(final_url, board_identifier) != stub.external_id
-            if not (moved or self.is_closed_page(text)):
+            if not (moved or self.is_closed_page(text) or self.is_closed_html(html)):
                 fallback = self.parse_page_html(html, stub)
                 if fallback is not None and fallback.title:
                     return replace(
