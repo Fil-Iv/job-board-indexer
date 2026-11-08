@@ -1,7 +1,9 @@
 """Application settings, read from environment variables (and an optional .env file)."""
 
 from functools import lru_cache
+from typing import Self
 
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,6 +23,13 @@ class Settings(BaseSettings):
     database_null_pool: bool = False
     # Every transaction is READ ONLY (the public API never writes).
     database_read_only: bool = False
+
+    # API responses (not /health) may be cached this long by a CDN (Cache-Control
+    # s-maxage); 0 = no Cache-Control header.
+    api_cache_seconds: int = 0
+    # Set to "1" by Vercel at runtime. Switches the defaults of database_null_pool,
+    # database_read_only (both true) and api_cache_seconds (60) unless set explicitly.
+    vercel: bool = False
 
     # HTTP / crawling etiquette
     http_user_agent: str = "JobIndexBot/0.1 (+https://example.com/jobindex-bot)"
@@ -86,6 +95,18 @@ class Settings(BaseSettings):
     fetch_run_retention_days: int | None = None
 
     log_level: str = "INFO"
+
+    @model_validator(mode="after")
+    def _serverless_defaults(self) -> Self:
+        if self.vercel:
+            explicit = self.model_fields_set
+            if "database_null_pool" not in explicit:
+                self.database_null_pool = True
+            if "database_read_only" not in explicit:
+                self.database_read_only = True
+            if "api_cache_seconds" not in explicit:
+                self.api_cache_seconds = 60
+        return self
 
 
 @lru_cache

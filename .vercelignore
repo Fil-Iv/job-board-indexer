@@ -1,0 +1,15 @@
+# Not needed by the API function (vercel.json also excludes them from the bundle).
+.research
+tests
+docs
+coverage
+scripts
+docker
+backups
+.venv
+.mypy_cache
+.ruff_cache
+.pytest_cache
+.idea
+.env
+.env.*

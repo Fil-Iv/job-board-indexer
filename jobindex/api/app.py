@@ -1,13 +1,13 @@
 """HTTP API: job search (Postgres full-text, deduplicated), sources, stats, health."""
 
 import logging
-from collections.abc import AsyncIterator
+from collections.abc import AsyncIterator, Awaitable, Callable
 from contextlib import asynccontextmanager
 from datetime import date
 from decimal import Decimal
 from typing import Annotated
 
-from fastapi import Depends, FastAPI, HTTPException, Path, Query
+from fastapi import Depends, FastAPI, HTTPException, Path, Query, Request, Response
 from fastapi.responses import JSONResponse
 from sqlalchemy import func, select, text
 
@@ -67,6 +67,29 @@ app = FastAPI(
 
 
 app.include_router(ui_router)
+
+UNCACHED_PATHS = frozenset({"/health"})
+
+
+@app.middleware("http")
+async def cache_control(
+    request: Request, call_next: Callable[[Request], Awaitable[Response]]
+) -> Response:
+    """Let a CDN (Vercel) serve repeated GETs for ``API_CACHE_SECONDS``: the index only
+    changes when a crawl finishes, and every cached hit saves a database round trip."""
+    response = await call_next(request)
+    seconds = get_settings().api_cache_seconds
+    if (
+        seconds > 0
+        and request.method == "GET"
+        and response.status_code == 200
+        and request.url.path not in UNCACHED_PATHS
+        and "cache-control" not in response.headers
+    ):
+        response.headers["Cache-Control"] = (
+            f"public, max-age=0, s-maxage={seconds}, stale-while-revalidate={seconds * 5}"
+        )
+    return response
 
 
 def search_params(
@@ -163,7 +186,7 @@ def search_params(
 
 @app.get("/health", response_model=HealthOut, tags=["ops"], summary="Health check")
 async def health(session: SessionDep) -> HealthOut | JSONResponse:
-    """`200` when the API and the database answer, `503` otherwise."""
+    """`200` when the API and the database answer, `503` otherwise. Never cached."""
     try:
         await session.execute(text("SELECT 1"))
     except Exception:

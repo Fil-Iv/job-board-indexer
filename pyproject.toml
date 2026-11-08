@@ -57,7 +57,7 @@ allowed-confusables = ["–", "—", "’", "·"]
 python_version = "3.12"
 strict = true
 plugins = ["pydantic.mypy"]
-files = ["jobindex", "tests", "scripts", "migrations/env.py"]
+files = ["jobindex", "tests", "scripts", "api", "migrations/env.py"]
 
 [[tool.mypy.overrides]]
 module = ["apscheduler.*"]

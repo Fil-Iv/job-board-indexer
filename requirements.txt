@@ -1,0 +1,14 @@
+# Runtime dependencies of the Vercel function (api/index.py). Vercel installs this file;
+# everything else (docker, GitHub Actions) installs pyproject.toml. Keep the two in sync:
+# tests/test_vercel.py checks it. uvicorn, APScheduler and Alembic (server, crawl scheduler,
+# migrations) are left out on purpose.
+fastapi>=0.115
+sqlalchemy[asyncio]>=2.0.36,<2.1
+psycopg[binary]>=3.2
+httpx>=0.28
+pydantic-settings>=2.6
+selectolax>=1.0
+pycountry>=24.6
+defusedxml>=0.7
+jinja2>=3.1
+pyyaml>=6.0
