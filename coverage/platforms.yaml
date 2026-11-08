@@ -37,9 +37,10 @@
   api: "GET workforcenow.adp.com/mascsr/default/careercenter/public/events/staffing/v1/job-requisitions?cid={cid}&lang=&locale=&$top=100&$skip={1-based start} + .../job-requisitions/{itemID} (description)"
   url_patterns: ["workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid={uuid}[&lang=xx_YY]"]
   examples:
-    - https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=d4d64eb4-d344-423a-868e-ae5d37380d2f&ccId=19000101_000001&lang=en_US
+    - https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=9e26f425-d064-4c19-9e7b-cc8236837a7c&ccId=19000101_000001&lang=en_US
     - https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=8d16626f-48ae-43f6-b57e-79339726ccf4&ccId=19000101_000001&lang=en_CA
   example_companies:
+    "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=9e26f425-d064-4c19-9e7b-cc8236837a7c&ccId=19000101_000001&lang=en_US": "nou Systems"
     "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=8d16626f-48ae-43f6-b57e-79339726ccf4&ccId=19000101_000001&lang=en_CA": "Old Port of Montréal"
   robots: allowed
   verified: 2026-11-07
@@ -975,8 +976,8 @@
     - https://jobs.rubyonrails.org/
   robots: allowed
   verified: null
-  generic: yes
-  notes: "Generic sitemap + JSON-LD works on jobs.rubyonrails.org (13 jobs, 6/6 pages). Still blocked on a second live board (2026-11-08): railsworld.jobkit.io and jobs.jobkit.io list 0 jobs; searches for other JobKit boards return unrelated products named JobKit."
+  generic: True
+  notes: "Generic sitemap + JSON-LD works on jobs.rubyonrails.org (13 jobs, 6/6 pages). Not built: no second live board (rechecked 2026-11-08). *.jobkit.io is wildcard DNS; unknown boards answer 404. Of 33 likely names, 8 boards exist (ai, django, elixir, golang, jobs (GPTDevs), laravel, railsworld, remote).jobkit.io and all 8 list 0 jobs (empty sitemaps). jobkit.io links only jobs.rubyonrails.org; web searches find no custom-domain board. Fingerprint for later: <meta name=\"twitter:site\" content=\"@jobkitsite\"> + Powered by JobKit footer."
 
 - name: Jobboardly
   key: jobboardly
@@ -1098,7 +1099,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: ""
+  notes: "Not built (2026-11-08): no live customer board identified. Talenetic (UK white-label job board software) has no client page (/clients 404); the only named sites in press (oilfinity.com, TopEngineer.com, 2015) are its own aggregators; searches for Powered by Talenetic find no boards."
 
 - name: JobMount
   key: jobmount
@@ -1132,15 +1133,18 @@
 - name: JobBoard.com
   key: jobboardcom
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
-  examples: []
-  robots: unknown
-  verified: null
-  notes: ""
+  status: done
+  connector: jobindex.connectors.jobboardcom
+  public_api: "no"
+  api: "GET {site}/sitemap.xml -> /xml-sitemaps/{n}.xml (every page) + job pages /jobs/{slug}/{id}-{n}/ (JSON-LD JobPosting)"
+  url_patterns: ["customer domains with assets under /_cachebusted/_resx/templates/{nnnnn}/", "{site}/jobs/{slug}/{id}-{n}/"]
+  examples:
+    - https://jobs.acevo.org.uk/
+    - https://jobs.homeless.org.uk/
+  robots: allowed
+  verified: 2026-11-08
+  generic: yes
+  notes: "HotLizard / Aspire Media Group platform. Customer boards found in the vendor script www.jobboard.com/_resx/storage/.../bespoke/hotlizard/example-sites.js (~40 sites incl. appointments.thetimes.com ~39,900 job URLs, jobs.thesun.co.uk ~49,900). Sitemap index has no lastmod per job, so pages are refreshed every GENERIC_REFRESH_DAYS. robots.txt allows * (some boards name ClaudeBot/Bytespider; our User-Agent is JobIndexBot). On lgbtijobs.co.uk and myirelandjobs.com about half of the sampled sitemap job URLs had no JobPosting (expired jobs still listed), so those boards may hit the unexplained-page limit."
 
 - name: Artha
   key: artha
@@ -1153,7 +1157,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: ""
+  notes: "Not built (2026-11-08): no customer board identified. Artha Job Board is by Knovator Technologies; directories (Capterra, GetApp, SpotSaaS) name customers (nasscom, Indonesian Ministry of Education and Culture) but no board URL, and www.arthajobboard.com fails TLS (certificate for another host), so robots.txt cannot be read (treated as disallowed)."
 
 - name: jobboardsoftware.com
   key: jobboardsoftware
@@ -1166,7 +1170,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: ""
+  notes: "Not built (2026-11-08): www.jobboardsoftware.com redirects to exenzo.com/en/jobboard (Exenzo, NL). No customer board identified: the vendor page links no customer sites and searches found only a developer portfolio mention (15 job websites, unnamed)."
 
 - name: jobBoardHQ
   key: jobboardhq
@@ -1174,12 +1178,12 @@
   status: todo
   tier: medium
   public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
+  api: "customer domains (fingerprint: jobboardhqsites in the 404 page; vendor showcase on www.jobboardhq.com): GET /search (first 20 jobs) + /job/{code}/{slug}/{city}/{state} (JSON-LD JobPosting)"
+  url_patterns: ["custom domains: /search, /job/{code}/{slug}/{city}/{state}, /employerjobs/{code}/{slug}"]
   examples: []
-  robots: unknown
+  robots: allowed
   verified: null
-  notes: "Checked 2026-11-08: no customer board identified. jobs.macslist.org / njschooljobs.com (pass-2 guesses) carry no jobBoardHQ marker; vendor listings (fantastic.jobs, Capterra) name no customer sites; job API is Enterprise-plan only."
+  notes: "Not built (2026-11-08): no complete allowed listing. Customer boards found on the vendor homepage: jobs.macslist.org, njschooljobs.com, www.estatejobs.com, www.greaterroccareers.com, www.jobsindoorcounty.com, www.roaddogjobs.com (robots.txt empty or Allow: /). Job pages carry JSON-LD, but /search shows 20 jobs and pages only through ASP.NET __doPostBack (POST with the page-issued __VIEWSTATE), and no total is shown; GET ?page=/?Page=/?p=/?pg=//search/2 all return page 1. /sitemap.xml and the advertised /atom.xml (and /rss, /feed, /jobs.rss) are soft-404 HTML pages. Job API is Enterprise-plan only (owner key)."
 
 - name: Nodex
   key: nodex
@@ -1192,7 +1196,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: ""
+  notes: "Not built (2026-11-08): no customer board identified. Nodex (nodex.co.uk, UK) publishes no customer list (portfolio page 404); BuiltWith reports ~49 live sites and AppsRunTheWorld names recruiters (Big Ant Group, Orchard Recruitment, Sheridan Ward Recruitment) without board URLs."
 
 - name: eJobBoard
   key: ejobboard
@@ -1205,7 +1209,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: ""
+  notes: "Not built (2026-11-08): no customer board identified. www.ejobboard.com serves a 114-byte page; TrustRadius lists the product as discontinued; searches for powered by eJobBoard find no sites (results mix it up with ejobsitesoftware.com)."
 
 - name: ejobsitesoftware.com
   key: ejobsitesoftware
@@ -1213,9 +1217,9 @@
   status: todo
   tier: medium
   public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
+  api: "customer domains (vendor showcase on ejobsitesoftware.com): job pages /{id}/{Title-City-ST}.html (JSON-LD JobPosting); lists: rss/job.php, rss/{industry}.xml"
+  url_patterns: ["custom domains: /{id}/{slug}.html, /job_search.php, /rss/job.php"]
   examples: []
-  robots: unknown
+  robots: allowed
   verified: null
-  notes: ""
+  notes: "Not built (2026-11-08): no complete, countable listing. Boards from the vendor homepage: eyetasticjobs.com, connectagri.com, jobqlick.com, gurushrconsultancy.com, recruitclever.co.uk, beveiligingsvacature.nl. Job pages carry JSON-LD, but on eyetasticjobs.com rss/job.php lists exactly 200 jobs (a cap: 49 jobs in the per-industry feeds rss/{id}.xml are missing from it), each industry feed stops at 20, job_search.php is a POST form, no total count is shown, and /sitemap.xml is the vendor default (239 URLs under /jobsite_demo/, none of the board's jobs)."

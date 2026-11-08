@@ -26,7 +26,8 @@ URL formats recognised:
         job-requisitions?cid={uuid}
 Not covered: ADP Recruiting Management (recruiting.adp.com) and myjobs.adp.com.
 
-Verified on cids d4d64eb4-... (US, 7 jobs) and 8d16626f-... (Canada, 3 jobs), 2026-11-07.
+Verified on cids d4d64eb4-... (US, 7 jobs) and 8d16626f-... (Canada, 3 jobs), 2026-11-07, and
+9e26f425-... (nou Systems, US, 43 jobs), 2026-11-08.
 """
 
 import re

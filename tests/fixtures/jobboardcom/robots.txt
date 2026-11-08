@@ -1,0 +1,31 @@
+User-agent: *
+Disallow: /Microsoft.WindowsAzure.Caching/
+Disallow: /Scripts/
+Disallow: /_controls/
+Disallow: /_configuration/
+Disallow: /_customerrors/
+Disallow: /_integrations/
+Disallow: /_management/
+Disallow: /_rewritten/
+Disallow: /holding/
+Disallow: /referencehandler.ashx
+Disallow: /statisticincrementer.ashx
+Disallow: /vacancyclickincrementer.ashx
+Disallow: /vacancyviewincrementer.ashx
+Disallow: /preview.aspx
+Disallow: /_feeds/
+Crawl-delay: 0.2
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+Sitemap: https://jobs.acevo.org.uk/sitemap.xml

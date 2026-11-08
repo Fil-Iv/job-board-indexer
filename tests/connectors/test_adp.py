@@ -21,7 +21,8 @@ from jobindex.http import FetchError, HttpClient
 from tests.fakes import load_fixture, load_json_fixture, mock_http
 
 API = "workforcenow.adp.com/mascsr/default/careercenter/public/events/staffing/v1/job-requisitions"
-US = "d4d64eb4-d344-423a-868e-ae5d37380d2f"
+US = "d4d64eb4-d344-423a-868e-ae5d37380d2f"  # fixtures; employer never named in its data
+NOU_SYSTEMS = "9e26f425-d064-4c19-9e7b-cc8236837a7c"  # live example (names itself)
 CA = "8d16626f-48ae-43f6-b57e-79339726ccf4"
 PAGE = "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html"
 
@@ -125,7 +126,7 @@ async def test_unknown_board_and_bad_payload() -> None:
 
 
 @pytest.mark.live
-@pytest.mark.parametrize("board", [US, f"{CA}:en_CA"])
+@pytest.mark.parametrize("board", [NOU_SYSTEMS, f"{CA}:en_CA"])
 async def test_live(board: str) -> None:
     async with HttpClient.from_settings() as http:
         connector = ADPConnector(http)
