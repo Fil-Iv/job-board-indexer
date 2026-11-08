@@ -2,7 +2,7 @@ COMPOSE ?= docker compose
 RUN     := $(COMPOSE) run --rm app
 PROD    := docker compose -f docker-compose.prod.yml --env-file .env.prod
 
-.PHONY: help up down logs migrate test test-live lint format seed-demo crawl dedup dedup-report fill-rates coverage parser-fingerprint shell \
+.PHONY: help up down logs migrate test test-live lint format seed-demo demo-sources db-size prune crawl dedup dedup-report fill-rates coverage parser-fingerprint shell \
         prod-up prod-down prod-logs prod-backup
 
 help:  ## List targets
@@ -35,8 +35,17 @@ lint:  ## ruff check + ruff format --check + mypy
 format:  ## Auto-fix lint issues and format code
 	$(RUN) sh -c "ruff check --fix . && ruff format ."
 
-seed-demo:  ## Register the example boards of every done platform (coverage/platforms.yaml)
-	$(RUN) python -m jobindex.cli seed-demo $(if $(PLATFORM),--platform $(PLATFORM),)
+seed-demo:  ## Register example boards (all of platforms.yaml, or FILE=coverage/demo_sources.yaml)
+	$(RUN) python -m jobindex.cli seed-demo $(if $(FILE),--file $(FILE),$(if $(PLATFORM),--platform $(PLATFORM),))
+
+demo-sources:  ## Regenerate coverage/demo_sources.yaml (small boards for the hosted demo)
+	$(RUN) python scripts/make_demo_sources.py
+
+db-size:  ## Database and table sizes (ARGS="--fail-above-mb 450")
+	$(RUN) python -m jobindex.cli db-size $(ARGS)
+
+prune:  ## Delete old closed postings / job_changes / fetch_runs (ARGS="--closed-days 14")
+	$(RUN) python -m jobindex.cli prune $(ARGS)
 
 crawl:  ## Crawl one source (make crawl SOURCE=<id>) or all active sources (make crawl)
 	$(RUN) python -m jobindex.cli crawl $(if $(SOURCE),$(SOURCE),--all)

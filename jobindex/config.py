@@ -66,6 +66,25 @@ class Settings(BaseSettings):
     scheduler_tick_seconds: int = 60
     scheduler_heartbeat_file: str = "/tmp/jobindex-scheduler.heartbeat"
 
+    # Size budget (docs/OPERATIONS.md#size-budget). Defaults keep everything; the hosted
+    # demo (500 MB Supabase free tier) sets them in .github/workflows/crawl.yml.
+    # At most this many postings per source (0 = no cap). The full list is still fetched
+    # (completeness rules are unchanged), postings already stored are kept first, and a
+    # posting is only closed when it is missing from the full list.
+    max_jobs_per_source: int = 0
+    # description_html longer than this is stored as "" (description_text is always
+    # kept; the API falls back to it). None = keep all HTML, 0 = never store HTML.
+    description_html_max_chars: int | None = None
+    # job_changes old/new values are cut to this many characters (None = full values).
+    job_change_value_max_chars: int | None = None
+    # `prune`: delete closed postings closed more than N days ago (with their history),
+    # job_changes older than N days, and fetch_runs older than N days (each source's
+    # latest successful run is kept: the job-drop guard compares against it).
+    # None = keep forever.
+    closed_job_retention_days: int | None = None
+    job_change_retention_days: int | None = None
+    fetch_run_retention_days: int | None = None
+
     log_level: str = "INFO"
 
 

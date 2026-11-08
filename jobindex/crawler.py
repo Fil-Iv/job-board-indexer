@@ -20,7 +20,11 @@
    * open job missing from the result -> closed (recorded as a status change);
    * posting whose ``expires_at`` has passed -> stored/kept **closed** (never counted as
      open), so platforms that keep expired pages listed don't re-fetch them every crawl.
-5. **Safety**: connectors that opt in (``max_job_drop()``) fail the run instead of
+5. **Size budget** (``MAX_JOBS_PER_SOURCE``, ``DESCRIPTION_HTML_MAX_CHARS``,
+   ``JOB_CHANGE_VALUE_MAX_CHARS``): the full list is always fetched; at most N postings
+   are kept (stored ones first, so a cap never closes anything: only postings missing
+   from the full list are closed); oversized HTML and change values are trimmed.
+6. **Safety**: connectors that opt in (``max_job_drop()``) fail the run instead of
    closing jobs when the open-job count drops by more than that fraction vs. the last
    successful run (a broken sitemap or page template looks like mass closures).
 """
@@ -37,6 +41,7 @@ from sqlalchemy import desc, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from jobindex.checkpoint import SourceCheckpoint
+from jobindex.config import get_settings
 from jobindex.connectors.base import BaseConnector, JobCountDropError, RawJob
 from jobindex.connectors.registry import Registry, default_registry
 from jobindex.db import create_engine, create_session_factory
@@ -158,15 +163,18 @@ async def _crawl(
         listed = await connector.fetch_jobs(source.board_identifier)
         # Early check (list level, before slow detail fetches); the open count can only
         # be lower than this.
-        _check_drop(connector, previous, len({raw.external_id for raw in listed}))
+        listed_ids = {raw.external_id for raw in listed}
+        _check_drop(connector, previous, len(listed_ids))
+        listed = cap_postings(listed, existing, get_settings().max_jobs_per_source)
         if connector.needs_detail:
             raw_jobs = await _with_details(connector, source.board_identifier, listed, existing)
         else:
             raw_jobs = [(raw, raw.raw_hash()) for raw in listed]
         if source.company_name is None and any(raw.company is None for raw, _ in raw_jobs):
             source.company_name = await _company_name(connector, source.board_identifier)
+        html_limit = get_settings().description_html_max_chars
         postings = [
-            (raw.normalized(company_fallback=source.company_name), raw_hash)
+            (trim_html(raw.normalized(company_fallback=source.company_name), html_limit), raw_hash)
             for raw, raw_hash in raw_jobs
         ]
         now = utcnow()
@@ -181,7 +189,7 @@ async def _crawl(
         raise
 
     try:
-        counts = _reconcile(session, source_id, postings, existing)
+        counts = _reconcile(session, source_id, postings, existing, listed_ids)
         now = utcnow()
         run.status = FetchStatus.SUCCESS
         run.finished_at = now
@@ -197,6 +205,37 @@ async def _crawl(
 
     log.info("crawled source %s: found=%d new=%d updated=%d closed=%d", source_id, *counts)
     return CrawlResult(source_id, run_id, FetchStatus.SUCCESS, *counts)
+
+
+def cap_postings(listed: list[RawJob], existing: dict[str, Job], limit: int) -> list[RawJob]:
+    """At most ``limit`` distinct postings (0 = all): stored open ones first (so the
+    stored set stays stable), then new ones, then stored closed ones; newest first."""
+    ids = list(dict.fromkeys(raw.external_id for raw in listed))
+    if limit <= 0 or len(ids) <= limit:
+        return listed
+    first: dict[str, RawJob] = {}
+    for raw in listed:
+        first.setdefault(raw.external_id, raw)
+
+    def rank(external_id: str) -> tuple[int, float, str]:
+        job = existing.get(external_id)
+        stored = 2 if job is not None else 1
+        if job is not None and job.status is JobStatus.OPEN:
+            stored = 0
+        posted = first[external_id].posted_at
+        return stored, -(posted.timestamp() if posted else 0.0), external_id
+
+    keep = set(sorted(ids, key=rank)[:limit])
+    return [raw for raw in listed if raw.external_id in keep]
+
+
+def trim_html(posting: RawJob, limit: int | None) -> RawJob:
+    """Drop ``description_html`` longer than ``limit`` characters (stored as "", which
+    still counts as "detail fetched" for detail connectors). The text is kept."""
+    html = posting.description_html
+    if limit is None or html is None or len(html) <= limit:
+        return posting
+    return replace(posting, description_html="")
 
 
 async def _with_details(
@@ -313,7 +352,11 @@ def _reconcile(
     source_id: int,
     postings: list[tuple[RawJob, str]],
     existing: dict[str, Job],
+    listed_ids: set[str] | None = None,
 ) -> tuple[int, int, int, int]:
+    """Apply a successful fetch. ``listed_ids``: every posting id of the full list (a
+    superset of ``postings`` when ``MAX_JOBS_PER_SOURCE`` capped it); stored postings
+    in it are still listed and are never closed."""
     now = utcnow()
     # De-duplicate by external_id (last one wins) — some APIs repeat postings across pages.
     by_external_id = {p.external_id: (p, raw_hash) for p, raw_hash in postings}
@@ -374,8 +417,9 @@ def _reconcile(
         job.last_seen_at = now
         job.last_checked_at = now
 
+    still_listed = listed_ids or set()
     for external_id, job in existing.items():
-        if external_id in by_external_id:
+        if external_id in by_external_id or external_id in still_listed:
             continue
         job.last_checked_at = now
         if job.status is JobStatus.OPEN:
@@ -391,9 +435,11 @@ def _reconcile(
 def _as_text(value: Any) -> str | None:
     if value is None:
         return None
-    if isinstance(value, datetime):
-        return value.isoformat()
-    return str(getattr(value, "value", value))
+    text = value.isoformat() if isinstance(value, datetime) else str(getattr(value, "value", value))
+    limit = get_settings().job_change_value_max_chars
+    if limit is not None and len(text) > limit:
+        return text[:limit] + "…"
+    return text
 
 
 def _cause(job: Job, raw_hash: str) -> ChangeCause:

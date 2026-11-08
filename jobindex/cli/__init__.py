@@ -5,11 +5,17 @@ Commands:
                                              embed URL or custom-domain careers page)
     seed-demo [--platform KEY ...]           register every example board of every `done`
                                              platform in coverage/platforms.yaml
+    seed-demo --file coverage/demo_sources.yaml
+                                             register the boards listed in that file
     crawl <source_id> | --all                crawl one source, or every active one (then dedup)
     set-company <source_id> <name>           set the company name used for the source's jobs
     dedup                                    recompute cross-source duplicates
     fill-rates [--markdown] [--strict]       share of open postings with each field, per
                                              platform (--strict: exit 1 on required gaps)
+    db-size [--markdown] [--fail-above-mb N] database and table sizes (exit 1 above N MB)
+    prune [--closed-days N] [--changes-days N] [--runs-days N]
+                                             delete old closed postings / history / runs
+                                             (defaults: *_RETENTION_DAYS settings)
     schedule                                 crawl continuously (the worker process)
 """
 
@@ -22,6 +28,7 @@ from collections.abc import Sequence
 from datetime import timedelta
 from pathlib import Path
 
+import yaml
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
@@ -32,6 +39,7 @@ from jobindex.crawler import CrawlResult, active_source_ids, crawl_sources
 from jobindex.db import create_engine, create_session_factory
 from jobindex.dedup import run_dedup
 from jobindex.http import FetchError, HttpClient
+from jobindex.maintenance import db_size, prune, render_db_size
 from jobindex.models import FetchStatus, Source
 from jobindex.quality import fill_rates, render_markdown, render_text
 from jobindex.scheduler import CrawlScheduler
@@ -51,6 +59,11 @@ def _build_parser() -> argparse.ArgumentParser:
         "seed-demo", help="register the example boards from coverage/platforms.yaml"
     )
     seed.add_argument("--platform", nargs="+", metavar="KEY", help="only these platform keys")
+    seed.add_argument(
+        "--file",
+        type=Path,
+        help="register the boards of this file instead (e.g. coverage/demo_sources.yaml)",
+    )
 
     company = sub.add_parser("set-company", help="set a source's company name")
     company.add_argument("source_id", type=int)
@@ -65,6 +78,15 @@ def _build_parser() -> argparse.ArgumentParser:
     fill = sub.add_parser("fill-rates", help="field fill rates of open postings per platform")
     fill.add_argument("--markdown", action="store_true", help="print a Markdown table")
     fill.add_argument("--strict", action="store_true", help="exit 1 if a required field has gaps")
+    size = sub.add_parser("db-size", help="database and table sizes")
+    size.add_argument("--markdown", action="store_true", help="print a Markdown table")
+    size.add_argument(
+        "--fail-above-mb", type=float, metavar="MB", help="exit 1 if the database is larger"
+    )
+    prune_cmd = sub.add_parser("prune", help="delete old closed postings, history and runs")
+    prune_cmd.add_argument("--closed-days", type=int, metavar="N", help="closed > N days ago")
+    prune_cmd.add_argument("--changes-days", type=int, metavar="N", help="job_changes > N days")
+    prune_cmd.add_argument("--runs-days", type=int, metavar="N", help="fetch_runs > N days")
     sub.add_parser("schedule", help="crawl every active source on its interval, forever")
     return parser
 
@@ -150,6 +172,88 @@ async def seed_demo(
     if failed:
         print(f"seed-demo: {failed} example(s) could not be registered", file=sys.stderr)
     return 1 if failed else 0
+
+
+def load_demo_sources(path: Path) -> list[tuple[str, str | None]]:
+    """``(url, company)`` pairs from a demo sources file (format: see
+    coverage/demo_sources.yaml)."""
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    entries = data.get("sources") if isinstance(data, dict) else None
+    if not isinstance(entries, list):
+        raise ValueError(f"{path}: expected a top-level 'sources:' list")
+    result: list[tuple[str, str | None]] = []
+    for entry in entries:
+        if not isinstance(entry, dict) or not isinstance(entry.get("url"), str):
+            raise ValueError(f"{path}: every source needs a 'url': {entry!r}")
+        company = entry.get("company")
+        result.append((entry["url"], str(company) if company else None))
+    return result
+
+
+async def seed_from_file(
+    session_factory: async_sessionmaker[AsyncSession],
+    registry: Registry,
+    http: HttpClient,
+    path: Path,
+) -> int:
+    """Register every board listed in ``path`` (idempotent). Returns 1 if any failed."""
+    try:
+        entries = load_demo_sources(path)
+    except (OSError, ValueError, yaml.YAMLError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    failed = 0
+    for url, company in entries:
+        if await add_source(session_factory, registry, http, url, company) != 0:
+            failed += 1
+    if failed:
+        print(f"seed-demo: {failed} of {len(entries)} source(s) failed", file=sys.stderr)
+    return 1 if failed else 0
+
+
+async def report_db_size(
+    session_factory: async_sessionmaker[AsyncSession],
+    markdown: bool,
+    fail_above_mb: float | None,
+) -> int:
+    async with session_factory() as session:
+        size = await db_size(session)
+    print(render_db_size(size, markdown=markdown), end="")
+    if fail_above_mb is not None and size.database_mb > fail_above_mb:
+        print(
+            f"error: database is {size.database_mb:.1f} MB, above the {fail_above_mb:g} MB "
+            "limit (see docs/OPERATIONS.md#size-budget)",
+            file=sys.stderr,
+        )
+        return 1
+    return 0
+
+
+async def run_prune(
+    session_factory: async_sessionmaker[AsyncSession],
+    closed_days: int | None,
+    changes_days: int | None,
+    runs_days: int | None,
+) -> int:
+    settings = get_settings()
+    async with session_factory() as session:
+        result = await prune(
+            session,
+            closed_job_days=closed_days
+            if closed_days is not None
+            else settings.closed_job_retention_days,
+            job_change_days=changes_days
+            if changes_days is not None
+            else settings.job_change_retention_days,
+            fetch_run_days=runs_days
+            if runs_days is not None
+            else settings.fetch_run_retention_days,
+        )
+    print(
+        f"prune: deleted {result.jobs} closed postings, {result.job_changes} job_changes, "
+        f"{result.fetch_runs} fetch_runs"
+    )
+    return 0
 
 
 async def set_company(
@@ -265,9 +369,17 @@ async def _run(args: argparse.Namespace, registry: Registry) -> int:
             return await dedup(session_factory)
         if args.command == "fill-rates":
             return await report_fill_rates(session_factory, args.markdown, args.strict)
+        if args.command == "db-size":
+            return await report_db_size(session_factory, args.markdown, args.fail_above_mb)
+        if args.command == "prune":
+            return await run_prune(
+                session_factory, args.closed_days, args.changes_days, args.runs_days
+            )
         async with HttpClient.from_settings() as http:
             if args.command == "schedule":
                 return await schedule(session_factory, registry, http)
+            if args.command == "seed-demo" and args.file:
+                return await seed_from_file(session_factory, registry, http, args.file)
             if args.command == "seed-demo":
                 only = set(args.platform) if args.platform else None
                 return await seed_demo(session_factory, registry, http, only)
