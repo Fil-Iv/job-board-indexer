@@ -1,45 +1,37 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="fantasy">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% if params.q %}{{ params.q }} – {% endif %}JobIndex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
 <script>
-  // Theme: "fantasy" or the default look, chosen with the header button and remembered in
-  // localStorage. Applied before the page paints; storage may be blocked, so try/catch.
+  // Theme: "fantasy" (Dark Fantasy, the default rendered by the server) or "light", chosen
+  // with the header button and remembered in localStorage. Applied before the page paints;
+  // storage may be blocked (private mode), so every access is wrapped in try/catch.
   (function () {
     var KEY = "jobindex-theme";
-    function loadFonts() {
-      if (document.getElementById("fantasy-fonts")) return;
-      var link = document.createElement("link");
-      link.id = "fantasy-fonts";
-      link.rel = "stylesheet";
-      link.href = "https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap";
-      document.head.appendChild(link);
-    }
+    var root = document.documentElement;
     window.jobindexTheme = {
-      get: function () { return document.documentElement.getAttribute("data-theme") === "fantasy" ? "fantasy" : "default"; },
+      get: function () { return root.getAttribute("data-theme") === "light" ? "light" : "fantasy"; },
       set: function (theme) {
-        if (theme === "fantasy") { document.documentElement.setAttribute("data-theme", "fantasy"); loadFonts(); }
-        else { document.documentElement.removeAttribute("data-theme"); }
+        root.setAttribute("data-theme", theme === "light" ? "light" : "fantasy");
         try { localStorage.setItem(KEY, theme); } catch (e) { /* storage unavailable */ }
       }
     };
     var saved = null;
     try { saved = localStorage.getItem(KEY); } catch (e) { /* storage unavailable */ }
-    if (saved === "fantasy") { document.documentElement.setAttribute("data-theme", "fantasy"); loadFonts(); }
+    if (saved === "light") root.setAttribute("data-theme", "light");
   })();
 </script>
 <style>
-  /* ---------- Default theme (clean; follows the system light/dark setting) ---------- */
+  /* ---------- Base + light theme (clean). Dark Fantasy overrides it further below. ---------- */
   :root {
     --bg: #f7f7f5; --card: #fff; --text: #1d1d1f; --muted: #626267; --line: #e3e3e0;
     --accent: #1f5fbf; --accent-text: #fff; --closed: #a33;
-    color-scheme: light dark;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #141416; --card: #1d1d20; --text: #ececee; --muted: #a2a2aa;
-            --line: #2e2e33; --accent: #6ea0ff; --accent-text: #0b0b0d; --closed: #f08a8a; }
+    color-scheme: light;
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--text);
@@ -55,7 +47,7 @@
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .theme-toggle { font: inherit; font-size: 13px; color: var(--text); background: var(--card);
                   border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; cursor: pointer; }
-  .theme-toggle::before { content: "\25C6\00A0"; color: var(--muted); }
+  .theme-toggle::before { content: "\25C6\00A0"; color: var(--accent); }
   form { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
          padding: 14px; display: grid; gap: 10px;
          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
@@ -78,7 +70,8 @@
   .closed { color: var(--closed); }
   .links { margin-top: 8px; font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 16px; }
   .links .src { color: var(--muted); }
-  .pager { display: flex; justify-content: space-between; margin-top: 18px; }
+  .pager { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 18px; }
+  .pager .pos { color: var(--muted); font-size: 13px; }
   .empty { background: var(--card); border: 1px dashed var(--line); border-radius: 10px;
            padding: 28px; text-align: center; color: var(--muted); }
 
@@ -109,6 +102,10 @@
     background-attachment: scroll, scroll, scroll, scroll, scroll, scroll, fixed;
     min-height: 100vh;
   }
+  [data-theme="fantasy"] body::before {  /* vignette */
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, .7) 100%); }
+  [data-theme="fantasy"] main { position: relative; z-index: 1; }
   [data-theme="fantasy"] header.top { padding-bottom: 14px; margin-bottom: 18px;
     border-bottom: 1px solid transparent;
     border-image: linear-gradient(90deg, transparent, var(--gold-deep) 15%, var(--gold) 50%, var(--gold-deep) 85%, transparent) 1; }
@@ -181,8 +178,30 @@
   [data-theme="fantasy"] .gem-onsite { color: var(--ink); text-shadow: 0 1px 0 rgba(255, 240, 200, .5);
     background: linear-gradient(#ffd27a, #d9921f); }
   [data-theme="fantasy"] .gem-onsite::before { border-color: rgba(42, 27, 12, .4); }
+  [data-theme="fantasy"] .rune {  /* employment type: small rune badge */
+    font-family: var(--heading); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--gold); background: linear-gradient(#3a342a, #211d17); border: 1px solid var(--gold-dark);
+    border-radius: 2px; padding: 1px 8px; box-shadow: 0 0 0 1px rgba(156, 116, 38, .6); }
+  [data-theme="fantasy"] .rune::before { content: "\16DF\00A0"; }
+  [data-theme="fantasy"] .salary { color: #6a470b; font-weight: 600; }  /* dark gold: AA on parchment */
+  [data-theme="fantasy"] .salary::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 5px;
+    border-radius: 50%; vertical-align: -1px; border: 1px solid var(--gold-dark);
+    background: radial-gradient(circle at 35% 35%, #fff2c0, #e0bd62 45%, #9c7426); }
+  [data-theme="fantasy"] .job .links a {  /* small gold buttons */
+    display: inline-block; padding: 0 10px; margin: 2px 0; border-radius: 3px; text-decoration: none;
+    font-family: var(--heading); font-size: 12px; font-weight: 700; letter-spacing: .05em; line-height: 22px;
+    color: var(--ink); background: linear-gradient(#f3dc94, #d2a948 50%, #c39a3d);
+    border: 1px solid var(--gold-dark); box-shadow: inset 0 1px 0 rgba(255, 250, 220, .7), 0 1px 2px rgba(0, 0, 0, .35); }
+  [data-theme="fantasy"] .job .links a:hover { filter: brightness(1.1); }
   [data-theme="fantasy"] .empty { font-style: italic; font-size: 17px; }
-  [data-theme="fantasy"] .pager a { font-family: var(--heading); letter-spacing: .05em; }
+  [data-theme="fantasy"] .pager { border-bottom: 2px solid var(--gold-deep); align-items: end; }
+  [data-theme="fantasy"] .pager .pos { font-style: italic; font-size: 15px; }
+  [data-theme="fantasy"] .pager a {  /* stone tabs */
+    display: inline-block; font-family: var(--heading); font-weight: 700; letter-spacing: .05em; text-decoration: none;
+    color: var(--gold); padding: 8px 16px 6px; border: 1px solid var(--gold-deep); border-bottom: 0;
+    border-radius: 8px 8px 0 0; background: linear-gradient(#3a352c, #24201a);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 -2px 6px rgba(0, 0, 0, .4); }
+  [data-theme="fantasy"] .pager a:hover { background: linear-gradient(#4a4337, #2c271f); }
   @media (max-width: 480px) {
     [data-theme="fantasy"] header h1 { font-size: 24px; }
     [data-theme="fantasy"] li.job { padding: 12px 13px; }
@@ -202,7 +221,7 @@
     </div>
     <nav>
       <a href="/docs">API</a> · <a href="/stats">Stats</a>
-      <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">Dark Fantasy</button>
+      <button type="button" class="theme-toggle" id="theme-toggle" title="Switch theme">Light theme</button>
     </nav>
   </header>
 
@@ -260,9 +279,9 @@
         {% set place = [job.city, job.region, job.country]|select|join(', ') %}
         {% if place or job.location_raw %}<span>{{ place or job.location_raw }}</span>{% endif %}
         {% if job.remote_type.value != 'unknown' %}<span class="tag gem gem-{{ job.remote_type.value }}">{{ job.remote_type.value }}</span>{% endif %}
-        {% if job.employment_type %}<span class="tag">{{ job.employment_type|replace('_', ' ') }}</span>{% endif %}
+        {% if job.employment_type %}<span class="tag rune">{{ job.employment_type|replace('_', ' ') }}</span>{% endif %}
         {% if job.salary_min or job.salary_max %}
-          <span>{{ job.salary_currency or '' }}
+          <span class="salary">{{ job.salary_currency or '' }}
             {% if job.salary_min %}{{ "{:,.0f}".format(job.salary_min) }}{% endif %}{% if job.salary_min and job.salary_max and job.salary_max != job.salary_min %}–{% endif %}{% if job.salary_max and job.salary_max != job.salary_min %}{{ "{:,.0f}".format(job.salary_max) }}{% endif %}
             {% if job.salary_period %}/ {{ job.salary_period }}{% endif %}</span>
         {% endif %}
@@ -292,6 +311,7 @@
   {% if results.pages > 1 %}
   <nav class="pager">
     <span>{% if results.page > 1 %}<a href="{{ page_url(results.page - 1) }}">← Previous</a>{% endif %}</span>
+    <span class="pos">page {{ results.page }} of {{ results.pages }}</span>
     <span>{% if results.page < results.pages %}<a href="{{ page_url(results.page + 1) }}">Next →</a>{% endif %}</span>
   </nav>
   {% endif %}
@@ -304,9 +324,10 @@
   // Theme toggle (see the script in <head>).
   (function () {
     var button = document.getElementById("theme-toggle");
-    function sync() { button.setAttribute("aria-pressed", String(window.jobindexTheme.get() === "fantasy")); }
+    // The label names the theme the button switches to.
+    function sync() { button.textContent = window.jobindexTheme.get() === "fantasy" ? "Light theme" : "Dark Fantasy"; }
     button.addEventListener("click", function () {
-      window.jobindexTheme.set(window.jobindexTheme.get() === "fantasy" ? "default" : "fantasy");
+      window.jobindexTheme.set(window.jobindexTheme.get() === "fantasy" ? "light" : "fantasy");
       sync();
     });
     sync();

@@ -4,9 +4,9 @@ It runs the same search as ``GET /jobs``. Form values are parsed leniently: an e
 invalid field is ignored instead of producing a 422 error page.
 
 The page has two themes, both in ``templates/index.html`` (plain CSS, no build step): the
-default clean look and an optional "Dark Fantasy" look, switched by a header button and
-remembered in ``localStorage``. The theme is purely client-side, so CDN caching still
-works.
+default "Dark Fantasy" look (rendered server-side as ``data-theme="fantasy"``) and a clean
+light look, switched by a header button and remembered in ``localStorage``.
+The choice is purely client-side, so CDN caching still works.
 """
 
 from dataclasses import dataclass
