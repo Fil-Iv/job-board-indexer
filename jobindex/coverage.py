@@ -387,6 +387,12 @@ def render_report(
     by_type = Counter(p.type for p in platforms)
     todo = [p for p in platforms if p.status != "done"]
     by_tier = Counter(p.tier for p in todo)
+    # A todo platform is "blocked" when blocked_by_site.yaml has an entry for it (that
+    # file may qualify the name, e.g. "CSOD (Cornerstone)"); the rest are "not built".
+    blocked_names = [b.platform for b in blocked or []]
+    n_blocked = sum(
+        any(b == p.name or b.startswith(f"{p.name} (") for b in blocked_names) for p in todo
+    )
     lines = [
         "# Platform coverage",
         "",
@@ -397,7 +403,8 @@ def render_report(
         f"**{len(platforms)} platforms** ({by_type['ats']} ATS, {by_type['jobboard']} job boards): "
         f"**{by_status['done']} done**{_partial_note(platforms)}, "
         f"{by_status['in_progress']} in progress, "
-        f"{by_status['todo']} todo "
+        f"{by_status['todo']} todo: {n_blocked} blocked by the site, "
+        f"{len(todo) - n_blocked} not built "
         f"(easy {by_tier['easy']} / medium {by_tier['medium']} / hard {by_tier['hard']}).",
         "",
         "Jobs found = size of the board's job list in the latest live crawl. "

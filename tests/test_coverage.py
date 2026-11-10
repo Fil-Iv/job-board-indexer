@@ -245,6 +245,8 @@ async def test_crawl_and_render(monkeypatch: pytest.MonkeyPatch) -> None:
     done = sum(p.status == "done" for p in plan)
     report = render_report(plan, results, datetime(2026, 11, 7, tzinfo=UTC))
     assert f"**78 platforms** (58 ATS, 20 job boards): **{done} done**" in report
+    full = render_report(plan, results, datetime(2026, 11, 7, tzinfo=UTC), load_blocked())
+    assert f"{78 - done} todo: 12 blocked by the site, {66 - done} not built" in full
     assert "| https://job-boards.greenhouse.io/discord | 3 |" in report
     assert "blocked (robots.txt) | never |" in report
     assert "### Easy — public JSON API" in report
