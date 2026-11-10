@@ -249,3 +249,44 @@ async def test_search_page_drops_unsafe_links(
     html = (await client.get("/")).text
     assert "javascript:" not in html
     assert "&lt;b&gt;Engineer&lt;/b&gt;" in html
+
+
+async def test_search_page_header_totals_and_platform_filter(
+    client: httpx.AsyncClient, session: AsyncSession
+) -> None:
+    await _seed(session)
+    html = (await client.get("/")).text
+    assert "<b>2</b> open jobs" in html  # openings: the merged Python job + the designer
+    assert "<b>2</b> platforms" in html
+    assert "last crawl <b>never</b>" in html
+    assert '<option value="greenhouse" >greenhouse (2)</option>' in html
+    assert '<option value="niceboard" >niceboard (1)</option>' in html
+
+    source = await session.get(Source, 1)
+    assert source is not None
+    source.last_success_at = T0
+    await session.commit()
+    html = (await client.get("/", params={"platform": "niceboard"})).text
+    assert '<time datetime="2026-10-01T00:00:00+00:00">2026-10-01 00:00 UTC</time>' in html
+    assert '<option value="niceboard" selected>niceboard (1)</option>' in html
+    assert "1 opening" in html
+    assert "Product Designer" not in html
+
+    # An unknown or malformed platform is kept in the form but matches nothing.
+    html = (await client.get("/", params={"platform": "nope"})).text
+    assert '<option value="nope" selected>nope</option>' in html
+    assert "0 openings" in html
+    assert "0 openings" not in (await client.get("/", params={"platform": "<x>"})).text
+
+
+async def test_search_page_themes(client: httpx.AsyncClient, session: AsyncSession) -> None:
+    """Default look plus an opt-in "Dark Fantasy" theme stored in localStorage."""
+    await _seed(session)
+    html = (await client.get("/")).text
+    assert '<html lang="en">' in html  # no theme attribute server-side: default look
+    assert 'id="theme-toggle" aria-pressed="false"' in html
+    assert ':root[data-theme="fantasy"]' in html
+    # Storage may be blocked (private mode): every access is wrapped in try/catch.
+    assert "try { saved = localStorage.getItem(KEY); } catch" in html
+    assert "try { localStorage.setItem(KEY, theme); } catch" in html
+    assert 'class="tag gem gem-remote"' in html

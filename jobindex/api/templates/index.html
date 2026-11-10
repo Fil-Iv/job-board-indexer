@@ -4,43 +4,76 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% if params.q %}{{ params.q }} – {% endif %}JobIndex</title>
+<script>
+  // Theme: "fantasy" or the default look, chosen with the header button and remembered in
+  // localStorage. Applied before the page paints; storage may be blocked, so try/catch.
+  (function () {
+    var KEY = "jobindex-theme";
+    function loadFonts() {
+      if (document.getElementById("fantasy-fonts")) return;
+      var link = document.createElement("link");
+      link.id = "fantasy-fonts";
+      link.rel = "stylesheet";
+      link.href = "https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap";
+      document.head.appendChild(link);
+    }
+    window.jobindexTheme = {
+      get: function () { return document.documentElement.getAttribute("data-theme") === "fantasy" ? "fantasy" : "default"; },
+      set: function (theme) {
+        if (theme === "fantasy") { document.documentElement.setAttribute("data-theme", "fantasy"); loadFonts(); }
+        else { document.documentElement.removeAttribute("data-theme"); }
+        try { localStorage.setItem(KEY, theme); } catch (e) { /* storage unavailable */ }
+      }
+    };
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) { /* storage unavailable */ }
+    if (saved === "fantasy") { document.documentElement.setAttribute("data-theme", "fantasy"); loadFonts(); }
+  })();
+</script>
 <style>
+  /* ---------- Default theme (clean; follows the system light/dark setting) ---------- */
   :root {
-    --bg: #f7f7f5; --card: #fff; --text: #1d1d1f; --muted: #6b6b70; --line: #e3e3e0;
+    --bg: #f7f7f5; --card: #fff; --text: #1d1d1f; --muted: #626267; --line: #e3e3e0;
     --accent: #1f5fbf; --accent-text: #fff; --closed: #a33;
     color-scheme: light dark;
   }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #141416; --card: #1d1d20; --text: #ececee; --muted: #9a9aa2;
+    :root { --bg: #141416; --card: #1d1d20; --text: #ececee; --muted: #a2a2aa;
             --line: #2e2e33; --accent: #6ea0ff; --accent-text: #0b0b0d; --closed: #f08a8a; }
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--text);
          font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
   main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
-  header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+  header.top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-bottom: 16px; }
   header h1 { font-size: 22px; margin: 0; }
   header h1 a { color: inherit; text-decoration: none; }
-  header nav { margin-left: auto; font-size: 13px; }
+  .totals { margin: 2px 0 0; font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 0 12px; }
+  .totals b { color: var(--text); font-weight: 600; }
+  header nav { margin-left: auto; font-size: 13px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .theme-toggle { font: inherit; font-size: 13px; color: var(--text); background: var(--card);
+                  border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; cursor: pointer; }
+  .theme-toggle::before { content: "\25C6\00A0"; color: var(--muted); }
   form { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
          padding: 14px; display: grid; gap: 10px;
-         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
   form .wide { grid-column: 1 / -1; display: flex; gap: 8px; }
-  label { display: grid; gap: 3px; font-size: 12px; color: var(--muted); }
-  input, select, button { font: inherit; color: inherit; background: var(--bg);
-         border: 1px solid var(--line); border-radius: 7px; padding: 7px 9px; min-width: 0; }
+  label { display: grid; gap: 3px; font-size: 12px; color: var(--muted); min-width: 0; }
+  input, select, form button { font: inherit; color: inherit; background: var(--bg);
+         border: 1px solid var(--line); border-radius: 7px; padding: 7px 9px; min-width: 0; width: 100%; }
   .wide input { flex: 1; font-size: 16px; }
-  button { background: var(--accent); color: var(--accent-text); border: 0;
-           padding: 7px 18px; cursor: pointer; font-weight: 600; }
+  form button { width: auto; background: var(--accent); color: var(--accent-text); border: 0;
+                padding: 7px 18px; cursor: pointer; font-weight: 600; }
   .summary { color: var(--muted); margin: 16px 2px 8px; font-size: 13px; }
   ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
   li.job { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
-           padding: 12px 14px; }
+           padding: 12px 14px; overflow-wrap: anywhere; }
   .job h2 { font-size: 16px; margin: 0 0 2px; }
   .job h2 a { color: inherit; text-decoration: none; }
   .job h2 a:hover { text-decoration: underline; }
-  .meta { color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+  .meta { color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; }
   .tag { border: 1px solid var(--line); border-radius: 99px; padding: 0 8px; font-size: 12px; }
   .closed { color: var(--closed); }
   .links { margin-top: 8px; font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 16px; }
@@ -48,13 +81,129 @@
   .pager { display: flex; justify-content: space-between; margin-top: 18px; }
   .empty { background: var(--card); border: 1px dashed var(--line); border-radius: 10px;
            padding: 28px; text-align: center; color: var(--muted); }
+
+  /* ---------- Dark Fantasy theme: dark stone, parchment, gold trim (CSS-only textures) ---------- */
+  :root[data-theme="fantasy"] {
+    color-scheme: dark;
+    --stone: #1b1915; --stone-hi: #2a2620; --panel: #24201a;
+    --text: #efe3c2; --muted: #cbbb94; --line: #5a4a2c;
+    --gold: #e0bd62; --gold-deep: #9c7426; --gold-dark: #4a3612;
+    --parchment: #ecdcb2; --parchment-edge: #c9ae74; --ink: #2a1b0c; --ink-muted: #563f22;
+    --ink-link: #7a2412; --closed: #8e1b14;
+    --bg: var(--stone); --card: var(--panel); --accent: var(--gold); --accent-text: var(--ink);
+    --heading: "Cinzel", "Trajan Pro", Georgia, serif;
+    --body: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif;
+  }
+  [data-theme="fantasy"] body {
+    font: 17px/1.45 var(--body);
+    background-color: var(--stone);
+    background-image:
+      radial-gradient(ellipse at 50% 0%, rgba(224, 189, 98, .08), transparent 60%),
+      radial-gradient(circle at 20% 30%, rgba(255, 255, 255, .035) 0 2px, transparent 3px),
+      radial-gradient(circle at 70% 80%, rgba(0, 0, 0, .35) 0 3px, transparent 4px),
+      radial-gradient(circle at 40% 60%, rgba(255, 255, 255, .025) 0 1px, transparent 2px),
+      repeating-linear-gradient(0deg, transparent 0 62px, rgba(0, 0, 0, .45) 62px 64px, rgba(255, 255, 255, .03) 64px 65px),
+      repeating-linear-gradient(90deg, transparent 0 126px, rgba(0, 0, 0, .3) 126px 128px),
+      radial-gradient(ellipse at center, var(--stone-hi), var(--stone) 70%);
+    background-size: 100% 600px, 37px 41px, 53px 47px, 23px 29px, auto, auto, 100% 100%;
+    background-attachment: scroll, scroll, scroll, scroll, scroll, scroll, fixed;
+    min-height: 100vh;
+  }
+  [data-theme="fantasy"] header.top { padding-bottom: 14px; margin-bottom: 18px;
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(90deg, transparent, var(--gold-deep) 15%, var(--gold) 50%, var(--gold-deep) 85%, transparent) 1; }
+  [data-theme="fantasy"] header h1 { font-family: var(--heading); font-weight: 700; font-size: 28px;
+    letter-spacing: .08em; color: var(--gold); text-shadow: 0 1px 0 #000, 0 0 12px rgba(224, 189, 98, .25); }
+  [data-theme="fantasy"] .totals { font-size: 14px; }
+  [data-theme="fantasy"] .totals b { color: var(--gold); }
+  [data-theme="fantasy"] a { color: var(--gold); }
+  [data-theme="fantasy"] .theme-toggle { font-family: var(--heading); font-size: 12px; letter-spacing: .05em;
+    color: var(--gold); background: linear-gradient(#2f2a21, #1d1a15); border: 1px solid var(--gold-deep); }
+  [data-theme="fantasy"] .theme-toggle::before { color: #7fb2ff; }
+  [data-theme="fantasy"] form { background: linear-gradient(rgba(0, 0, 0, .15), rgba(0, 0, 0, .35)), var(--panel);
+    border: 3px double var(--gold-deep); border-radius: 4px;
+    box-shadow: 0 0 0 1px #000, inset 0 0 24px rgba(0, 0, 0, .6), 0 6px 18px rgba(0, 0, 0, .5); }
+  [data-theme="fantasy"] label { font-family: var(--heading); font-size: 11px; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--muted); }
+  [data-theme="fantasy"] input, [data-theme="fantasy"] select {
+    font-family: var(--body); font-size: 16px; text-transform: none; letter-spacing: 0; color: var(--text);
+    background: #14120e; border: 1px solid var(--line); border-radius: 3px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, .7); }
+  [data-theme="fantasy"] input::placeholder { color: #9d8f6f; }
+  [data-theme="fantasy"] .wide input { font-size: 18px; }
+  [data-theme="fantasy"] form button {  /* engraved metal */
+    font-family: var(--heading); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: 14px;
+    color: var(--ink); text-shadow: 0 1px 0 rgba(255, 240, 200, .6);
+    background: linear-gradient(#f3dc94, #d2a948 45%, #b38a32 55%, #e2c06a);
+    border: 1px solid var(--gold-dark); border-radius: 3px;
+    box-shadow: inset 0 1px 0 rgba(255, 250, 220, .8), inset 0 -2px 3px rgba(74, 54, 18, .6),
+                0 0 0 2px #1a140a, 0 0 0 3px var(--gold-deep), 0 3px 6px rgba(0, 0, 0, .6); }
+  [data-theme="fantasy"] form button:hover { filter: brightness(1.08); }
+  [data-theme="fantasy"] form button:active { box-shadow: inset 0 2px 5px rgba(74, 54, 18, .8),
+                0 0 0 2px #1a140a, 0 0 0 3px var(--gold-deep); }
+  [data-theme="fantasy"] .summary { font-style: italic; font-size: 15px; }
+  [data-theme="fantasy"] ol { gap: 18px; padding: 4px; }
+  [data-theme="fantasy"] li.job, [data-theme="fantasy"] .empty {  /* parchment panel, gold double border */
+    position: relative; color: var(--ink); border: 4px double var(--gold-deep); border-radius: 3px;
+    padding: 14px 18px;
+    background-color: var(--parchment);
+    background-image:
+      radial-gradient(ellipse at 30% 20%, rgba(255, 250, 230, .55), transparent 55%),
+      radial-gradient(ellipse at 80% 90%, rgba(150, 110, 50, .18), transparent 50%),
+      repeating-linear-gradient(3deg, transparent 0 3px, rgba(120, 90, 40, .035) 3px 4px);
+    box-shadow: 0 0 0 1px var(--gold-dark), 0 0 0 3px var(--gold), 0 0 0 4px var(--gold-dark),
+                inset 0 0 28px rgba(120, 80, 30, .45), 0 8px 18px rgba(0, 0, 0, .55); }
+  [data-theme="fantasy"] li.job::before, [data-theme="fantasy"] li.job::after {  /* corner studs */
+    content: ""; position: absolute; top: -9px; width: 10px; height: 10px; transform: rotate(45deg);
+    background: linear-gradient(135deg, #f6e3a4, var(--gold-deep)); border: 1px solid var(--gold-dark); }
+  [data-theme="fantasy"] li.job::before { left: -9px; }
+  [data-theme="fantasy"] li.job::after { right: -9px; }
+  [data-theme="fantasy"] .job h2 { font-family: var(--heading); font-weight: 700; font-size: 18px;
+    letter-spacing: .02em; color: var(--ink); margin-bottom: 4px; }
+  [data-theme="fantasy"] .job h2 a { color: var(--ink); }
+  [data-theme="fantasy"] .meta, [data-theme="fantasy"] .links .src, [data-theme="fantasy"] .empty { color: var(--ink-muted); }
+  [data-theme="fantasy"] .meta { font-size: 15px; }
+  [data-theme="fantasy"] .meta strong { color: var(--ink); }
+  [data-theme="fantasy"] .links { font-size: 15px; border-top: 1px solid rgba(120, 85, 35, .35); padding-top: 6px; }
+  [data-theme="fantasy"] .job a, [data-theme="fantasy"] .empty a { color: var(--ink-link); }
+  [data-theme="fantasy"] .job :focus-visible { outline-color: var(--ink); }
+  [data-theme="fantasy"] .closed { color: var(--closed); font-weight: 600; }
+  [data-theme="fantasy"] .tag { font-size: 13px; color: var(--ink); border-color: rgba(86, 63, 34, .5); background: rgba(255, 250, 230, .35); }
+  [data-theme="fantasy"] .gem {  /* gem badges */
+    color: #fff; font-weight: 600; letter-spacing: .03em; border: 1px solid rgba(0, 0, 0, .55); border-radius: 4px;
+    padding: 0 9px 0 20px; position: relative; text-shadow: 0 1px 1px rgba(0, 0, 0, .6);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -2px 3px rgba(0, 0, 0, .35), 0 0 0 1px var(--gold-deep); }
+  [data-theme="fantasy"] .gem::before { content: ""; position: absolute; left: 6px; top: 50%; width: 8px; height: 8px;
+    margin-top: -4px; transform: rotate(45deg); background: radial-gradient(circle at 30% 30%, #fff, rgba(255, 255, 255, .2) 60%);
+    border: 1px solid rgba(255, 255, 255, .5); }
+  [data-theme="fantasy"] .gem-remote { background: linear-gradient(#2f6fd0, #173f86); }
+  [data-theme="fantasy"] .gem-hybrid { background: linear-gradient(#8a45c7, #4e1f80); }
+  [data-theme="fantasy"] .gem-onsite { color: var(--ink); text-shadow: 0 1px 0 rgba(255, 240, 200, .5);
+    background: linear-gradient(#ffd27a, #d9921f); }
+  [data-theme="fantasy"] .gem-onsite::before { border-color: rgba(42, 27, 12, .4); }
+  [data-theme="fantasy"] .empty { font-style: italic; font-size: 17px; }
+  [data-theme="fantasy"] .pager a { font-family: var(--heading); letter-spacing: .05em; }
+  @media (max-width: 480px) {
+    [data-theme="fantasy"] header h1 { font-size: 24px; }
+    [data-theme="fantasy"] li.job { padding: 12px 13px; }
+  }
 </style>
 </head>
 <body>
 <main>
-  <header>
-    <h1><a href="/">JobIndex</a></h1>
-    <nav><a href="/docs">API</a> · <a href="/stats">Stats</a></nav>
+  <header class="top">
+    <div>
+      <h1><a href="/">JobIndex</a></h1>
+      <p class="totals">
+        <span><b>{{ "{:,}".format(stats.open_openings) }}</b> open jobs</span>
+        <span><b>{{ stats.platforms|length }}</b> platforms</span>
+        <span>last crawl {% if stats.last_crawl_at %}<b><time datetime="{{ stats.last_crawl_at.isoformat() }}">{{ stats.last_crawl_at.strftime('%Y-%m-%d %H:%M') }} UTC</time></b>{% else %}<b>never</b>{% endif %}</span>
+      </p>
+    </div>
+    <nav>
+      <a href="/docs">API</a> · <a href="/stats">Stats</a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">Dark Fantasy</button>
+    </nav>
   </header>
 
   <form method="get" action="/" id="search">
@@ -78,6 +227,14 @@
     </label>
     <label>Min. salary <input name="salary_min" inputmode="numeric" value="{{ form.salary_min or '' }}" placeholder="60000"></label>
     <label>Posted since <input type="date" name="posted_since" value="{{ form.posted_since or '' }}"></label>
+    <label>Platform
+      <select name="platform">
+        <option value="">Any</option>
+        {% set known = stats.platforms|map('first')|list %}
+        {% for p, n in stats.platforms %}<option value="{{ p }}" {{ 'selected' if params.platform == p }}>{{ p }} ({{ "{:,}".format(n) }})</option>{% endfor %}
+        {% if params.platform and params.platform not in known %}<option value="{{ params.platform }}" selected>{{ params.platform }}</option>{% endif %}
+      </select>
+    </label>
     <label>Status
       <select name="status">
         {% for s in ['open', 'closed', 'any'] %}<option value="{{ s }}" {{ 'selected' if params.status.value == s }}>{{ s|capitalize }}</option>{% endfor %}
@@ -102,7 +259,7 @@
         {% if job.company %}<strong>{{ job.company }}</strong>{% endif %}
         {% set place = [job.city, job.region, job.country]|select|join(', ') %}
         {% if place or job.location_raw %}<span>{{ place or job.location_raw }}</span>{% endif %}
-        {% if job.remote_type.value != 'unknown' %}<span class="tag">{{ job.remote_type.value }}</span>{% endif %}
+        {% if job.remote_type.value != 'unknown' %}<span class="tag gem gem-{{ job.remote_type.value }}">{{ job.remote_type.value }}</span>{% endif %}
         {% if job.employment_type %}<span class="tag">{{ job.employment_type|replace('_', ' ') }}</span>{% endif %}
         {% if job.salary_min or job.salary_max %}
           <span>{{ job.salary_currency or '' }}
@@ -144,6 +301,16 @@
   document.querySelectorAll("#search select, #search input[type=date]").forEach(function (el) {
     el.addEventListener("change", function () { el.form.submit(); });
   });
+  // Theme toggle (see the script in <head>).
+  (function () {
+    var button = document.getElementById("theme-toggle");
+    function sync() { button.setAttribute("aria-pressed", String(window.jobindexTheme.get() === "fantasy")); }
+    button.addEventListener("click", function () {
+      window.jobindexTheme.set(window.jobindexTheme.get() === "fantasy" ? "default" : "fantasy");
+      sync();
+    });
+    sync();
+  })();
 </script>
 </body>
 </html>

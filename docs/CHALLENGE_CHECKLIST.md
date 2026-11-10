@@ -447,7 +447,7 @@ False-merge checks (from the same report, on the same data):
 
 | Requirement | Evidence |
 |---|---|
-| Search UI | `GET /` (server-rendered, `jobindex/api/ui.py`, `templates/index.html`): keyword, company, location, remote, employment type, minimum salary, posted since, status; pagination; one card per opening with every source link. Live: `/?q=engineer&location=Berlin` → "18 openings". Tests: `test_search_page`, `test_search_page_drops_unsafe_links`. |
+| Search UI | `GET /` (server-rendered, `jobindex/api/ui.py`, `templates/index.html`): keyword, company, location, remote, employment type, minimum salary, posted since, platform, status; pagination; one card per opening with every source link; header with live totals (open jobs, platforms, last crawl); optional "Dark Fantasy" theme (header toggle, remembered in `localStorage`; pure CSS, no build step, all text WCAG AA, works at 375 px). Live: `/?q=engineer&location=Berlin` → "18 openings". Tests: `test_search_page`, `test_search_page_drops_unsafe_links`, `test_search_page_header_totals_and_platform_filter`, `test_search_page_themes`. |
 | API with pagination | `GET /jobs?page=&size=` (max 100; `size=500` → 422), response `total` / `page` / `size` / `pages` / `items`. Live: `q=engineer` → 14,451 openings, 7,226 pages at size 2. Test: `test_pagination`. |
 | Keyword filter | `q` (Postgres `websearch_to_tsquery` over a weighted `tsvector`: title > company > description, GIN index). Live: `q=engineer`. |
 | Company filter | `company` (case-insensitive contains). Live: `company=spotify&page=2&size=3` → 85 total, page 2. |
