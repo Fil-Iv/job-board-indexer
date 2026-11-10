@@ -39,9 +39,14 @@ def test_requirements_match_pyproject() -> None:
     assert actual == expected
 
 
-def test_vercel_json_routes_everything_to_the_function() -> None:
+def test_fastapi_preset_serves_the_app_unrewritten() -> None:
+    # The FastAPI preset routes every path to the entrypoint itself; a rewrite to
+    # /api/index would make the app see that path and answer 404 everywhere.
+    pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text())
+    assert pyproject["tool"]["vercel"]["entrypoint"] == "api.index:app"
     config = json.loads((ROOT / "vercel.json").read_text())
-    assert config["rewrites"] == [{"source": "/(.*)", "destination": "/api/index"}]
+    assert "rewrites" not in config
+    assert "routes" not in config
     assert "api/index.py" in config["functions"]
 
 
