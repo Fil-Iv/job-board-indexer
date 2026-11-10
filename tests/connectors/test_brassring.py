@@ -18,7 +18,7 @@ import pytest
 from jobindex.connectors.base import ConnectorError, company_name_from_page
 from jobindex.connectors.brassring import BrassRingConnector
 from jobindex.http import HttpClient
-from tests.fakes import load_fixture, mock_http
+from tests.fakes import assert_detail_fields_cover, load_fixture, mock_http
 
 PAGE = "sjobs.brassring.com/TGnewUI/Search/Home/HomeWithPreLoad"
 HALIFAX = "sjobs.brassring.com/25749/5764"
@@ -74,6 +74,7 @@ async def test_list_and_detail() -> None:
     assert sorted(by_id) == ["772173", "772312", "772333"]
     assert by_id["772312"].title == "Hostler Repairperson"
     assert by_id["772312"].posted_at is not None
+    assert by_id["772312"].list_version == "v1"
     assert detail is not None
     assert detail.title == "Hostler Repairperson"
     text = detail.normalized().description_text or ""
@@ -81,6 +82,8 @@ async def test_list_and_detail() -> None:
     assert "Halifax Regional Municipality is inviting applications" in text
     assert "12032BR" not in text  # bookkeeping fields are not description
     assert gone is None  # Jobdetails: null -> closed
+    assert detail.apply_url == by_id["772312"].source_url
+    assert_detail_fields_cover(BrassRingConnector, by_id["772312"], detail)
 
 
 async def test_site_with_more_than_50_jobs_fails() -> None:
@@ -116,3 +119,9 @@ async def test_live(board: str) -> None:
         assert jobs
         detail = await connector.fetch_job_detail(board, jobs[0])
     assert detail is None or (detail.title and detail.description_html)
+
+
+def test_detail_version_forces_one_refetch_of_stored_jobs() -> None:
+    """Jobs stored before ``list_version`` existed are re-read once (2026-11-10 fix)."""
+    assert "list_version" in BrassRingConnector.detail_cache_key
+    assert {"location_raw", "apply_url"} <= set(BrassRingConnector.detail_fields)

@@ -1,5 +1,6 @@
 """Test doubles and helpers."""
 
+import dataclasses
 import json
 from collections.abc import Callable, Mapping
 from pathlib import Path
@@ -97,3 +98,20 @@ class FakeDetailConnector(FakeConnector):
         if html is None:
             return None
         return RawJob(**{**job.as_dict(), "description_html": html})
+
+
+def assert_detail_fields_cover(
+    connector: type[BaseConnector], stub: RawJob, detail: RawJob
+) -> None:
+    """Every field ``fetch_job_detail`` changes must be in ``detail_fields``.
+
+    The crawler reuses only ``detail_fields`` for unchanged postings; a field set by the
+    detail request but missing there is lost on every crawl after the first.
+    """
+    changed = {
+        f.name
+        for f in dataclasses.fields(RawJob)
+        if getattr(stub, f.name) != getattr(detail, f.name)
+    }
+    missing = changed - set(connector.detail_fields) - set(connector.detail_cache_key)
+    assert not missing, f"{connector.__name__}.detail_fields lacks {sorted(missing)}"

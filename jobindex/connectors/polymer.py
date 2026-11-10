@@ -57,6 +57,7 @@ def _remote(value: str | None) -> RemoteType:
 @register
 class PolymerConnector(BaseConnector):
     platform = "polymer"
+    detail_fields = ("description_html", "description_text", "employment_type")
     needs_detail = True
 
     @classmethod

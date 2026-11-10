@@ -54,12 +54,25 @@ _SKIP_ZONES = {
 }
 
 
+#: 2026-11-10: location/apply_url were dropped when stored details were reused; v1
+#: re-reads every page once to restore them.
+_DETAIL_VERSION = "v1"
+
+
 @register
 class BrassRingConnector(BaseConnector):
     platform = "brassring"
     needs_detail = True
     company_name_sources = (_TITLE,)
-    detail_cache_key: ClassVar[tuple[str, ...]] = ("title", "posted_at")
+    #: ``list_version`` = ``_DETAIL_VERSION``: bump it to re-read every stored job page once.
+    detail_cache_key: ClassVar[tuple[str, ...]] = ("title", "posted_at", "list_version")
+    # Everything fetch_job_detail sets, so an unchanged posting keeps it when reused.
+    detail_fields: ClassVar[tuple[str, ...]] = (
+        "description_html",
+        "description_text",
+        "location_raw",
+        "apply_url",
+    )
 
     @classmethod
     def detect(cls, url: str) -> str | None:
@@ -128,6 +141,7 @@ class BrassRingConnector(BaseConnector):
                 title=str(fields.get("jobtitle") or "").strip(),
                 posted_at=_date(fields.get("lastupdated")),
                 source_url=self._preload_url(board_identifier, PageType="JobDetails", jobid=req_id),
+                list_version=_DETAIL_VERSION,
             )
         if len(found) != total:
             raise ConnectorError(

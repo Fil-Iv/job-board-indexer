@@ -17,7 +17,7 @@ from jobindex.connectors.base import ConnectorError
 from jobindex.connectors.polymer import PolymerConnector
 from jobindex.http import FetchError, HttpClient
 from jobindex.models.enums import RemoteType
-from tests.fakes import load_fixture, load_json_fixture, mock_http
+from tests.fakes import assert_detail_fields_cover, load_fixture, load_json_fixture, mock_http
 
 API = "api.polymer.co/v1/hire/organizations"
 
@@ -56,6 +56,8 @@ async def test_fetch_jobs_and_detail_from_fixture() -> None:
         invicta = await connector.fetch_jobs("invicta-software")
         detail = await connector.fetch_job_detail("themis", themis[0])
         gone = await connector.fetch_job_detail("themis", themis[1])  # 404
+    assert detail is not None
+    assert_detail_fields_cover(PolymerConnector, themis[0], detail)
     assert next(r for r in seen if r.url.path.endswith("/jobs")).url.params["page"] == "1"
     assert len(themis) == 6
     first = themis[0]
