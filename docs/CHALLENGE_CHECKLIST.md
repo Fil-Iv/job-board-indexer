@@ -1,20 +1,48 @@
 # Challenge checklist
 
-Audit of JobIndex against the six challenge completion criteria, run end-to-end on real
-data on **2026-11-08** (UTC): `make up` → `make migrate` → `make seed-demo` (every example
-board in `coverage/platforms.yaml`) → `make crawl` (two passes, a third for 8 sources after fixes) → dedup → API, UI and DB
-queries. Every claim below names the command, endpoint, test or file that shows it.
+**Live demo: <https://job-board-indexer.vercel.app>** (search page; API docs at
+[/docs](https://job-board-indexer.vercel.app/docs)). Reviewer walkthrough:
+[DEMO.md](DEMO.md).
+
+Audit of JobIndex against the six challenge completion criteria. Full audit run
+end-to-end on real data on **2026-11-08** (UTC), locally: `make up` → `make migrate` →
+`make seed-demo` (every example board in `coverage/platforms.yaml`) → `make crawl` (two
+passes, a third for 8 sources after fixes) → dedup → API, UI and DB queries. **Re-verified
+on 2026-11-10** with fresh evidence from the live demo, two GitHub Actions crawls, a new
+`make coverage` run and a fresh clone (next section). Every claim names the command,
+endpoint, test or file that shows it.
 
 **Status legend:** ✅ met · 🟡 partially met (gap stated) · ❌ not met
 
 | # | Criterion | Status | Summary |
 |---|---|---|---|
-| 1 | Working coverage across all 78 platforms | 🟡 | 59 platforms done: 57 work on ≥ 2 real employers (BrassRing only for sites with ≤ 50 jobs), FirstStage and JobKit are partial (only one live board exists); 12 are blocked (refused by the site, or talentReef: only an internal host; evidence in `blocked_by_site.yaml`); 7 are not built, each with the exact reason in `platforms.yaml` |
-| 2 | Consistent job records | 🟡 | 43,203 open postings: title, source URL, apply URL 100%; company, description 100% (rounded), location 99%. 40 of 51 platforms have no gap at all; every remaining gap is a field empty at the source (listed); the ADP example that never named its employer was replaced (see the ADP row) |
-| 3 | Automatic updates | ✅ | Scheduler worker, change log, closing, failure ≠ closure: shown on live data and in tests |
-| 4 | Deduplication | ✅ | 16 real cross-source duplicates found and merged (43,203 open postings → 43,187 openings); 2,924 same-employer same-title groups, 667 cross-employer titles and 4 cross-source near misses kept apart, each checked |
-| 5 | Searchable output | ✅ | `/` search page + `/jobs` API with keyword, company, location (+ 7 more) filters, pagination; every OpenAPI parameter documented with an example |
-| 6 | Complete handoff | ✅ | Source, deployment, connector docs, monthly cost, external dependencies |
+| 1 | Working coverage across all 78 platforms | 🟡 | 59 platforms done: 57 work on ≥ 2 real employers (BrassRing only for sites with ≤ 50 jobs), FirstStage and JobKit are partial (only one live board exists); 12 are blocked (refused by the site, or talentReef: only an internal host; evidence in `blocked_by_site.yaml`); 7 are not built, each with the exact reason in `platforms.yaml`. 2026-11-10: all 117 example boards crawled OK |
+| 2 | Consistent job records | 🟡 | Local audit DB (43,203 open postings): title, source URL, apply URL 100%; company, description 100% (rounded), location 99%. Live demo (7,132): title, source URL, apply URL 100%, company 99.8%, location 99.0%. Every remaining gap is a field empty at the source (listed). Fixed 2026-11-10: BrassRing lost location/apply URL on re-crawls; "Bengaluru, KA,IN, IN" locations |
+| 3 | Automatic updates | 🟡 | Scheduler worker (VPS), change log, closing, failure ≠ closure: shown on live data and in tests. Hosted demo: 3 GitHub Actions crawls (all manually started; failures recorded, jobs kept); the 6-hourly **schedule** has not fired yet (repository public since 2026-11-10 16:48 UTC; first slot after that, 18:17, produced no run) |
+| 4 | Deduplication | ✅ | Local: 16 real cross-source duplicates merged (43,203 postings → 43,187 openings), 2,924 same-employer and 667 cross-employer title groups and 4 near misses kept apart, each checked. Live: 2 cross-platform duplicates merged (job 5632, 5630) |
+| 5 | Searchable output | ✅ | `/` search page + `/jobs` API with keyword, company, location (+ 7 more) filters, pagination; every OpenAPI parameter documented with an example; all re-checked on the live demo |
+| 6 | Complete handoff | ✅ | Source, deployment (re-run from a fresh clone), connector docs, reviewer walkthrough, monthly cost, external dependencies |
+
+---
+
+## Re-verification 2026-11-10 (fresh evidence)
+
+| # | Check | Result |
+|---|---|---|
+| 1 | `make coverage` (live crawl of every example board's job list), 18:39–18:46 UTC | **117 of 117** current example boards of the 59 done platforms OK (`coverage/results.json`, `docs/COVERAGE.md` "Generated 2026-11-10 18:46 UTC"). The 4 older entries without a fresh run are retired examples (ADP `d4d64eb4…`, PageUp `851/ci`, Bosch, inDrive). |
+| 1 | GitHub Actions crawl [run 42877398454](https://github.com/Fil-Iv/job-board-indexer/actions/runs/42877398454) (seed + crawl, 4 shards, 18:39–18:49 UTC) | **88 of 88 sources OK, 0 failed**, 56 platforms with indexed jobs; Avature/Bloomberg (failing in the run before: "sitemap lists 334 jobs but the board says 337", fixed by `540ee72`) now 200 postings. Database 121.4 MB (budget: warn 400, fail 450). |
+| 2 | Live index paged through `/jobs?size=100` (all 7,128 open openings / 7,130 postings) | title, source URL 100%; company 99.8% (WP Job Manager startjob.dk, Paradox); location 98.7%; apply URL 100% before the second crawl. Location gaps: BrassRing/Halifax (the job detail has no location field, only `latitude 0.0`), remote-only postings on JobKit (10 of 11), Zoho (4 of 11), SmartJobBoard/EdSurge (9 of 22). |
+| 2 | Posting vs apply link | No posting in either database lacks `apply_url` (0 of 43,203 locally, 0 of 6,727 live before the second crawl). 4,185 live postings have apply URL = posting URL (the platform's apply form is on the posting page): the search page now shows one "posting · apply" link for them (`test_search_page_link_labels`). |
+| 2 | Bug found by this check | After the second hosted crawl BrassRing `apply_url` fell to 6% and location to 0%: fields set by `fetch_job_detail` but missing from `detail_fields` are dropped when stored details are reused. Fixed for BrassRing (+ Polymer `employment_type`), one-time page re-read via `list_version`; guard `tests.fakes.assert_detail_fields_cover`. |
+| 2 | Location format | Eightfold sent `addressRegion: "KA,IN"` → "Bengaluru, KA,IN, IN"; JBoard the whole "City, Region, Country" in `addressLocality`. Fixed in `jobindex/schemaorg.py` + `normalize` (`PARSER_VERSION` 4: "Bengaluru, KA, IN" is India, not Indiana); stored pages re-read once (`detail_version`). Live after the crawl: 182 Eightfold postings updated, **0** regions containing a comma (was 183). |
+| 3 | Updates on the live demo | Second crawl (run 42877398454): per source `new` / `updated` / `closed` counts in the shard logs, e.g. source 14 (Eightfold/PayPal) new 3, updated 182, closed 1; source 39 new 3, closed 3. `/jobs?status=closed` → 37 closed postings. |
+| 3 | Failure ≠ closure on the live demo | First crawl ([run 42860937557](https://github.com/Fil-Iv/job-board-indexer/actions/runs/42860937557)): Avature/Bloomberg failed → recorded (`/sources?failing=true`: `consecutive_failures` 1, `last_error`), 0 jobs touched; the next successful crawl reset it (`failing_sources` 0 in `/stats`). |
+| 3 | Failure ≠ closure, third crawl ([run 42880033330](https://github.com/Fil-Iv/job-board-indexer/actions/runs/42880033330), 18:55 UTC) | 86 of 88 OK. Two real failures, both recorded with jobs untouched (`/sources?failing=true`): Workday/NVIDIA "got 2797 of 2798 postings; refusing a partial result" (**200 open jobs kept**), JobMount/jobnet.wacities.org robots.txt unreachable during the run → disallow-all (RFC 9309; the file allows the sitemap when it answers) (**90 open jobs kept**). The same run restored BrassRing (apply URL 100%, location 31%: the rest has no location at the source); live apply URL 100%, location 99.0%, `job_changes` 481 rows, DB 120.5 MB. |
+| 3 | Schedule | `crawl.yml` cron `17 */6 * * *`; **no scheduled run yet** (see summary). Not verifiable before 2026-11-11 00:17 UTC. |
+| 4 | Live dedup | `/jobs/5632` and `/jobs/5630`: YMCA DownsLink Group, "(Bank) Supported Housing Support Worker", Crawley / Horsham — each one opening with two listings (JobBoard.com Homeless Link + Jobiqo Love Local Jobs); dedup log "7167 postings -> 7165 openings". |
+| 5 | Live search and API | `/health` ok; `q=engineer` 2,822 openings (page 2 of size 5 works); `company=gitlab` 200; `location=Berlin` 39; `location=Austin, TX` 11; `q=python&remote_type=remote` 96; `employment_type=full_time&salary_min=100000&salary_currency=USD` 922; `posted_since=2026-11-01` 2,167; `status=closed` 13 → 37 after the second crawl; `size=500` → 422. Search page `/?q=engineer&location=Berlin` → "9 openings". All [DEMO.md](DEMO.md) commands run. |
+| 6 | Fresh clone (`git clone` into an empty folder, only README + DEPLOY.md) | `make up` (59 s), `make migrate`, `make test` (882 passed), `make lint`, `add-source` Lever/Spotify + Figma (custom domain → Greenhouse), `make crawl SOURCE=…`, search page + API + `/docs`, `seed-demo FILE=…`, `db-size`, `fill-rates`, `dedup-report`: all OK. DEPLOY part B smoke test (`DOMAIN=localhost`): all 6 services healthy in 45 s, `https://localhost/health` ok, backup written. Fixed in the docs: ports 8000/5432 must be free (`APP_PORT`/`POSTGRES_PORT`), open the search page after `make migrate`, `make prod-*` targets don't take `-p`. DEPLOY part A was not repeated with new accounts; it is what runs the live demo. |
+| all | `make lint`, `make test`; CI | ruff, ruff format, mypy strict pass; 890 tests pass; CI green on every push. |
 
 ---
 
@@ -298,11 +326,12 @@ taken from the job page's `_jobloc` (`test_location_from_job_page_when_the_list_
 
 ---
 
-## 3. Automatic updates — ✅
+## 3. Automatic updates — 🟡
 
 | Requirement | Evidence |
 |---|---|
 | Scheduled refresh | `python -m jobindex.cli schedule` = the `worker` service in `docker-compose.prod.yml` (healthcheck on the scheduler heartbeat). APScheduler tick every 60 s; per-platform intervals (`CRAWL_PLATFORM_INTERVALS`), jitter, failure backoff, concurrency limit, skip-if-running (`jobindex/scheduler/__init__.py`). Tests: `tests/test_scheduler.py` (`test_tick_crawls_due_sources_only`, `test_next_due_interval_jitter_and_backoff`, `test_concurrency_limit`, `test_abandoned_runs_are_recovered_as_failed`). |
+| Hosted demo schedule | `.github/workflows/crawl.yml`: cron `17 */6 * * *`, 4 shards, never two runs at once. **Gap:** three runs so far (2026-11-10 17:03, 18:39, 18:55 UTC), all started by hand; the first scheduled slot after the repository went public (18:17 UTC) produced no run. GitHub runs schedules best-effort only. Check the next one at Actions → crawl (event `schedule`) after 2026-11-11 00:17 UTC. |
 | Change detection | `content_hash` over `normalize.HASH_FIELDS`; one `job_changes` row per changed field with `cause` = upstream / parser / local. Live (second crawl pass, 86 sources): 1 new posting (Gem/Nominal, job 15609 "Engagement Manager"), 1 upstream change, 5,150 `local` changes (company names filled in by this audit). Third pass on 8 large sources: NVIDIA Workday 2 new / 4 closed, Oracle (eeho) 2 closed. Tests: `test_recrawl_tracks_changes_closes_and_reopens`, `test_change_causes_upstream_parser_local`, `test_cosmetic_changes_update_silently`. |
 | Closed listings marked | Live: job 8514 "Land Survey Technician" (jobnet.wacities.org) open after pass 1, `status open → closed` (`job_changes`, cause upstream) in pass 2 when the successful fetch no longer listed it. Generic connectors also close on `validThrough`, closed notices, 404/410 (190 Eightfold postings stored closed on first crawl). |
 | Failed request ≠ closure | Live: Lever/Spotify crawled through an unreachable proxy → `fetch_runs` 174 `failed`, `sources.consecutive_failures` 0 → 1, **85 open / 0 closed before and after**, `last_checked_at` unchanged; the next normal crawl (run 175) succeeded and reset the counter. Same for the real failures seen in this audit (THE HTTP 502, Bosch robots opt-out). Tests: `test_failed_fetch_never_closes_jobs`, `test_failed_scheduled_crawl_keeps_jobs_open`, `test_database_error_is_recorded_as_failure`, `test_cancelled_crawl_is_recorded_as_failure`, job-drop guard tests in `tests/connectors/test_generic_jsonld.py`; `fetch_jobs` contract "complete or raise" tested per connector (missing page → raises). |

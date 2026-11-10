@@ -2,183 +2,183 @@
   "examples": {
     "https://agility-gwg.firststage.co/jobs": {
       "url": "https://agility-gwg.firststage.co/jobs",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
+      "last_run_at": "2026-11-10T18:39:51+00:00",
       "last_status": "ok",
       "last_jobs_found": 79,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
+      "last_success_at": "2026-11-10T18:39:51+00:00",
       "last_success_jobs": 79
     },
     "https://app.trinethire.com/companies/130621-curative-hr-llc/jobs": {
       "url": "https://app.trinethire.com/companies/130621-curative-hr-llc/jobs",
-      "last_run_at": "2026-11-08T16:45:59+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
-      "last_jobs_found": 18,
+      "last_jobs_found": 19,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:45:59+00:00",
-      "last_success_jobs": 18
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 19
     },
     "https://app.trinethire.com/companies/203100-precor-incorporated/jobs": {
       "url": "https://app.trinethire.com/companies/203100-precor-incorporated/jobs",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
       "last_status": "ok",
-      "last_jobs_found": 17,
+      "last_jobs_found": 16,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
-      "last_success_jobs": 17
+      "last_success_at": "2026-11-10T18:39:53+00:00",
+      "last_success_jobs": 16
     },
     "https://apply.workable.com/blueground/": {
       "url": "https://apply.workable.com/blueground/",
-      "last_run_at": "2026-11-08T16:45:58+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 9,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:45:58+00:00",
-      "last_success_jobs": 9
-    },
-    "https://apply.workable.com/skroutz/": {
-      "url": "https://apply.workable.com/skroutz/",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 7,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
-      "last_success_jobs": 7
-    },
-    "https://ats.rippling.com/carbon-health/jobs": {
-      "url": "https://ats.rippling.com/carbon-health/jobs",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 230,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
-      "last_success_jobs": 230
-    },
-    "https://ats.rippling.com/vulcanforms/jobs": {
-      "url": "https://ats.rippling.com/vulcanforms/jobs",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 111,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
-      "last_success_jobs": 111
-    },
-    "https://bloomberg.avature.net/careers/SearchJobs": {
-      "url": "https://bloomberg.avature.net/careers/SearchJobs",
-      "last_run_at": "2026-11-08T16:46:04+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 323,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:04+00:00",
-      "last_success_jobs": 323
-    },
-    "https://bunq.recruitee.com": {
-      "url": "https://bunq.recruitee.com",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 23,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
-      "last_success_jobs": 23
-    },
-    "https://careers-eastwestbank.icims.com/jobs/search?ss=1": {
-      "url": "https://careers-eastwestbank.icims.com/jobs/search?ss=1",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 228,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
-      "last_success_jobs": 228
-    },
-    "https://careers-emcorgroup.icims.com/jobs/search?ss=1": {
-      "url": "https://careers-emcorgroup.icims.com/jobs/search?ss=1",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 1528,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
-      "last_success_jobs": 1528
-    },
-    "https://careers.airindia.com/": {
-      "url": "https://careers.airindia.com/",
-      "last_run_at": "2026-11-08T16:46:19+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 14,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:19+00:00",
-      "last_success_jobs": 14
-    },
-    "https://careers.butterball.com/us/en": {
-      "url": "https://careers.butterball.com/us/en",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 113,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
-      "last_success_jobs": 113
-    },
-    "https://careers.fedex.com/": {
-      "url": "https://careers.fedex.com/",
-      "last_run_at": "2026-11-08T16:46:50+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 4730,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:50+00:00",
-      "last_success_jobs": 4730
-    },
-    "https://careers.hireology.com/nextpoint": {
-      "url": "https://careers.hireology.com/nextpoint",
-      "last_run_at": "2026-11-08T16:47:22+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 2,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:47:22+00:00",
-      "last_success_jobs": 2
-    },
-    "https://careers.hireology.com/sandiegopadres": {
-      "url": "https://careers.hireology.com/sandiegopadres",
-      "last_run_at": "2026-11-08T16:46:42+00:00",
+      "last_run_at": "2026-11-10T18:39:51+00:00",
       "last_status": "ok",
       "last_jobs_found": 6,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:42+00:00",
+      "last_success_at": "2026-11-10T18:39:51+00:00",
       "last_success_jobs": 6
+    },
+    "https://apply.workable.com/skroutz/": {
+      "url": "https://apply.workable.com/skroutz/",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 8,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:53+00:00",
+      "last_success_jobs": 8
+    },
+    "https://ats.rippling.com/carbon-health/jobs": {
+      "url": "https://ats.rippling.com/carbon-health/jobs",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 218,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 218
+    },
+    "https://ats.rippling.com/vulcanforms/jobs": {
+      "url": "https://ats.rippling.com/vulcanforms/jobs",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 113,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 113
+    },
+    "https://bloomberg.avature.net/careers/SearchJobs": {
+      "url": "https://bloomberg.avature.net/careers/SearchJobs",
+      "last_run_at": "2026-11-10T18:40:40+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 339,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:40:40+00:00",
+      "last_success_jobs": 339
+    },
+    "https://bunq.recruitee.com": {
+      "url": "https://bunq.recruitee.com",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 26,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 26
+    },
+    "https://careers-eastwestbank.icims.com/jobs/search?ss=1": {
+      "url": "https://careers-eastwestbank.icims.com/jobs/search?ss=1",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 233,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 233
+    },
+    "https://careers-emcorgroup.icims.com/jobs/search?ss=1": {
+      "url": "https://careers-emcorgroup.icims.com/jobs/search?ss=1",
+      "last_run_at": "2026-11-10T18:39:57+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 1513,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:57+00:00",
+      "last_success_jobs": 1513
+    },
+    "https://careers.airindia.com/": {
+      "url": "https://careers.airindia.com/",
+      "last_run_at": "2026-11-10T18:39:58+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 13,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:58+00:00",
+      "last_success_jobs": 13
+    },
+    "https://careers.butterball.com/us/en": {
+      "url": "https://careers.butterball.com/us/en",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 120,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 120
+    },
+    "https://careers.fedex.com/": {
+      "url": "https://careers.fedex.com/",
+      "last_run_at": "2026-11-10T18:40:23+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 4673,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:40:23+00:00",
+      "last_success_jobs": 4673
+    },
+    "https://careers.hireology.com/nextpoint": {
+      "url": "https://careers.hireology.com/nextpoint",
+      "last_run_at": "2026-11-10T18:40:05+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 1,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:40:05+00:00",
+      "last_success_jobs": 1
+    },
+    "https://careers.hireology.com/sandiegopadres": {
+      "url": "https://careers.hireology.com/sandiegopadres",
+      "last_run_at": "2026-11-10T18:40:00+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 7,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:40:00+00:00",
+      "last_success_jobs": 7
     },
     "https://careers.kula.ai/archetype-ai": {
       "url": "https://careers.kula.ai/archetype-ai",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
-      "last_jobs_found": 11,
+      "last_jobs_found": 10,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
-      "last_success_jobs": 11
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 10
     },
     "https://careers.kula.ai/deepscribe": {
       "url": "https://careers.kula.ai/deepscribe",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 5,
+      "last_jobs_found": 4,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
-      "last_success_jobs": 5
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 4
     },
     "https://careers.marriott.com/": {
       "url": "https://careers.marriott.com/",
-      "last_run_at": "2026-11-08T16:47:19+00:00",
+      "last_run_at": "2026-11-10T18:40:49+00:00",
       "last_status": "ok",
-      "last_jobs_found": 14170,
+      "last_jobs_found": 14306,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:47:19+00:00",
-      "last_success_jobs": 14170
+      "last_success_at": "2026-11-10T18:40:49+00:00",
+      "last_success_jobs": 14306
     },
     "https://careers.nttdata-solutions.com/": {
       "url": "https://careers.nttdata-solutions.com/",
-      "last_run_at": "2026-11-08T16:46:22+00:00",
+      "last_run_at": "2026-11-10T18:40:00+00:00",
       "last_status": "ok",
-      "last_jobs_found": 366,
+      "last_jobs_found": 391,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:22+00:00",
-      "last_success_jobs": 366
+      "last_success_at": "2026-11-10T18:40:00+00:00",
+      "last_success_jobs": 391
     },
     "https://careers.pageuppeople.com/851/ci/en-us/listing": {
       "url": "https://careers.pageuppeople.com/851/ci/en-us/listing",
@@ -191,29 +191,29 @@
     },
     "https://careers.pageuppeople.com/851/cw/en-us/listing": {
       "url": "https://careers.pageuppeople.com/851/cw/en-us/listing",
-      "last_run_at": "2026-11-08T16:46:45+00:00",
+      "last_run_at": "2026-11-10T18:39:55+00:00",
       "last_status": "ok",
-      "last_jobs_found": 115,
+      "last_jobs_found": 112,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:45+00:00",
-      "last_success_jobs": 115
+      "last_success_at": "2026-11-10T18:39:55+00:00",
+      "last_success_jobs": 112
     },
     "https://careers.pageuppeople.com/889/usw/en/listing/": {
       "url": "https://careers.pageuppeople.com/889/usw/en/listing/",
-      "last_run_at": "2026-11-08T16:47:41+00:00",
+      "last_run_at": "2026-11-10T18:39:58+00:00",
       "last_status": "ok",
-      "last_jobs_found": 53,
+      "last_jobs_found": 52,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:47:41+00:00",
-      "last_success_jobs": 53
+      "last_success_at": "2026-11-10T18:39:58+00:00",
+      "last_success_jobs": 52
     },
     "https://careers.shutterstock.com/us/en": {
       "url": "https://careers.shutterstock.com/us/en",
-      "last_run_at": "2026-11-08T16:46:09+00:00",
+      "last_run_at": "2026-11-10T18:39:57+00:00",
       "last_status": "ok",
       "last_jobs_found": 4,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:09+00:00",
+      "last_success_at": "2026-11-10T18:39:57+00:00",
       "last_success_jobs": 4
     },
     "https://careers.smartrecruiters.com/BoschGroup": {
@@ -227,174 +227,174 @@
     },
     "https://careers.smartrecruiters.com/Wise": {
       "url": "https://careers.smartrecruiters.com/Wise",
-      "last_run_at": "2026-11-08T16:46:38+00:00",
+      "last_run_at": "2026-11-10T18:40:28+00:00",
       "last_status": "ok",
-      "last_jobs_found": 427,
+      "last_jobs_found": 431,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:38+00:00",
-      "last_success_jobs": 427
+      "last_success_at": "2026-11-10T18:40:28+00:00",
+      "last_success_jobs": 431
     },
     "https://careers.werecruit.io/fr/declic-immo": {
       "url": "https://careers.werecruit.io/fr/declic-immo",
-      "last_run_at": "2026-11-08T16:47:23+00:00",
+      "last_run_at": "2026-11-10T18:40:02+00:00",
       "last_status": "ok",
       "last_jobs_found": 496,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:47:23+00:00",
+      "last_success_at": "2026-11-10T18:40:02+00:00",
       "last_success_jobs": 496
     },
     "https://careers.werecruit.io/fr/dessange": {
       "url": "https://careers.werecruit.io/fr/dessange",
-      "last_run_at": "2026-11-08T16:46:46+00:00",
+      "last_run_at": "2026-11-10T18:39:59+00:00",
       "last_status": "ok",
       "last_jobs_found": 83,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:46+00:00",
+      "last_success_at": "2026-11-10T18:39:59+00:00",
       "last_success_jobs": 83
     },
     "https://careers.yash.com/": {
       "url": "https://careers.yash.com/",
-      "last_run_at": "2026-11-08T16:46:13+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 330,
+      "last_jobs_found": 331,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:13+00:00",
-      "last_success_jobs": 330
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 331
     },
     "https://catalyx.hirehive.com/": {
       "url": "https://catalyx.hirehive.com/",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
+      "last_run_at": "2026-11-10T18:40:00+00:00",
       "last_status": "ok",
-      "last_jobs_found": 24,
+      "last_jobs_found": 23,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
-      "last_success_jobs": 24
+      "last_success_at": "2026-11-10T18:40:00+00:00",
+      "last_success_jobs": 23
     },
     "https://cause-capacity.zohorecruit.com/jobs/Careers": {
       "url": "https://cause-capacity.zohorecruit.com/jobs/Careers",
-      "last_run_at": "2026-11-08T16:46:15+00:00",
+      "last_run_at": "2026-11-10T18:39:57+00:00",
       "last_status": "ok",
       "last_jobs_found": 6,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:15+00:00",
+      "last_success_at": "2026-11-10T18:39:57+00:00",
       "last_success_jobs": 6
     },
     "https://channable.recruitee.com": {
       "url": "https://channable.recruitee.com",
-      "last_run_at": "2026-11-08T16:46:04+00:00",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
       "last_status": "ok",
       "last_jobs_found": 12,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:04+00:00",
+      "last_success_at": "2026-11-10T18:39:53+00:00",
       "last_success_jobs": 12
     },
     "https://commquest.applicantpro.com/jobs/": {
       "url": "https://commquest.applicantpro.com/jobs/",
-      "last_run_at": "2026-11-08T16:46:06+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 19,
+      "last_jobs_found": 20,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:06+00:00",
-      "last_success_jobs": 19
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 20
     },
     "https://couriergigs.com/": {
       "url": "https://couriergigs.com/",
-      "last_run_at": "2026-11-08T16:46:16+00:00",
+      "last_run_at": "2026-11-10T18:39:59+00:00",
       "last_status": "ok",
-      "last_jobs_found": 2683,
+      "last_jobs_found": 2615,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:16+00:00",
-      "last_success_jobs": 2683
+      "last_success_at": "2026-11-10T18:39:59+00:00",
+      "last_success_jobs": 2615
     },
     "https://davidsonoil.isolvedhire.com/jobs/": {
       "url": "https://davidsonoil.isolvedhire.com/jobs/",
-      "last_run_at": "2026-11-08T16:46:11+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
       "last_jobs_found": 1,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:11+00:00",
+      "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 1
     },
     "https://davies.pinpointhq.com": {
       "url": "https://davies.pinpointhq.com",
-      "last_run_at": "2026-11-08T16:46:44+00:00",
+      "last_run_at": "2026-11-10T18:39:58+00:00",
       "last_status": "ok",
-      "last_jobs_found": 272,
+      "last_jobs_found": 279,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:44+00:00",
-      "last_success_jobs": 272
+      "last_success_at": "2026-11-10T18:39:58+00:00",
+      "last_success_jobs": 279
     },
     "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions": {
       "url": "https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions",
-      "last_run_at": "2026-11-08T16:49:50+00:00",
+      "last_run_at": "2026-11-10T18:44:17+00:00",
       "last_status": "ok",
-      "last_jobs_found": 2822,
+      "last_jobs_found": 2838,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:49:50+00:00",
-      "last_success_jobs": 2822
+      "last_success_at": "2026-11-10T18:44:17+00:00",
+      "last_success_jobs": 2838
     },
     "https://everstar.breezy.hr": {
       "url": "https://everstar.breezy.hr",
-      "last_run_at": "2026-11-08T16:50:56+00:00",
+      "last_run_at": "2026-11-10T18:40:12+00:00",
       "last_status": "ok",
-      "last_jobs_found": 388,
+      "last_jobs_found": 386,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:50:56+00:00",
-      "last_success_jobs": 388
+      "last_success_at": "2026-11-10T18:40:12+00:00",
+      "last_success_jobs": 386
     },
     "https://firstadvantage.applytojob.com/apply": {
       "url": "https://firstadvantage.applytojob.com/apply",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
       "last_jobs_found": 31,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
+      "last_success_at": "2026-11-10T18:39:52+00:00",
       "last_success_jobs": 31
     },
     "https://fmals.de/": {
       "url": "https://fmals.de/",
-      "last_run_at": "2026-11-08T16:46:30+00:00",
+      "last_run_at": "2026-11-10T18:40:03+00:00",
       "last_status": "ok",
-      "last_jobs_found": 393,
+      "last_jobs_found": 395,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:30+00:00",
-      "last_success_jobs": 393
+      "last_success_at": "2026-11-10T18:40:03+00:00",
+      "last_success_jobs": 395
     },
     "https://focus-ireland.hirehive.com/": {
       "url": "https://focus-ireland.hirehive.com/",
-      "last_run_at": "2026-11-08T16:45:59+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 23,
+      "last_jobs_found": 26,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:45:59+00:00",
-      "last_success_jobs": 23
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 26
     },
     "https://franklin-companies.hiringthing.com/": {
       "url": "https://franklin-companies.hiringthing.com/",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
-      "last_jobs_found": 41,
+      "last_jobs_found": 45,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
-      "last_success_jobs": 41
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 45
     },
     "https://friendsofthechildren-national.hiringthing.com/": {
       "url": "https://friendsofthechildren-national.hiringthing.com/",
-      "last_run_at": "2026-11-08T16:46:03+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
       "last_jobs_found": 12,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:03+00:00",
+      "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 12
     },
     "https://ilsos.applytojob.com/apply": {
       "url": "https://ilsos.applytojob.com/apply",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
       "last_status": "ok",
-      "last_jobs_found": 24,
+      "last_jobs_found": 23,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
-      "last_success_jobs": 24
+      "last_success_at": "2026-11-10T18:39:53+00:00",
+      "last_success_jobs": 23
     },
     "https://indrive.pinpointhq.com": {
       "url": "https://indrive.pinpointhq.com",
@@ -407,597 +407,597 @@
     },
     "https://isolved.isolvedhire.com/jobs/": {
       "url": "https://isolved.isolvedhire.com/jobs/",
-      "last_run_at": "2026-11-08T16:45:59+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
-      "last_jobs_found": 36,
+      "last_jobs_found": 40,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:45:59+00:00",
-      "last_success_jobs": 36
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 40
     },
     "https://job-boards.greenhouse.io/discord": {
       "url": "https://job-boards.greenhouse.io/discord",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
-      "last_jobs_found": 27,
+      "last_jobs_found": 26,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
-      "last_success_jobs": 27
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 26
     },
     "https://job-boards.greenhouse.io/gitlab": {
       "url": "https://job-boards.greenhouse.io/gitlab",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 248,
+      "last_jobs_found": 252,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
-      "last_success_jobs": 248
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 252
     },
     "https://jobnet.wacities.org/": {
       "url": "https://jobnet.wacities.org/",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 98,
+      "last_jobs_found": 91,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
-      "last_success_jobs": 98
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 91
     },
     "https://jobs.acevo.org.uk/": {
       "url": "https://jobs.acevo.org.uk/",
-      "last_run_at": "2026-11-08T16:46:09+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 15,
+      "last_jobs_found": 14,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:09+00:00",
-      "last_success_jobs": 15
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 14
     },
     "https://jobs.alanet.org/": {
       "url": "https://jobs.alanet.org/",
-      "last_run_at": "2026-11-08T16:46:09+00:00",
+      "last_run_at": "2026-11-10T18:39:58+00:00",
       "last_status": "ok",
-      "last_jobs_found": 1302,
+      "last_jobs_found": 1291,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:09+00:00",
-      "last_success_jobs": 1302
+      "last_success_at": "2026-11-10T18:39:58+00:00",
+      "last_success_jobs": 1291
     },
     "https://jobs.ashbyhq.com/linear": {
       "url": "https://jobs.ashbyhq.com/linear",
-      "last_run_at": "2026-11-08T16:45:58+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
-      "last_jobs_found": 32,
+      "last_jobs_found": 33,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:45:58+00:00",
-      "last_success_jobs": 32
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 33
     },
     "https://jobs.ashbyhq.com/ramp": {
       "url": "https://jobs.ashbyhq.com/ramp",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 169,
+      "last_jobs_found": 173,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
-      "last_success_jobs": 169
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 173
     },
     "https://jobs.blooloop.com/": {
       "url": "https://jobs.blooloop.com/",
-      "last_run_at": "2026-11-08T16:46:04+00:00",
+      "last_run_at": "2026-11-10T18:39:58+00:00",
       "last_status": "ok",
       "last_jobs_found": 12,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:04+00:00",
+      "last_success_at": "2026-11-10T18:39:58+00:00",
       "last_success_jobs": 12
     },
     "https://jobs.cityandstateny.com/": {
       "url": "https://jobs.cityandstateny.com/",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 15,
+      "last_jobs_found": 14,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
-      "last_success_jobs": 15
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 14
     },
     "https://jobs.deel.com/apmc-careers": {
       "url": "https://jobs.deel.com/apmc-careers",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
       "last_status": "ok",
       "last_jobs_found": 5,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
+      "last_success_at": "2026-11-10T18:39:53+00:00",
       "last_success_jobs": 5
     },
     "https://jobs.deel.com/guardare": {
       "url": "https://jobs.deel.com/guardare",
-      "last_run_at": "2026-11-08T16:45:58+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
       "last_jobs_found": 3,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:45:58+00:00",
+      "last_success_at": "2026-11-10T18:39:52+00:00",
       "last_success_jobs": 3
     },
     "https://jobs.forcebrands.com/": {
       "url": "https://jobs.forcebrands.com/",
-      "last_run_at": "2026-11-08T16:46:09+00:00",
+      "last_run_at": "2026-11-10T18:39:59+00:00",
       "last_status": "ok",
-      "last_jobs_found": 804,
+      "last_jobs_found": 780,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:09+00:00",
-      "last_success_jobs": 804
+      "last_success_at": "2026-11-10T18:39:59+00:00",
+      "last_success_jobs": 780
     },
     "https://jobs.gem.com/function-health": {
       "url": "https://jobs.gem.com/function-health",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
       "last_status": "ok",
       "last_jobs_found": 33,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
+      "last_success_at": "2026-11-10T18:39:53+00:00",
       "last_success_jobs": 33
     },
     "https://jobs.gem.com/nominal": {
       "url": "https://jobs.gem.com/nominal",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
+      "last_run_at": "2026-11-10T18:39:56+00:00",
       "last_status": "ok",
-      "last_jobs_found": 48,
+      "last_jobs_found": 76,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
-      "last_success_jobs": 48
+      "last_success_at": "2026-11-10T18:39:56+00:00",
+      "last_success_jobs": 76
     },
     "https://jobs.gohire.io/dexerto-de5jlhjo/": {
       "url": "https://jobs.gohire.io/dexerto-de5jlhjo/",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
       "last_status": "ok",
-      "last_jobs_found": 16,
+      "last_jobs_found": 17,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
-      "last_success_jobs": 16
+      "last_success_at": "2026-11-10T18:39:53+00:00",
+      "last_success_jobs": 17
     },
     "https://jobs.gohire.io/su9lyitg": {
       "url": "https://jobs.gohire.io/su9lyitg",
-      "last_run_at": "2026-11-08T16:46:03+00:00",
+      "last_run_at": "2026-11-10T18:39:56+00:00",
       "last_status": "ok",
       "last_jobs_found": 18,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:03+00:00",
+      "last_success_at": "2026-11-10T18:39:56+00:00",
       "last_success_jobs": 18
     },
     "https://jobs.homeless.org.uk/": {
       "url": "https://jobs.homeless.org.uk/",
-      "last_run_at": "2026-11-08T16:46:12+00:00",
+      "last_run_at": "2026-11-10T18:39:58+00:00",
       "last_status": "ok",
-      "last_jobs_found": 55,
+      "last_jobs_found": 58,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:12+00:00",
-      "last_success_jobs": 55
+      "last_success_at": "2026-11-10T18:39:58+00:00",
+      "last_success_jobs": 58
     },
     "https://jobs.imdiversity.com/": {
       "url": "https://jobs.imdiversity.com/",
-      "last_run_at": "2026-11-08T16:46:07+00:00",
+      "last_run_at": "2026-11-10T18:39:57+00:00",
       "last_status": "ok",
-      "last_jobs_found": 1905,
+      "last_jobs_found": 1944,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:07+00:00",
-      "last_success_jobs": 1905
+      "last_success_at": "2026-11-10T18:39:57+00:00",
+      "last_success_jobs": 1944
     },
     "https://jobs.jobvite.com/nutanix/jobs": {
       "url": "https://jobs.jobvite.com/nutanix/jobs",
-      "last_run_at": "2026-11-08T16:46:05+00:00",
+      "last_run_at": "2026-11-10T18:39:58+00:00",
       "last_status": "ok",
-      "last_jobs_found": 249,
+      "last_jobs_found": 247,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:05+00:00",
-      "last_success_jobs": 249
+      "last_success_at": "2026-11-10T18:39:58+00:00",
+      "last_success_jobs": 247
     },
     "https://jobs.jobvite.com/webmd/jobs": {
       "url": "https://jobs.jobvite.com/webmd/jobs",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
       "last_status": "ok",
       "last_jobs_found": 65,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
+      "last_success_at": "2026-11-10T18:39:53+00:00",
       "last_success_jobs": 65
     },
     "https://jobs.lever.co/palantir": {
       "url": "https://jobs.lever.co/palantir",
-      "last_run_at": "2026-11-08T16:51:32+00:00",
+      "last_run_at": "2026-11-10T18:40:42+00:00",
       "last_status": "ok",
-      "last_jobs_found": 305,
+      "last_jobs_found": 304,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:51:32+00:00",
-      "last_success_jobs": 305
+      "last_success_at": "2026-11-10T18:40:42+00:00",
+      "last_success_jobs": 304
     },
     "https://jobs.lever.co/spotify": {
       "url": "https://jobs.lever.co/spotify",
-      "last_run_at": "2026-11-08T16:47:00+00:00",
+      "last_run_at": "2026-11-10T18:39:55+00:00",
       "last_status": "ok",
       "last_jobs_found": 85,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:47:00+00:00",
+      "last_success_at": "2026-11-10T18:39:55+00:00",
       "last_success_jobs": 85
     },
     "https://jobs.nonprofittalent.com/": {
       "url": "https://jobs.nonprofittalent.com/",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 81,
+      "last_jobs_found": 83,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
-      "last_success_jobs": 81
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 83
     },
     "https://jobs.polymer.co/invicta-software": {
       "url": "https://jobs.polymer.co/invicta-software",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 4,
+      "last_jobs_found": 7,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
-      "last_success_jobs": 4
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 7
     },
     "https://jobs.polymer.co/themis": {
       "url": "https://jobs.polymer.co/themis",
-      "last_run_at": "2026-11-08T16:45:58+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
       "last_jobs_found": 6,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:45:58+00:00",
+      "last_success_at": "2026-11-10T18:39:52+00:00",
       "last_success_jobs": 6
     },
     "https://jobs.recooty.com/discovery-care-group": {
       "url": "https://jobs.recooty.com/discovery-care-group",
-      "last_run_at": "2026-11-08T16:45:58+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
       "last_jobs_found": 28,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:45:58+00:00",
+      "last_success_at": "2026-11-10T18:39:52+00:00",
       "last_success_jobs": 28
     },
     "https://jobs.recooty.com/gibbons-group": {
       "url": "https://jobs.recooty.com/gibbons-group",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
       "last_jobs_found": 77,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
+      "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 77
     },
     "https://jobs.rubyonrails.org/": {
       "url": "https://jobs.rubyonrails.org/",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
       "last_status": "ok",
-      "last_jobs_found": 13,
+      "last_jobs_found": 11,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
-      "last_success_jobs": 13
+      "last_success_at": "2026-11-10T18:39:53+00:00",
+      "last_success_jobs": 11
     },
     "https://jobs.sciencecareers.org/jobs/": {
       "url": "https://jobs.sciencecareers.org/jobs/",
-      "last_run_at": "2026-11-08T16:46:28+00:00",
+      "last_run_at": "2026-11-10T18:40:19+00:00",
       "last_status": "ok",
       "last_jobs_found": 530,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:28+00:00",
+      "last_success_at": "2026-11-10T18:40:19+00:00",
       "last_success_jobs": 530
     },
     "https://jobs.silkroad.com/BU/External": {
       "url": "https://jobs.silkroad.com/BU/External",
-      "last_run_at": "2026-11-08T16:49:58+00:00",
+      "last_run_at": "2026-11-10T18:44:01+00:00",
       "last_status": "ok",
-      "last_jobs_found": 200,
+      "last_jobs_found": 199,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:49:58+00:00",
-      "last_success_jobs": 200
+      "last_success_at": "2026-11-10T18:44:01+00:00",
+      "last_success_jobs": 199
     },
     "https://jobs.silkroad.com/SOCCo/Careers": {
       "url": "https://jobs.silkroad.com/SOCCo/Careers",
-      "last_run_at": "2026-11-08T16:46:38+00:00",
+      "last_run_at": "2026-11-10T18:40:41+00:00",
       "last_status": "ok",
-      "last_jobs_found": 39,
+      "last_jobs_found": 41,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:38+00:00",
-      "last_success_jobs": 39
+      "last_success_at": "2026-11-10T18:40:41+00:00",
+      "last_success_jobs": 41
     },
     "https://jobs.smartrecruiters.com/Ubisoft2": {
       "url": "https://jobs.smartrecruiters.com/Ubisoft2",
-      "last_run_at": "2026-11-08T16:46:17+00:00",
+      "last_run_at": "2026-11-10T18:40:08+00:00",
       "last_status": "ok",
-      "last_jobs_found": 298,
+      "last_jobs_found": 289,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:17+00:00",
-      "last_success_jobs": 298
+      "last_success_at": "2026-11-10T18:40:08+00:00",
+      "last_success_jobs": 289
     },
     "https://jobsboard.edsurge.com/": {
       "url": "https://jobsboard.edsurge.com/",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
       "last_status": "ok",
       "last_jobs_found": 22,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
+      "last_success_at": "2026-11-10T18:39:53+00:00",
       "last_success_jobs": 22
     },
     "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions": {
       "url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
-      "last_run_at": "2026-11-08T16:48:50+00:00",
+      "last_run_at": "2026-11-10T18:43:06+00:00",
       "last_status": "ok",
-      "last_jobs_found": 7117,
+      "last_jobs_found": 7029,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:48:50+00:00",
-      "last_success_jobs": 7117
+      "last_success_at": "2026-11-10T18:43:06+00:00",
+      "last_success_jobs": 7029
     },
     "https://kimmel-associates.breezy.hr": {
       "url": "https://kimmel-associates.breezy.hr",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
-      "last_jobs_found": 478,
+      "last_jobs_found": 479,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
-      "last_success_jobs": 478
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 479
     },
     "https://kpm.bamboohr.com/careers": {
       "url": "https://kpm.bamboohr.com/careers",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
       "last_jobs_found": 1,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
+      "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 1
     },
     "https://liquidia.careers.hibob.com/": {
       "url": "https://liquidia.careers.hibob.com/",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 21,
+      "last_jobs_found": 20,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
-      "last_success_jobs": 21
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 20
     },
     "https://lunar.teamtailor.com/jobs": {
       "url": "https://lunar.teamtailor.com/jobs",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
       "last_status": "ok",
-      "last_jobs_found": 16,
+      "last_jobs_found": 20,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
-      "last_success_jobs": 16
+      "last_success_at": "2026-11-10T18:39:53+00:00",
+      "last_success_jobs": 20
     },
     "https://lush.pinpointhq.com": {
       "url": "https://lush.pinpointhq.com",
-      "last_run_at": "2026-11-08T16:46:48+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 32,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:48+00:00",
-      "last_success_jobs": 32
-    },
-    "https://mwra.applicantpro.com/jobs/": {
-      "url": "https://mwra.applicantpro.com/jobs/",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 19,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
-      "last_success_jobs": 19
-    },
-    "https://nuclearjobscanada.ca/": {
-      "url": "https://nuclearjobscanada.ca/",
-      "last_run_at": "2026-11-08T16:46:07+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 929,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:07+00:00",
-      "last_success_jobs": 929
-    },
-    "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite": {
-      "url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite",
-      "last_run_at": "2026-11-08T16:49:03+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 2807,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:49:03+00:00",
-      "last_success_jobs": 2807
-    },
-    "https://oatly.teamtailor.com/jobs": {
-      "url": "https://oatly.teamtailor.com/jobs",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
+      "last_run_at": "2026-11-10T18:40:00+00:00",
       "last_status": "ok",
       "last_jobs_found": 25,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
+      "last_success_at": "2026-11-10T18:40:00+00:00",
       "last_success_jobs": 25
     },
-    "https://paypal.eightfold.ai/careers?domain=paypal.com": {
-      "url": "https://paypal.eightfold.ai/careers?domain=paypal.com",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
+    "https://mwra.applicantpro.com/jobs/": {
+      "url": "https://mwra.applicantpro.com/jobs/",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
-      "last_jobs_found": 305,
+      "last_jobs_found": 20,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
-      "last_success_jobs": 305
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 20
     },
-    "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=5535": {
-      "url": "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=5535",
-      "last_run_at": "2026-11-08T16:46:08+00:00",
+    "https://nuclearjobscanada.ca/": {
+      "url": "https://nuclearjobscanada.ca/",
+      "last_run_at": "2026-11-10T18:39:55+00:00",
       "last_status": "ok",
-      "last_jobs_found": 872,
+      "last_jobs_found": 944,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:08+00:00",
-      "last_success_jobs": 872
+      "last_success_at": "2026-11-10T18:39:55+00:00",
+      "last_success_jobs": 944
     },
-    "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=7856": {
-      "url": "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=7856",
-      "last_run_at": "2026-11-08T16:45:59+00:00",
+    "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite": {
+      "url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite",
+      "last_run_at": "2026-11-10T18:42:34+00:00",
       "last_status": "ok",
-      "last_jobs_found": 44,
+      "last_jobs_found": 2796,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:45:59+00:00",
-      "last_success_jobs": 44
+      "last_success_at": "2026-11-10T18:42:34+00:00",
+      "last_success_jobs": 2796
     },
-    "https://recruiting.paylocity.com/recruiting/jobs/All/4bcae427-e9e7-4d6d-9772-73ef70c3a278/Adapt-Health-LLC": {
-      "url": "https://recruiting.paylocity.com/recruiting/jobs/All/4bcae427-e9e7-4d6d-9772-73ef70c3a278/Adapt-Health-LLC",
-      "last_run_at": "2026-11-08T16:46:08+00:00",
-      "last_status": "ok",
-      "last_jobs_found": 481,
-      "last_error": null,
-      "last_success_at": "2026-11-08T16:46:08+00:00",
-      "last_success_jobs": 481
-    },
-    "https://recruiting.paylocity.com/recruiting/jobs/All/67c76e24-da8b-4733-a8b3-9c1fe859c5b9/Peak-Support-LLC": {
-      "url": "https://recruiting.paylocity.com/recruiting/jobs/All/67c76e24-da8b-4733-a8b3-9c1fe859c5b9/Peak-Support-LLC",
-      "last_run_at": "2026-11-08T16:46:10+00:00",
+    "https://oatly.teamtailor.com/jobs": {
+      "url": "https://oatly.teamtailor.com/jobs",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
       "last_jobs_found": 24,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:10+00:00",
+      "last_success_at": "2026-11-10T18:39:52+00:00",
       "last_success_jobs": 24
+    },
+    "https://paypal.eightfold.ai/careers?domain=paypal.com": {
+      "url": "https://paypal.eightfold.ai/careers?domain=paypal.com",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 311,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 311
+    },
+    "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=5535": {
+      "url": "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=5535",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 852,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 852
+    },
+    "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=7856": {
+      "url": "https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=7856",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 46,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 46
+    },
+    "https://recruiting.paylocity.com/recruiting/jobs/All/4bcae427-e9e7-4d6d-9772-73ef70c3a278/Adapt-Health-LLC": {
+      "url": "https://recruiting.paylocity.com/recruiting/jobs/All/4bcae427-e9e7-4d6d-9772-73ef70c3a278/Adapt-Health-LLC",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 496,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:53+00:00",
+      "last_success_jobs": 496
+    },
+    "https://recruiting.paylocity.com/recruiting/jobs/All/67c76e24-da8b-4733-a8b3-9c1fe859c5b9/Peak-Support-LLC": {
+      "url": "https://recruiting.paylocity.com/recruiting/jobs/All/67c76e24-da8b-4733-a8b3-9c1fe859c5b9/Peak-Support-LLC",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 19,
+      "last_error": null,
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 19
     },
     "https://sapiens.careers.hibob.com/": {
       "url": "https://sapiens.careers.hibob.com/",
-      "last_run_at": "2026-11-08T16:45:59+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
-      "last_jobs_found": 91,
+      "last_jobs_found": 94,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:45:59+00:00",
-      "last_success_jobs": 91
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 94
     },
     "https://scribd.bamboohr.com/careers": {
       "url": "https://scribd.bamboohr.com/careers",
-      "last_run_at": "2026-11-08T16:45:59+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
       "last_jobs_found": 2,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:45:59+00:00",
+      "last_success_at": "2026-11-10T18:39:52+00:00",
       "last_success_jobs": 2
     },
     "https://sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=25103&siteid=5041": {
       "url": "https://sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=25103&siteid=5041",
-      "last_run_at": "2026-11-08T16:46:40+00:00",
+      "last_run_at": "2026-11-10T18:39:59+00:00",
       "last_status": "ok",
-      "last_jobs_found": 17,
+      "last_jobs_found": 16,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:40+00:00",
-      "last_success_jobs": 17
+      "last_success_at": "2026-11-10T18:39:59+00:00",
+      "last_success_jobs": 16
     },
     "https://sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=25749&siteid=5764": {
       "url": "https://sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=25749&siteid=5764",
-      "last_run_at": "2026-11-08T16:46:26+00:00",
+      "last_run_at": "2026-11-10T18:39:57+00:00",
       "last_status": "ok",
-      "last_jobs_found": 36,
+      "last_jobs_found": 35,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:26+00:00",
-      "last_success_jobs": 36
+      "last_success_at": "2026-11-10T18:39:57+00:00",
+      "last_success_jobs": 35
     },
     "https://stantec.taleo.net/careersection/ex/jobsearch.ftl?lang=en": {
       "url": "https://stantec.taleo.net/careersection/ex/jobsearch.ftl?lang=en",
-      "last_run_at": "2026-11-08T16:46:03+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 108,
+      "last_jobs_found": 125,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:03+00:00",
-      "last_success_jobs": 108
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 125
     },
     "https://startjob.dk/": {
       "url": "https://startjob.dk/",
-      "last_run_at": "2026-11-08T16:46:03+00:00",
+      "last_run_at": "2026-11-10T18:39:55+00:00",
       "last_status": "ok",
       "last_jobs_found": 13,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:03+00:00",
+      "last_success_at": "2026-11-10T18:39:55+00:00",
       "last_success_jobs": 13
     },
     "https://stax.hire.trakstar.com": {
       "url": "https://stax.hire.trakstar.com",
-      "last_run_at": "2026-11-08T16:45:59+00:00",
+      "last_run_at": "2026-11-10T18:39:53+00:00",
       "last_status": "ok",
       "last_jobs_found": 31,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:45:59+00:00",
+      "last_success_at": "2026-11-10T18:39:53+00:00",
       "last_success_jobs": 31
     },
     "https://tado.jobs.personio.de": {
       "url": "https://tado.jobs.personio.de",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
       "last_jobs_found": 2,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
+      "last_success_at": "2026-11-10T18:39:52+00:00",
       "last_success_jobs": 2
     },
     "https://thermondo.jobs.personio.de": {
       "url": "https://thermondo.jobs.personio.de",
-      "last_run_at": "2026-11-08T16:46:11+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
       "last_jobs_found": 196,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:11+00:00",
+      "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 196
     },
     "https://timessquarenyc.hire.trakstar.com": {
       "url": "https://timessquarenyc.hire.trakstar.com",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
       "last_jobs_found": 4,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
+      "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 4
     },
     "https://tradiejobs.com.au/": {
       "url": "https://tradiejobs.com.au/",
-      "last_run_at": "2026-11-08T16:46:07+00:00",
+      "last_run_at": "2026-11-10T18:39:58+00:00",
       "last_status": "ok",
-      "last_jobs_found": 1365,
+      "last_jobs_found": 1349,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:07+00:00",
-      "last_success_jobs": 1365
+      "last_success_at": "2026-11-10T18:39:58+00:00",
+      "last_success_jobs": 1349
     },
     "https://uclahealth.avature.net/careers/SearchJobs": {
       "url": "https://uclahealth.avature.net/careers/SearchJobs",
-      "last_run_at": "2026-11-08T16:46:17+00:00",
+      "last_run_at": "2026-11-10T18:40:44+00:00",
       "last_status": "ok",
-      "last_jobs_found": 739,
+      "last_jobs_found": 741,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:17+00:00",
-      "last_success_jobs": 739
+      "last_success_at": "2026-11-10T18:40:44+00:00",
+      "last_success_jobs": 741
     },
     "https://us-careers.zohorecruit.in/jobs/Careers": {
       "url": "https://us-careers.zohorecruit.in/jobs/Careers",
-      "last_run_at": "2026-11-08T16:46:35+00:00",
+      "last_run_at": "2026-11-10T18:40:01+00:00",
       "last_status": "ok",
       "last_jobs_found": 5,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:35+00:00",
+      "last_success_at": "2026-11-10T18:40:01+00:00",
       "last_success_jobs": 5
     },
     "https://vodafone.eightfold.ai/careers?domain=vodafone.com": {
       "url": "https://vodafone.eightfold.ai/careers?domain=vodafone.com",
-      "last_run_at": "2026-11-08T16:46:05+00:00",
+      "last_run_at": "2026-11-10T18:39:57+00:00",
       "last_status": "ok",
       "last_jobs_found": 1210,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:05+00:00",
+      "last_success_at": "2026-11-10T18:39:57+00:00",
       "last_success_jobs": 1210
     },
     "https://wd3.myworkdaysite.com/recruiting/pwc/Global_Experienced_Careers": {
       "url": "https://wd3.myworkdaysite.com/recruiting/pwc/Global_Experienced_Careers",
-      "last_run_at": "2026-11-08T16:53:28+00:00",
+      "last_run_at": "2026-11-10T18:46:43+00:00",
       "last_status": "ok",
-      "last_jobs_found": 3789,
+      "last_jobs_found": 3773,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:53:28+00:00",
-      "last_success_jobs": 3789
+      "last_success_at": "2026-11-10T18:46:43+00:00",
+      "last_success_jobs": 3773
     },
     "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=8d16626f-48ae-43f6-b57e-79339726ccf4&ccId=19000101_000001&lang=en_CA": {
       "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=8d16626f-48ae-43f6-b57e-79339726ccf4&ccId=19000101_000001&lang=en_CA",
-      "last_run_at": "2026-11-08T16:46:07+00:00",
+      "last_run_at": "2026-11-10T18:39:57+00:00",
       "last_status": "ok",
       "last_jobs_found": 3,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:07+00:00",
+      "last_success_at": "2026-11-10T18:39:57+00:00",
       "last_success_jobs": 3
     },
     "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=9e26f425-d064-4c19-9e7b-cc8236837a7c&ccId=19000101_000001&lang=en_US": {
       "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=9e26f425-d064-4c19-9e7b-cc8236837a7c&ccId=19000101_000001&lang=en_US",
-      "last_run_at": "2026-11-08T16:46:06+00:00",
+      "last_run_at": "2026-11-10T18:39:56+00:00",
       "last_status": "ok",
-      "last_jobs_found": 43,
+      "last_jobs_found": 44,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:06+00:00",
-      "last_success_jobs": 43
+      "last_success_at": "2026-11-10T18:39:56+00:00",
+      "last_success_jobs": 44
     },
     "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=d4d64eb4-d344-423a-868e-ae5d37380d2f&ccId=19000101_000001&lang=en_US": {
       "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=d4d64eb4-d344-423a-868e-ae5d37380d2f&ccId=19000101_000001&lang=en_US",
@@ -1010,84 +1010,84 @@
     },
     "https://wsp.taleo.net/careersection/globalcareersection/jobsearch.ftl?lang=en": {
       "url": "https://wsp.taleo.net/careersection/globalcareersection/jobsearch.ftl?lang=en",
-      "last_run_at": "2026-11-08T16:46:01+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
-      "last_jobs_found": 160,
+      "last_jobs_found": 161,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:01+00:00",
-      "last_success_jobs": 160
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 161
     },
     "https://www.careers-page.com/eastwest-bank": {
       "url": "https://www.careers-page.com/eastwest-bank",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 216,
+      "last_jobs_found": 220,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
-      "last_success_jobs": 216
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 220
     },
     "https://www.careers-page.com/mr-diy-philippines": {
       "url": "https://www.careers-page.com/mr-diy-philippines",
-      "last_run_at": "2026-11-08T16:46:32+00:00",
+      "last_run_at": "2026-11-10T18:40:18+00:00",
       "last_status": "ok",
-      "last_jobs_found": 2260,
+      "last_jobs_found": 2262,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:32+00:00",
-      "last_success_jobs": 2260
+      "last_success_at": "2026-11-10T18:40:18+00:00",
+      "last_success_jobs": 2262
     },
     "https://www.comeet.com/jobs/safefleet/95.001": {
       "url": "https://www.comeet.com/jobs/safefleet/95.001",
-      "last_run_at": "2026-11-08T16:46:00+00:00",
+      "last_run_at": "2026-11-10T18:39:52+00:00",
       "last_status": "ok",
-      "last_jobs_found": 58,
+      "last_jobs_found": 59,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:00+00:00",
-      "last_success_jobs": 58
+      "last_success_at": "2026-11-10T18:39:52+00:00",
+      "last_success_jobs": 59
     },
     "https://www.comeet.com/jobs/vastdata/43.001": {
       "url": "https://www.comeet.com/jobs/vastdata/43.001",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
+      "last_run_at": "2026-11-10T18:39:55+00:00",
       "last_status": "ok",
       "last_jobs_found": 263,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
+      "last_success_at": "2026-11-10T18:39:55+00:00",
       "last_success_jobs": 263
     },
     "https://www.lovelocaljobs.com/": {
       "url": "https://www.lovelocaljobs.com/",
-      "last_run_at": "2026-11-08T16:46:47+00:00",
+      "last_run_at": "2026-11-10T18:40:40+00:00",
       "last_status": "ok",
-      "last_jobs_found": 1511,
+      "last_jobs_found": 1512,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:47+00:00",
-      "last_success_jobs": 1511
+      "last_success_at": "2026-11-10T18:40:40+00:00",
+      "last_success_jobs": 1512
     },
     "https://www.motorsport.jobs/": {
       "url": "https://www.motorsport.jobs/",
-      "last_run_at": "2026-11-08T16:46:02+00:00",
+      "last_run_at": "2026-11-10T18:39:54+00:00",
       "last_status": "ok",
-      "last_jobs_found": 95,
+      "last_jobs_found": 94,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:46:02+00:00",
-      "last_success_jobs": 95
+      "last_success_at": "2026-11-10T18:39:54+00:00",
+      "last_success_jobs": 94
     },
     "https://www.thejobnetwork.com/": {
       "url": "https://www.thejobnetwork.com/",
-      "last_run_at": "2026-11-08T16:48:08+00:00",
+      "last_run_at": "2026-11-10T18:42:01+00:00",
       "last_status": "ok",
-      "last_jobs_found": 4725,
+      "last_jobs_found": 4724,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:48:08+00:00",
-      "last_success_jobs": 4725
+      "last_success_at": "2026-11-10T18:42:01+00:00",
+      "last_success_jobs": 4724
     },
     "https://www.timeshighereducation.com/unijobs/listings/": {
       "url": "https://www.timeshighereducation.com/unijobs/listings/",
-      "last_run_at": "2026-11-08T16:47:33+00:00",
+      "last_run_at": "2026-11-10T18:41:22+00:00",
       "last_status": "ok",
-      "last_jobs_found": 1199,
+      "last_jobs_found": 1206,
       "last_error": null,
-      "last_success_at": "2026-11-08T16:47:33+00:00",
-      "last_success_jobs": 1199
+      "last_success_at": "2026-11-10T18:41:22+00:00",
+      "last_success_jobs": 1206
     }
   }
 }

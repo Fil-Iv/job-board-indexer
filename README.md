@@ -1,5 +1,10 @@
 # JobIndex
 
+**Live demo: <https://job-board-indexer.vercel.app>** — search page; API docs at
+[/docs](https://job-board-indexer.vercel.app/docs), counts at
+[/stats](https://job-board-indexer.vercel.app/stats). Reviewer walkthrough:
+[docs/DEMO.md](docs/DEMO.md).
+
 A job board indexer: pulls postings from ATS platforms (Greenhouse, Lever, Workday, …) and
 job-board platforms into one searchable, continuously updated PostgreSQL index.
 
@@ -7,6 +12,7 @@ Project rules (stack, connector conventions, crawling etiquette) are in [CLAUDE.
 
 | Doc | |
 |---|---|
+| [docs/DEMO.md](docs/DEMO.md) | 10-step reviewer walkthrough: live search, API examples, adding a source, coverage evidence |
 | [docs/DEPLOY.md](docs/DEPLOY.md) | **Hosted demo for €0** (Supabase + Vercel + GitHub Actions), click by click; alternative: one VPS (`docker-compose.prod.yml`, HTTPS, backups) |
 | [docs/OPERATIONS.md](docs/OPERATIONS.md) | Crawl workflow, **size budget**, add a source, re-run a board, monitor failures, tuning, **monthly cost** + upgrade path, external dependencies |
 | [docs/CONNECTORS.md](docs/CONNECTORS.md) | How each connector works, how to add one, deduplication rules |
@@ -15,11 +21,13 @@ Project rules (stack, connector conventions, crawling etiquette) are in [CLAUDE.
 ## Quick start
 
 Requirements: Docker with Compose v2.24+ and `make`. Everything runs in containers
-(Python 3.12), so no local Python setup is needed.
+(Python 3.12), so no local Python setup is needed. Ports 8000 (app) and 5432 (Postgres)
+must be free; otherwise set `APP_PORT` / `POSTGRES_PORT` in `.env` (created by `make up`)
+or in the shell, e.g. `APP_PORT=18000 POSTGRES_PORT=55432 make up`.
 
 ```sh
-make up        # build + start postgres and the app: search page http://localhost:8000/, API docs /docs
-make migrate   # apply database migrations
+make up        # build + start postgres and the app (first build ~1 min)
+make migrate   # apply database migrations; then search page http://localhost:8000/, API docs /docs
 make test      # offline test suite (fixtures, jobindex_test database)
 make test-live # live tests against real employer boards (network)
 make lint      # ruff + mypy

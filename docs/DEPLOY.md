@@ -16,6 +16,9 @@ Local development always uses `docker compose` (README, *Quick start*).
 
 ## A. Hosted demo: Supabase + Vercel + GitHub Actions
 
+Running instance of exactly this setup: <https://job-board-indexer.vercel.app>
+(walkthrough: [DEMO.md](DEMO.md)).
+
 ```
 GitHub Actions ──crawl.yml (every 6 h)──> job boards
       │  migrate.yml (push to main)
@@ -289,4 +292,7 @@ Test a restore now and then (e.g. into a local `make up` database).
 Set `DOMAIN=localhost` in `.env.prod`; Caddy then serves `https://localhost` with its own
 local CA (`curl -k`). Use a separate project name so it does not touch the dev database:
 `docker compose -p jobindex-prod -f docker-compose.prod.yml --env-file .env.prod up -d --build --wait`,
-and `... down -v` afterwards.
+and `... down -v` afterwards. Ports 80 and 443 must be free. Check with
+`curl -k https://localhost/health`. The `make prod-*` targets do not pass `-p`, so call
+compose directly here, e.g. `... exec backup /scripts/backup.sh now` for a backup.
+(Verified from a fresh clone on 2026-11-10: all six services healthy in ~45 s.)
