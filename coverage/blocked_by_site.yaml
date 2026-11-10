@@ -121,3 +121,10 @@ blocked_by_site:
       - {url: "https://apply.jobappnetwork.com/sitemap.xml", checked_at: "2026-11-08T16:26:22+00:00", http_status: 403, robots_url: "https://apply.jobappnetwork.com/robots.txt", robots_http_status: 200, robots_rule: null}
       - {url: "https://apply.jobappnetwork.com/clients/10556", checked_at: "2026-11-08T16:26:11+00:00", http_status: 200, robots_url: "https://apply.jobappnetwork.com/robots.txt", robots_http_status: 200, robots_rule: null, policy: "751-byte JS shell, no job data"}
       - {url: "https://prod-kong.internal.talentreef.com/apply/proxy-es/search-en-us/posting/_search?size=1", checked_at: "2026-11-08T13:17:30+00:00", http_status: 200, robots_url: "https://prod-kong.internal.talentreef.com/robots.txt", robots_http_status: 404, robots_rule: null, policy: "internal host (owner decision)"}
+  - platform: Artha
+    scope: platform
+    impact: "Job pages (vendor demo board and customer board) answer 403 with a Cloudflare challenge; the job API picks the tenant from the browser Origin header (INVALID_CLIENT without it), which is not faked. No allowed route."
+    evidence:
+      - {url: "https://demo.arthajobboard.com/job-detail/devops-engineer", checked_at: "2026-11-10T19:19:01+00:00", http_status: 403, robots_url: "https://demo.arthajobboard.com/robots.txt", robots_http_status: 200, robots_rule: "Allow: /"}
+      - {url: "https://medskil.arthajobboard.com/job-detail/animation-developer", checked_at: "2026-11-10T19:19:01+00:00", http_status: 403, robots_url: "https://medskil.arthajobboard.com/robots.txt", robots_http_status: 200, robots_rule: "Allow: /"}
+      - {url: "https://api.arthajobboard.com/client/api/v1/jobs/search/guest", checked_at: "2026-11-10T19:19:02+00:00", http_status: 200, robots_url: "https://api.arthajobboard.com/robots.txt", robots_http_status: 200, robots_rule: null, policy: "tenant only via a faked browser Origin header ({code: INVALID_CLIENT} without it)"}

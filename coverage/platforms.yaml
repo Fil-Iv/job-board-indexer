@@ -1107,7 +1107,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: "Not built (2026-11-08): no live customer board identified. Talenetic (UK white-label job board software) has no client page (/clients 404); the only named sites in press (oilfinity.com, TopEngineer.com, 2015) are its own aggregators; searches for Powered by Talenetic find no boards."
+  notes: "Not built (re-checked 2026-11-10): no allowed board. Talenetic (UK white-label job board software) has no client page (/clients 404; www.talenetic.com sitemap lists only marketing pages); the only named sites in press (oilfinity.com, TopEngineer.com, 2015) are its own aggregators. Announced customers: britishmedicaljobs.com (2015) now redirects to an unrelated casino site (domain lapsed); jobs.seattletimes.com disallows everything for other bots (User-agent: * Disallow: /; only search/social bots allowed), and the Seattle Times employer site hiring.seattletimes.com now runs on Recruitology, so the Talenetic fingerprint cannot be confirmed there. No public demo board: demo.talenetic.com and jobs.talenetic.com resolve (wildcard DNS) but answer 404. fantastic.jobs/job-board/talenetic names no customer boards."
 
 - name: JobMount
   key: jobmount
@@ -1158,27 +1158,30 @@
   key: artha
   type: jobboard
   status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
+  tier: hard
+  public_api: partial
+  api: "POST api.arthajobboard.com/client/api/v1/jobs/search/guest (tenant from the browser Origin header; not used) + {tenant}.arthajobboard.com/jd/1/sitemap.xml -> /job-detail/{slug} (Cloudflare challenge, 403)"
+  url_patterns: ["{tenant}.arthajobboard.com", "{tenant}.arthajobboard.com/job-detail/{slug}"]
   examples: []
-  robots: unknown
+  robots: allowed
   verified: null
-  notes: "Not built (2026-11-08): no customer board identified. Artha Job Board is by Knovator Technologies; directories (Capterra, GetApp, SpotSaaS) name customers (nasscom, Indonesian Ministry of Education and Culture) but no board URL, and www.arthajobboard.com fails TLS (certificate for another host), so robots.txt cannot be read (treated as disallowed)."
+  notes: "Blocked (2026-11-10; blocked_by_site.yaml). Artha Job Board (Knovator Technologies) is a multi-tenant Next.js SaaS on {tenant}.arthajobboard.com (unknown tenants redirect to /client-not-found); arthajobboard.com answers again (TLS failed on 2026-11-08). Vendor demo board demo.arthajobboard.com (robots.txt Allow: /, sitemap /jd/1/sitemap.xml with 312 job URLs) and a customer board medskil.arthajobboard.com (282 job URLs, mostly placeholder tech titles) were found, but every job page answers 403 with a Cloudflare challenge (cf-mitigated: challenge) to our User-Agent. The listing API is POST api.arthajobboard.com/client/api/v1/jobs/search/guest and picks the tenant from the browser Origin header; without it every call (incl. /robots.txt) returns {code: INVALID_CLIENT}. Faking the Origin header is not done. artha.linkx (lead) does not resolve: .linkx is not a TLD; 'Artha Link' is a product feature on arthajobboard.com."
 
 - name: jobboardsoftware.com
   key: jobboardsoftware
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Not built (2026-11-08): www.jobboardsoftware.com redirects to exenzo.com/en/jobboard (Exenzo, NL). No customer board identified: the vendor page links no customer sites and searches found only a developer portfolio mention (15 job websites, unnamed)."
+  status: done
+  connector: jobindex.connectors.jobboardsoftware
+  public_api: "yes"
+  api: "GET {tenant}.api.exenzo.com/api/public/v1/configuration (job boards, time zone, currency) + /job-boards/{id}/jobs?page={n}&limit=100 (total, lastPage, full job JSON)"
+  url_patterns: ["{tenant}.api.exenzo.com/api/public/v1/job-boards/{id}/jobs", "custom domains with assets on storage.googleapis.com/exenzo-jobboard/{tenant}/"]
+  examples:
+    - https://greenjobs.api.exenzo.com/api/public/v1/job-boards/1/jobs
+    - https://overheid.api.exenzo.com/api/public/v1/job-boards/1/jobs
+    - https://bb.api.exenzo.com/api/public/v1/job-boards/1/jobs
+  robots: allowed
+  verified: 2026-11-10
+  notes: "www.jobboardsoftware.com redirects to exenzo.com/en/jobboard (Exenzo, NL), whose page names its customer boards (2026-11-10): Greenjobs (greenjobs.nl, 230 jobs), Vacaturebijdeoverheid (vacaturebijdeoverheid.nl, 38), Binnenlands Bestuur (binnenlandsbestuur.nl/vacatures, 140; Sijthoff Media) and Carrière.nu. All serve assets from storage.googleapis.com/exenzo-jobboard/{tenant}/ and call a token-free public API on {tenant}.api.exenzo.com (robots.txt: empty Disallow). The list is checked against 'total' (de-duplicated by id; the default order puts premium jobs first). Board identifier {tenant}/{board id}: tenants can have several boards (bb/2 is an empty *.app.exenzo.com board). carriere.nu (asset folder carriere-nu) has no carriere-nu.api.exenzo.com (404), so it is not an example. The vendor offers a free trial environment on request, not a public demo board."
 
 - name: jobBoardHQ
   key: jobboardhq
@@ -1204,7 +1207,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: "Not built (2026-11-08): no customer board identified. Nodex (nodex.co.uk, UK) publishes no customer list (portfolio page 404); BuiltWith reports ~49 live sites and AppsRunTheWorld names recruiters (Big Ant Group, Orchard Recruitment, Sheridan Ward Recruitment) without board URLs."
+  notes: "Not built (re-checked 2026-11-10): no customer board identified and no public demo board. Nodex (nodex.co.uk, UK) publishes no customer list (portfolio page 404; sitemap has only service pages and blog posts); its job-board page shows a 'demo version' as screenshots only and offers booked demos. demo.nodex.co.uk resolves (wildcard DNS) but serves a self-signed certificate, so robots.txt cannot be read (treated as disallowed). BuiltWith reports ~49 live sites and AppsRunTheWorld names recruiters (Big Ant Group, Orchard Recruitment, Sheridan Ward Recruitment) without board URLs."
 
 - name: eJobBoard
   key: ejobboard
@@ -1217,7 +1220,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: "Not built (2026-11-08): no customer board identified. www.ejobboard.com serves a 114-byte page; TrustRadius lists the product as discontinued; searches for powered by eJobBoard find no sites (results mix it up with ejobsitesoftware.com)."
+  notes: "Not built (re-checked 2026-11-10): no customer board and no demo board. www.ejobboard.com serves a 114-byte page that redirects to /lander (parked domain); demo.ejobboard.com does not resolve. TrustRadius lists the product as discontinued; searches for powered by eJobBoard find no sites (results mix it up with ejobsitesoftware.com)."
 
 - name: ejobsitesoftware.com
   key: ejobsitesoftware

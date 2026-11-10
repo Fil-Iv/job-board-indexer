@@ -281,3 +281,9 @@ sources:
 - platform: jobboardcom
   url: https://jobs.homeless.org.uk/
   jobs: 55
+- platform: jobboardsoftware
+  url: https://overheid.api.exenzo.com/api/public/v1/job-boards/1/jobs
+  jobs: 38
+- platform: jobboardsoftware
+  url: https://bb.api.exenzo.com/api/public/v1/job-boards/1/jobs
+  jobs: 140

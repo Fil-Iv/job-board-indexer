@@ -1,0 +1,77 @@
+{
+  "settings": {
+    "app_timezone": "Europe/Amsterdam",
+    "app_name": "Binnenlands Bestuur",
+    "app_currency": "EUR",
+    "app_locale": "nl"
+  },
+  "job_boards": [
+    {
+      "id": 1,
+      "status": "active",
+      "slug": "binnenlands-bestuur",
+      "name": "Binnenlands Bestuur",
+      "description": "Binnenlands Bestuur",
+      "logo": "https://storage.googleapis.com/exenzo-jobboard/bb/public/thumb/logo-bb-png-8.png",
+      "fav_icon": null,
+      "host": "plaats-vacatures.binnenlandsbestuur.nl",
+      "site_id": 1,
+      "placeholders": [
+        {
+          "id": 1,
+          "is_default": true,
+          "key": "job_board_job_count",
+          "name": "Total number of jobs on job board",
+          "value": "192"
+        },
+        {
+          "id": 2,
+          "is_default": true,
+          "key": "job_board_name",
+          "name": "Name of Job Board",
+          "value": "Binnenlands Bestuur"
+        },
+        {
+          "id": 3,
+          "is_default": true,
+          "key": "job_board_industry",
+          "name": "Industry of Job Board",
+          "value": "Industry"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "status": "active",
+      "slug": "binnenlands-bestuur2",
+      "name": "Binnenlands Bestuur app",
+      "description": "Overweegt u een carrière bij de overheid, alle vacatures binnen gemeenten, provincies, ZBO’s en waterschappen vind je op Binnenlands Bestuur",
+      "logo": "https://storage.googleapis.com/exenzo-jobboard/bb/public/thumb/logo-bb-png-8.png",
+      "fav_icon": null,
+      "host": "binnenlandsbestuur.app.exenzo.com",
+      "site_id": 2,
+      "placeholders": []
+    }
+  ],
+  "sites": [
+    {
+      "id": 1,
+      "job_board_id": 1,
+      "job_board_builder_site_id": 1,
+      "host": "plaats-vacatures.binnenlandsbestuur.nl",
+      "app_type": "job-board",
+      "url": "https://plaats-vacatures.binnenlandsbestuur.nl",
+      "redirect_to_host": null
+    },
+    {
+      "id": 2,
+      "job_board_id": 2,
+      "job_board_builder_site_id": 2,
+      "host": "binnenlandsbestuur.app.exenzo.com",
+      "app_type": "job-board",
+      "url": "https://binnenlandsbestuur.app.exenzo.com",
+      "redirect_to_host": null
+    }
+  ],
+  "environment": "exenzo"
+}

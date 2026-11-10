@@ -1,0 +1,56 @@
+{
+  "settings": {
+    "app_timezone": "Europe/Amsterdam",
+    "app_name": "Vacature bij de Overheid",
+    "app_currency": "EUR",
+    "app_locale": "nl"
+  },
+  "job_boards": [
+    {
+      "id": 1,
+      "status": "active",
+      "slug": "vacaturebijdeoverheid",
+      "name": "Vacature bij de Overheid",
+      "description": "Vacature bij de Overheid",
+      "logo": "https://storage.googleapis.com/exenzo-jobboard/overheid/public/thumb/vbdo-logo-png-3-png.png",
+      "fav_icon": null,
+      "host": "vacaturebijdeoverheid.nl",
+      "site_id": 1,
+      "placeholders": [
+        {
+          "id": 1,
+          "is_default": true,
+          "key": "job_board_job_count",
+          "name": "Total number of jobs on job board",
+          "value": "56"
+        },
+        {
+          "id": 2,
+          "is_default": true,
+          "key": "job_board_name",
+          "name": "Name of Job Board",
+          "value": "Vacature bij de Overheid"
+        },
+        {
+          "id": 3,
+          "is_default": true,
+          "key": "job_board_industry",
+          "name": "Industry of Job Board",
+          "value": "Industry"
+        }
+      ]
+    }
+  ],
+  "sites": [
+    {
+      "id": 1,
+      "job_board_id": 1,
+      "job_board_builder_site_id": 1,
+      "host": "vacaturebijdeoverheid.nl",
+      "app_type": "job-board",
+      "url": "https://vacaturebijdeoverheid.nl",
+      "redirect_to_host": null
+    }
+  ],
+  "environment": "exenzo"
+}

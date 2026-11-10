@@ -63,6 +63,15 @@
       "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 113
     },
+    "https://bb.api.exenzo.com/api/public/v1/job-boards/1/jobs": {
+      "url": "https://bb.api.exenzo.com/api/public/v1/job-boards/1/jobs",
+      "last_run_at": "2026-11-10T19:22:43+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 140,
+      "last_error": null,
+      "last_success_at": "2026-11-10T19:22:43+00:00",
+      "last_success_jobs": 140
+    },
     "https://bloomberg.avature.net/careers/SearchJobs": {
       "url": "https://bloomberg.avature.net/careers/SearchJobs",
       "last_run_at": "2026-11-10T18:40:40+00:00",
@@ -386,6 +395,15 @@
       "last_error": null,
       "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 12
+    },
+    "https://greenjobs.api.exenzo.com/api/public/v1/job-boards/1/jobs": {
+      "url": "https://greenjobs.api.exenzo.com/api/public/v1/job-boards/1/jobs",
+      "last_run_at": "2026-11-10T19:22:37+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 230,
+      "last_error": null,
+      "last_success_at": "2026-11-10T19:22:37+00:00",
+      "last_success_jobs": 230
     },
     "https://ilsos.applytojob.com/apply": {
       "url": "https://ilsos.applytojob.com/apply",
@@ -800,6 +818,15 @@
       "last_error": null,
       "last_success_at": "2026-11-10T18:39:52+00:00",
       "last_success_jobs": 24
+    },
+    "https://overheid.api.exenzo.com/api/public/v1/job-boards/1/jobs": {
+      "url": "https://overheid.api.exenzo.com/api/public/v1/job-boards/1/jobs",
+      "last_run_at": "2026-11-10T19:22:39+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 38,
+      "last_error": null,
+      "last_success_at": "2026-11-10T19:22:39+00:00",
+      "last_success_jobs": 38
     },
     "https://paypal.eightfold.ai/careers?domain=paypal.com": {
       "url": "https://paypal.eightfold.ai/careers?domain=paypal.com",
