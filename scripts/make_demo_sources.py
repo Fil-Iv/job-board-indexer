@@ -4,7 +4,8 @@ The hosted demo runs on the Supabase free tier (500 MB, docs/OPERATIONS.md#size-
 so it skips the huge example boards (e.g. 14k Marriott, 7k JPMorgan postings). Picks,
 per ``done`` platform in coverage/platforms.yaml, the examples whose last coverage run
 (coverage/results.json) succeeded, preferring boards with SMALL_MIN..SMALL_MAX open jobs
-(smallest first); a platform without such a board gets only its smallest one.
+(smallest first); a platform without such a board gets only its smallest one. Boards
+with block evidence in coverage/blocked_by_site.yaml (a 403 to the crawler) are skipped.
 
     docker compose run --rm app python scripts/make_demo_sources.py [--check]
 
@@ -17,7 +18,7 @@ from pathlib import Path
 
 import yaml
 
-from jobindex.coverage import PLATFORMS_FILE, ROOT, Results, load_platforms
+from jobindex.coverage import PLATFORMS_FILE, ROOT, Results, load_blocked, load_platforms
 
 OUT = ROOT / "coverage" / "demo_sources.yaml"
 PER_PLATFORM = 2
@@ -40,6 +41,7 @@ def _jobs(item: tuple[str, int]) -> int:
 
 def build() -> str:
     results = Results.load()
+    refused = {ev.url for item in load_blocked() for ev in item.evidence if ev.policy is None}
     entries: list[dict[str, object]] = []
     for platform in load_platforms(PLATFORMS_FILE):
         if platform.status != "done":
@@ -48,7 +50,7 @@ def build() -> str:
         ok = []
         for url in platform.examples:
             result = results.examples.get(url)
-            if result is not None and result.last_success_jobs:
+            if url not in refused and result is not None and result.last_success_jobs:
                 ok.append((url, result.last_success_jobs))
 
         small = sorted((item for item in ok if SMALL_MIN <= item[1] <= SMALL_MAX), key=_jobs)

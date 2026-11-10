@@ -270,8 +270,8 @@ sources:
   url: https://jobs.cityandstateny.com/
   jobs: 15
 - platform: madgex
-  url: https://jobs.sciencecareers.org/jobs/
-  jobs: 530
+  url: https://www.timeshighereducation.com/unijobs/listings/
+  jobs: 1199
 - platform: jobmount
   url: https://jobnet.wacities.org/
   jobs: 98

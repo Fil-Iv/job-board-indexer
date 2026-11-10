@@ -76,7 +76,8 @@ jobs:
           fi
       - name: Seed demo sources
         if: ${{ inputs.seed }}
-        continue-on-error: true # a board that no longer resolves must not block the crawl
+        # Fails (and stops the run) only if more than 10% of the boards fail to register;
+        # a few that refuse us or no longer resolve are reported and skipped.
         run: python -m jobindex.cli seed-demo --file coverage/demo_sources.yaml
       - name: Plan shards
         id: plan

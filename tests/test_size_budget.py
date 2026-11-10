@@ -227,10 +227,19 @@ async def test_seed_demo_from_file(
         "  - url: https://unsupported.example/jobs\n"
     )
     code = await asyncio.to_thread(main, ["seed-demo", "--file", str(demo)], fake_registry)
-    assert code == 1  # one unsupported URL; the others are still registered
+    assert code == 1  # 1 of 3 failed (> 10%); the others are still registered
     rows = (await session.execute(select(Source.board_identifier, Source.company_name))).all()
     assert sorted(rows) == [("acme", "Acme Corp"), ("globex", "Globex")]
-    assert "1 of 3 source(s) failed" in capsys.readouterr().err
+    assert "1 of 3 source(s) failed (more than 10%)" in capsys.readouterr().err
+
+    # 1 of 10 failed (exactly 10%): reported, but the seed step passes
+    boards = "".join(f"  - url: https://jobs.fake.test/board{i}\n" for i in range(9))
+    demo.write_text("sources:\n" + boards + "  - url: https://unsupported.example/jobs\n")
+    code = await asyncio.to_thread(main, ["seed-demo", "--file", str(demo)], fake_registry)
+    assert code == 0
+    err = capsys.readouterr().err
+    assert "1 of 10 source(s) failed" in err
+    assert "more than" not in err
 
     demo.write_text("nope: 1\n")
     assert await asyncio.to_thread(main, ["seed-demo", "--file", str(demo)], fake_registry) == 2

@@ -260,13 +260,19 @@ def load_demo_sources(path: Path) -> list[tuple[str, str | None]]:
     return result
 
 
+#: seed-demo --file fails only when more than this share of the boards fail to register.
+SEED_MAX_FAILED_SHARE = 0.10
+
+
 async def seed_from_file(
     session_factory: async_sessionmaker[AsyncSession],
     registry: Registry,
     http: HttpClient,
     path: Path,
 ) -> int:
-    """Register every board listed in ``path`` (idempotent). Returns 1 if any failed."""
+    """Register every board listed in ``path`` (idempotent). Returns 1 only if more than
+    ``SEED_MAX_FAILED_SHARE`` of them failed: a few boards that refuse us or no longer
+    resolve must not block the crawl, a broken seed (most boards failing) must."""
     try:
         entries = load_demo_sources(path)
     except (OSError, ValueError, yaml.YAMLError) as exc:
@@ -276,9 +282,15 @@ async def seed_from_file(
     for url, company in entries:
         if await add_source(session_factory, registry, http, url, company) != 0:
             failed += 1
-    if failed:
-        print(f"seed-demo: {failed} of {len(entries)} source(s) failed", file=sys.stderr)
-    return 1 if failed else 0
+    if not failed:
+        return 0
+    too_many = failed > SEED_MAX_FAILED_SHARE * len(entries)
+    print(
+        f"seed-demo: {failed} of {len(entries)} source(s) failed"
+        + (f" (more than {SEED_MAX_FAILED_SHARE:.0%})" if too_many else ""),
+        file=sys.stderr,
+    )
+    return 1 if too_many else 0
 
 
 async def report_db_size(

@@ -79,8 +79,9 @@ blocked_by_site:
       - {url: "https://jobs.sfaac.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://jobs.sfaac.com/robots.txt", robots_http_status: 403, robots_rule: null}
   - platform: Wiley Madgex
     scope: tenant
-    impact: "Some boards answer 403 (or disallow everything); jobs.sciencecareers.org, timeshighereducation.com/unijobs and jobs.chronicle.com are open and indexed."
+    impact: "Some boards answer 403 (or disallow everything); timeshighereducation.com/unijobs and jobs.chronicle.com are open and indexed. jobs.sciencecareers.org answers 403 to the GitHub Actions crawler (robots.txt 200, allows it; the same request from a home connection got 200 on 2026-11-10), so it is not a demo source."
     evidence:
+      - {url: "https://jobs.sciencecareers.org/jobs/", checked_at: "2026-11-10T17:05:50+00:00", http_status: 403, robots_url: "https://jobs.sciencecareers.org/robots.txt", robots_http_status: 200, robots_rule: null}
       - {url: "https://jobs.theguardian.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://jobs.theguardian.com/robots.txt", robots_http_status: 403, robots_rule: null}
       - {url: "https://www.nejmcareercenter.org/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://www.nejmcareercenter.org/robots.txt", robots_http_status: 403, robots_rule: null}
       - {url: "https://jobs.economist.com/jobs/", checked_at: "2026-11-08T04:43:05+00:00", http_status: 403, robots_url: "https://jobs.economist.com/robots.txt", robots_http_status: 403, robots_rule: null}
