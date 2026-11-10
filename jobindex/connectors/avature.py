@@ -3,11 +3,14 @@
 List: GET {host}/{portal}/sitemap_index.xml -> {portal}/sitemap.xml: every job page
       ``/{portal}/JobDetail/{slug}/{id}`` with ``<lastmod>`` (plus content pages). Checked
       against the total of the search page (GET {portal}/SearchJobs/?jobOffset=0,
-      ``<div class="list-controls__text__legend" aria-label="323 results">``): fewer jobs
-      in the sitemap than the board shows is an error; more is allowed (a job page that is
-      no longer open is stored closed). The paged search itself is not used to list jobs:
-      its order is not stable (Bloomberg, 2026-11-08: 9 of 323 jobs appeared on two pages
-      and 9 on none), and ``/SearchJobs/feed/`` (RSS) always stops at 20 items.
+      ``<div class="list-controls__text__legend" aria-label="323 results">``); more jobs
+      in the sitemap than the board shows is allowed (a job page that is no longer open is
+      stored closed). The sitemap lags behind new postings (Bloomberg, 2026-11-10: 334 in
+      the sitemap, 338 on the board, the newest ones missing), so when it lists fewer jobs
+      the paged search (``?jobOffset=0,12,...``) is read too and the union must reach the
+      total, else the fetch fails. The search alone is not enough: its order is not stable
+      (2026-11-08: 9 of 323 jobs appeared on two pages and 9 on none; 2026-11-10: 322 of
+      338 seen, union with the sitemap 339). ``/SearchJobs/feed/`` (RSS) stops at 20 items.
 Job:  {host}/{portal}/JobDetail/{slug}/{id}: no JSON-LD. The posting is the
       ``article__content__view__field`` blocks of Avature's standard template: labelled
       fields (``__label`` + ``__value``: "Location", "Posted Date", "Employment Type", ...),
@@ -25,11 +28,12 @@ Verified on bloomberg.avature.net/careers (323 jobs) and uclahealth.avature.net/
 (739), 2026-11-08.
 """
 
+import logging
 import re
 from dataclasses import replace
 from datetime import UTC, datetime
 from html import unescape
-from urllib.parse import urlsplit
+from urllib.parse import urljoin, urlsplit
 
 from selectolax.lexbor import LexborHTMLParser, LexborNode
 
@@ -37,6 +41,8 @@ from jobindex.connectors.base import ConnectorError, RawJob
 from jobindex.connectors.generic_jsonld import GenericJsonLdConnector
 from jobindex.connectors.registry import register
 from jobindex.normalize import normalize_employment_type, parse_datetime
+
+log = logging.getLogger(__name__)
 
 SUFFIX = ".avature.net"
 _NOT_TENANTS = {"www", "api", "cdn", "static", "help", "support"}
@@ -83,20 +89,42 @@ class AvatureConnector(GenericJsonLdConnector):
     async def listed_pages(self, board_identifier: str) -> list[tuple[str, str | None]]:
         listed = await super().listed_pages(board_identifier)
         jobs = {job_id for url, _ in listed if (job_id := self.job_id(url, board_identifier))}
-        total = await self.listed_total(board_identifier)
-        if len(jobs) < total:
+        first_page = await self._search_page(board_identifier, 0)
+        total = _total(first_page, board_identifier)
+        if len(jobs) >= total:
+            return listed
+        # The sitemap lags behind new postings: add what the paged search shows.
+        found = self._search_jobs(first_page, board_identifier)
+        step = len(found)
+        for offset in range(step, total, step) if step else ():
+            page = await self._search_page(board_identifier, offset)
+            found.update(self._search_jobs(page, board_identifier))
+        extra = {job_id: url for job_id, url in found.items() if job_id not in jobs}
+        if len(jobs) + len(extra) < total:
             raise ConnectorError(
-                f"avature: sitemap lists {len(jobs)} jobs but the board says {total}"
+                f"avature: sitemap and search list {len(jobs) + len(extra)} jobs"
+                f" but the board says {total}"
             )
-        return listed
+        log.info(
+            "avature %s: sitemap lists %d of %d jobs, %d more from the search",
+            board_identifier,
+            len(jobs),
+            total,
+            len(extra),
+        )
+        return listed + [(url, None) for url in extra.values()]
 
-    async def listed_total(self, board_identifier: str) -> int:
-        """The job count the search page shows (``aria-label="323 results"``)."""
-        url = f"{self.board_url(board_identifier)}/?jobOffset=0"
-        match = _TOTAL.search(await self._get_text(url))
-        if match is None:
-            raise ConnectorError(f"avature: no result count on {url}; template changed?")
-        return int(re.sub(r"\D", "", match.group(1)) or 0)
+    async def _search_page(self, board_identifier: str, offset: int) -> str:
+        return await self._get_text(f"{self.board_url(board_identifier)}/?jobOffset={offset}")
+
+    def _search_jobs(self, html: str, board_identifier: str) -> dict[str, str]:
+        """``{job id: job page URL}`` for the jobs on one search results page."""
+        found: dict[str, str] = {}
+        for node in LexborHTMLParser(html).css("a[href]"):
+            url = urljoin(f"https://{board_identifier}/", node.attributes.get("href") or "")
+            if (job_id := self.job_id(url, board_identifier)) is not None:
+                found.setdefault(job_id, url)
+        return found
 
     def parse_page_html(self, html: str, stub: RawJob) -> RawJob | None:
         tree = LexborHTMLParser(html)
@@ -139,6 +167,14 @@ class AvatureConnector(GenericJsonLdConnector):
 
     def adjust_page(self, job: RawJob, html: str) -> RawJob:
         return job if job.company else replace(job, company=_company(LexborHTMLParser(html)))
+
+
+def _total(html: str, board_identifier: str) -> int:
+    """The job count the search page shows (``aria-label="323 results"``)."""
+    match = _TOTAL.search(html)
+    if match is None:
+        raise ConnectorError(f"avature: no result count for {board_identifier}; template changed?")
+    return int(re.sub(r"\D", "", match.group(1)) or 0)
 
 
 def _title_parts(tree: LexborHTMLParser) -> list[str]:

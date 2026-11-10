@@ -19,7 +19,7 @@ import pytest
 from jobindex.connectors.avature import AvatureConnector
 from jobindex.connectors.base import ConnectorError, RawJob
 from tests.connectors.jsonld_helpers import crawl_fixture, live_check
-from tests.fakes import load_fixture, mock_http
+from tests.fakes import Route, load_fixture, mock_http
 
 BOARD = "bloomberg.avature.net/careers"
 B = "bloomberg.avature.net/careers"
@@ -71,10 +71,42 @@ async def test_sitemap_and_job_page() -> None:
     assert job.expires_at is None
 
 
-async def test_sitemap_with_fewer_jobs_than_the_board_fails() -> None:
-    http, _ = mock_http(_routes(total=323))  # the real total; the fixture sitemap has 3
+def _paged_routes(total: int) -> tuple[dict[str, Route], list[int]]:
+    """The fixture search page at offset 0; from offset 12 on, the same page with job
+    46045 replaced by 46999 (a job the sitemap does not list yet)."""
+    page = _routes(total)[f"{B}/SearchJobs/"].text
+    offsets: list[int] = []
+
+    def search(request: httpx.Request) -> httpx.Response:
+        offset = int(request.url.params["jobOffset"])
+        offsets.append(offset)
+        return httpx.Response(200, text=page if offset == 0 else page.replace("/46045", "/46999"))
+
+    routes: dict[str, Route] = {**_routes(total), f"{B}/SearchJobs/": search}
+    return routes, offsets
+
+
+async def test_sitemap_behind_the_board_is_completed_from_the_search() -> None:
+    # Fixture sitemap: 3 jobs. Search: 12 on page 0, 46999 on page 1 -> 13 = the total.
+    routes, offsets = _paged_routes(total=13)
+    http, _ = mock_http(routes)
     async with http:
-        with pytest.raises(ConnectorError, match="sitemap lists 3 jobs but the board says 323"):
+        listed = await AvatureConnector(http).listed_pages(BOARD)
+    versions = {url.rsplit("/", 1)[-1]: v for url, v in listed if "/JobDetail/" in url}
+    assert len(versions) == 13
+    assert offsets == [0, 12]  # page 0 (also gives the total), then page 1
+    # sitemap entries keep their <lastmod>; jobs added from the search have none
+    assert versions["46004"] is not None
+    assert versions["46999"] is None
+
+
+async def test_sitemap_and_search_short_of_the_board_fail() -> None:
+    routes, _ = _paged_routes(total=323)  # the real total; sitemap + search show 13
+    http, _ = mock_http(routes)
+    async with http:
+        with pytest.raises(
+            ConnectorError, match="sitemap and search list 13 jobs but the board says 323"
+        ):
             await AvatureConnector(http).fetch_jobs(BOARD)
 
 
