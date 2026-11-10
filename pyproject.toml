@@ -34,6 +34,13 @@ dev = [
     "types-defusedxml>=0.7",
 ]
 
+# --- Vercel -----------------------------------------------------------------
+# The FastAPI preset only auto-detects app.py/index.py/main.py/... at the root, src/ or
+# app/; point it at api/index.py. The preset routes every path to this app itself, so
+# vercel.json needs no rewrites (a rewrite to /api/index makes the app see that path).
+[tool.vercel]
+entrypoint = "api.index:app"
+
 [tool.hatch.build.targets.wheel]
 packages = ["jobindex"]
 

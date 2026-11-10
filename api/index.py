@@ -1,5 +1,5 @@
 """Vercel entry point: the FastAPI app (JSON API, search page, /docs) as one Python
-function. vercel.json rewrites every path here; see docs/DEPLOY.md.
+function. pyproject.toml [tool.vercel] points the FastAPI preset here; see docs/DEPLOY.md.
 
 Vercel sets ``VERCEL=1``, which switches jobindex.config to serverless defaults: no
 connection pool (the Supabase transaction pooler pools), READ ONLY transactions and

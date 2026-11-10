@@ -126,12 +126,12 @@ Do **not** use the "Direct connection" string: it is IPv6-only on the free tier.
    (install the Vercel app for this repository if asked) → **Import** next to the repo.
 2. **Configure Project**:
    * **Project Name**: e.g. `jobindex`.
-   * **Framework Preset**: **Other** (if Vercel pre-selects *FastAPI*, that works too).
+   * **Framework Preset**: **FastAPI** (Vercel pre-selects it).
    * **Root Directory**: `./`. Leave **Build and Output Settings** empty.
    * **Environment Variables**: Key `DATABASE_URL`, value: the **transaction pooler** URL
      with the `jobindex_web` role from A1 step 8 → **Add**.
 3. **Deploy**. Vercel installs `requirements.txt` and serves `api/index.py`;
-   `vercel.json` sends every path to it.
+   `pyproject.toml` (`[tool.vercel] entrypoint = "api.index:app"`) points the preset at it.
 4. **Settings → Functions → Function Region**: choose the region matching Supabase (e.g.
    `Frankfurt, Germany (fra1)`) → **Save**, then **Deployments → ⋯ → Redeploy**. Every
    query crosses this distance, so it matters.
