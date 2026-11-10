@@ -19,6 +19,7 @@ from jobindex.connectors.registry import register
 @register
 class JBoardConnector(HostedBoardConnector):
     platform = "jboard"
+    detail_version = 1  # 2026-11-10: "City, Region, Country" addressLocality split
     native_suffix = ".jboard.io"
     page_fingerprint = re.compile(r"app\.jboard\.io")
     child_sitemap = re.compile(r"/sitemap-jobs-\d+\.xml$")

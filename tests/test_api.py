@@ -209,6 +209,28 @@ async def test_search_page(client: httpx.AsyncClient, session: AsyncSession) -> 
     assert "Senior Python Engineer" not in html
 
 
+async def test_search_page_link_labels(client: httpx.AsyncClient, session: AsyncSession) -> None:
+    """Separate posting/apply links when they differ, one "posting · apply" link otherwise."""
+    session.add(Source(platform="greenhouse", board_identifier="x", base_url="https://x", id=1))
+    await session.flush()
+    url = "https://job-boards.greenhouse.io/x/jobs/1"
+    session.add_all(
+        [
+            Job(source_id=1, external_id="1", title="Same", source_url=url, apply_url=url,
+                content_hash="a"),
+            Job(source_id=1, external_id="2", title="Different", source_url=url + "2",
+                apply_url=url + "2#app", content_hash="b"),
+        ]
+    )  # fmt: skip
+    await session.commit()
+    html = (await client.get("/")).text
+    assert (
+        html.count(f'href="{url}" rel="noopener nofollow" target="_blank">posting · apply</a>') == 1
+    )
+    assert f'href="{url}2" rel="noopener nofollow" target="_blank">posting</a>' in html
+    assert f'href="{url}2#app" rel="noopener nofollow" target="_blank">apply</a>' in html
+
+
 async def test_search_page_drops_unsafe_links(
     client: httpx.AsyncClient, session: AsyncSession
 ) -> None:

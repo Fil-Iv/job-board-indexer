@@ -116,8 +116,12 @@
         {% for s in job.sources %}
           <span>
             <span class="src">{{ s.platform }}{% if s.status.value == 'closed' %} (closed){% endif %}:</span>
-            {% if s.source_url|safe_url %}<a href="{{ s.source_url|safe_url }}" rel="noopener nofollow" target="_blank">posting</a>{% endif %}
-            {% if s.apply_url|safe_url and s.apply_url != s.source_url %}· <a href="{{ s.apply_url|safe_url }}" rel="noopener nofollow" target="_blank">apply</a>{% endif %}
+            {% set posting = s.source_url|safe_url %}{% set apply = s.apply_url|safe_url %}
+            {% if posting and apply and apply == posting %}<a href="{{ posting }}" rel="noopener nofollow" target="_blank">posting · apply</a>
+            {% else %}
+              {% if posting %}<a href="{{ posting }}" rel="noopener nofollow" target="_blank">posting</a>{% endif %}
+              {% if apply %}{% if posting %}· {% endif %}<a href="{{ apply }}" rel="noopener nofollow" target="_blank">apply</a>{% endif %}
+            {% endif %}
           </span>
         {% endfor %}
       </div>

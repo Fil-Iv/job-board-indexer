@@ -1,3 +1,4 @@
+import json
 from datetime import UTC, datetime
 from decimal import Decimal
 
@@ -64,3 +65,34 @@ def test_microdata_from_real_smartrecruiters_page() -> None:
 
 def test_no_markup() -> None:
     assert extract_job_postings("<html><body><h1>Jobs</h1></body></html>") == []
+
+
+def _job_at(address: str) -> str:
+    return (
+        '{"@type": "JobPosting", "title": "T", "jobLocation": {"@type": "Place", '
+        f'"address": {{"@type": "PostalAddress", {address}}}}}}}'
+    )
+
+
+def test_region_repeating_the_country_code_is_trimmed() -> None:
+    """Eightfold writes ``addressRegion: "KA,IN"`` (paypal.eightfold.ai, 2026-11-10)."""
+    item = json.loads(
+        _job_at(
+            '"addressLocality": "Bengaluru", "addressRegion": "KA,IN", '
+            '"addressCountry": {"@type": "Country", "name": "IN"}'
+        )
+    )
+    raw = to_raw_job(item, external_id="1", source_url=None).normalized()
+    assert (raw.city, raw.region, raw.country) == ("Bengaluru", "KA", "IN")
+    assert raw.location_raw == "Bengaluru, KA, IN"
+
+
+def test_whole_location_in_address_locality_is_split() -> None:
+    """JBoard puts "City, Region, Country" into addressLocality (couriergigs.com, 2026-11-10)."""
+    for locality, expected in [
+        ("West Medford, Massachusetts, United States", ("West Medford", "MA", "US")),
+        ("Quebec City, QC, CA", ("Quebec City", "QC", "CA")),
+    ]:
+        item = json.loads(_job_at(f'"addressLocality": "{locality}"'))
+        raw = to_raw_job(item, external_id="1", source_url=None).normalized()
+        assert (raw.city, raw.region, raw.country) == expected

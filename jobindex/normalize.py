@@ -43,7 +43,9 @@ from jobindex.models.enums import RemoteType
 #:       separated multi-locations; first version recorded in the database
 #:   3 — French/Spanish employment types ("Temps plein", "Tiempo completo", "CDD", ...);
 #:       accent-insensitive region names ("Québec" -> QC)
-PARSER_VERSION = 3
+#:   4 — "City, RegionCode, CountryCode" ("Bengaluru, KA, IN", "Quebec City, QC, CA"):
+#:       the trailing code is the country, not a US state
+PARSER_VERSION = 4
 
 # ---------------------------------------------------------------------------
 # HTML
@@ -321,6 +323,21 @@ def _parse_single(text: str) -> Location:
     last = parts[-1]
     country: str | None = None
     region: str | None = None
+
+    # "Bengaluru, KA, IN" / "Quebec City, QC, CA" / "Nuremberg, BY, DE": a region code
+    # followed by an ISO country code. IN/CA/DE are also US states, so this goes first.
+    if len(parts) >= 3 and len(last) == 2 and last.isupper():
+        code_country = normalize_country(last)
+        prev = parts[-2]
+        known = _subdivisions().get(code_country or "")
+        if (
+            code_country
+            and 2 <= len(prev) <= 3
+            and prev.isupper()
+            and (known is None or prev.lower() in known)
+        ):
+            region = normalize_region(prev, code_country)
+            return Location(city=parts[-3], region=region, country=code_country)
 
     # "San Francisco, CA" / "Toronto, ON": a two-letter state/province code after a city.
     if len(parts) >= 2 and len(last) == 2 and last.isupper():

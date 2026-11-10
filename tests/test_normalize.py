@@ -42,6 +42,11 @@ def test_html_to_text() -> None:
         ("Austin, Texas", Location("Austin", "TX", "US")),
         ("Toronto, ON, Canada", Location("Toronto", "ON", "CA")),
         ("Montreal, Quebec", Location("Montreal", "QC", "CA")),
+        # Region code + ISO country code: IN/CA/DE are countries here, not US states.
+        ("Bengaluru, KA, IN", Location("Bengaluru", "KA", "IN")),
+        ("Quebec City, QC, CA", Location("Quebec City", "QC", "CA")),
+        ("Nuremberg, BY, DE", Location("Nuremberg", "BY", "DE")),
+        ("Newark, DE, US", Location("Newark", "DE", "US")),
         ("Montreal, Québec, Canada", Location("Montreal", "QC", "CA")),
         ("Berlin, Germany", Location("Berlin", None, "DE")),
         ("London, UK", Location("London", None, "GB")),

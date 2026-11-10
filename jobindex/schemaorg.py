@@ -11,6 +11,7 @@ Used by the SmartRecruiters HTML path and the generic ``jsonld`` job-board conne
 
 import json
 import logging
+import re
 from datetime import UTC, datetime
 from decimal import Decimal, InvalidOperation
 from html import unescape
@@ -22,9 +23,11 @@ from jobindex.connectors.base import RawJob
 from jobindex.models.enums import RemoteType
 from jobindex.normalize import (
     html_to_text,
+    normalize_country,
     normalize_employment_type,
     normalize_salary_period,
     parse_datetime,
+    parse_location,
     remote_type_from_value,
 )
 
@@ -32,6 +35,7 @@ log = logging.getLogger(__name__)
 
 Item = dict[str, Any]
 
+_NOTE = re.compile(r"\s*\([^)]*\)")
 _VALUE_ATTRS = {"meta": "content", "a": "href", "link": "href", "time": "datetime", "img": "src"}
 
 
@@ -174,13 +178,37 @@ def _places(item: Item) -> list[tuple[str | None, str | None, str | None]]:
             result.append((_text(address), None, None))
             continue
         result.append(
-            (
+            _clean_address(
                 _text(address.get("addressLocality")),
                 _text(address.get("addressRegion")),
                 _text(address.get("addressCountry")),
             )
         )
     return result
+
+
+def _clean_address(
+    locality: str | None, region: str | None, country: str | None
+) -> tuple[str | None, str | None, str | None]:
+    """Undo two common address quirks so the location reads "City, Region, Country".
+
+    * Eightfold: ``addressRegion`` repeats the country code (``"KA,IN"`` with country IN).
+    * JBoard: the whole location in ``addressLocality`` (``"Austin, Texas, United States"``)
+      and no region/country (JobKit: "New York, NY (Flatiron)"); it is split by
+      :func:`~jobindex.normalize.parse_location`, without the parenthesised note.
+    """
+    if region and "," in region:
+        head, _, tail = region.rpartition(",")
+        tail_country = normalize_country(tail.strip())
+        if head.strip() and tail_country and normalize_country(country) in (None, tail_country):
+            region, country = head.strip(), country or tail.strip()
+    if locality and "," in locality and not region and not country:
+        # JobKit adds a neighbourhood note: "New York, NY (Flatiron)".
+        locality = _NOTE.sub("", locality).strip()
+        loc = parse_location(locality)
+        if loc.city:
+            return loc.city, loc.region, loc.country
+    return locality, region, country
 
 
 def is_expired(item: Item, now: datetime | None = None) -> bool:

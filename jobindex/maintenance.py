@@ -61,7 +61,8 @@ def render_db_size(size: DbSize, *, markdown: bool = False) -> str:
     else:
         lines = [f"database: {size.database_mb:.1f} MB"]
         lines += [
-            f"  {t.name:<20} {t.total_bytes / MB:8.1f} MB {t.rows:>10,} rows" for t in size.tables
+            f"  {t.name:<20} {t.total_bytes / MB:8.1f} MB {t.rows:>10,} rows (est.)"
+            for t in size.tables
         ]
     return "\n".join(lines) + "\n"
 

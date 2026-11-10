@@ -27,6 +27,7 @@ from jobindex.connectors.registry import register
 @register
 class EightfoldConnector(HostedBoardConnector):
     platform = "eightfold"
+    detail_version = 1  # 2026-11-10: addressRegion "KA,IN" -> "KA" (re-read stored pages)
     native_suffix = ".eightfold.ai"
     page_fingerprint = re.compile(r"static\.vscdn\.net/images/careers/")
     child_sitemap = re.compile(r"/careers/sitemap\.xml")
