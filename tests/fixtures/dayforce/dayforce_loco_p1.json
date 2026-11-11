@@ -1,0 +1,670 @@
+{
+ "jobPostings": [
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 33501,
+   "jobReqId": 3175,
+   "jobTitle": "DIRECTOR/SR. DIRECTOR, STRATEGY, INSIGHTS & ANALYTICS",
+   "jobDescription": "POSITION PURPOSE:\nThe Director of Insights and Analytics will lead the development and execution of data-driven strategies that enhance our business performance and customer engagement. This role encompasses Business Analytics, Sales Forecasting, Consumer Insights, Customer Care Center operations, Pricing Analytics, Marketing and Loyalty Analytics, and Budget Management. The ideal candidate is a visionary leader who can motivate and empower a high-functioning team to achieve ambitious goals and support the company&rsquo;s growth objectives.\n&nbsp;\nESSENTIAL DUTIES AND RESPONSIBILITIES:\n\nBusiness Analytics: Develop and oversee comprehensive business analytics strategies to inform decision-making across all levels of the organization. Analyze key performance indicators (KPIs) and provide actionable insights to drive revenue, profitability, customer loyalty, and operational efficiency\nSales Forecasting: Lead the sales forecasting process, utilizing historical data and market trends to create accurate and reliable forecasts. Ownership of the forecasting model and accountability for refining the model as needed to ensure accuracy.&nbsp; Collaborate with cross-functional teams to ensure alignment and support in achieving sales targets.\nConsumer Insights: Oversight of consumer insights and research, leading an consumer insights team that conducts in-depth consumer research to identify brand metrics, trends, preferences, and behaviors. Utilize insights to inform product development, marketing strategies, loyalty programs, and customer experience enhancements.\nCustomer Care Center: Lead the Customer Experience Team responsible for our Customer Care Center operations. Develop systems and processes that enable high levels of service and customer satisfaction. Work closely with the Integrated Marketing team to ensure that scripts are brand appropriate. Manage vendors, balancing effective tools with overall platform costs.&nbsp; Leverage data to improve customer experience and unit-level operations.\nPricing Analytics: Develop and implement pricing strategies based on market analysis and competitive intelligence. Monitor price sensitivity and performance to optimize revenue and profitability. Manage a third-party pricing consultant across company and franchise locations.\nMarketing and Loyalty Analytics: Analyze the effectiveness of marketing campaigns and loyalty programs. Utilize test and learn strategies to unearth incrementality and impact. Provide insights to enhance customer retention, engagement, and overall brand loyalty.\nBudget Management: Manage the Advertising Fund, ensuring optimal allocation of resources. Collaborate with finance and other departments to track spending and maximize ROI on analytics initiatives.\nAnalytics and Insights Leadership: Work closely with the CEO, CFO, and other Executive Leaders to provide timely insights into business performance, macro trends, and competitive insights.\nBusiness Planning: Actively participate in annual planning to shape the company Annual Operating Plan (AOP), and prepare materials for business meetings throughout the year, including Board of Directors and Earnings Calls. \nTeam Leadership: Build, mentor, and lead a high-performing analytics team. Foster a culture of collaboration, innovation, and continuous improvement, empowering team members to achieve their full potential.\nBudget Oversight:\n\nDirect Responsibility: $1-2M\nIndirect Responsibility: $45-55M\n\n\n\n&nbsp;\nQUALIFICATIONS &ndash; EDUCATION, EXPERIENCE, LICENSE/CERTIFICATIONS:\nTo perform this job successfully, an individual must be able to satisfactorily perform the essential functions of the job.&nbsp; Reasonable accommodation will be made to enable individuals with disabilities to perform the essential functions of the job.&nbsp; The requirements listed below are representative of the education and/or experience required.&nbsp; \n&nbsp;\nEducation/Work Experience:\n\nBachelor&rsquo;s degree in Business, Marketing, Statistics, Data Science, or a related field; Master&rsquo;s degree preferred.\n15+ years of experience in analytics, preferably within the restaurant or retail industries.\nProven leadership experience, with a track record of managing and developing high-performing teams.\n\nLicense/Certifications: N/A\n&nbsp;\nKnowledge, Skills, and Abilities:\n\nStrong analytical skills with proficiency in data visualization tools (e.g., Tableau, Power BI) and statistical analysis software (e.g., R, Python).\nExcellent communication skills, with the ability to convey complex data insights to diverse audiences.\nStrategic thinker with a results-oriented mindset and the ability to drive change.\nExperience with budget management and financial forecasting.\nAbility to work collaboratively in a fast-paced, dynamic environment.\nExcellent communication and presentation skills, with the ability to clearly convey complex data to various stakeholders.\nThe position is a typical office environment where the position is seldom exposed to dust and noise.\nAbility to exercise independent judgment on matters of significance to the company.\nAbility to work at the Support Center consistent with the hybrid work policy.\nAbility to work on projects with rapidly-evolving dynamics, and flexibility to readily adapt to changing business needs with a focus on generating results\nProactively initiates changes to improve work processes &amp; takes responsibility beyond scope of the current position\nAbility to work with ambiguity and to analyze &amp; synthesize complex data and draw business insights\nProven influencer and collaborator with outstanding verbal, written communication and presentation skills\n\n&nbsp;",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-11-06T08:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "575 Anton Blvd, Costa Mesa, CA 92626, USA",
+     "locationId": 745,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Costa Mesa",
+     "coordinates": "lat:33.688817;lng:-117.878512"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 33501,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 33496,
+   "jobReqId": 3174,
+   "jobTitle": "Food Management Systems & Data Manager",
+   "jobDescription": "Job Summary\nThis role owns El Pollo Loco&rsquo;s recipe and food inventory systems and serves as the single source of truth for recipe and inventory data. The Manager keeps that data accurate, turns it into insights that improve food cost and profitability, and makes sure menu items are built and maintained consistently across all El Pollo Loco locations.\nKey Focus Areas\n\nData cleanup and integrity\nRecipe and prep optimization\nActual vs. theoretical variance analysis\nSystem maintenance and new item setup\nVendor integration (Supply Chain partners/vendors)\nOperations and franchise partner support\nReporting cleanup, access management, and analytics\n\nEssential Duties &amp; Responsibilities\nData Integrity\n\nAudit recipe and inventory data to find and fix inconsistencies, errors, and outdated entries.\nClean the recipe database: remove duplicates, standardize formatting, and verify ingredient quantities across all locations.\nClean inventory data: fix discrepancies, standardize units of measure, and archive inactive items.\nMonitor data daily so small errors don&rsquo;t compound.\n\nCost Control &amp; Profitability\n\nKeep recipe costing current in Recipe &amp; Food Inventory System, updating for vendor price changes.\nStandardize portion sizes, build efficient prep schedules, and roll out digital checklists to reduce waste.\nCalculate actual vs. theoretical food cost and find root causes of loss, such as portioning, spoilage, or theft.\nImplement new platform features that improve ordering, waste tracking, and food cost performance.\n\nSupply Chain &amp; Operations\n\nOwn new item and recipe setup, with clear protocols for accurate and timely entry, working with Supply Chain and Culinary.\nSupport consistent inventory practices at restaurants, including physical counts, FIFO/FEFO, and usage-rate monitoring to right-size stock levels.\nManage the Supply Chain partners/vendors integration: secure FTP data exchange, GDSN product data and images, and troubleshooting of transmission errors.\n\nOperations Partnership\n\nAct as the go-to resource for company and franchise operators on recipe &amp; food inventory system questions, data validation, and system inquiries.\nWork with restaurant teams to troubleshoot recipe, inventory, and costing issues, and resolve them quickly.\nValidate operator-reported discrepancies against system data and follow through on corrections.\nGather operator feedback to improve system setup, training, and day-to-day usability.\n\nReporting &amp; Platform Administration\n\nAudit and clean up existing reports: retire outdated or duplicate reports and consolidate the rest into a clear, usable set.\nStreamline the data points operations sees so restaurant and field leaders get the metrics that matter, without clutter.\nManage platform access and user roles so company, franchise, and corporate users have the right access levels, and review them regularly as people change roles.\nBuild and maintain food cost, variance, and inventory reports for Operations, Finance, and franchise partners.\nSpot trends and opportunities, and bring clear, actionable recommendations to leadership.\n\nQualifications\n\n3&ndash;5 years of restaurant back-office experience in inventory, costing, or finance; multi-unit QSR preferred.\nHands-on experience with food management systems (e.g., CrunchTime, Restaurant365).\nProven track record of data cleanup and data integrity work.\nWorking knowledge of FTP (File Transfer Protocol), GDSN (Global Data Synchronization Network), and POS systems; advanced Excel.\nExperience supporting field or franchise operators, with the ability to explain technical issues in plain language.\nAnalytical, detail-oriented, and proactive, with strong communication skills.\nBachelor&rsquo;s degree in business, finance, hospitality, or a related field preferred, or equivalent experience.\n",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-11-03T08:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "575 Anton Blvd, Costa Mesa, CA 92626, USA",
+     "locationId": 745,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Costa Mesa",
+     "coordinates": "lat:33.688817;lng:-117.878512"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 33496,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 33492,
+   "jobReqId": 3170,
+   "jobTitle": "SR. DIRECTOR, QUALITY ASSURANCE",
+   "jobDescription": "POSITION PURPOSE:\nThe Senior Director, Quality Assurance owns El Pollo Loco's enterprise quality assurance function end to end, consolidating vendor-level quality assurance and regulatory food safety compliance into a single point of accountability. This role is responsible for the integrity of the supply chain's quality systems &mdash; from supplier and co-manufacturer qualification through regulatory compliance across federal, state, and local agencies &mdash; and serves as the primary quality and food safety resource to the franchise system.\nESSENTIAL DUTIES AND RESPONSIBILITIES:\nVendor &amp; Supplier Quality Assurance\n\nDirects vendor and supplier quality assurance programs across El Pollo Loco's poultry portfolio, including fresh leg quarters (&ldquo;Saddles&rdquo;) and value-added further-processed chicken items, ensuring specification integrity, ingredient consistency, and product quality at every stage of the supply chain.\nLeads vendor qualification, audit, scorecarding, and corrective-action programs; partners with Procurement and Distribution to resolve quality holds, non-conformances, and supplier performance issues.\nOwns quality specifications for co-manufactured and further-processed chicken products, working directly with processors to validate manufacturing controls, shelf-life, and food safety design prior to system-wide rollout.\nEvaluates and approves new vendors, ingredients, and product formulations, ensuring alignment with brand quality standards and regulatory requirements.\n\nRegulatory &amp; Food Safety Compliance\n\nServes as the company's senior point of accountability for food safety regulatory compliance, including FDA, USDA, FSMA, HACCP, GFSI, and state and local health department requirements across all operating jurisdictions.\nBuilds and maintains direct working relationships with state and federal regulatory agencies; leads the company's response to regulatory inquiries, inspections, and enforcement actions.\nOwns crisis management, product withdrawal, and recall protocols (including activation of the Level 3 Withdrawal Process), partnering with executive leadership and legal counsel as needed.\nDirects internal and third-party food safety audit programs spanning restaurants, distribution centers, and manufacturing partners.\n\nTeam Leadership &amp; Franchise Support\n\nBuilds, leads, and develops a high-performing QA organization spanning both vendor quality and regulatory food safety disciplines; sets performance expectations, coaching plans, and succession pipelines for direct reports.\nServes as a critical QA partner to the franchise system, delivering training, technical guidance, and responsive support to franchisees on quality and food safety matters.\nRepresents Quality Assurance in cross-functional and executive leadership forums, translating vendor and regulatory risk into clear, actionable guidance for Operations and senior leadership.\nOther duties as assigned by the SVP, Supply Chain &amp; Quality Assurance.\n\nQUALIFICATIONS &ndash; EDUCATION, EXPERIENCE, LICENSE/CERTIFICATIONS:\nTo perform this job successfully, an individual must be able to satisfactorily perform the essential functions of the job. Reasonable accommodation will be made to enable individuals with disabilities to perform the essential functions of the job. The requirements listed below are representative of the education and/or experience required.\nEducation/Work Experience:\nBA/BS in Food Science, Food Microbiology, or a related field required; Master's degree preferred. Minimum 12+ years of progressive quality assurance and food safety experience, with substantial, direct experience in poultry and value-added/further-processed chicken products required. Demonstrated background working directly with state and federal regulatory agencies (FDA, USDA, state health departments) on compliance, inspections, or enforcement matters required. Prior experience directly managing and developing a quality assurance team required.\nLicense/Certifications:\nValid driver's license required. HACCP certification required; PCQI (Preventive Controls Qualified Individual) preferred.\nKnowledge, Skills, and Abilities:\n\nProven track record building, managing, and developing high-performing quality assurance teams, with strong people-leadership, coaching, and succession-planning skills.\nDeep working knowledge of value-added and further-processed chicken manufacturing, including co-manufacturer oversight, specification management, and shelf-life validation.\nEstablished credibility with state and federal regulatory agencies; skilled at navigating inspections, audits, and enforcement proceedings with composure and precision.\nDemonstrated ability to support and train franchisees on quality and food safety standards, balancing brand protection with practical, field-level guidance.\nConfidence in execution of strategic initiatives; decisive and able to make fact-based decisions under pressure.\nStrong analytical and problem-solving mindset and skills; meticulous attention to detail.\nAbility to effectively communicate with internal and external business partners, including vendors, regulators, and franchisees.\nAbility to prioritize and plan competing, time-sensitive work assignments under frequent, tight deadlines.\nAbility to read, write, and interpret complex regulatory reports, contracts, and correspondence.\nAbility to exercise independent judgment on matters of significant risk and consequence to the company.\nAbility to work weekends and extended work schedules as needed.\nWilling and able to travel locally within Southern California and to out-of-state vendor, distribution, and restaurant locations, as needed, by car or airplane.\n\n&nbsp;",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-10-30T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "575 Anton Blvd, Costa Mesa, CA 92626, USA",
+     "locationId": 745,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Costa Mesa",
+     "coordinates": "lat:33.688817;lng:-117.878512"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 33492,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 33488,
+   "jobReqId": 3172,
+   "jobTitle": "Area Leader ",
+   "jobDescription": "At El Pollo Loco, we are on a mission to be the nation&rsquo;s leading fire-grilled chicken restaurant. When it comes to our people, we are all about growth. Whether that means specialized training, a clearly laid out career trajectory or collaborating cross-functionally, we are committed to the success of our people the same way we&rsquo;ve been committed to the success of the El Pollo Loco brand for the last 50 years. In fact, we see you as our secret ingredient. While our chicken is fire, it&rsquo;s our people who set us ablaze. \n&nbsp;\nOur restaurants are only the tip of the flame! If you&rsquo;re looking for an innovative, winning, and welcoming workplace, then a flamin&rsquo; good career in our Restaurant Support Center is right for you.\n&nbsp;\nLet&rsquo;s Get Loco!\n&nbsp;\nWhat&rsquo;s in it for you!\n&nbsp;\n\nSTRONG culture recognized as a Great Place to Work&reg; and driven &nbsp;by our core values: Simple. Together. Relentless. Ownership. Nimble. Growth\nCareer growth opportunities\nCompetitive pay and bonus potential\nBe an Owner: Equity Compensation\nMedical + Dental + Vision Insurance + HSA Savings Account\n401(K) Retirement Plan with company match and immediate vesting&nbsp;\nPaid Vacation + Sick Pay + 12 Paid Holidays&nbsp;\nEmployee Assistance Program\nFree El Pollo Loco food + restaurant discounts\nPerkSpot discounts program\n\n&nbsp;\n&nbsp;\nPOSITION PURPOSE:&nbsp;\nThe Area Leader is responsible for overseeing the operations of multiple restaurant locations within a designated geographical area. This role drives business growth while ensuring operational excellence and fostering a positive work environment. \n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \nESSENTIAL DUTIES AND RESPONSIBILITIES:\n\nHire, train, lead, coach, develop, and mentor restaurant leadership teams including General Managers (GMs), Assistant Managers (AMs), and Shift Leaders (SLs), including one-on-one training, role modeling, developmental job assignments, and guided self-study materials.&nbsp; \nProvide ongoing coaching to ensure all team members consistently meet and/or exceed expectations.\nFoster a positive and collaborative work environment within designated area, promoting a culture of excellence and teamwork. \nImplement and maintain operational standards, ensuring consistency across all locations in compliance with federal/state/local laws including employment laws, food quality and safety standards, and employee/restaurant safety policies and procedures. Manage annual budgets for each assigned restaurant location, working to achieve financial targets.\nMonitor and analyze key performance indicators (KPIs) to identify areas for improvement and implement corrective actions. Provide timely, insightful feedback, and proactive guidance to restaurant management. \nEnsure control over assigned area costs through effective inventory management, labor scheduling, and resource allocation leadership.\nCollaborate with each General Manager, crafting strategic plans to reduce costs, boost sales, and optimize profit to maximize results over previous year&rsquo;s performance benchmarks and in alignment with budgetary standards. \nConduct regular meetings and restaurant visits (i.e., deep dive inspections, area tours, announced/unannounced visits, etc.) to ensure compliance with proper staff training and scheduling, employee relations and performance management, inventory control, food and customer safety, cleanliness, and other operational standards.\nPreserve brand integrity of restaurant facilities through established brand and performance standards. \nProvide effective and timely resolution to escalated customer complaints.\nCollaborate with the People Services Department to resolve team member conflicts and address employee relations matters that cannot be resolved at a lower management level.&nbsp; \nWork cross-functionally with the People Services and Loss Prevention departments to investigate and settle security and cash handling violations.&nbsp; \nRepresent the Company at state and federal agency hearings, conferences, meetings, as needed.\nCollaborate with the Operations Services, Training, and Marketing teams to execute regional marketing strategies and promotions (i.e., LTO modules). \nStay informed about industry trends and competitor activities to make informed business decisions.\nChampion effective vertical and horizontal communications within the area including company-wide news of interest, upcoming events, limited time offers, promotions, product developments, &ldquo;Best Practices&rdquo; among peers, etc.&nbsp; \nOther activities, duties or responsibilities that are assigned by your supervisor.\n\n&nbsp;\n&nbsp;\nQUALIFICATIONS &ndash; EDUCATION, EXPERIENCE, LICENSE/CERTIFICATIONS:\nTo perform this job successfully, an individual must be able to satisfactorily perform the essential functions of the job.&nbsp; Reasonable accommodation will be made to enable individuals with disabilities to perform the essential functions of the job.&nbsp; The requirements listed below are representative of the education and/or experience required.&nbsp; \n&nbsp;\nEducation/Work Experience:\nHigh school diploma or equivalent (GED) required, BA/BS degree preferred; five (5) or more years of prior General Management experience required; three (3) or more years of QSR experience as an Area Leader or District Manager, preferred.\n&nbsp;\nLicense/Certifications:\nPossess and maintain a valid driver&rsquo;s license \n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \n&nbsp;\nKnowledge, Skills, and Abilities:\n\nExperience with successfully recruiting, building, and developing a team (based on current and future needs). \nProven experience in a Multi-Unit/Area Manager role within the Quick Service Restaurant industry.\nStrong understanding of QSR or multi-unit retail/restaurant/hospitality operations, including food safety, quality standards, and customer service.\nAbility to analyze financial reports and implement strategies for business improvement.\nConfidence in execution of strategic initiatives.\nMust be decisive and able to make fact-based decisions.\nStrong analytical and problem-solving mindset and skills; meticulous attention to detail\nAbility to effectively communicate with internal and external business partners.&nbsp; \nAbility to prioritize and plan work assignments and work under pressure of frequent and tight deadlines.\nAbility to read, write, and interpret complex reports, documents, and correspondence.&nbsp; \nAdept at managing and prioritizing competing time sensitive requests while working well in a team atmosphere that may be under pressure. \nAbility to exercise independent judgment on matters of significance to the company.\nAbility to work weekends and extended work schedules as needed.\nMust be willing and able to travel locally within Southern California and to out-of-state restaurant locations, as needed by car or airplane.\n\n&nbsp;\n&nbsp;\nOur Company\n&nbsp;\nIn 1980 the first American El Pollo Loco opened on Alvarado Street in Los Angeles, quickly becoming a destination for the best citrus-marinated, fire-grilled pollo in town. Over the past four decades, El Pollo Loco has grown into more than 490 restaurants across 7 states, becoming an L.A. mainstay and cultural benchmark along the way. And today, we continue to work just as hard to always provide customers with fresh and innovative L.A. Mex from our famous family dinners to Mexican entrees.\n&nbsp;\n&nbsp;\nThe pay range identified is the hourly or salary rate El Pollo Loco expects to pay for the posted position. This range does not include any benefits or bonus opportunities that might be available for the position based on position and eligibility criteria. Individual pay will vary based on a variety of factors including years of experience, industry experience, education, geography, etc.",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-10-29T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "Anaheim Hills, Anaheim, CA, USA",
+     "locationId": 290,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Anaheim",
+     "coordinates": "lat:33.8508021;lng:-117.7490656"
+    },
+    {
+     "formattedAddress": "Brea, CA, USA",
+     "locationId": 236,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Brea",
+     "coordinates": "lat:33.916475;lng:-117.9002918"
+    },
+    {
+     "formattedAddress": "Orange, CA, USA",
+     "locationId": 7,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Orange",
+     "coordinates": "lat:33.7879085;lng:-117.855281"
+    },
+    {
+     "formattedAddress": "Yorba Linda, CA, USA",
+     "locationId": 340,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Yorba Linda",
+     "coordinates": "lat:33.88850350000001;lng:-117.8132571"
+    },
+    {
+     "formattedAddress": "Garden Grove, CA, USA",
+     "locationId": 277,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Garden Grove",
+     "coordinates": "lat:33.7742692;lng:-117.9379952"
+    },
+    {
+     "formattedAddress": "Fullerton, CA, USA",
+     "locationId": 320,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Fullerton",
+     "coordinates": "lat:33.8703645;lng:-117.9242123"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 33488,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 33484,
+   "jobReqId": 3171,
+   "jobTitle": "Area Leader",
+   "jobDescription": "SUPPORT CENTER - AREA LEADER",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-10-28T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "Canoga Park, Los Angeles, CA, USA",
+     "locationId": 255,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Los Angeles",
+     "coordinates": "lat:34.2083086;lng:-118.5975318"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 33484,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 33235,
+   "jobReqId": 3167,
+   "jobTitle": "Marketing Sr. Data Engineer - Loyalty & Customer Analytics",
+   "jobDescription": "What&rsquo;s in it for you!\n\n&nbsp;STRONG office culture recognized as a Great Place to Work&reg; and driven &nbsp;by our core values: Simple. Together. Relentless. Ownership. Nimble. Growth\nCareer growth opportunities\nCompetitive pay and bonus potential\nMedical + Dental + Vision Insurance + HSA Savings Account\n401(K) Retirement Plan with company match and immediate vesting&nbsp;\nPaid Vacation + Sick Pay + 12 Paid Holidays&nbsp;\nEmployee Assistance Program\nFree El Pollo Loco food + restaurant discounts\nPerkSpot discounts program\n\n&nbsp;\nPOSITION PURPOSE:\nThe Senior Data Engineer owns El Pollo Loco's (EPL) loyalty and customer spend data, turning it into reliable, actionable insight for leadership. This role starts with the business problem: understanding what decision leadership needs to make, then independently designing and delivering the data solution that supports it. The engineer owns data domains end to end, from source ingestion and architecture through reporting and analysis, and ensures data integrity across internal systems and external partners. Working directly with business departments, internal technology teams, and external technology vendors, this role drives architectural improvements that directly shape how EPL leadership makes decisions.\n&nbsp;\nESSENTIAL DUTIES AND RESPONSIBILITIES:\n\nBusiness Problem Framing: Partner with Marketing, Finance, Operations, and leadership to understand business questions, translate them into data requirements, and recommend the right solution approach without needing detailed direction.\nIndependent Solution Design: Own solutions from concept to production, including evaluating options, making architectural trade-off decisions, and delivering working outcomes with minimal supervision.\nData Domain Ownership: Design, build, and maintain data pipelines, ingestion flows, and analytical models for loyalty, customer, and transaction data.\nArchitecture &amp; Governance: Define and own data architecture for the domain, ensuring alignment with business needs, security, scalability, and cost effectiveness.\nVendor &amp; Partner Collaboration: Work directly with external technology vendors and data providers (loyalty, POS, digital ordering, and marketing platforms) to define integrations, resolve data issues, and hold partners accountable for data quality and delivery.\nData Contracts &amp; Integration: Establish data contracts with internal and external sources, integrate new data sources, and develop reusable transformation patterns.\nPipeline Reliability &amp; Optimization: Identify limitations in existing data processes, drive improvements, and establish best practices, including automated monitoring, alerting, and self-healing processing.\nAI/ML Integration: Apply AI/ML technologies, including large language models and agentic frameworks, to expand analytics capabilities and automate insight generation.\nInnovation &amp; Scalability: Modernize ingestion frameworks and build secure, scalable, and maintainable solutions that support EPL's growth.\n\n&nbsp;\nQUALIFICATIONS &ndash; EDUCATION, EXPERIENCE, LICENSE/CERTIFICATIONS:\nTo perform this job successfully, an individual must be able to satisfactorily perform the essential functions of the job.&nbsp; Reasonable accommodation may be made to enable individuals with disabilities to perform the essential functions of the job.&nbsp; The requirements listed below are representative of the education and/or experience required.&nbsp; \n&nbsp;\nQUALIFICATIONS:\n\n8+ years of progressive experience in data engineering, data architecture, or analytics engineering, including ownership of production data platforms.\nExpert-level SQL and strong experience with modern ETL/ELT practices and data processing.\nHands-on experience with cloud data warehouse platforms (e.g., Snowflake or comparable).\n\n\nExperience with data governance and data modeling to ensure data integrity as analytics and reports are developed across EPL.\n\n\nDemonstrated ability to take an ambiguous business problem and independently design, build, and deliver a solution.\nExperience managing integrations and working relationships with third-party technology vendors.\nExperience with LLMs and agentic frameworks, and the ability to integrate AI into analytics workflows.\nExperience with loyalty, customer, or transactional data in restaurant, retail, or consumer businesses is strongly preferred.\n\n&nbsp;\nLEADERSHIP &amp; BUSINESS SKILLS:\n\nTechnical leadership mindset with a long-term architectural vision and a commitment to high-quality delivery.\nComfortable operating with ambiguity and setting direction where none exists.\nStrong judgment in balancing short-term needs against long-term business goals.\nCommunicates clearly in business terms with executives and non-technical stakeholders.\nSense of urgency and strong attention to detail in a fast-paced environment.\n\n&nbsp;\nIMPACT:This is a strategic role. The engineer will directly influence how EPL leadership makes decisions by ensuring customer and loyalty data is available, accurate, and actionable.\n&nbsp;\nEDUCATION:\n\nBachelor's degree in Information Technology, Computer Science, or a related field preferred, or equivalent professional experience.\n\n&nbsp;",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-10-14T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "575 Anton Blvd, Costa Mesa, CA 92626, USA",
+     "locationId": 745,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Costa Mesa",
+     "coordinates": "lat:33.688817;lng:-117.878512"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 33235,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 33041,
+   "jobReqId": 3142,
+   "jobTitle": "SR MANAGER, FIELD TRAINING ",
+   "jobDescription": "POSITION PURPOSE:\nThe Sr. Manager, Field Training leads El Pollo Loco&rsquo;s field-based training function and is accountable for the consistent execution, effectiveness, and continuous improvement of restaurant training across company and franchise operations. This role leads, coaches, and develops the field training team, including the Restaurant Opening function, while partnering closely with Operations and Training leadership to build restaurant and leadership capability.\nAs the senior field training leader, this role sets expectations for training quality, field execution, leadership development, and operational readiness across markets. The Sr. Manager, Field Training ensures Certified Training Restaurants (CTRs), Certified Training General Managers (GTMs), management training, new restaurant openings, franchise training, and company program rollouts are delivered to a consistent standard and produce measurable business results.\n&nbsp;\nESSENTIAL DUTIES AND RESPONSIBILITIES:\nLead and Develop the Field Training Team\n&bull;&nbsp; Lead, coach, develop, and manage the performance of Field Training Managers, &nbsp;Restaurant Opening Leaders, and other assigned training roles.\n&bull;&nbsp; Set clear expectations, priorities, performance standards, and development plans for the field training team; recognize strong performance and address gaps promptly.\n&bull;&nbsp; Establish a consistent field training strategy and operating rhythm across markets, balancing restaurant openings, management training, franchise support, program rollouts, and operational training needs.\n&bull;&nbsp; Conduct regular field observations and provide real-time coaching and feedback to field training leaders on training execution, leadership presence, business judgment, and partnership with Operations.\n&bull;&nbsp; Build bench strength and succession readiness within the field training team through onboarding, coaching, development, and stretch assignments.\n&bull;&nbsp; Allocate field training resources based on business priorities, market needs, opening complexity, and team capability.\n&nbsp;\nOwn Field Training Programs and Standards\n&bull;&nbsp; Provide strategic oversight of the Certified Training Restaurant (CTR) and Certified Training General Manager (GTM) programs, including certification standards, audits, performance expectations, and continuous improvement.\n&bull;&nbsp; Ensure management training programs for SLITs, MITs, and other restaurant leaders are executed consistently and that transition meetings and handoffs establish clear expectations for continued development.\n&bull;&nbsp; Evaluate the effectiveness of field training programs, training restaurants, facilitators, tools, and learning experiences; identify trends and implement improvements.\n&bull;&nbsp; Partner with Training and Operations to identify capability and skill gaps and develop field-based solutions, leadership classes, workshops, coaching plans, and other interventions.\n&bull;&nbsp; Ensure training records, certifications, trainee progress, program assessments, and field follow-up are accurate, timely, and actionable.\n&bull;&nbsp; Maintain strong knowledge of El Pollo Loco operating procedures, training programs, and industry best practices, translating field insights into recommendations for improvement.\n&nbsp;\nLead New Restaurant Opening and Franchise Training Execution\n&bull;&nbsp; Provide leadership and oversight for the Restaurant Opening team and new restaurant opening training strategy, ensuring openings are staffed, supported, and executed to established training and operational standards.\n&bull;&nbsp; Directly supervise and develop the Sr. Restaurant Opening Leader, ensuring the Restaurant Opening Leader team is effectively deployed, coached, and prepared for the opening pipeline.\n&bull;&nbsp; Partner with Operations, Training, HR, Facilities, and other cross-functional teams to forecast opening needs and ensure training readiness across staffing, systems, food safety, compliance, leadership capability, and operational execution.\n&bull;&nbsp; Ensure lessons learned and best practices from new restaurant openings and restaurant stabilizations are captured and incorporated into field training tools, standards, and playbooks.\n&bull;&nbsp; Oversee training support for new and existing franchise operators and new-market franchise restaurant openings, ensuring alignment with EPL standards and effective partnership with franchise leadership.\n&nbsp;\nDrive Company Program Rollouts and Field Execution\n&bull;&nbsp; Partner with Training, Operations, and cross-functional leaders to plan and execute company training rollouts, ensuring field leaders understand the program, can coach it effectively, and drive restaurant-level adoption.\n&bull;&nbsp; Provide field perspective and subject matter expertise during the design and development of training programs, materials, manuals, visual aids, eLearning scripts, videos, knowledge assessments, and implementation tools.\n&bull;&nbsp; Establish field feedback loops to assess adoption, identify execution barriers, and recommend adjustments that improve training effectiveness and operational results.\n&bull;&nbsp; Consult with Operations leaders to prioritize field training needs and deploy the team against the highest-impact opportunities.\n&nbsp;\nBuild Strong Cross-Functional Partnerships and Accountability\n&bull;&nbsp; Serve as the primary field training partner to Operations leadership, regularly communicating training performance, restaurant capability needs, opening readiness, risks, and recommended actions.\n&bull;&nbsp; Use observations, audits, trainee results, restaurant performance indicators, and stakeholder feedback to assess training effectiveness and guide decisions.\n&bull;&nbsp; Ensure all field training programs and activities support company standards for food safety, workplace safety, hygiene, timekeeping, legal compliance, and EPL STRONG Values.\n&bull;&nbsp; Model a culture of ownership, accountability, continuous learning, Loco Love, and high standards in every interaction with restaurant teams, franchise partners, and support-center partners.\n&bull;&nbsp; Perform other activities, duties, or responsibilities as assigned by the Sr. Director, Training.\n&nbsp;\nQUALIFICATIONS &ndash; EDUCATION, EXPERIENCE, LICENSE/CERTIFICATIONS:\nTo perform this job successfully, an individual must be able to satisfactorily perform the essential functions of the job. Reasonable accommodation may be made to enable individuals with disabilities to perform the essential functions. The requirements below are representative of the education, experience, knowledge, and capabilities required.\n&nbsp;\nEducation/Work Experience:\n&bull;&nbsp; High School diploma required; BA/BS in Business Administration, Hospitality, Learning &amp; Development, or a related field preferred.\n&bull;&nbsp; Progressive restaurant operations and field training experience required, including experience leading and developing leaders across multiple restaurants or markets.\n&bull;&nbsp; Prior experience managing direct reports and leading a field-based team required.\n&bull;&nbsp; Demonstrated experience with restaurant management training, Certified Training Restaurant programs, new restaurant openings, franchise training, or comparable multi-unit training programs strongly preferred.\n&bull;&nbsp; Strong restaurant operations background with the credibility to coach General Managers, Area Leaders, franchise operators, and other field leaders.\n&nbsp;\nLicense/Certifications:\n&bull;&nbsp; Must possess and maintain a valid driver's license.\n&bull;&nbsp; ServSafe certification required.\n&nbsp;\nKnowledge, Skills, and Abilities:\n&bull;&nbsp; Proven ability to lead, coach, develop, and hold other leaders accountable for results.\n&bull;&nbsp; Strong knowledge of adult learning, field training, on-the-job coaching, classroom facilitation, and eLearning application.\n&bull;&nbsp; Ability to translate business priorities and operational performance gaps into practical training strategies and field execution plans.\n&bull;&nbsp; Strong analytical, problem-solving, and decision-making skills with the ability to use data and field observations to identify trends and recommend action.\n&bull;&nbsp; Excellent communication and influencing skills with the ability to build credibility with Operations, franchise partners, restaurant leaders, and cross-functional stakeholders.\n&bull;&nbsp; Strong planning, organization, and resource-management skills; ability to prioritize competing, time-sensitive needs across multiple markets.\n&bull;&nbsp; Ability to exercise independent judgment on matters of significance to the company and confidently make fact-based decisions.\n&bull;&nbsp; High level of proficiency with technology, including Microsoft Office Suite, Adobe Acrobat, learning and database applications, and digital collaboration tools.\n&bull;&nbsp; Ability to work weekends and extended schedules as business needs require.\n&bull;&nbsp; Ability to travel frequently to company and franchise restaurant locations, including out-of-state travel by car or airplane.",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-09-04T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "575 Anton Blvd, Costa Mesa, CA 92626, USA",
+     "locationId": 745,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Costa Mesa",
+     "coordinates": "lat:33.688817;lng:-117.878512"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 33041,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 33011,
+   "jobReqId": 3141,
+   "jobTitle": "Executive Assistant",
+   "jobDescription": "POSITION PURPOSE:\nThe Executive Assistant provides high-level administrative, operational, and logistical support to one or more company executives and their corresponding leadership teams. This role serves as a trusted partner, ensuring seamless day-to-day operations, effective communication, coordination with senior staff members&nbsp; and is a professional representation of the company to internal and external stakeholders. \n&nbsp;\nDue to the nature of the work&mdash;including in-person executive support, coordination of company visitors, handling confidential materials, and execution of special projects&mdash;this position requires a minimum of four (4) days per week working on-site. Regular in-office presence is an essential function of the role. Remote work is complementary and does not replace the required in-office presence necessary to fulfill the essential functions of this role.\n&nbsp;\nESSENTIAL DUTIES AND RESPONSIBILITIES:\n\nProvide real-time, administrative support to executive(s), including calendar management, meeting coordination, note taking, recording of action items, expense reporting, composing and preparing correspondence, arranging complex and detailed travel, and urgent day-of schedule changes.\nServe as the primary point of contact for executive(s), responding to immediate needs and facilitating decision-making.\nPrepare, assemble, print, and distribute physical meeting materials, presentations, and briefing packets as needed.\nMaintain executive offices, ensuring readiness for meetings, visits, and confidential discussions.\nGreet and support company visitors, candidates, vendors, and partners in a professional and welcoming manner.\nCoordinate in-person meetings, leadership offsites, itineraries and agendas and special events including room setup, catering, technology readiness, and materials.\nProvide on-site support during meetings and events to address real-time issues and ensure smooth execution.\nSupport special projects that require in-person collaboration, coordination, and follow-through with executive leadership and partner teams.\nProvide a bridge for smooth communication between the executive&rsquo;s office and internal departments, demonstrating leadership to maintain credibility, trust and support with senior management.\nCoordinate closely with other Executive Assistants and functional teams as needed on in-office matters impacting executive leadership, including handling temporary work overloads and providing administrative coverage or back-up support for other executives or departments when needed.\nPlans and leads 10-15 Meetings throughout the year.&nbsp;\nManages field hierarchy alignment documents and communication with the organization\nProvides reporting, budgeting, and invoice support to executives\nHandle highly confidential and sensitive information requiring secure, controlled, and professional in-office management.\nSupport executive discussions and documentation that necessitate discretion and limited access.\nSupport administrative and operational needs tied to physical office presence, including mail handling, document management, office coordination, and executive workspace readiness; share in responsibility of managing front desk/reception area.\nEnsure continuity of executive support during in-office business hours.\nOther activities, duties or responsibilities that are assigned by your supervisor.\n\n&nbsp;\nQUALIFICATIONS &ndash; EDUCATION, EXPERIENCE, LICENSE/CERTIFICATIONS:\nTo perform this job successfully, an individual must be able to satisfactorily perform the essential functions of the job.&nbsp; Reasonable accommodation will be made to enable individuals with disabilities to perform the essential functions of the job.&nbsp; The requirements listed below are representative of the education and/or experience required.&nbsp; \n&nbsp;\nEducation/Work Experience:\nHigh School diploma or equivalent required. \n&nbsp;\nKnowledge, Skills, and Abilities:\n\nMinimum of 8+ years administrative experience with 5+ years of experience supporting senior level executives in a fast-paced, professional environment.\nProficiency in standard office and collaboration technology.\nConfidence in execution of administrative initiatives. Must be decisive and able to make fact-based decisions.\nHigh level of discretion and professionalism. Ability to effectively communicate with internal and external business partners.&nbsp; \nStrong analytical and problem-solving mindset and skills; meticulous attention to detail\nAbility to prioritize and plan work assignments and work under pressure of frequent and tight deadlines.\nAbility to read, write, and interpret complex reports, documents, and correspondence.&nbsp; \nAdept at managing and prioritizing competing time sensitive requests while working well in a team atmosphere that may be under pressure. \nAbility to exercise independent judgment on matters of significance to the company.\nAbility to work weekends and extended work schedules as needed.\n\n&nbsp;\n&nbsp;",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-08-28T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "575 Anton Blvd, Costa Mesa, CA 92626, USA",
+     "locationId": 745,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Costa Mesa",
+     "coordinates": "lat:33.688817;lng:-117.878512"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 33011,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 33005,
+   "jobReqId": 3139,
+   "jobTitle": "SR GRAPHIC DESIGNER",
+   "jobDescription": "POSITION PURPOSE:\nThe Senior Graphic Designer serves as the design team's day-to-day creative execution lead and a creative thought partner to the Senior Manager. Taking art direction and base design elements from the Senior Manager of Graphic Design, this role leads the development of complete, high-fidelity asset systems across digital, print, social, and in-restaurant channels. Beyond execution, the Senior Graphic Designer contributes original ideas and design perspectives during ideation and concepting, pushing beyond only fulfilling the brief. As both a hands-on designer and a project leader, this role produces senior-level creative work on priority initiatives, serves as a trusted resource and project leader for the design team, building out full campaign asset suites, and partnering with cross-functional teams and external agencies to bring brand campaigns to life on time and on brand. Receiving creative direction and partnering with the Senior Manager, Graphic Design.\nESSENTIAL DUTIES AND RESPONSIBILITIES:\n&nbsp;\n\nLead the end-to-end execution of major creative initiatives, creating new design directions and translating exiting design elements into complete, high-fidelity asset systems across digital, print, social, and in-restaurant channels.\nProduce high-fidelity design work for priority brand campaigns, key initiatives, and elevated creative that requires senior-level craft.\nServe as a trusted resource for the design team, offering feedback and technique expertise when needed to help them hone meticulous, high-quality execution. Provide project leadership across campaign work in flight, ensuring quality, consistency, and brand adherence across the team's output.\nWorking alongside the design team to build out the complete range of adaptations, resizes, and channel-specific creative from established concepts.\nServe as a creative thought partner to the Senior Manager and design team during ideation and concepting, contributing original ideas, creative perspectives, and design recommendations that push the work forward and elevate campaign concepts beyond the initial brief.\nServe as a day-to-day project lead on creative work in flight, managing timelines, deliverables, stakeholder feedback, revisions, and cross-functional coordination.\nPartner with marketing, product, communications, and other internal stakeholders to translate briefs into creative solutions and deliver integrated campaigns on time and on brand.\nCollaborate with external creative and production agencies on projects that require partner support, ensuring seamless integration, quality control, and consistent brand execution.\nServe as a day-to-day steward of brand consistency.\nAct as a dependable source of design knowledge the team can lean on for guidance on technique, tools, and production workflow, elevating the collective craft of the design team over time.\nStay informed about advancements in design tools, AI capabilities, and industry trends, applying them to elevate the team's creative output and streamline production.\nOther activities, duties or responsibilities that are assigned by your supervisor.\n\nQUALIFICATIONS &mdash; EDUCATION, EXPERIENCE, LICENSE/CERTIFICATIONS:\n&nbsp;\nTo perform this job successfully, an individual must be able to satisfactorily perform the essential functions of the job, with or without a reasonable accommodation. Reasonable accommodations will be made to enable individuals with disabilities to perform the essential functions of the job. The requirements listed below are representative of the education and/or experience required.\nEducation/Work Experience:\nBA/BS degree in Graphic Design, or similar educational experience in Design or related field. 5+ years of design experience with progressive responsibility, ideally in restaurant, retail, or multi-unit concepts with frequent product launches and concurrent campaigns throughout the year. Demonstrated experience leading creative execution end-to-end, from concept through delivery. Prior experience providing craft feedback, project leadership, and technical guidance to more junior designers (without formal people-management responsibility) is required. Client-side or agency experience welcomed.\nLicense/Certifications:\nPossess and maintain a valid driver's license.\nKnowledge, Skills, and Abilities:\n&nbsp;\n\nExceptional design skills with a portfolio demonstrating high-fidelity, impactful creative work across multiple mediums including digital, print, social, and campaign work.\nMastery of Adobe Creative Suite (Photoshop, Illustrator, InDesign), with a strong understanding of print production, color management, prepress, and file preparation across digital and print destinations.\nExperience with motion graphics and video (After Effects, Premiere Pro) is a plus but not required.\nStrong understanding of design principles, typography, color theory, layout, and brand systems.\nAbility to take art direction and base design elements from a design leader and expand them into complete, on-brand asset systems across multiple formats and channels.\nComfortable serving as a trusted design resource, sharing technique expertise and feedback when needed, without owning formal responsibility for their development.\nA creative-forward mindset. Comfortable both executing against clear direction AND contributing original ideas, alternative perspectives, and creative recommendations during ideation. Pushes the work rather than only fulfilling the brief.\nStrong project management skills, comfortable owning multiple concurrent projects, deadlines, and stakeholder relationships in a fast-moving in-house creative environment.\nExcellent communication and presentation skills, with the ability to explain creative decisions to both creative and non-creative audiences.\nAdept at working cross-functionally with marketing, product, and communications teams, and at partnering with outside agencies and production vendors.\nDetail-oriented, dependable, and takes ownership of quality output that is on-time and on-brief\nPassion for innovation, creativity, and staying current on design trends, tools, and technology, including AI-assisted design tools.\nAbility to work at the Support Center consistent with the hybrid work policy.\nMust be willing and able to travel locally within Southern California to photoshoots and restaurant locations, and to out-of-state locations as needed, by car or airplane.\n\n&nbsp;",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-08-28T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "575 Anton Blvd, Costa Mesa, CA 92626, USA",
+     "locationId": 745,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Costa Mesa",
+     "coordinates": "lat:33.688817;lng:-117.878512"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 33005,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 32867,
+   "jobReqId": 3106,
+   "jobTitle": "SR. PAYROLL ANALYST",
+   "jobDescription": "Position Details: \nLocation: Hybrid office schedule \nPay: $35.57 - $48.08 per hour &nbsp;* projected annualized earnings: $73,985.00 - $100,000 + annual bonus target of 10% of base salary.&nbsp; \nNote: this position is eligible for overtime pay\n&nbsp;\nThe Senior Payroll Analyst is responsible for ensuring accurate, timely, and compliant payroll processing while serving as a subject matter expert for payroll operations, payroll systems, and regulatory compliance. This role partners closely with People Services, Legal, Accounting, Field Operations, and IT to resolve complex payroll issues, support system enhancements, improve business processes, and drive operational excellence. The Senior Payroll Analyst serves as a technical resource for payroll-related initiatives, performs advanced payroll analysis and reconciliations, supports audits and compliance reporting, and identifies opportunities to improve efficiency, accuracy, and the overall employee experience.\n&nbsp;\nESSENTIAL DUTIES AND RESPONSIBILITIES:\n\nProcess accurate and timely bi-weekly, multi-state payrolls in compliance with company policies and federal, state, and local regulations.\nAudit and validate payroll transactions, including earnings, deductions, taxes, bonuses, retroactive pay, final pay, and other adjustments.\nProcess off-cycle payrolls, manual checks, reversals, and corrections; reconcile payroll balances prior to transmission.\nAdminister wage garnishments, including child support, tax levies, creditor garnishments, bankruptcy orders, and other court-ordered deductions, ensuring regulatory compliance and accurate withholding.\nResearch and resolve payroll and garnishment inquiries in partnership with employees, agencies, vendors, and internal stakeholders.\nMaintain strong knowledge of multi-state payroll requirements, with particular expertise in California payroll regulations.\nSupport quarter-end and year-end payroll activities, including W-2 processing, tax reconciliations, audits, and regulatory reporting.\nPerform payroll reconciliations, variance analysis, and recurring and ad hoc reporting; monitor payroll trends, metrics, and areas of risk.\nPartner with People Services, Accounting, Field Operations, and IT to resolve complex payroll issues and support business needs.\nSupport payroll system testing, upgrades, implementations, and other payroll-related projects.\nIdentify and implement opportunities to automate processes, improve payroll accuracy and efficiency, and strengthen internal controls.\nDevelop and maintain payroll procedures, documentation, and best practices.\nPerform other duties and responsibilities as assigned by leadership.\n\n&nbsp;\nQUALIFICATIONS &ndash; EDUCATION, EXPERIENCE, LICENSE/CERTIFICATIONS:\nTo perform this job successfully, an individual must be able to satisfactorily perform the essential functions of the job.&nbsp; Reasonable accommodation will be made to enable individuals with disabilities to perform the essential functions of the job.&nbsp; The requirements listed below are representative of the education and/or experience required.&nbsp;\n&nbsp;\nEducation/Work Experience:\n\nHigh School Diploma/GED Required.\n5&ndash;7 years of progressive payroll experience, including processing large, multi-state payrolls; minimum 3 years supporting enterprise payroll systems.\nStrong understanding of federal and state payroll regulations with advanced knowledge of California payroll laws.\nExperience processing payroll for organizations with 4,000+ employees preferred.\nAdvanced Microsoft Excel skills, including PivotTables, XLOOKUP/VLOOKUP, and reconciliation techniques.\nExperience with payroll audits and reconciliations.\nDemonstrated ability to analyze complex payroll issues and identify root causes.\nCertified Payroll Professional preferred.\nExperience with enterprise level systems (Dayforce Preferred)\n\n&nbsp;\nKnowledge, Skills, and Abilities:\n\nAdvanced payroll knowledge\nStrong analytical and problem-solving skills\nExcellent attention to detail\nStrong organizational and time management skills\nExcellent written and verbal communication skills\nStrong customer service orientation\nAbility to maintain confidentiality and influence without direct authority\nContinuous improvement mindset\n\n&nbsp;",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-08-03T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "575 Anton Blvd, Costa Mesa, CA 92626, USA",
+     "locationId": 745,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Costa Mesa",
+     "coordinates": "lat:33.688817;lng:-117.878512"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 32867,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 32241,
+   "jobReqId": 3085,
+   "jobTitle": "Restaurant Opening Leader ",
+   "jobDescription": "POSITION PURPOSE:\nThe Restaurant Opening Leader is a leader assigned to New Restaurant Openings to model elite General Manager performance and establish operational excellence from Day 1.&nbsp; This role does not replace the permanent GM at new restaurant openings &mdash; it elevates them through targeted focus and support. \n&nbsp;\nThe Restaurant Opening Leader sets the cultural tone, demonstrates ownership, accountability, and STRONG Values in action, and builds the capability of the incoming leadership team before transitioning the restaurant to its permanent leader. This role requires availability of travelling extensively and for long consecutive durations of time.\n&nbsp;\nESSENTIAL DUTIES AND RESPONSIBILITIES:\n&nbsp;\nThe Restaurant Opening Leader will be responsible for both opening new restaurants and stabilizing at-risk restaurants. When not opening new restaurants, the Restaurant Opening Leader will support stabilizing Field Operations with restaurants and Managers (at all levels) in need of support and guidance in achieving company goals. \n&nbsp;\nModel Best-In-Class Leadership\n\nLead on-site operational execution for all phases of restaurant development from pre-opening, training, opening, and through stabilization.\nPartner with Operations, Training, HR, and Facilities to ensure readiness in staffing, systems, food safety, and compliance.\nConduct hands-on modeling of standards.\nDemonstrate what strong labor deployment, food cost control, and operational discipline look like.\nCoach and model how to lead with urgency and accountability.\nCoach and model to protect company assets and uphold EPL STRONG Values in all environments.\nCoach and model how to hold leaders to standards respectfully but firmly.\nCoach and model timekeeping, food and workplace safety, and compliance discipline.\n\n&nbsp;\nEstablish Loco Love Culture\n\nCoach and model Loco Love in every interaction with guests and team members.\nCoach and model how hospitality should feel &mdash; not just be spoken about.\nDemonstrate professional leadership presence.\nSet expectations around communication, accountability, and teamwork.\n\n&nbsp;\nBuild the Permanent GM&rsquo;s Capability\n\nCoach all Managers in real time.\nCoach and model team conversations, pre-shift meetings, team performance management, and recognition.\nProvide feedback on leadership presence, operational judgment, and standards execution.\nTransfer systems knowledge (ordering, inventory, scheduling, deployment).\nReinforce duty-to-report standards and escalate concerns immediately.\nEnsure the permanent GM is confident and competent before handoff.\n\n&nbsp;\nLeave Behind Structure\n\nConfirm restaurant management team and team members understand compliance responsibilities.\nValidate staffing readiness and role clarity.\nEnsure labor, food cost, and inventory controls are executed precisely.\nEnsure strict adherence to food safety, workplace safety, timekeeping, and break compliance.\nEnsure systems are running correctly.\n\n&nbsp;\n&nbsp;\nQUALIFICATIONS:\nTo perform this job successfully, the candidate must be in good standing with HR approval. Must have prior General Manager experience with El Pollo Loco, including:\n&nbsp;\n\nEnthusiastic and positive demeanor, with a genuine passion for providing exceptional team and guest experiences. \nStrong communication, attention to detail, and organizational skills; ability to speak, write, and comprehend basic English. \nStrong coaching capability with proven ability to train new team members effectively.\nStrong operational judgment and decision-making skills.\nDemonstrated ability to take ownership of a shift and hold self and others accountable.\nDemonstrated high performance. \nCertified in all restaurant positions.\nAbility to lead confidently in unfamiliar or newly built environments.\nFlexibility to work various shifts, including weekends and holidays. \nCommitment to upholding EPL values and standards of excellence.\nAbility to travel 100% of the time.\n",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-07-21T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "575 Anton Blvd, Costa Mesa, CA 92626, USA",
+     "locationId": 745,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Costa Mesa",
+     "coordinates": "lat:33.688817;lng:-117.878512"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 32241,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 32158,
+   "jobReqId": 3081,
+   "jobTitle": "Assistant Manager",
+   "jobDescription": " \n&nbsp;\n  \n",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-07-16T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "3350 W Vernon Ave, Los Angeles, CA 90008, USA",
+     "locationId": 96,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Los Angeles",
+     "coordinates": "lat:34.003428;lng:-118.3311961"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 32158,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 31765,
+   "jobReqId": 3025,
+   "jobTitle": "Assistant Manager",
+   "jobDescription": " \nWhat&rsquo;s in it for you?\n&nbsp;\n\nSTRONG culture recognized as a Great Place to Work&reg; and driven by our core values: Simple. Together. Relentless. Ownership. Nimble. Growth\nCompetitive pay and quarterly bonuses\nCareer growth opportunities \nGreat work-life balance, no overnight shifts\nFree meal during your shift \nEmployee discount on food\nFlexible Schedule: Full-Time \nMedical, Dental, and Vision Insurance*\nPaid vacation and sick time*\nEmployee Assistance Program\nFlexible spending, Life Insurance, Legal Insurance, and Pet Insurance*\nTuition reimbursement\n401(K) Retirement benefit plan with match and immediate vesting*\nPerkSpot discounts program\n\n&nbsp;\nAs an Assistant Manager at El Pollo Loco, you&rsquo;ll be a key player in turning up the heat and driving the fire-grilled experience from behind the scenes. You&rsquo;ll ensure the restaurant runs smoothly, delivering exceptional service and quality while guiding your team to success and growing yourself as a people leader. Ready to ignite your flamin&rsquo; good career? Apply now!\nPOSITION PURPOSE:\nThe Assistant Manager works closely with the General Manager to maintain high standards of quality, cleanliness, and customer satisfaction. This position is an important step in the journey toward assuming the responsibilities of a General Manager. It requires a proactive and hands-on approach, along with a willingness to cross-train and support various aspects of restaurant operations. Duties include ensuring the restaurant is operated according to all EL Pollo Loco policies, procedures, and standards, as well training and developing restaurant team members.\n&nbsp;\nESSENTIAL DUTIES AND RESPONSIBILITIES:\n\nIn collaboration with the General Manager, monitor and control labor costs through effective labor scheduling, cross-training, and team member retention initiatives.\nResponsible for restaurant opening and closing procedures, including security protocols. Coordinate crew tasks for setup, food prep, and cleaning. \nConduct inventory checks and update the inventory system. Handle food deliveries, ensuring accuracy in inventory records.\nEnsure customer service and speed of service metrics meet company goals and standards. Maintain restaurant cleanliness according to EPL and health/food safety standards. Ensure adherence to safety practices and Quality, Service, Cleanliness (QSC) standards\nDirect and prioritize team members' tasks during shift. Cover workstations and fill in during team member breaks, as needed. Adjust shift staffing based on sales volume for productivity. Monitor and adjust food production as needed.\nWelcome customer feedback and address any comments or concerns they may have, using EPL&rsquo;s Just Say Yes Policy. Ensure that all feedback is communicated promptly to the restaurant management team for swift resolution and continuous improvement.\nPerforms other duties as assigned by management to support restaurant operations.\n\n&nbsp;\nQUALIFICATIONS &ndash; EDUCATION, EXPERIENCE, LICENSE/CERTIFICATIONS:\nTo perform this job successfully, an individual must be able to satisfactorily perform the essential functions of the job.&nbsp; Reasonable accommodation will be made to enable individuals with disabilities to perform the essential functions of the job.&nbsp; The requirements listed below are representative of the education and/or experience required.&nbsp; \n&nbsp;\nEducation/Work Experience:\nMust be at least 18 years old. High school diploma or equivalent (GED) preferred.&nbsp; Must be certified on all EPL SPECS positions or must have 2-4 or more years of restaurant supervisory experience. \n&nbsp;\nLicense/Certifications:\n\nPossess and maintain a valid driver&rsquo;s license and a reliable vehicle that may be used for company business.&nbsp; \nMust obtain Serve Safe Certification and pass the EPL Food Safety Audit (FSA) class upon hire.\n\n&nbsp;\nWhat&rsquo;s in it for you?\n&nbsp;\n\nSTRONG culture recognized as a Great Place to Work&reg; and driven by our core values: Simple. Together. Relentless. Ownership. Nimble. Growth\nCompetitive pay and quarterly bonuses\nCareer growth opportunities \nGreat work-life balance, no overnight shifts\nFree meal during your shift \nEmployee discount on food\nFlexible Schedule: Full-Time \nMedical, Dental, and Vision Insurance*\nPaid vacation and sick time*\nEmployee Assistance Program\nFlexible spending, Life Insurance, Legal Insurance, and Pet Insurance*\nTuition reimbursement\n401(K) Retirement benefit plan with match and immediate vesting*\nPerkSpot discounts program\n\n&nbsp;\nWhy work for us?\nWhen it comes to our people, our motto is: Let them cook. In fact, we see you as our secret ingredient. While our chicken is fire, it&rsquo;s our people\nWho set us ablaze. You&rsquo;re the ones bringing the passion, ideas and energy&ndash;the flavor&ndash;whether cooking in the restaurant or working in the support center. That&rsquo;s why we take pride in providing a place where you can express, develop and belong&hellip; all while enjoying a healthy balance. Here, fire-grilled chicken makes flamin&rsquo; good careers.\n  \n",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-05-13T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "1934 W Olympic Blvd, Los Angeles, CA 90006, USA",
+     "locationId": 188,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Los Angeles",
+     "coordinates": "lat:34.0507812;lng:-118.2786478"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 31765,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 31073,
+   "jobReqId": 414,
+   "jobTitle": "Service Assistant ",
+   "jobDescription": "  \n\n\t \n\n  ",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2026-04-23T04:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": true,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "24805 Pico Canyon Rd, Stevenson Ranch, CA 91381, USA",
+     "locationId": 172,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Stevenson Ranch",
+     "coordinates": "lat:34.3805279;lng:-118.5675077"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 31073,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 29221,
+   "jobReqId": 603,
+   "jobTitle": "Service Team Member",
+   "jobDescription": " \n.\n    \n",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2025-11-05T05:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": true,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "3704 S Mooney Blvd, Visalia, CA 93277, USA",
+     "locationId": 177,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Visalia",
+     "coordinates": "lat:36.2969955;lng:-119.3131301"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 29221,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 28618,
+   "jobReqId": 2812,
+   "jobTitle": "General Manager",
+   "jobDescription": " \nAs a General Manager, you&rsquo;ll be the spark that keeps the flame alive, leading a passionate team, driving success, and ensuring every guest gets a taste of the Loco experience. You&rsquo;ll oversee all restaurant operations with a focus on quality, growth, and building a team that&rsquo;s as fired-up as you are. Ready to ignite your flamin&rsquo; good career?\n&nbsp;\n&nbsp;\nPOSITION PURPOSE:\nThe General Manager assumes full accountability for the comprehensive operations of an El Pollo Loco restaurant, encompassing all facets of the business. Leading initiatives aimed at providing an exceptional and consistent experience for both customers and team members, this position meticulously ensures adherence to all El Pollo Loco policies, procedures, and standards while striving to meet or exceed sales and profitability targets. Accountabilities include maintaining optimal staffing levels and fostering the professional growth of the restaurant team to effectively execute all operational objectives.\n&nbsp;\nESSENTIAL DUTIES AND RESPONSIBILITIES:\n\nStrategically manages, coaches, and recognizes team member performance to drive efficient and effective restaurant operations.\nExecutes and trains team on opening and closing procedures in alignment with El Pollo Loco policies, overseeing restaurant setup, food preparation, and cleaning processes.\nOptimizes labor and workforce planning through effective and efficient team deployment and scheduling. Ensures staffing levels are aligned with anticipated sales volume in alignment with current labor modeling to uphold productivity and customer service standards while meeting labor hour targets.\nProvides hands-on support by ensuring proper coverage of all restaurant workstations. May be required to provide backup support to cover team member breaks, as necessary.\nMaintains focus on guest service and speed of service, ensuring achievement of company goals for timeliness. Educates team on restaurant operational efficiency metrics and ensures compliance with standards.\nSchedules workforce ensuring labor hours are adequate to provide required level of service that is based on sales projections and labor hour guidelines.&nbsp; \nOversees hiring processes in the restaurant, from interviews, references, I-9 verification, and new hire orientations, ensuring all restaurant staffing requirements are effectively and compliantly achieved.&nbsp; \nPerforms other duties as assigned by management to support restaurant operations.\n\n&nbsp;\nQUALIFICATIONS &ndash; EDUCATION, EXPERIENCE, LICENSE/CERTIFICATIONS:\nTo perform this job successfully, an individual must be able to satisfactorily perform the essential functions of the job.&nbsp; Reasonable accommodation will be made to enable individuals with disabilities to perform the essential functions of the job.&nbsp; The requirements listed below are representative of the education and/or experience required.&nbsp; \n&nbsp;\nEducation/Work Experience:\nMust be at least 18 years old. High school diploma or equivalent (GED) preferred.&nbsp; Must be an EPL Assistant Manager or have the equivalent of 3 or more years of management experience, preferably in a restaurant environment.&nbsp;&nbsp; \n&nbsp;\nLicense/Certifications:\n\nPossess and maintain a valid driver&rsquo;s license and a reliable vehicle that may be used for company business.&nbsp; \nMust obtain Serve Safe Certification\n\n&nbsp;\nWhat&rsquo;s in it for you?\n&nbsp;\n\nCompetitive pay and quarterly bonuses\nNo overnight hours\nFree meals during your shift\nEmployee discount on food\nExcellent career growth potential (we promote from within)\nTuition reimbursement \nMedical + Dental + Vision Insurance + Flexible Spending Account\nPaid vacation\nPaid sick time\n401(K) Plan with match and immediate vesting (must be at least 21 to participate)\nEmployee Assistance Program\nLife Insurance Legal Insurance, Long Term Disability Coverage and Pet Insurance\nDiscounts on theme parks, movie tickets, sports events, hotels and more...\n\n&nbsp;\nWhy work for us?\nWhen it comes to our people, our motto is: Let them cook. In fact, we see you as our secret ingredient. While our chicken is fire, it&rsquo;s our people\nWho set us ablaze. You&rsquo;re the ones bringing the passion, ideas and energy&ndash;the flavor&ndash;whether cooking in the restaurant or working in the support center. That&rsquo;s why we take pride in providing a place where you can express, develop and belong&hellip; all while enjoying a healthy balance. Here, fire-grilled chicken makes flamin&rsquo; good careers.\n  \n",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2025-10-09T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "1006 W Arrow Hwy, San Dimas, CA 91773, USA",
+     "locationId": 93,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "San Dimas",
+     "coordinates": "lat:34.1063585;lng:-117.8271589"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 28618,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  },
+  {
+   "clientNamespace": "loco",
+   "jobBoardId": 1,
+   "jobPostingId": 26744,
+   "jobReqId": 2737,
+   "jobTitle": "District Manager",
+   "jobDescription": "Our restaurants are only the tip of the flame. If you&rsquo;re looking for a fast-paced, innovative and welcoming workplace then a career with our Corporate Familia is right for you.\n&nbsp;\n&nbsp;\nWhat&rsquo;s in it for you!\n&nbsp;\n&bull; Competitive pay and bonus\n&bull; Medical + Dental + Vision Insurance \n&bull; 401(K) Plan with match and immediate vesting\n&bull; Basic Life and AD&amp;D/Long Term Disability\n&bull; Vacation + Sick Pay + 12 Paid Holidays&nbsp;\n&bull; Vehicle stipend + gas card\n&bull; Free El Pollo Loco food (Dine Out Card) + Restaurant Discount \n&bull; Discounts on El Pollo Loco food, theme parks, movie tickets, sports, hotels and more\n&nbsp;\n&nbsp;\nThe Area Leader is responsible for overseeing the operations of multiple restaurant locations within a designated geographical area. This role drives business growth while ensuring operational excellence and fostering a positive work environment.&nbsp;\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \nESSENTIAL DUTIES AND RESPONSIBILITIES:\n\nHire, train, lead, coach, develop, and mentor restaurant leadership teams including General Managers (GMs), Assistant Managers (AMs), and Shift Leaders (SLs), including one-on-one training, role modeling, developmental job assignments, and guided self-study materials.&nbsp; \nProvide ongoing coaching to ensure all team members consistently meet and/or exceed expectations.\nFoster a positive and collaborative work environment within designated area, promoting a culture of excellence and teamwork. \nImplement and maintain operational standards, ensuring consistency across all locations in compliance with federal/state/local laws including employment laws, food quality and safety standards, and employee/restaurant safety policies and procedures. Manage annual budgets for each assigned restaurant location, working to achieve financial targets.\nMonitor and analyze key performance indicators (KPIs) to identify areas for improvement and implement corrective actions. Provide timely, insightful feedback, and proactive guidance to restaurant management. \nEnsure control over assigned area costs through effective inventory management, labor scheduling, and resource allocation leadership.\nCollaborate with each General Manager, crafting strategic plans to reduce costs, boost sales, and optimize profit to maximize results over previous year&rsquo;s performance benchmarks and in alignment with budgetary standards. \nConduct regular meetings and restaurant visits (i.e., deep dive inspections, area tours, announced/unannounced visits, etc.) to ensure compliance with proper staff training and scheduling, employee relations and performance management, inventory control, food and customer safety, cleanliness, and other operational standards.\nPreserve brand integrity of restaurant facilities through established brand and performance standards. \nProvide effective and timely resolution to escalated customer complaints.\nCollaborate with the People Services Department to resolve team member conflicts and address employee relations matters that cannot be resolved at a lower management level.&nbsp; \nWork cross-functionally with the People Services and Loss Prevention departments to investigate and settle security and cash handling violations.&nbsp; \nRepresent the Company at state and federal agency hearings, conferences, meetings, as needed.\nCollaborate with the Operations Services, Training, and Marketing teams to execute regional marketing strategies and promotions (i.e., LTO modules). \nStay informed about industry trends and competitor activities to make informed business decisions.\nChampion effective vertical and horizontal communications within the area including company-wide news of interest, upcoming events, limited time offers, promotions, product developments, &ldquo;Best Practices&rdquo; among peers, etc.&nbsp; \nOther activities, duties or responsibilities that are assigned by your supervisor.\n\n&nbsp;\n&nbsp;\nQUALIFICATIONS &ndash; EDUCATION, EXPERIENCE, LICENSE/CERTIFICATIONS:\nTo perform this job successfully, an individual must be able to satisfactorily perform the essential functions of the job.&nbsp; Reasonable accommodation will be made to enable individuals with disabilities to perform the essential functions of the job.&nbsp; The requirements listed below are representative of the education and/or experience required.&nbsp; \n&nbsp;\nEducation/Work Experience:\nHigh school diploma or equivalent (GED) required, BA/BS degree preferred; five (5) or more years of prior General Management experience required; three (3) or more years of QSR experience as an Area Leader or District Manager, preferred.\n&nbsp;\nLicense/Certifications:\nPossess and maintain a valid driver&rsquo;s license \n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \n&nbsp;\nKnowledge, Skills, and Abilities:\n\nExperience with successfully recruiting, building, and developing a team (based on current and future needs). \nProven experience in a Multi-Unit/Area Manager role within the Quick Service Restaurant industry.\nStrong understanding of QSR or multi-unit retail/restaurant/hospitality operations, including food safety, quality standards, and customer service.\nAbility to analyze financial reports and implement strategies for business improvement.\nConfidence in execution of strategic initiatives.\nMust be decisive and able to make fact-based decisions.\nStrong analytical and problem-solving mindset and skills; meticulous attention to detail\nAbility to effectively communicate with internal and external business partners.&nbsp; \nAbility to prioritize and plan work assignments and work under pressure of frequent and tight deadlines.\nAbility to read, write, and interpret complex reports, documents, and correspondence.&nbsp; \nAdept at managing and prioritizing competing time sensitive requests while working well in a team atmosphere that may be under pressure. \nAbility to exercise independent judgment on matters of significance to the company.\nAbility to work weekends and extended work schedules as needed.\nMust be willing and able to travel locally within Southern California and to out-of-state restaurant locations, as needed by car or airplane.\n\n&nbsp;\n&nbsp;\nOur Company\nIn 1980 the first American El Pollo Loco opened on Alvarado Street in Los Angeles, quickly becoming a destination for the best citrus-marinated, fire-grilled pollo in town. Over the past four decades, El Pollo Loco has grown into more than 490 restaurants across 7 states, becoming an L.A. mainstay and cultural benchmark along the way. And today, we continue to work just as hard to always provide customers with fresh and innovative L.A. Mex from our famous family dinners to Mexican entrees.\n&nbsp;",
+   "hasVirtualLocation": false,
+   "postingStartTimestampUTC": "2025-07-14T07:00:00+00:00",
+   "postingExpiryTimestampUTC": null,
+   "isEvergreen": false,
+   "reapplyPeriodDays": null,
+   "postingLocations": [
+    {
+     "formattedAddress": "Brea, CA, USA",
+     "locationId": 236,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Brea",
+     "coordinates": "lat:33.916475;lng:-117.9002918"
+    },
+    {
+     "formattedAddress": "Orange, CA, USA",
+     "locationId": 7,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Orange",
+     "coordinates": "lat:33.7879085;lng:-117.855281"
+    },
+    {
+     "formattedAddress": "Alhambra, CA, USA",
+     "locationId": 426,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Alhambra",
+     "coordinates": "lat:34.0927549;lng:-118.1268211"
+    },
+    {
+     "formattedAddress": "Los Angeles County, CA, USA",
+     "locationId": 723,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": null,
+     "coordinates": "lat:34.3871821;lng:-118.1122679"
+    },
+    {
+     "formattedAddress": "Orange County, CA, USA",
+     "locationId": 268,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": null,
+     "coordinates": "lat:33.7174708;lng:-117.8311428"
+    },
+    {
+     "formattedAddress": "El Monte, CA, USA",
+     "locationId": 422,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "El Monte",
+     "coordinates": "lat:34.0726865;lng:-118.0322819"
+    },
+    {
+     "formattedAddress": "3535 Harbor Blvd, Costa Mesa, CA 92626, USA",
+     "locationId": 2,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Costa Mesa",
+     "coordinates": "lat:33.69807280000001;lng:-117.9210043"
+    },
+    {
+     "formattedAddress": "Garden Grove, CA, USA",
+     "locationId": 277,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Garden Grove",
+     "coordinates": "lat:33.7742692;lng:-117.9379952"
+    },
+    {
+     "formattedAddress": "La Puente, CA, USA",
+     "locationId": 508,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "La Puente",
+     "coordinates": "lat:34.0200114;lng:-117.9495083"
+    },
+    {
+     "formattedAddress": "Glendora, CA, USA",
+     "locationId": 327,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Glendora",
+     "coordinates": "lat:34.1361187;lng:-117.865339"
+    },
+    {
+     "formattedAddress": "West Covina, CA, USA",
+     "locationId": 282,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "West Covina",
+     "coordinates": "lat:34.0686208;lng:-117.9389526"
+    },
+    {
+     "formattedAddress": "Montebello, CA, USA",
+     "locationId": 412,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "Montebello",
+     "coordinates": "lat:34.019321;lng:-118.116076"
+    },
+    {
+     "formattedAddress": "San Dimas, CA, USA",
+     "locationId": 301,
+     "locationType": 2,
+     "isoCountryCode": "US",
+     "stateCode": "CA",
+     "cityName": "San Dimas",
+     "coordinates": "lat:34.1067017;lng:-117.8070802"
+    }
+   ],
+   "postingAppliedStatus": {
+    "jobPostingId": 26744,
+    "hasApplied": false,
+    "canApplyAgain": true
+   },
+   "searchScore": 0
+  }
+ ],
+ "maxCount": 17,
+ "offset": 0,
+ "count": 17
+}

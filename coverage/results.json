@@ -549,6 +549,24 @@
       "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 14
     },
+    "https://jobs.dayforcehcm.com/en-US/costa/CANDIDATEPORTAL": {
+      "url": "https://jobs.dayforcehcm.com/en-US/costa/CANDIDATEPORTAL",
+      "last_run_at": "2026-11-11T17:38:32+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 448,
+      "last_error": null,
+      "last_success_at": "2026-11-11T17:38:32+00:00",
+      "last_success_jobs": 448
+    },
+    "https://jobs.dayforcehcm.com/en-US/loco/CANDIDATEPORTAL": {
+      "url": "https://jobs.dayforcehcm.com/en-US/loco/CANDIDATEPORTAL",
+      "last_run_at": "2026-11-11T17:35:23+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 17,
+      "last_error": null,
+      "last_success_at": "2026-11-11T17:35:23+00:00",
+      "last_success_jobs": 17
+    },
     "https://jobs.deel.com/apmc-careers": {
       "url": "https://jobs.deel.com/apmc-careers",
       "last_run_at": "2026-11-10T18:39:53+00:00",

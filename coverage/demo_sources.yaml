@@ -47,6 +47,10 @@ sources:
 - platform: comeet
   url: https://www.comeet.com/jobs/vastdata/43.001
   jobs: 263
+- platform: dayforce
+  url: https://jobs.dayforcehcm.com/en-US/loco/CANDIDATEPORTAL
+  company: El Pollo Loco
+  jobs: 17
 - platform: deel
   url: https://jobs.deel.com/apmc-careers
   jobs: 5

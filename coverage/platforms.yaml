@@ -190,17 +190,20 @@
 - name: Dayforce
   key: dayforce
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "jobs.dayforcehcm.com/{locale}/{company}/{portal} (Next.js; __NEXT_DATA__ + internal /api calls)"
-  url_patterns: ["jobs.dayforcehcm.com/{locale}/{company}/{portal}", "jobs.dayforcehcm.com/{locale}/{company}/{portal}/jobs/{id}"]
+  status: done
+  connector: jobindex.connectors.dayforce
+  public_api: "no"
+  api: "jobs.dayforcehcm.com/{locale}/{namespace}/{site} rendered in a headless browser (jobindex.browser); the search responses the page itself receives (POST /api/geo/{namespace}/jobposting/search, 25 a page) are read until maxCount"
+  url_patterns: ["jobs.dayforcehcm.com/{locale}/{namespace}/{site}", "jobs.dayforcehcm.com/{locale}/{namespace}/{site}/jobs/{id}"]
   examples:
-    - https://jobs.dayforcehcm.com/en-US/dayforce/CANDIDATEPORTAL
+    - https://jobs.dayforcehcm.com/en-US/loco/CANDIDATEPORTAL
+    - https://jobs.dayforcehcm.com/en-US/costa/CANDIDATEPORTAL
+  example_companies:
+    "https://jobs.dayforcehcm.com/en-US/loco/CANDIDATEPORTAL": "El Pollo Loco"
+    "https://jobs.dayforcehcm.com/en-US/costa/CANDIDATEPORTAL": "Costa Coffee"
   robots: allowed
-  verified: null
-  notes: "Ceridian Dayforce. Checked 2026-11-07: __NEXT_DATA__ has only site info; jobs come from POST /api/geo/{namespace}/jobposting/search ({clientNamespace, jobBoardCode, cultureCode, paginationStart}), which answers 403 without a browser session (recorded in blocked_by_site.yaml, scope api)."
-
+  verified: 2026-11-11
+  notes: "Browser-rendered (owner approval 2026-11-11: render the public board like a visitor only if robots.txt allows the page and every API path it calls for the job list; no CAPTCHA/Cloudflare solving, no tokens replayed outside the page, 1 request/second). robots.txt on jobs.dayforcehcm.com has no rules (content-signal comments only). The page's own requests (/api/auth/session, /api/auth/csrf, /api/geo/{ns}/postingattributes/*, /api/geo/{ns}/location/search, /api/geo/{ns}/jobposting/search, /_next/data/*) are all allowed; the API answers 403 when called outside the page (blocked_by_site.yaml, scope api) and is never called that way. The page also loads Cloudflare's bot-check script (/cdn-cgi/challenge-platform/scripts/jsd/main.js): the browser never loads it, and the job list loads without it. Pages are read by clicking the pager; maxCount must stay the same, offsets follow on, no posting twice, total = maxCount. The list has the full description, locations and dates; no detail requests. The page does not name the employer (example_companies). Live 2026-11-11: El Pollo Loco 17 (1 page), Costa Coffee 446 (18 pages, ~3 min)."
 - name: Deel
   key: deel
   type: ats
@@ -595,7 +598,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: "Checked 2026-11-07: the v4 career page is a micro-frontend; robots.txt (www.paycomonline.net and portal-applicant-tracking.us-cent.paycomonline.net) allows /api/ats/job-postings/ and /api/ats/company-name, but the portal sends an Authorization token issued by the page, so it was not used (same policy as Comeet's page token). /v4/ats/sitemap.php answers 404. Decision 2026-11-08: page-issued tokens are not used; listed in blocked_by_site.yaml (scope api)."
+  notes: "Checked 2026-11-07: the v4 career page is a micro-frontend; robots.txt (www.paycomonline.net and portal-applicant-tracking.us-cent.paycomonline.net) allows /api/ats/job-postings/ and /api/ats/company-name, which answer 401 without the page-issued token. Re-checked 2026-11-11 with the headless browser (owner approval: render only if robots.txt allows the page and every API path it calls for the job list): both portals checked (F6E264FF..., 358c67f2...) load the list from POST /api/ats/job-posting-previews/search plus /filters, /job-titles, /portal-settings and the translation set, all Disallow: / on the portal host. Not sent; blocked_by_site.yaml (scope platform). /v4/ats/sitemap.php answers 404."
 
 - name: Paycor
   key: paycor

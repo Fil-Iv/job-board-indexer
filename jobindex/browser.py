@@ -70,6 +70,8 @@ CHALLENGE_URLS = re.compile(
     r"|captcha-delivery\.com|perimeterx\.net|px-cdn\.net|/_Incapsula_Resource|/akam/\d",
     re.I,
 )
+#: Default navigation / settle timeout. Hosts with a long Crawl-delay need more: every
+#: request of the page waits for its turn (CSOD: 10 s each).
 NAVIGATION_TIMEOUT_MS = 60_000
 
 WaitUntil = Literal["commit", "domcontentloaded", "load", "networkidle"]
@@ -202,6 +204,7 @@ class PoliteBrowser:
         hosts: Iterable[str],
         capture: re.Pattern[str] | None = None,
         wait_until: WaitUntil = "networkidle",
+        timeout_ms: int = NAVIGATION_TIMEOUT_MS,
     ) -> BrowserPage:
         """Open ``url`` in a new page; only requests to ``hosts`` (exact, or ``.suffix``)
         are sent. Retries navigation errors and 5xx with backoff; refusals raise."""
@@ -216,7 +219,7 @@ class PoliteBrowser:
                 response = await page.goto(
                     url,
                     wait_until=wait_until,
-                    timeout=NAVIGATION_TIMEOUT_MS,
+                    timeout=timeout_ms,
                 )
             except Exception as exc:
                 bp.check()  # a disallowed/refused request explains the failure best
@@ -288,10 +291,12 @@ class PoliteBrowser:
         await bp.page.route("**/*", on_route)
 
 
-async def settle(bp: BrowserPage, *, quiet_ms: int = 1500) -> None:
+async def settle(
+    bp: BrowserPage, *, quiet_ms: int = 1500, timeout_ms: int = NAVIGATION_TIMEOUT_MS
+) -> None:
     """Wait until the page's network is idle and captured response bodies are read."""
     with contextlib.suppress(Exception):
-        await bp.page.wait_for_load_state("networkidle", timeout=NAVIGATION_TIMEOUT_MS)
+        await bp.page.wait_for_load_state("networkidle", timeout=timeout_ms)
     await bp.page.wait_for_timeout(quiet_ms)
     if bp.pending:
         await asyncio.gather(*bp.pending, return_exceptions=True)
