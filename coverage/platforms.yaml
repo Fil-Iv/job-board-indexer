@@ -185,7 +185,7 @@
   examples: []
   robots: allowed
   verified: null
-  notes: "Not built: blocked (coverage/blocked_by_site.yaml). robots.txt allows everything (Crawl-delay: 10). The career site (/ux/ats/careersite/{n}/home?c={corp}) and requisition pages are 5 KB JS shells; jobs come only from POST /services/x/career-site/v1/search with the bearer token in csod.context.token (401 without it on americares and ymca, 2026-11-08). No sitemap (/sitemap.xml 404, careersite sitemap redirects to login), legacy JobDetails.aspx/search.aspx redirect to the shell."
+  notes: "Not built: blocked (coverage/blocked_by_site.yaml). robots.txt allows everything (Crawl-delay: 10). The career site (/ux/ats/careersite/{n}/home?c={corp}) and requisition pages are 5 KB JS shells; jobs come only from POST /services/x/career-site/v1/search with the bearer token in csod.context.token (401 without it on americares and ymca, 2026-11-08). No sitemap (/sitemap.xml 404, careersite sitemap redirects to login), legacy JobDetails.aspx/search.aspx redirect to the shell. Re-checked 2026-11-11 with the headless browser (owner approval: render like a visitor if robots.txt allows the page and every API it calls, 1 request/second or the host's Crawl-delay): robots.txt allows everything, but its Crawl-delay: 10 spaces the page's ~15 requests 10 s apart and the career-site app aborts its own XHRs after ~30 s (corpsettings, careersites/1: net::ERR_ABORTED), so it never requests the job search (americares, 16 min). Faster requests would ignore the site's Crawl-delay; not built."
 
 - name: Dayforce
   key: dayforce

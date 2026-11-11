@@ -119,10 +119,11 @@ blocked_by_site:
       - {url: "https://jobs.dayforcehcm.com/api/geo/costa/jobposting/search", checked_at: "2026-11-07T20:54:30+00:00", http_status: 403, robots_url: "https://jobs.dayforcehcm.com/robots.txt", robots_http_status: 200, robots_rule: null}
   - platform: CSOD (Cornerstone)
     scope: api
-    impact: "Career-site search API answers 401 without the bearer token the page issues (csod.context.token); career-site and requisition pages are 5 KB JS shells with no job data, sitemap.xml is 404 and the careersite sitemap redirects to login. Page-issued tokens are not used."
+    impact: "Career-site search API answers 401 without the bearer token the page issues (csod.context.token); career-site and requisition pages are 5 KB JS shells with no job data, sitemap.xml is 404 and the careersite sitemap redirects to login. Page-issued tokens are not used. Re-checked 2026-11-11 with the headless browser: robots.txt allows everything but sets Crawl-delay: 10, and the page's own app aborts its requests (~30 s client timeout) while they wait for their turn, so it never requests the job list (16 min, americares)."
     evidence:
       - {url: "https://americares.csod.com/services/x/career-site/v1/search", checked_at: "2026-11-08T13:07:14+00:00", http_status: 401, robots_url: "https://americares.csod.com/robots.txt", robots_http_status: 200, robots_rule: null}
       - {url: "https://ymca.csod.com/services/x/career-site/v1/search", checked_at: "2026-11-08T13:07:25+00:00", http_status: 401, robots_url: "https://ymca.csod.com/robots.txt", robots_http_status: 200, robots_rule: null}
+      - {url: "https://americares.csod.com/services/x/career-site/v1/careersites/1?cultureId=1", checked_at: "2026-11-11T17:56:00+00:00", http_status: null, robots_url: "https://americares.csod.com/robots.txt", robots_http_status: 200, robots_rule: null, policy: "rendered page: its own request aborted (net::ERR_ABORTED) after ~30 s waiting for its turn under Crawl-delay: 10; the job search was never requested"}
   - platform: talentReef
     scope: platform
     impact: "Only route is an internal search service, no public listing. Career pages (apply.jobappnetwork.com) are a 751-byte JS shell and sitemap.xml answers 403; the app reads jobs from an Elasticsearch proxy on prod-kong.internal.talentreef.com, which answers without a token but is an internal host and is not used (owner decision 2026-11-08)."
