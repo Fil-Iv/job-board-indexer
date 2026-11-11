@@ -1,6 +1,9 @@
 """Check robots.txt + HTTP access for URLs and report what job data they serve.
 
 Never fetches a URL that robots.txt disallows (it prints the deciding rule instead).
+Redirects are checked hop by hop, with the same rule as ``jobindex.http``: each target
+must be allowed by the robots.txt of its own host before it is requested. If a hop is
+disallowed, the report shows that hop's robots.txt and rule.
 
 Usage:
     python scripts/check_access.py URL [URL ...]          # human-readable
@@ -30,9 +33,18 @@ def _human(c: AccessCheck) -> str:
     robots = "allowed" if c.robots_allowed else "DISALLOWED"
     rule = f" by '{c.robots_rule}'" if c.robots_rule else ""
     status = c.http_status if c.http_status is not None else "-"
+    hops = ""
+    if len(c.hops) > 1:  # show the redirect chain with each hop's robots verdict
+        lines = []
+        for hop in c.hops:
+            verdict = "allowed" if hop["robots_allowed"] else "DISALLOWED"
+            why = f" by '{hop['robots_rule']}'" if hop["robots_rule"] else ""
+            fetched = hop["status"] if hop["status"] is not None else "not fetched"
+            lines.append(f"\n    -> {hop['url']} [{fetched}] robots {verdict}{why}")
+        hops = "\n  redirects" + "".join(lines)
     return (
         f"{c.method} {c.url}\n  robots {c.robots_url} -> HTTP {c.robots_http_status}: "
-        f"{robots}{rule}\n  fetch -> {status} {c.content_type or ''} {c.size or ''} "
+        f"{robots}{rule}{hops}\n  fetch -> {status} {c.content_type or ''} {c.size or ''} "
         f"{c.error or ''}\n  signals {c.signals}"
     )
 

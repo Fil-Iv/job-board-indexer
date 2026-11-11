@@ -248,6 +248,7 @@ async def test_redirect_to_disallowed_target_is_never_fetched() -> None:
         with pytest.raises(RobotsDisallowedError) as info:
             await http.get("https://a.test/job")
     assert info.value.url == "https://b.test/private/job"
+    assert [str(r.url) for r in info.value.history] == ["https://a.test/job"]
     assert "b.test/private/job" not in [f"{r.url.host}{r.url.path}" for r in seen]
 
 

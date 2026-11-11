@@ -169,6 +169,39 @@ async def test_check_access_unreachable_robots_is_not_a_site_block() -> None:
     assert [r.url.path for r in seen] == ["/robots.txt"]
 
 
+async def test_check_access_checks_robots_for_every_redirect_hop() -> None:
+    # Same rule as HttpClient: a redirect target must be allowed by its own host's robots.
+    http, seen = mock_http(
+        {
+            "a.test/robots.txt": httpx.Response(404),
+            "a.test/jobs": httpx.Response(302, headers={"Location": "https://b.test/jobs"}),
+            "b.test/robots.txt": httpx.Response(200, text="User-agent: *\nDisallow: /p\n"),
+            "b.test/jobs": httpx.Response(301, headers={"Location": "/p/jobs"}),
+            "b.test/p/jobs": httpx.Response(200, json={"jobs": []}),
+            "c.test/robots.txt": httpx.Response(404),
+            "c.test/x": httpx.Response(302, headers={"Location": "https://c.test/y"}),
+            "c.test/y": httpx.Response(200, text="<html></html>"),
+        }
+    )
+    async with http:
+        blocked = await check_access("https://a.test/jobs", http)
+        ok = await check_access("https://c.test/x", http)
+    assert "b.test/p/jobs" not in [f"{r.url.host}{r.url.path}" for r in seen]
+    assert not blocked.robots_allowed
+    assert blocked.blocked
+    assert blocked.robots_url == "https://b.test/robots.txt"
+    assert blocked.robots_rule == "Disallow: /p"
+    assert [(h["url"], h["status"], h["robots_allowed"]) for h in blocked.hops] == [
+        ("https://a.test/jobs", 302, True),
+        ("https://b.test/jobs", 301, True),
+        ("https://b.test/p/jobs", None, False),
+    ]
+    assert ok.robots_allowed
+    assert ok.http_status == 200
+    assert ok.final_url == "https://c.test/y"
+    assert [h["status"] for h in ok.hops] == [302, 200]
+
+
 def test_tenant_prefix_and_browse_pages() -> None:
     assert tenant_prefix("https://careers.hireology.com/sandiegopadres") == "/sandiegopadres"
     assert tenant_prefix("https://join.com/companies/comlab") == "/companies/comlab"

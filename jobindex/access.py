@@ -4,6 +4,11 @@ Used for platform research and for the ``blocked_by_site`` evidence list
 (``coverage/blocked_by_site.yaml``). It never fetches a URL that robots.txt disallows:
 it reports the deciding robots rule instead. Allowed URLs are fetched once, with the
 normal polite client, and inspected for machine-readable job data.
+
+Redirects get the same rule as ``jobindex.http``: every hop is checked against the
+robots.txt of its own host before it is fetched. Each hop's verdict is recorded in
+``hops``; if a hop is disallowed, the check reports *that* hop's robots.txt and rule
+(and counts as blocked), not the verdict for the URL we started from.
 """
 
 import json
@@ -13,7 +18,7 @@ from datetime import UTC, datetime
 from typing import Any
 from urllib.parse import urlsplit
 
-from jobindex.http import FetchError, HttpClient
+from jobindex.http import FetchError, HttpClient, RobotsDisallowedError
 from jobindex.schemaorg import count_job_postings
 
 
@@ -37,6 +42,10 @@ class AccessCheck:
     size: int | None = None
     error: str | None = None
     signals: dict[str, Any] = field(default_factory=dict)
+    #: Every URL requested, in order (the start URL, then each redirect target), with its
+    #: robots verdict: {"url", "status", "robots_url", "robots_allowed", "robots_rule"}.
+    #: "status" is None for a hop that was never fetched.
+    hops: list[dict[str, Any]] = field(default_factory=list)
 
     @property
     def blocked(self) -> bool:
@@ -77,35 +86,72 @@ def inspect_body(text: str, content_type: str | None) -> dict[str, Any]:
     return signals
 
 
+def _origin(url: str) -> str:
+    parts = urlsplit(url)
+    return f"{parts.scheme}://{parts.netloc}".lower()
+
+
+async def _hop(url: str, http: HttpClient, status: int | None) -> dict[str, Any]:
+    allowed, rule = await http.robots_verdict(url)  # cached: the client already checked it
+    return {
+        "url": url,
+        "status": status,
+        "robots_url": f"{_origin(url)}/robots.txt",
+        "robots_allowed": allowed,
+        "robots_rule": rule,
+    }
+
+
+def _apply_verdict(check: AccessCheck, http: HttpClient, url: str) -> None:
+    """Report the robots verdict that decides ``check``: the one for ``url``."""
+    hop = next(h for h in check.hops if h["url"] == url)
+    origin = _origin(url)
+    check.robots_url = hop["robots_url"]
+    check.robots_http_status = http.robots_status.get(origin)
+    check.robots_allowed = hop["robots_allowed"]
+    check.robots_rule = hop["robots_rule"]
+    status = check.robots_http_status
+    if not check.robots_allowed and (status is None or status >= 500):
+        check.robots_unreachable = True
+        check.robots_rule = None  # the synthetic disallow-all is not the site's rule
+        check.error = f"robots.txt unreachable ({'no response' if status is None else status})"
+
+
 async def check_access(
     url: str, http: HttpClient, *, method: str = "GET", json_body: Any = None
 ) -> AccessCheck:
-    parts = urlsplit(url)
-    origin = f"{parts.scheme}://{parts.netloc}".lower()
-    allowed, rule = await http.robots_verdict(url)
     check = AccessCheck(
         url=url,
         checked_at=datetime.now(UTC).isoformat(timespec="seconds"),
         user_agent=http.user_agent,
-        robots_url=f"{origin}/robots.txt",
-        robots_http_status=http.robots_status.get(origin),
-        robots_allowed=allowed,
-        robots_rule=rule,
+        robots_url="",
+        robots_http_status=None,
+        robots_allowed=False,
+        robots_rule=None,
         method=method,
     )
-    status = check.robots_http_status
-    if not allowed and (status is None or status >= 500):
-        check.robots_unreachable = True
-        check.robots_rule = None  # the synthetic disallow-all is not the site's rule
-        check.error = f"robots.txt unreachable ({'no response' if status is None else status})"
-    if not allowed:
+    check.hops.append(await _hop(url, http, None))
+    _apply_verdict(check, http, url)
+    if not check.robots_allowed:
         return check  # never fetch what robots.txt disallows
     try:
         response = await http.request(method, url, json=json_body)
+    except RobotsDisallowedError as exc:
+        # A redirect led to a URL its own host's robots.txt disallows (it was not fetched).
+        # Record the hops that were fetched, then report the disallowed hop's verdict.
+        check.hops = [await _hop(str(r.url), http, r.status_code) for r in exc.history]
+        check.hops.append(await _hop(exc.url, http, None))
+        _apply_verdict(check, http, exc.url)
+        check.error = check.error or f"redirected to {exc.url}, which robots.txt disallows"
+        return check
     except FetchError as exc:
+        check.hops = [await _hop(str(r.url), http, r.status_code) for r in exc.history]
+        check.hops.append(await _hop(exc.url, http, exc.status_code))
         check.http_status = exc.status_code
         check.error = str(exc)
         return check
+    chain = [*response.history, response]
+    check.hops = [await _hop(str(r.url), http, r.status_code) for r in chain]
     check.http_status = response.status_code
     check.final_url = str(response.url)
     check.content_type = response.headers.get("content-type", "").split(";")[0] or None

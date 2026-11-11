@@ -45,6 +45,8 @@ class FetchError(Exception):
         super().__init__(message)
         self.url = url
         self.status_code = status_code
+        #: Redirect responses followed before this error (empty when the first hop failed).
+        self.history: list[httpx.Response] = []
 
 
 class RobotsDisallowedError(FetchError):
@@ -166,7 +168,11 @@ class HttpClient:
         current = self._client.build_request(method, url, params=params, headers=headers, json=json)
         history: list[httpx.Response] = []
         while True:
-            response = await self._send(current)
+            try:
+                response = await self._send(current)
+            except FetchError as exc:
+                exc.history = history
+                raise
             if not response.is_redirect:
                 response.history = history
                 return response
