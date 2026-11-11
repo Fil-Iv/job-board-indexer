@@ -53,6 +53,12 @@ sources:
 - platform: firststage
   url: https://agility-gwg.firststage.co/jobs
   jobs: 79
+- platform: freshteam
+  url: https://renous.freshteam.com/jobs
+  jobs: 90
+- platform: freshteam
+  url: https://crimsoniteam.freshteam.com/jobs
+  jobs: 95
 - platform: gem
   url: https://jobs.gem.com/function-health
   jobs: 33
@@ -115,6 +121,12 @@ sources:
 - platform: jobvite
   url: https://jobs.jobvite.com/nutanix/jobs
   jobs: 249
+- platform: join
+  url: https://join.com/companies/bring
+  jobs: 4
+- platform: join
+  url: https://join.com/companies/zbv-automationcom
+  jobs: 6
 - platform: kula
   url: https://careers.kula.ai/deepscribe
   jobs: 5
@@ -287,3 +299,6 @@ sources:
 - platform: jobboardsoftware
   url: https://bb.api.exenzo.com/api/public/v1/job-boards/1/jobs
   jobs: 140
+- platform: nodex
+  url: https://www.mytraveljobs.co.uk/
+  jobs: 120

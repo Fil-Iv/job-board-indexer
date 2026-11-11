@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="/src/404.css" type="text/css" media="screen, projection">
+    <title>Freshteam</title>
+  </head>
+  <body>
+    <div id="wrap" class="container">
+			<div class="invalid-domain-wrapper">
+				<div class="wrapper-shadow">
+					<div class="no-ats">
+						<div class="freshteam-logo"></div>
+						<h2 class="invalid-domain-header"> We couldn't find <span id="domainname"></span></h2>
+						<p> May be this is still fresh!  </p>
+						<p> You can claim it now at
+              <a href='https://www.freshworks.com/applicant-tracking'>http://www.freshteam.com</a>
+            </p>
+					</div>
+				</div>
+			</div>
+		</div>
+    <script type='text/javascript'>
+			document.getElementById("domainname").innerHTML = (document.domain);
+    </script>
+	</body>
+</html>

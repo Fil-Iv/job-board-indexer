@@ -262,16 +262,18 @@
 - name: Freshteam
   key: freshteam
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "{company}.freshteam.com/jobs (HTML)"
+  status: done
+  connector: jobindex.connectors.freshteam
+  public_api: "no"
+  api: "GET {company}.freshteam.com/jobs (server-rendered list, count in og:description) + job pages /jobs/{id}/{slug} (HTML description)"
   url_patterns: ["{company}.freshteam.com/jobs", "{company}.freshteam.com/jobs/{id}/{slug}"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "freshworks.freshteam.com returned 503 to our probe (2026-11-07), possibly bot protection. Re-check; the jobs widget JSON endpoint is unconfirmed."
-
+  examples:
+    - https://renous.freshteam.com/jobs
+    - https://crimsoniteam.freshteam.com/jobs
+  robots: allowed
+  verified: 2026-11-11
+  generic: no
+  notes: "robots.txt on every tenant: Allow: /jobs, Disallow: / (the /hire/widgets/jobs.json widget stays disallowed and is not used). The /jobs page lists every job server-side (no paging); the number of distinct job links must equal the '#N Jobs' count in og:description. No JSON-LD: the description comes from each job page (.job-details-content; a template bug appends 'Liquid error: ...', removed), the company from og:description 'Posted by : {company} |'. Tenants customise the Liquid template (renous: cards grouped by department; crimsoniteam: default list); parsing uses the shared class names. Unknown tenants answer 200 'We couldn't find ...' (scrut and bipartisanpolicy, the 2026-11-07 examples, have left Freshteam), which is refused as an error. freshworks.freshteam.com answered 503 to robots.txt (treated as disallowed). Second tenant found 2026-11-11 via a competitor's public search page."
 - name: Gem.com
   key: gem
   type: ats
@@ -468,17 +470,18 @@
 - name: JOIN.com
   key: join
   type: ats
-  status: todo
-  tier: medium
+  status: done
+  connector: jobindex.connectors.join
   public_api: "no"
-  api: "join.com/companies/{slug} (__NEXT_DATA__ embedded JSON)"
-  url_patterns: ["join.com/companies/{slug}", "join.com/companies/{slug}/{job-id}-{slug}"]
+  api: "GET join.com/companies/{company}[?page=N] (__NEXT_DATA__ jobs.items + pagination, 5 per page) + job pages /companies/{company}/{idParam} (JSON-LD JobPosting)"
+  url_patterns: ["join.com/companies/{company}", "join.com/companies/{company}/{ad-id}-{slug}"]
   examples:
-    - https://join.com/companies/join
+    - https://join.com/companies/bring
+    - https://join.com/companies/zbv-automationcom
   robots: allowed
-  verified: null
-  notes: "Next.js page with __NEXT_DATA__, but initialState.jobs is empty server-side (loaded client-side, 2026-11-07); the jobs sitemap index answers 403 (blocked_by_site.yaml, scope api). No compliant list found yet."
-
+  verified: 2026-11-11
+  generic: no
+  notes: "Since 2026-11-07 the company page embeds the job list server-side (pageData.jobs; some companies still get the older layout with initialState.jobs, same shape). Pages are read until pageCount and must add up to pagination.total. The site serves at most 20 pages (100 jobs): ?page=21 returns page 20 again and the categoryId filter is echoed but not applied, so companies with more than 100 jobs (simplyrightde: 101, 2026-11-11) are refused rather than indexed partially. External id = the job 'id'; the number in idParam is the current ad and 301-redirects when re-published. The jobs sitemap index answers 403 (blocked_by_site.yaml, scope api); /companies/sitemap.xml (~14,300 companies) is allowed and can be used for discovery. robots.txt disallows only /*/lp/."
 - name: Kula.ai
   key: kula
   type: ats
@@ -1199,16 +1202,18 @@
 - name: Nodex
   key: nodex
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Not built (re-checked 2026-11-10): no customer board identified and no public demo board. Nodex (nodex.co.uk, UK) publishes no customer list (portfolio page 404; sitemap has only service pages and blog posts); its job-board page shows a 'demo version' as screenshots only and offers booked demos. demo.nodex.co.uk resolves (wildcard DNS) but serves a self-signed certificate, so robots.txt cannot be read (treated as disallowed). BuiltWith reports ~49 live sites and AppsRunTheWorld names recruiters (Big Ant Group, Orchard Recruitment, Sheridan Ward Recruitment) without board URLs."
-
+  status: done
+  connector: jobindex.connectors.nodex
+  partial: "only one live board found"
+  public_api: "no"
+  api: "GET {site}/sitemap.xml (lastmod) + job pages /job/{slug} (JSON-LD JobPosting)"
+  url_patterns: ["customer domains with assets under /modules/fabricjobs/ or a footer link to nodex.co.uk/services/job-board-software", "{site}/job/{slug}"]
+  examples:
+    - https://www.mytraveljobs.co.uk/
+  robots: allowed
+  verified: 2026-11-11
+  generic: yes
+  notes: "Board found 2026-11-11 via a competitor's public search page: www.mytraveljobs.co.uk (run by Nodex Limited itself; footer 'Job board software by Nodex'). Sitemap: 120 job URLs = the 120 jobs /find-jobs reports; /find-jobs?* (paged search) is disallowed, so the sitemap is the list. JobPosting titles carry extra columns ('Title | Location | Salary | Type'); only the first part is kept. No customer list is published (nodex.co.uk/portfolio redirects to /services; earlier: BuiltWith reports ~49 live sites, AppsRunTheWorld names Big Ant Group, Orchard Recruitment, Sheridan Ward Recruitment without board URLs); further boards are found by the page fingerprint. Only one example board."
 - name: eJobBoard
   key: ejobboard
   type: jobboard

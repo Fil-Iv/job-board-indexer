@@ -44,8 +44,8 @@ blocked_by_site:
       - {url: "https://vodafone.eightfold.ai/api/apply/v2/jobs?domain=vodafone.com&num=10", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://vodafone.eightfold.ai/robots.txt", robots_http_status: 200, robots_rule: null}
       - {url: "https://careers.qualcomm.com/api/apply/v2/jobs?domain=qualcomm.com&num=10", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://careers.qualcomm.com/robots.txt", robots_http_status: 200, robots_rule: null}
   - platform: Freshteam
-    scope: platform
-    impact: "Only /jobs (an 889-byte JS shell) is allowed; the jobs JSON widget it loads is disallowed."
+    scope: api
+    impact: "The jobs JSON widget (/hire/widgets/jobs.json) is disallowed; the server-rendered /jobs pages are allowed and used (2026-11-11). (The 889-byte page seen on 2026-11-07 was Freshteam's 'company not found' page: these two tenants have left.)"
     evidence:
       - {url: "https://scrut.freshteam.com/hire/widgets/jobs.json", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://scrut.freshteam.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
       - {url: "https://bipartisanpolicy.freshteam.com/hire/widgets/jobs.json", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://bipartisanpolicy.freshteam.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
@@ -67,7 +67,7 @@ blocked_by_site:
       - {url: "https://osapiens.pinpointhq.com/postings.json", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://osapiens.pinpointhq.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
   - platform: JOIN.com
     scope: api
-    impact: "Jobs sitemap index answers 403 although robots.txt allows it."
+    impact: "Jobs sitemap index answers 403 although robots.txt allows it; the company pages' embedded job list is used instead (2026-11-11)."
     evidence:
       - {url: "https://join.com/companies/sitemap-jobs-index.xml", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://join.com/robots.txt", robots_http_status: 200, robots_rule: null}
   - platform: JobBoardFire

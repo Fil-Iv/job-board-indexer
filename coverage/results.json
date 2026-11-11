@@ -315,6 +315,15 @@
       "last_success_at": "2026-11-10T18:39:59+00:00",
       "last_success_jobs": 2615
     },
+    "https://crimsoniteam.freshteam.com/jobs": {
+      "url": "https://crimsoniteam.freshteam.com/jobs",
+      "last_run_at": "2026-11-11T04:21:45+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 95,
+      "last_error": null,
+      "last_success_at": "2026-11-11T04:21:45+00:00",
+      "last_success_jobs": 95
+    },
     "https://davidsonoil.isolvedhire.com/jobs/": {
       "url": "https://davidsonoil.isolvedhire.com/jobs/",
       "last_run_at": "2026-11-10T18:39:54+00:00",
@@ -729,6 +738,24 @@
       "last_success_at": "2026-11-10T18:39:53+00:00",
       "last_success_jobs": 22
     },
+    "https://join.com/companies/bring": {
+      "url": "https://join.com/companies/bring",
+      "last_run_at": "2026-11-11T04:21:43+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 4,
+      "last_error": null,
+      "last_success_at": "2026-11-11T04:21:43+00:00",
+      "last_success_jobs": 4
+    },
+    "https://join.com/companies/zbv-automationcom": {
+      "url": "https://join.com/companies/zbv-automationcom",
+      "last_run_at": "2026-11-11T04:21:45+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 6,
+      "last_error": null,
+      "last_success_at": "2026-11-11T04:21:45+00:00",
+      "last_success_jobs": 6
+    },
     "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions": {
       "url": "https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions",
       "last_run_at": "2026-11-10T18:43:06+00:00",
@@ -872,6 +899,15 @@
       "last_error": null,
       "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 19
+    },
+    "https://renous.freshteam.com/jobs": {
+      "url": "https://renous.freshteam.com/jobs",
+      "last_run_at": "2026-11-11T04:21:43+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 90,
+      "last_error": null,
+      "last_success_at": "2026-11-11T04:21:43+00:00",
+      "last_success_jobs": 90
     },
     "https://sapiens.careers.hibob.com/": {
       "url": "https://sapiens.careers.hibob.com/",
@@ -1097,6 +1133,15 @@
       "last_error": null,
       "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 94
+    },
+    "https://www.mytraveljobs.co.uk/": {
+      "url": "https://www.mytraveljobs.co.uk/",
+      "last_run_at": "2026-11-11T04:21:44+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 120,
+      "last_error": null,
+      "last_success_at": "2026-11-11T04:21:44+00:00",
+      "last_success_jobs": 120
     },
     "https://www.thejobnetwork.com/": {
       "url": "https://www.thejobnetwork.com/",

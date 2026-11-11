@@ -1,0 +1,12 @@
+Disallow: /login
+Disallow: /logout
+Disallow: /shortlist
+Disallow: /alerts/verify
+Disallow: /404
+Disallow: /find-jobs?*
+Disallow: /find-candidates?*
+Disallow: /sector/*?*
+Disallow: /jobs/*?*
+User-agent: PetalBot
+Disallow: /blog/comments/verify
+Disallow: /blog?*

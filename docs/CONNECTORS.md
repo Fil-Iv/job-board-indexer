@@ -63,6 +63,7 @@ closed). Long fetches can save progress through `self.checkpoint`
 | BambooHR | `bamboohr` | subdomain | 1 list + detail per new/changed job | `/careers/list`, `/careers/{id}/detail` (404 = closed) |
 | Breezy HR | `breezy` | subdomain | 1 | `/json?verbose=true` (descriptions only with `verbose`) |
 | Comeet | `comeet` | `{slug}/{uid}` (`safefleet/95.001`) | 1 | Board page embeds `COMPANY_POSITIONS_DATA` (all positions + descriptions); the token API is not used |
+| Freshteam | `freshteam` | subdomain | 1 + detail per new/changed | Server-rendered `/jobs` list (robots.txt allows only `/jobs`), distinct job links checked against the "#N Jobs" count in `og:description`; description and company from the job page; unknown tenants' 200 "We couldn't find" page is an error |
 | Gem | `gem` | slug | 1 | `api.gem.com/job_board/v0/{slug}/job_posts/` |
 | Greenhouse | `greenhouse` | board token | 1 | `content=true&pay_transparency=true`: descriptions + pay ranges |
 | HiBob | `hibob` | subdomain | 1 | `/api/job-ad` with header `companyIdentifier: {subdomain}` (401 without it) |
@@ -116,6 +117,7 @@ platform on custom domains.
 | Platform | Module | Job list | Board identifier |
 |---|---|---|---|
 | ApplicantPro, iSolved Hire | `applicantpro`, `isolvedhire` | `{tenant}.{domain}/job_site_map.xml` | tenant |
+| JOIN.com | `join` | paged company page `join.com/companies/{company}?page={n}` (`__NEXT_DATA__`, 5/page) checked against `total` (overrides `fetch_jobs`; external id = job `id`, not the ad number in the URL; > 100 jobs refused: the site serves 20 pages) | company slug |
 | GoHire | `gohire` | paged board `jobs.gohire.io/{board}/?page={n}` checked against "Total N" (overrides `listed_pages`; `validThrough` ignored) | board slug |
 | HiringThing | `hiringthing` | `{company}.hiringthing.com/api/rss.xml` (RSS feed; no per-tenant sitemap) | host |
 | Deel, Kula | `deel`, `kula` | `jobs.deel.com/{org}/sitemap.xml`, `careers.kula.ai/{company}/sitemap.xml` | slug |
@@ -127,6 +129,7 @@ platform on custom domains.
 | iCIMS | `icims` | `{host}/sitemap.xml` | host |
 | Jobboardly, JBoard, Niceboard, SmartJobBoard | `jobboardly`, `jboard`, `niceboard`, `smartjobboard` | `{board}/sitemap.xml` | host |
 | Jobiqo, JobMount | `jobiqo`, `jobmount` | `{board}/sitemap.xml` | host (custom domains only) |
+| Nodex | `nodex` | `{board}/sitemap.xml` (`/find-jobs?*` is robots-disallowed); title columns "Title \| Location \| Salary \| Type" cut to the title | host (custom domains only) |
 | Phenom | `phenom` | `{site}/{cc}/{lang}/sitemap.xml` | `host/cc/lang` |
 | Recooty, WeRecruit | `recooty`, `werecruit` | one sitemap for all tenants | slug |
 | SuccessFactors (RMK) | `successfactors` | `{site}/sitemap.xml` | host |
