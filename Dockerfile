@@ -30,5 +30,13 @@ CMD ["uvicorn", "jobindex.api.app:app", "--host", "0.0.0.0", "--port", "8000", \
 # --- development (default target) ---------------------------------------------
 FROM base AS dev
 RUN pip install -e ".[dev]"
+# Optional headless Chromium for browser-rendered connectors (jobindex/browser.py):
+#   docker compose build --build-arg INSTALL_BROWSER=1 app
+ARG INSTALL_BROWSER=0
+RUN if [ "$INSTALL_BROWSER" = "1" ]; then \
+        apt-get update && apt-get install -y --no-install-recommends libatomic1 \
+        && pip install -e ".[browser]" && playwright install --with-deps chromium \
+        && rm -rf /var/lib/apt/lists/*; \
+    fi
 COPY . .
 CMD ["uvicorn", "jobindex.api.app:app", "--host", "0.0.0.0", "--port", "8000"]

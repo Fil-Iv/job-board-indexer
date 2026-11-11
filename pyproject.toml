@@ -25,6 +25,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# Headless Chromium for the few connectors that render a page (jobindex/browser.py):
+# jobBoardHQ, Dayforce, CSOD, Paycom. Not needed by the API, tests or other connectors.
+browser = [
+    "playwright>=1.48",
+]
 dev = [
     "pytest>=8.3",
     "pytest-asyncio>=0.24",
@@ -68,6 +73,11 @@ files = ["jobindex", "tests", "scripts", "api", "migrations/env.py"]
 
 [[tool.mypy.overrides]]
 module = ["apscheduler.*"]
+ignore_missing_imports = true
+
+# Optional extra "browser": type-checked where installed, skipped where not (CI image).
+[[tool.mypy.overrides]]
+module = ["playwright.*"]
 ignore_missing_imports = true
 
 # --- pytest -----------------------------------------------------------------

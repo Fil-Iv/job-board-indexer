@@ -305,6 +305,9 @@ sources:
 - platform: jobboardsoftware
   url: https://bb.api.exenzo.com/api/public/v1/job-boards/1/jobs
   jobs: 140
+- platform: jobboardhq
+  url: https://jobs.macslist.org/search
+  jobs: 377
 - platform: nodex
   url: https://www.mytraveljobs.co.uk/
   jobs: 120

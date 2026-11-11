@@ -106,6 +106,21 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
       - run: pip install -e .
+      # Headless Chromium only for shards with a browser-rendered connector
+      # (uses_browser: jobBoardHQ, ...; see jobindex/browser.py). Others skip it.
+      - name: Install headless Chromium (browser-rendered connectors only)
+        env:
+          PLATFORMS: ${{ matrix.platforms }}
+        run: |
+          needed=$(python -c 'import sys; from jobindex.connectors.registry import default_registry
+          print(" ".join(sorted(set(default_registry().browser_platforms()) & set(sys.argv[1:]))))' $PLATFORMS)
+          if [ -n "$needed" ]; then
+            echo "browser needed for: $needed"
+            pip install -e ".[browser]"
+            python -m playwright install --with-deps chromium
+          else
+            echo "no browser-rendered platform in this shard"
+          fi
       - name: Crawl
         env:
           IDS: ${{ matrix.ids }}

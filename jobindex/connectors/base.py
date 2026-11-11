@@ -185,6 +185,10 @@ class BaseConnector(ABC):
     #: where it is not part of a URL (e.g. ``Grnhse.Settings.boardToken = "acme"``).
     html_fingerprints: ClassVar[tuple[re.Pattern[str], ...]] = ()
 
+    #: True if the connector renders pages with ``jobindex.browser`` (Playwright extra
+    #: "browser"); the crawl workflow installs Chromium only for shards that need it.
+    uses_browser: ClassVar[bool] = False
+
     #: True if ``fetch_jobs`` lacks descriptions and ``fetch_job_detail`` must be called.
     needs_detail: ClassVar[bool] = False
     #: Fields only ``fetch_job_detail`` provides. The crawler reuses the stored values when

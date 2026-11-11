@@ -258,6 +258,18 @@ class HttpClient:
         parts = urlsplit(url)
         return list(self._robots[f"{parts.scheme}://{parts.netloc}".lower()].sitemaps)
 
+    async def admit(self, url: str) -> tuple[bool, str | None]:
+        """For requests this client does not send itself (``jobindex.browser``): check
+        ``url`` against its host's robots.txt and, if allowed, wait for the host's turn
+        (same per-host interval and ``Crawl-delay`` as :meth:`request`). Returns
+        ``(allowed, deciding rule)``; a disallowed URL does not take a turn."""
+        allowed, rule = await self.robots_verdict(url)
+        if not self.respect_robots:
+            allowed = True
+        if allowed:
+            await self._throttle(url)
+        return allowed, rule
+
     async def robots_verdict(self, url: str) -> tuple[bool, str | None]:
         """``(allowed, deciding rule)`` for ``url`` under its host's robots.txt."""
         await self._allowed_by_robots(url)

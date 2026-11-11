@@ -131,11 +131,32 @@ platform on custom domains.
 | Jobboardly, JBoard, Niceboard, SmartJobBoard | `jobboardly`, `jboard`, `niceboard`, `smartjobboard` | `{board}/sitemap.xml` | host |
 | Jobiqo, JobMount | `jobiqo`, `jobmount` | `{board}/sitemap.xml` | host (custom domains only) |
 | ejobsitesoftware.com | `ejobsitesoftware` | `{board}/rss/job.php` (overrides `listed_pages`; capped at 200 items: a full feed fails the crawl); a job page answering 5xx keeps the feed's fields | host (custom domains only) |
+| jobBoardHQ | `jobboardhq` | `{board}/search` rendered with `jobindex.browser`: "100 Rows", then the pager's in-place postbacks until the last page the pager shows (overrides `listed_pages`; full pages, no repeats, `Only the top 1000` boards refused); job pages over plain HTTP | host (custom domains only); **browser** |
 | Nodex | `nodex` | `{board}/sitemap.xml` (`/find-jobs?*` is robots-disallowed); title columns "Title \| Location \| Salary \| Type" cut to the title | host (custom domains only) |
 | CareerSiteCloud | `careersitecloud` | paged list `{site}/{view}[/{n}]` or `/search?qs_search_job=page%3d{n}`, pages requested by number up to the stated total (overrides `listed_pages`); a job on two pages fails the crawl (the site's order is not stable) | `host[/view]`; partial (one customer site) |
 | Phenom | `phenom` | `{site}/{cc}/{lang}/sitemap.xml` | `host/cc/lang` |
 | Recooty, WeRecruit | `recooty`, `werecruit` | one sitemap for all tenants | slug |
 | SuccessFactors (RMK) | `successfactors` | `{site}/sitemap.xml` | host |
+
+### Browser-rendered connectors
+
+A few platforms only show their job list to a page running JavaScript. Their connectors set
+`uses_browser = True` and render that page with `jobindex.browser.PoliteBrowser` (Playwright,
+optional extra `browser`; approved by the project owner 2026-11-11 for robots-allowed pages
+only). The browser is held to the same rules as `HttpClient`, whose robots.txt cache and
+per-host throttle it shares:
+
+* only the board's own hosts and the assets it needs are contacted (analytics, ads, fonts
+  and images are not requested); every request waits for its host's turn (1/s or
+  `Crawl-delay`) and is checked against its own host's robots.txt;
+* a disallowed request is not sent and **fails the crawl** (the list would be incomplete);
+  so do HTTP 401/403/429 and challenge/CAPTCHA pages. They are never solved;
+* nothing is read out of the page to be sent elsewhere (no token replay); the connector
+  reads what the page renders or the job-list responses the page itself received;
+* User-Agent `Mozilla/5.0 (compatible; JobIndexBot/0.1; +url)`: still the bot's name, in the
+  form large crawlers use (ASP.NET sites send their pager script only to such agents).
+
+Job detail pages are fetched over plain HTTP where they allow it (jobBoardHQ: JSON-LD).
 
 ### URL resolution
 

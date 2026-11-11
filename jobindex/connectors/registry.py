@@ -59,6 +59,10 @@ class Registry:
     def platforms(self) -> list[str]:
         return sorted(self._connectors)
 
+    def browser_platforms(self) -> list[str]:
+        """Platforms whose connectors need the headless browser (``uses_browser``)."""
+        return [p for p in self.platforms if self.get(p).uses_browser]
+
     def detect(self, url: str) -> ResolvedBoard | None:
         """Resolve from the URL alone (no network)."""
         for connector_cls in self._connectors.values():

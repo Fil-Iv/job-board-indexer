@@ -16,7 +16,7 @@ endpoint, test or file that shows it.
 
 | # | Criterion | Status | Summary |
 |---|---|---|---|
-| 1 | Working coverage across all 78 platforms | 🟡 | 66 platforms done: 62 work on ≥ 2 real employers (BrassRing only for sites with ≤ 50 jobs; JOIN only for companies with ≤ 100 jobs; ejobsitesoftware.com only for boards with < 200 jobs; CareerPlug without descriptions), CareerSiteCloud, FirstStage, JobKit and Nodex are partial (only one live board / customer site found); 10 are blocked (refused by the site, or talentReef: only an internal host; evidence in `blocked_by_site.yaml`); 2 are not built, each with the exact reason in `platforms.yaml`. 2026-11-10: all 117 example boards crawled OK; 2026-11-11: the 9 new ones too |
+| 1 | Working coverage across all 78 platforms | 🟡 | 67 platforms done: 63 work on ≥ 2 real employers (BrassRing only for sites with ≤ 50 jobs; JOIN only for companies with ≤ 100 jobs; ejobsitesoftware.com only for boards with < 200 jobs; jobBoardHQ only for boards the site lists in full (≤ 1,000 jobs), via a headless browser; CareerPlug without descriptions), CareerSiteCloud, FirstStage, JobKit and Nodex are partial (only one live board / customer site found); 10 are blocked (refused by the site, or talentReef: only an internal host; evidence in `blocked_by_site.yaml`); 1 is not built (eJobBoard: no board exists), reason in `platforms.yaml`. 2026-11-10: all 117 example boards crawled OK; 2026-11-11: the 9 new ones too |
 | 2 | Consistent job records | 🟡 | Local audit DB (43,203 open postings): title, source URL, apply URL 100%; company, description 100% (rounded), location 99%. Live demo (7,132): title, source URL, apply URL 100%, company 99.8%, location 99.0%. Every remaining gap is a field empty at the source (listed). Fixed 2026-11-10: BrassRing lost location/apply URL on re-crawls; "Bengaluru, KA,IN, IN" locations |
 | 3 | Automatic updates | ✅ | Scheduler worker (VPS), change log, closing, failure ≠ closure: shown on live data and in tests. Hosted demo: the 6-hourly GitHub Actions **schedule** fires on its own: [run #5](https://github.com/Fil-Iv/job-board-indexer/actions/runs/42922810814) (event `schedule`, 2026-11-10 23:22 UTC, success); earlier manual crawls recorded failures and kept the jobs |
 | 4 | Deduplication | ✅ | Local: 16 real cross-source duplicates merged (43,203 postings → 43,187 openings), 2,924 same-employer and 667 cross-employer title groups and 4 near misses kept apart, each checked. Live (2026-11-10 19:45 UTC): 7,314 postings → 7,307 openings; 2 cross-platform merges (jobs 5630, 5632: Homeless Link `jobboardcom` + Love Local Jobs `jobiqo`) and 5 across the two Exenzo boards (e.g. job 7173) |
@@ -65,11 +65,11 @@ endpoint, test or file that shows it.
 
 | Group | Count | Platforms |
 |---|---|---|
-| Working (connector + 2 live employers) | **62** | ADP, ApplicantPro, Ashby, **Avature** (new), BambooHR, **BrassRing** (new; sites with ≤ 50 jobs only), Breezy HR, **CareerPlug** (new 2026-11-11; list only, no descriptions), Comeet, Deel, Eightfold AI, **Freshteam** (new 2026-11-11), Gem, GoHire, Greenhouse, HiBob, HireBridge, HireHive, Hireology, HiringThing, iCIMS, iSolved Hire, JazzHR, Jobvite, **JOIN.com** (new 2026-11-11; companies with ≤ 100 jobs), Kula, Lever, Manatal, Oracle Recruiting, PageUp, **Paradox** (new), Paylocity, Personio, Phenom, Pinpoint, Polymer, Recooty, Recruitee, Rippling, Rival, SAP SuccessFactors, SmartRecruiters, **Taleo** (new), Teamtailor, Trakstar, TriNet, WeRecruit, Workable, Workday, **Zoho Recruit** (new) (ATS); **ejobsitesoftware.com** (new 2026-11-11; boards with < 200 jobs), JBoard, **JobBoard.com** (new), JobBoard.io, **jobboardsoftware.com** (Exenzo; new 2026-11-10), Jobboardly, Jobiqo, JobMount, Niceboard, SmartJobBoard, Wiley Madgex, WP Job Manager (job boards) |
+| Working (connector + 2 live employers) | **63** | ADP, ApplicantPro, Ashby, **Avature** (new), BambooHR, **BrassRing** (new; sites with ≤ 50 jobs only), Breezy HR, **CareerPlug** (new 2026-11-11; list only, no descriptions), Comeet, Deel, Eightfold AI, **Freshteam** (new 2026-11-11), Gem, GoHire, Greenhouse, HiBob, HireBridge, HireHive, Hireology, HiringThing, iCIMS, iSolved Hire, JazzHR, Jobvite, **JOIN.com** (new 2026-11-11; companies with ≤ 100 jobs), Kula, Lever, Manatal, Oracle Recruiting, PageUp, **Paradox** (new), Paylocity, Personio, Phenom, Pinpoint, Polymer, Recooty, Recruitee, Rippling, Rival, SAP SuccessFactors, SmartRecruiters, **Taleo** (new), Teamtailor, Trakstar, TriNet, WeRecruit, Workable, Workday, **Zoho Recruit** (new) (ATS); **ejobsitesoftware.com** (new 2026-11-11; boards with < 200 jobs), JBoard, **JobBoard.com** (new), JobBoard.io, **jobboardsoftware.com** (Exenzo; new 2026-11-10), Jobboardly, **jobBoardHQ** (new 2026-11-11; headless browser, boards ≤ 1,000 jobs), Jobiqo, JobMount, Niceboard, SmartJobBoard, Wiley Madgex, WP Job Manager (job boards) |
 | Blocked — no allowed route | 6 | **Artha** (2026-11-10: job pages 403 with a Cloudflare challenge; the job API picks the tenant from the browser `Origin` header, not faked), Paycor (`Disallow: /`), UltiPro (`Disallow: */JobBoardView` + sitemap), JobBoardFire (403 incl. robots.txt; 2026-11-11 also on tenant subdomains and customer domains: Cloudflare challenge), **Talenetic** (2026-11-11: the only live client boards are `Disallow: /` and behind a preview login), **talentReef** (only route is an internal search service, no public listing: career pages are JS shells, sitemap 403; owner decision: the `prod-kong.internal.talentreef.com` Elasticsearch proxy is not used) |
 | Blocked by the site — job API refused, no other complete source | 4 | **CSOD** (search API 401 without the page's bearer token; pages are JS shells), Paycom (401, page-issued token), Dover (`Disallow: /api/`; the allowed partner feeds cover 102 of ~9,800 jobs, not complete for any board), Dayforce (search API 403) |
 | Done, partial (connector + the only live board found) | **4** | **CareerSiteCloud** (new 2026-11-11: WPP's career site, agency views; lists whose order shifts between pages are refused), **FirstStage** ("80 jobs open", 79 linked; up to 1 unlinked job tolerated, a larger gap fails the crawl), **JobKit** (jobs.rubyonrails.org; the 8 other `*.jobkit.io` boards found are all empty), **Nodex** (new 2026-11-11: www.mytraveljobs.co.uk, run by Nodex itself; no customer list published) |
-| Not built | 2 | Route needs page-issued state: jobBoardHQ (paging only via `__VIEWSTATE` postback); no allowed customer board and no public vendor demo board (re-checked 2026-11-11): eJobBoard (domain parked; certificate transparency shows no other host) |
+| Not built | 1 | No allowed customer board and no public vendor demo board (re-checked 2026-11-11): eJobBoard (domain parked; certificate transparency shows no other host) |
 
 Blocked-platform evidence: `coverage/blocked_by_site.yaml` (21 entries; each is a real
 request with URL, timestamp, HTTP status and the deciding robots.txt rule, or — for
@@ -234,6 +234,21 @@ other host of the same platform against its own robots.txt.
   and matched exactly (connectagri.com 15 = 15; jobqlick.com 71 = 71). Job pages that
   answer 5xx keep the feed's fields (jobqlick: 3 of 108). Live: connectagri.com (10),
   jobqlick.com (108); full crawls stored 10 and 108 postings.
+* **Headless browser** — `jobindex/browser.py` (Playwright, optional extra `browser`; owner
+  approval 2026-11-11). Every request the page makes is checked against its own host's
+  robots.txt and throttled per host with `HttpClient`'s rules; a disallowed request,
+  401/403/429 or a challenge page fails the crawl; only the board's hosts are contacted;
+  nothing is read out of the page to be replayed. GitHub Actions installs Chromium only in
+  crawl shards that contain a `uses_browser` platform.
+* **jobBoardHQ** — `jobindex/connectors/jobboardhq.py`. `/search` (allowed) is rendered and
+  driven like a visitor: "100 Rows", then the pager's in-place postbacks until the last page
+  the pager shows; every page but the last must be full, no job twice. Job pages (JSON-LD)
+  over plain HTTP. The server sends its pager script only to agents of the form
+  `Mozilla/5.0 (compatible; JobIndexBot/0.1; +url)`, which the browser uses (still the
+  bot's name). Boards whose result is longer than the site shows ("Only the top 1000 jobs")
+  are refused: roaddogjobs.com, njschooljobs.com, www.estatejobs.com,
+  www.greaterroccareers.com. Live: jobs.macslist.org (377, 4 pages), www.jobsindoorcounty.com
+  (487, 5 pages).
 
 **Live database runs** (`make seed-demo`, `make crawl`; snapshot at the end of the audit)
 
@@ -310,12 +325,12 @@ ADP/nou Systems 43; BrassRing/Halifax 36 + FCPS 17; rerun 2026-11-08 16:28–16:
 117 current example boards OK). The database table above is the earlier audit snapshot: the new
 connectors were verified by `make coverage` and `make test-live`, not by a full DB crawl.
 
-**Gap:** 12 of 78 platforms have no working connector (10 blocked, 2 not
+**Gap:** 11 of 78 platforms have no working connector (10 blocked, 1 not
 built), CareerSiteCloud, FirstStage, JobKit and Nodex have only one live board each, JOIN
 covers only companies with ≤ 100 jobs, ejobsitesoftware.com only boards with < 200 jobs (its
-feed's cap), and BrassRing only sites with ≤ 50 jobs (14 of 21 sites checked are bigger:
-their further pages need page-issued tokens). The 2 not-built platforms need page-issued
-state (policy: not used) or a live customer board to build against. Exact reasons: `notes` in
+feed's cap), jobBoardHQ only boards the site lists in full (≤ 1,000 jobs), and BrassRing only sites with ≤ 50 jobs (14 of 21 sites checked are bigger:
+their further pages need page-issued tokens). The not-built platform (eJobBoard) has no
+live customer board to build against. Exact reasons: `notes` in
 `coverage/platforms.yaml`.
 
 ---

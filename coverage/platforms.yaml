@@ -1196,16 +1196,17 @@
 - name: jobBoardHQ
   key: jobboardhq
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "customer domains (fingerprint: jobboardhqsites in the 404 page; vendor showcase on www.jobboardhq.com): GET /search (first 20 jobs) + /job/{code}/{slug}/{city}/{state} (JSON-LD JobPosting)"
-  url_patterns: ["custom domains: /search, /job/{code}/{slug}/{city}/{state}, /employerjobs/{code}/{slug}"]
-  examples: []
+  status: done
+  connector: jobindex.connectors.jobboardhq
+  public_api: "no"
+  api: "{site}/search rendered in a headless browser (jobindex.browser): '100 Rows', then the pager's postbacks page by page; job pages /job/{code}/{slug}/{city}/{state} (JSON-LD JobPosting) over plain HTTP"
+  url_patterns: ["customer domains loading siteresource.blob.core.windows.net/assets/prod/{site}/board.css|js", "{site}/job/{code}/{slug}/{city}/{state}"]
+  examples:
+    - https://jobs.macslist.org/search
+    - https://www.jobsindoorcounty.com/search
   robots: allowed
-  verified: null
-  notes: "Not built (2026-11-08): no complete allowed listing. Customer boards found on the vendor homepage: jobs.macslist.org, njschooljobs.com, www.estatejobs.com, www.greaterroccareers.com, www.jobsindoorcounty.com, www.roaddogjobs.com (robots.txt empty or Allow: /). Job pages carry JSON-LD, but /search shows 20 jobs and pages only through ASP.NET __doPostBack (POST with the page-issued __VIEWSTATE), and no total is shown; GET ?page=/?Page=/?p=/?pg=//search/2 all return page 1. /sitemap.xml and the advertised /atom.xml (and /rss, /feed, /jobs.rss) are soft-404 HTML pages. Job API is Enterprise-plan only (owner key)."
-
+  verified: 2026-11-11
+  notes: "Browser-rendered (owner approval 2026-11-11: Playwright clicks the pager on /search, which robots.txt allows; no token extraction, polite rate, stop at the site's own total). /search pages only through ASP.NET UpdatePanel postbacks (XHR POST to /search with the page's own __VIEWSTATE, never read out of the page); GET parameters, /sitemap.xml and /atom.xml give nothing. The server sends its postback script only to agents of the form 'Mozilla/5.0 (compatible; JobIndexBot/0.1; +url)', which the browser uses (the bot is still named; robots.txt matched on JobIndexBot). The pager is the site's extent: every page but the last must hold 100 jobs, no job twice, page shown = page clicked. Boards whose result is longer than the site shows ('Only the top 1000 jobs ... are shown', #lblLimitExceeded) are refused: roaddogjobs.com, njschooljobs.com, www.estatejobs.com, www.greaterroccareers.com (2026-11-11). Live: jobs.macslist.org 377 (4 pages), www.jobsindoorcounty.com 487 (5 pages). Job API is Enterprise-plan only (owner key) and is not used."
 - name: Nodex
   key: nodex
   type: jobboard

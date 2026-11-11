@@ -119,3 +119,10 @@ async def test_hosted_url_needs_no_request() -> None:
 async def test_live_resolve_custom_domains(url: str, expected: tuple[str, str]) -> None:
     async with HttpClient.from_settings() as http:
         assert await default_registry().resolve_url(url, http) == expected
+
+
+def test_browser_platforms_are_flagged() -> None:
+    from jobindex.connectors.registry import default_registry
+
+    assert "jobboardhq" in default_registry().browser_platforms()
+    assert "greenhouse" not in default_registry().browser_platforms()

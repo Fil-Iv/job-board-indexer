@@ -322,6 +322,13 @@ Build-time:
   httpx, apscheduler, pydantic-settings, selectolax, pycountry, defusedxml, jinja2, pyyaml;
   dev: pytest, pytest-asyncio, ruff, mypy, type stubs. Vercel installs `requirements.txt`
   (the same list without uvicorn, APScheduler and Alembic).
+* Optional extra `browser`: **Playwright** + its headless Chromium (approved by the project
+  owner 2026-11-11 for browser-rendered connectors only: jobBoardHQ, ...). Not installed by
+  Vercel, CI or the default dev image. The crawl workflow installs it only in shards that
+  contain such a platform (`uses_browser` connectors). Locally:
+  `docker compose build --build-arg INSTALL_BROWSER=1 app` (or
+  `pip install -e ".[browser]" && playwright install chromium`). Without it those
+  sources fail with "Playwright is not installed" and their jobs are left untouched.
 * GitHub Actions: `actions/checkout`, `actions/setup-python`.
 
 Nothing else: no queue, cache, search engine or other cloud service. Off-site backup

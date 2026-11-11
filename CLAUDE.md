@@ -38,6 +38,10 @@ another team, so it has to be clean, documented and easy to run.
   (default 1 request/second), retry transient errors with exponential backoff.
 - All HTTP goes through `jobindex.http.HttpClient`, which enforces the above.
   Connectors must not create their own `httpx` clients.
+- Browser-rendered connectors (Playwright, owner approval 2026-11-11, robots-allowed
+  pages only) go through `jobindex.browser.PoliteBrowser`, which applies the same rules
+  to every request the page makes and fails on disallowed URLs, 401/403/429 and
+  challenges. Never read tokens out of a page to replay them elsewhere.
 
 ## Failure semantics
 
