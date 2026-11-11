@@ -305,3 +305,6 @@ sources:
 - platform: nodex
   url: https://www.mytraveljobs.co.uk/
   jobs: 120
+- platform: careersitecloud
+  url: https://wpp.careersitecloud.com/pep
+  jobs: 8

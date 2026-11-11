@@ -1134,15 +1134,19 @@
 - name: CareerSiteCloud
   key: careersitecloud
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "unknown — research needed"
-  url_patterns: []
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "Not built (2026-11-08): no customer board identified, and the vendor site refuses us (www.careersitecloud.com answers 403 to every page incl. robots.txt and its blog; blocked_by_site.yaml, scope platform). CareerSiteCloud (Aspen Technology Labs) sells white-label career sites / satellite job boards on customer domains, often embedded by iframe; web searches for the product and for Powered by CareerSiteCloud, and the fantastic.jobs platform page, name no customer site."
+  status: done
+  connector: jobindex.connectors.careersitecloud
+  partial: "one customer site found (WPP); its boards are agency views, and lists over one page are refused when the site's order shifts between pages"
+  public_api: "no"
+  api: "GET {site}/{view} or {site}/search?qs_search_job=page%3d{n} (server-rendered, 20 per page, total in h1.total-jobs) + job pages /job-{id}-{slug} (JSON-LD JobPosting)"
+  url_patterns: ["{site}.careersitecloud.com/{view}[/{n}]", "{site}.careersitecloud.com/search", "{site}.careersitecloud.com/job-{24 hex id}-{slug}", "custom domains with assets on cloudfront.careersitecloud.com / atl-csc.s3.amazonaws.com"]
+  examples:
+    - https://wpp.careersitecloud.com/pep
+    - https://wpp.careersitecloud.com/akqa
+  robots: allowed
+  verified: 2026-11-11
+  generic: partial
+  notes: "Customer site found 2026-11-11 via ful.io's list of sites using CareerSiteCloud: wpp.careersitecloud.com (robots.txt Allow: / except /log-view-*; the vendor's www and unknown subdomains still answer 403). The other sites on that list are parked (womensjobnetwork.com), do not resolve (swpor.com, retirementjobnetwork.com) or refuse us (webspidermount.com 403, listodirectory.com Cloudflare challenge); certificate transparency shows only a wildcard. The list states its total; pages are requested by number because the site's pager stops linking after page 50 (its later links point to /), and the bare /search states one job fewer than its own later pages, so the full list starts at ?qs_search_job=page%3d0. The order is not stable between requests (no sort or page-size parameter): WPP's full list (2,181 jobs) had 37 jobs on two pages; Ogilvy (171) and VML views failed the same way. A job on two pages, a changed total, a short page or a distinct count different from the total fails the crawl. Agency views that fit on one page are atomic (Pep 8); AKQA (26, 2 pages) passed three runs in a row. The sitemap is not used (2,172 job URLs vs 2,181 listed). Job pages carry JSON-LD (hiringOrganization = the agency, validThrough). Example boards are two agencies of the same group, so the platform is marked partial."
 
 - name: JobBoard.com
   key: jobboardcom

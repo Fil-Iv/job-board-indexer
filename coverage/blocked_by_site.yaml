@@ -94,7 +94,7 @@ blocked_by_site:
       - {url: "https://careers.pageuppeople.com/851/ci/en-us/rss", checked_at: "2026-11-08T04:48:54+00:00", http_status: null, robots_url: "https://careers.pageuppeople.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /*/ci/"}
   - platform: CareerSiteCloud
     scope: platform
-    impact: "Vendor site answers 403 incl. robots.txt; no customer board found yet."
+    impact: "Vendor site and unknown subdomains answer 403 incl. robots.txt; the customer site wpp.careersitecloud.com is open and used."
     evidence:
       - {url: "https://www.careersitecloud.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://www.careersitecloud.com/robots.txt", robots_http_status: 403, robots_rule: null}
   - platform: JobMount

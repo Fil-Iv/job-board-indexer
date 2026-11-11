@@ -1089,6 +1089,24 @@
       "last_success_at": "2026-11-07T20:56:47+00:00",
       "last_success_jobs": 7
     },
+    "https://wpp.careersitecloud.com/akqa": {
+      "url": "https://wpp.careersitecloud.com/akqa",
+      "last_run_at": "2026-11-11T05:00:07+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 26,
+      "last_error": null,
+      "last_success_at": "2026-11-11T05:00:07+00:00",
+      "last_success_jobs": 26
+    },
+    "https://wpp.careersitecloud.com/pep": {
+      "url": "https://wpp.careersitecloud.com/pep",
+      "last_run_at": "2026-11-11T05:00:05+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 8,
+      "last_error": null,
+      "last_success_at": "2026-11-11T05:00:05+00:00",
+      "last_success_jobs": 8
+    },
     "https://wsp.taleo.net/careersection/globalcareersection/jobsearch.ftl?lang=en": {
       "url": "https://wsp.taleo.net/careersection/globalcareersection/jobsearch.ftl?lang=en",
       "last_run_at": "2026-11-10T18:39:52+00:00",

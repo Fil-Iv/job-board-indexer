@@ -131,6 +131,7 @@ platform on custom domains.
 | Jobboardly, JBoard, Niceboard, SmartJobBoard | `jobboardly`, `jboard`, `niceboard`, `smartjobboard` | `{board}/sitemap.xml` | host |
 | Jobiqo, JobMount | `jobiqo`, `jobmount` | `{board}/sitemap.xml` | host (custom domains only) |
 | Nodex | `nodex` | `{board}/sitemap.xml` (`/find-jobs?*` is robots-disallowed); title columns "Title \| Location \| Salary \| Type" cut to the title | host (custom domains only) |
+| CareerSiteCloud | `careersitecloud` | paged list `{site}/{view}[/{n}]` or `/search?qs_search_job=page%3d{n}`, pages requested by number up to the stated total (overrides `listed_pages`); a job on two pages fails the crawl (the site's order is not stable) | `host[/view]`; partial (one customer site) |
 | Phenom | `phenom` | `{site}/{cc}/{lang}/sitemap.xml` | `host/cc/lang` |
 | Recooty, WeRecruit | `recooty`, `werecruit` | one sitemap for all tenants | slug |
 | SuccessFactors (RMK) | `successfactors` | `{site}/sitemap.xml` | host |
