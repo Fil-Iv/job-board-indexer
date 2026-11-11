@@ -56,7 +56,7 @@ blocked_by_site:
       - {url: "https://app.dover.com/api/v1/careers-page-slug/dover", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://app.dover.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /api/"}
   - platform: CareerPlug
     scope: api
-    impact: "jobs.json disallowed; server-rendered /jobs HTML is allowed."
+    impact: "jobs.json disallowed and job pages redirect into the disallowed /apps/; the connector reads the allowed server-rendered /jobs list (no descriptions)."
     evidence:
       - {url: "https://culligan-careers.careerplug.com/jobs.json", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://culligan-careers.careerplug.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /jobs.js"}
   - platform: Pinpoint

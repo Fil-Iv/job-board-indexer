@@ -145,15 +145,18 @@
 - name: CareerPlug
   key: careerplug
   type: ats
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "{company}.careerplug.com/jobs (HTML)"
-  url_patterns: ["{company}.careerplug.com/jobs", "{company}.careerplug.com/jobs/{id}"]
-  examples: []
-  robots: unknown
-  verified: null
-  notes: "SMB/franchise focused. Checked 2026-11-07 (fastsigns-careers): jobs.json is disallowed and every job page /jobs/{id} redirects to /jobs/{id}/apps/new, under the disallowed /apps/. Only the paged list (?page=N: title, location, post date, no description) is allowed, so no compliant source for descriptions. Note: jobindex.http follows redirects without re-checking robots.txt for the target."
+  status: done
+  connector: jobindex.connectors.careerplug
+  public_api: "no"
+  api: "GET {account host}/jobs?page={n} (server-rendered list, 30 per page; title, location, post date or job type). No descriptions: job pages redirect into the disallowed /apps/"
+  url_patterns: ["{account}.careerplug.com/jobs", "{account}.otrecruit.com/jobs", "{account}.careinhomesjobs.com/jobs", "{account}.r365hire.com/jobs", "{account}.apscareerportal.com/jobs", "{account host}/jobs/{id}"]
+  examples:
+    - https://fastsigns-careers.careerplug.com/jobs
+    - https://orangetheory-corporate-studios.otrecruit.com/jobs
+  robots: allowed
+  verified: 2026-11-11
+  generic: no
+  notes: "List only, no descriptions (re-checked 2026-11-11). robots.txt (same on every account host and the white-label domains otrecruit.com, careinhomesjobs.com, r365hire.com, apscareerportal.com, which CareerPlug's own robots.txt sitemaps name) disallows /jobs.js (the JSON list) and /apps/; every job page /jobs/{id} redirects to /jobs/{id}/apps/new, so job pages are never fetched. The paged /jobs list is allowed: title, location ('CA-Tarzana-91356', 'Jacksonville-FL-32207-{studio}', '... Hybrid - US'), and the columns the account picks (post date and/or full/part time). No total count, so a board of more than one page is read twice and both passes must agree (otherwise the crawl fails and is retried); duplicate ids or uneven pages also fail it. Unknown accounts redirect to app.careerplug.com (error, not an empty board); 'There are no jobs posted at this time' is an empty board. Live 2026-11-11: fastsigns-careers 621 jobs (21 pages), orangetheory-corporate-studios.otrecruit.com 42 (2 pages)."
 
 - name: Comeet
   key: comeet

@@ -360,6 +360,15 @@
       "last_success_at": "2026-11-10T18:40:12+00:00",
       "last_success_jobs": 386
     },
+    "https://fastsigns-careers.careerplug.com/jobs": {
+      "url": "https://fastsigns-careers.careerplug.com/jobs",
+      "last_run_at": "2026-11-11T04:48:27+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 621,
+      "last_error": null,
+      "last_success_at": "2026-11-11T04:48:27+00:00",
+      "last_success_jobs": 621
+    },
     "https://firstadvantage.applytojob.com/apply": {
       "url": "https://firstadvantage.applytojob.com/apply",
       "last_run_at": "2026-11-10T18:39:52+00:00",
@@ -845,6 +854,15 @@
       "last_error": null,
       "last_success_at": "2026-11-10T18:39:52+00:00",
       "last_success_jobs": 24
+    },
+    "https://orangetheory-corporate-studios.otrecruit.com/jobs": {
+      "url": "https://orangetheory-corporate-studios.otrecruit.com/jobs",
+      "last_run_at": "2026-11-11T04:48:32+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 42,
+      "last_error": null,
+      "last_success_at": "2026-11-11T04:48:32+00:00",
+      "last_success_jobs": 42
     },
     "https://overheid.api.exenzo.com/api/public/v1/job-boards/1/jobs": {
       "url": "https://overheid.api.exenzo.com/api/public/v1/job-boards/1/jobs",

@@ -62,6 +62,7 @@ closed). Long fetches can save progress through `self.checkpoint`
 | Ashby | `ashby` | job-board name | 1 | Posting API with `includeCompensation=true` |
 | BambooHR | `bamboohr` | subdomain | 1 list + detail per new/changed job | `/careers/list`, `/careers/{id}/detail` (404 = closed) |
 | Breezy HR | `breezy` | subdomain | 1 | `/json?verbose=true` (descriptions only with `verbose`) |
+| CareerPlug | `careerplug` | account host (`fastsigns-careers.careerplug.com`, white-label `*.otrecruit.com` etc.) | 1 per 30 jobs (×2 when > 1 page) | **List only, no descriptions**: server-rendered `/jobs?page=N`; job pages redirect into the robots-disallowed `/apps/` and are never fetched. No total count, so multi-page boards are read twice and must match |
 | Comeet | `comeet` | `{slug}/{uid}` (`safefleet/95.001`) | 1 | Board page embeds `COMPANY_POSITIONS_DATA` (all positions + descriptions); the token API is not used |
 | Freshteam | `freshteam` | subdomain | 1 + detail per new/changed | Server-rendered `/jobs` list (robots.txt allows only `/jobs`), distinct job links checked against the "#N Jobs" count in `og:description`; description and company from the job page; unknown tenants' 200 "We couldn't find" page is an error |
 | Gem | `gem` | slug | 1 | `api.gem.com/job_board/v0/{slug}/job_posts/` |

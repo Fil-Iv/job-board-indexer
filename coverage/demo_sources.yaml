@@ -38,6 +38,9 @@ sources:
 - platform: breezy
   url: https://everstar.breezy.hr
   jobs: 388
+- platform: careerplug
+  url: https://orangetheory-corporate-studios.otrecruit.com/jobs
+  jobs: 42
 - platform: comeet
   url: https://www.comeet.com/jobs/safefleet/95.001
   jobs: 58
