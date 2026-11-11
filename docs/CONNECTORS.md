@@ -130,6 +130,7 @@ platform on custom domains.
 | iCIMS | `icims` | `{host}/sitemap.xml` | host |
 | Jobboardly, JBoard, Niceboard, SmartJobBoard | `jobboardly`, `jboard`, `niceboard`, `smartjobboard` | `{board}/sitemap.xml` | host |
 | Jobiqo, JobMount | `jobiqo`, `jobmount` | `{board}/sitemap.xml` | host (custom domains only) |
+| ejobsitesoftware.com | `ejobsitesoftware` | `{board}/rss/job.php` (overrides `listed_pages`; capped at 200 items: a full feed fails the crawl); a job page answering 5xx keeps the feed's fields | host (custom domains only) |
 | Nodex | `nodex` | `{board}/sitemap.xml` (`/find-jobs?*` is robots-disallowed); title columns "Title \| Location \| Salary \| Type" cut to the title | host (custom domains only) |
 | CareerSiteCloud | `careersitecloud` | paged list `{site}/{view}[/{n}]` or `/search?qs_search_job=page%3d{n}`, pages requested by number up to the stated total (overrides `listed_pages`); a job on two pages fails the crawl (the site's order is not stable) | `host[/view]`; partial (one customer site) |
 | Phenom | `phenom` | `{site}/{cc}/{lang}/sitemap.xml` | `host/cc/lang` |

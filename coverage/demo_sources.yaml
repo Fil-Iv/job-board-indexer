@@ -10,40 +10,40 @@ sources:
 - platform: adp
   url: https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=9e26f425-d064-4c19-9e7b-cc8236837a7c&ccId=19000101_000001&lang=en_US
   company: nou Systems
-  jobs: 43
+  jobs: 44
 - platform: applicantpro
   url: https://mwra.applicantpro.com/jobs/
-  jobs: 19
+  jobs: 20
 - platform: applicantpro
   url: https://commquest.applicantpro.com/jobs/
-  jobs: 19
+  jobs: 20
 - platform: ashby
   url: https://jobs.ashbyhq.com/linear
-  jobs: 32
+  jobs: 33
 - platform: ashby
   url: https://jobs.ashbyhq.com/ramp
-  jobs: 169
+  jobs: 173
 - platform: avature
   url: https://bloomberg.avature.net/careers/SearchJobs
-  jobs: 323
+  jobs: 339
 - platform: bamboohr
   url: https://kpm.bamboohr.com/careers
   jobs: 1
 - platform: brassring
   url: https://sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=25103&siteid=5041
-  jobs: 17
+  jobs: 16
 - platform: brassring
   url: https://sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=25749&siteid=5764
-  jobs: 36
+  jobs: 35
 - platform: breezy
   url: https://everstar.breezy.hr
-  jobs: 388
+  jobs: 386
 - platform: careerplug
   url: https://orangetheory-corporate-studios.otrecruit.com/jobs
   jobs: 42
 - platform: comeet
   url: https://www.comeet.com/jobs/safefleet/95.001
-  jobs: 58
+  jobs: 59
 - platform: comeet
   url: https://www.comeet.com/jobs/vastdata/43.001
   jobs: 263
@@ -52,7 +52,7 @@ sources:
   jobs: 5
 - platform: eightfold
   url: https://paypal.eightfold.ai/careers?domain=paypal.com
-  jobs: 305
+  jobs: 311
 - platform: firststage
   url: https://agility-gwg.firststage.co/jobs
   jobs: 79
@@ -67,54 +67,54 @@ sources:
   jobs: 33
 - platform: gem
   url: https://jobs.gem.com/nominal
-  jobs: 48
+  jobs: 76
 - platform: gohire
   url: https://jobs.gohire.io/dexerto-de5jlhjo/
-  jobs: 16
+  jobs: 17
 - platform: gohire
   url: https://jobs.gohire.io/su9lyitg
   jobs: 18
 - platform: greenhouse
   url: https://job-boards.greenhouse.io/discord
-  jobs: 27
+  jobs: 26
 - platform: greenhouse
   url: https://job-boards.greenhouse.io/gitlab
-  jobs: 248
+  jobs: 252
 - platform: hibob
   url: https://liquidia.careers.hibob.com/
   company: Liquidia
-  jobs: 21
+  jobs: 20
 - platform: hibob
   url: https://sapiens.careers.hibob.com/
   company: Sapiens
-  jobs: 91
+  jobs: 94
 - platform: hirebridge
   url: https://recruit.hirebridge.com/v3/Jobs/list.aspx?cid=7856
-  jobs: 44
-- platform: hirehive
-  url: https://focus-ireland.hirehive.com/
-  jobs: 23
+  jobs: 46
 - platform: hirehive
   url: https://catalyx.hirehive.com/
-  jobs: 24
+  jobs: 23
+- platform: hirehive
+  url: https://focus-ireland.hirehive.com/
+  jobs: 26
 - platform: hireology
   url: https://careers.hireology.com/sandiegopadres
-  jobs: 6
+  jobs: 7
 - platform: hiringthing
   url: https://friendsofthechildren-national.hiringthing.com/
   jobs: 12
 - platform: hiringthing
   url: https://franklin-companies.hiringthing.com/
-  jobs: 41
+  jobs: 45
 - platform: icims
   url: https://careers-eastwestbank.icims.com/jobs/search?ss=1
-  jobs: 228
+  jobs: 233
 - platform: isolvedhire
   url: https://isolved.isolvedhire.com/jobs/
-  jobs: 36
+  jobs: 40
 - platform: jazzhr
   url: https://ilsos.applytojob.com/apply
-  jobs: 24
+  jobs: 23
 - platform: jazzhr
   url: https://firstadvantage.applytojob.com/apply
   jobs: 31
@@ -123,62 +123,59 @@ sources:
   jobs: 65
 - platform: jobvite
   url: https://jobs.jobvite.com/nutanix/jobs
-  jobs: 249
-- platform: join
-  url: https://join.com/companies/bring
-  jobs: 4
+  jobs: 247
 - platform: join
   url: https://join.com/companies/zbv-automationcom
   jobs: 6
 - platform: kula
-  url: https://careers.kula.ai/deepscribe
-  jobs: 5
-- platform: kula
   url: https://careers.kula.ai/archetype-ai
-  jobs: 11
+  jobs: 10
 - platform: lever
   url: https://jobs.lever.co/spotify
   jobs: 85
 - platform: lever
   url: https://jobs.lever.co/palantir
-  jobs: 305
+  jobs: 304
 - platform: manatal
   url: https://www.careers-page.com/eastwest-bank
-  jobs: 216
+  jobs: 220
 - platform: oracle
   url: https://eeho.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_45001/requisitions
   company: Oracle
-  jobs: 2822
+  jobs: 2838
 - platform: pageup
   url: https://careers.pageuppeople.com/889/usw/en/listing/
   company: Flight Centre Travel Group
-  jobs: 53
+  jobs: 52
 - platform: pageup
   url: https://careers.pageuppeople.com/851/cw/en-us/listing
   company: Universal Orlando Resort
-  jobs: 115
+  jobs: 112
 - platform: paradox
   url: https://careers.fedex.com/
-  jobs: 4730
+  jobs: 4673
 - platform: paylocity
   url: https://recruiting.paylocity.com/recruiting/jobs/All/67c76e24-da8b-4733-a8b3-9c1fe859c5b9/Peak-Support-LLC
-  jobs: 24
+  jobs: 19
 - platform: personio
   url: https://thermondo.jobs.personio.de
   company: thermondo GmbH
   jobs: 196
 - platform: phenom
   url: https://careers.butterball.com/us/en
-  jobs: 113
+  jobs: 120
 - platform: pinpoint
   url: https://lush.pinpointhq.com
-  jobs: 32
+  jobs: 25
 - platform: pinpoint
   url: https://davies.pinpointhq.com
-  jobs: 272
+  jobs: 279
 - platform: polymer
   url: https://jobs.polymer.co/themis
   jobs: 6
+- platform: polymer
+  url: https://jobs.polymer.co/invicta-software
+  jobs: 7
 - platform: recooty
   url: https://jobs.recooty.com/discovery-care-group
   jobs: 28
@@ -190,63 +187,63 @@ sources:
   jobs: 12
 - platform: recruitee
   url: https://bunq.recruitee.com
-  jobs: 23
+  jobs: 26
 - platform: rippling
   url: https://ats.rippling.com/vulcanforms/jobs
-  jobs: 111
+  jobs: 113
 - platform: rippling
   url: https://ats.rippling.com/carbon-health/jobs
-  jobs: 230
+  jobs: 218
 - platform: rival
   url: https://jobs.silkroad.com/SOCCo/Careers
-  jobs: 39
+  jobs: 41
 - platform: rival
   url: https://jobs.silkroad.com/BU/External
-  jobs: 200
+  jobs: 199
 - platform: successfactors
   url: https://careers.airindia.com/
-  jobs: 14
+  jobs: 13
 - platform: successfactors
   url: https://careers.yash.com/
-  jobs: 330
+  jobs: 331
 - platform: smartrecruiters
   url: https://jobs.smartrecruiters.com/Ubisoft2
-  jobs: 298
+  jobs: 289
 - platform: taleo
   url: https://stantec.taleo.net/careersection/ex/jobsearch.ftl?lang=en
   company: Stantec
-  jobs: 108
+  jobs: 125
 - platform: taleo
   url: https://wsp.taleo.net/careersection/globalcareersection/jobsearch.ftl?lang=en
-  jobs: 160
+  jobs: 161
 - platform: teamtailor
   url: https://lunar.teamtailor.com/jobs
-  jobs: 16
+  jobs: 20
 - platform: teamtailor
   url: https://oatly.teamtailor.com/jobs
-  jobs: 25
+  jobs: 24
 - platform: trakstar
   url: https://stax.hire.trakstar.com
   jobs: 31
 - platform: trinet
   url: https://app.trinethire.com/companies/203100-precor-incorporated/jobs
-  jobs: 17
+  jobs: 16
 - platform: trinet
   url: https://app.trinethire.com/companies/130621-curative-hr-llc/jobs
-  jobs: 18
+  jobs: 19
 - platform: werecruit
   url: https://careers.werecruit.io/fr/dessange
   jobs: 83
 - platform: workable
-  url: https://apply.workable.com/skroutz/
-  jobs: 7
-- platform: workable
   url: https://apply.workable.com/blueground/
-  jobs: 9
+  jobs: 6
+- platform: workable
+  url: https://apply.workable.com/skroutz/
+  jobs: 8
 - platform: workday
   url: https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite
   company: NVIDIA
-  jobs: 2807
+  jobs: 2796
 - platform: zoho
   url: https://us-careers.zohorecruit.in/jobs/Careers
   jobs: 5
@@ -255,26 +252,26 @@ sources:
   jobs: 6
 - platform: niceboard
   url: https://jobs.nonprofittalent.com/
-  jobs: 81
+  jobs: 83
 - platform: wpjobmanager
   url: https://startjob.dk/
   jobs: 13
 - platform: wpjobmanager
   url: https://fmals.de/
   company: F mal s GmbH
-  jobs: 393
+  jobs: 395
 - platform: jobkit
   url: https://jobs.rubyonrails.org/
-  jobs: 13
+  jobs: 11
 - platform: jobboardly
   url: https://www.motorsport.jobs/
-  jobs: 95
+  jobs: 94
 - platform: jobiqo
   url: https://www.lovelocaljobs.com/
-  jobs: 1511
+  jobs: 1512
 - platform: jboard
   url: https://nuclearjobscanada.ca/
-  jobs: 929
+  jobs: 944
 - platform: smartjobboard
   url: https://jobsboard.edsurge.com/
   jobs: 22
@@ -283,19 +280,25 @@ sources:
   jobs: 12
 - platform: jobboardio
   url: https://jobs.cityandstateny.com/
-  jobs: 15
+  jobs: 14
 - platform: madgex
   url: https://www.timeshighereducation.com/unijobs/listings/
-  jobs: 1199
+  jobs: 1206
 - platform: jobmount
   url: https://jobnet.wacities.org/
-  jobs: 98
+  jobs: 91
+- platform: careersitecloud
+  url: https://wpp.careersitecloud.com/pep
+  jobs: 8
+- platform: careersitecloud
+  url: https://wpp.careersitecloud.com/akqa
+  jobs: 26
 - platform: jobboardcom
   url: https://jobs.acevo.org.uk/
-  jobs: 15
+  jobs: 14
 - platform: jobboardcom
   url: https://jobs.homeless.org.uk/
-  jobs: 55
+  jobs: 58
 - platform: jobboardsoftware
   url: https://overheid.api.exenzo.com/api/public/v1/job-boards/1/jobs
   jobs: 38
@@ -305,6 +308,9 @@ sources:
 - platform: nodex
   url: https://www.mytraveljobs.co.uk/
   jobs: 120
-- platform: careersitecloud
-  url: https://wpp.careersitecloud.com/pep
-  jobs: 8
+- platform: ejobsitesoftware
+  url: https://connectagri.com/
+  jobs: 10
+- platform: ejobsitesoftware
+  url: https://jobqlick.com/
+  jobs: 108

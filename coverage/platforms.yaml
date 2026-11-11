@@ -1237,12 +1237,15 @@
 - name: ejobsitesoftware.com
   key: ejobsitesoftware
   type: jobboard
-  status: todo
-  tier: medium
-  public_api: unknown
-  api: "customer domains (vendor showcase on ejobsitesoftware.com): job pages /{id}/{Title-City-ST}.html (JSON-LD JobPosting); lists: rss/job.php, rss/{industry}.xml"
-  url_patterns: ["custom domains: /{id}/{slug}.html, /job_search.php, /rss/job.php"]
-  examples: []
+  status: done
+  connector: jobindex.connectors.ejobsitesoftware
+  public_api: "no"
+  api: "GET {site}/rss/job.php (RSS, capped at 200 items) + job pages /{id}/{slug}.html (JSON-LD JobPosting)"
+  url_patterns: ["customer domains (page header links to /jobseeker_resume1.php)", "{site}/{id}/{Title-City-ST}.html"]
+  examples:
+    - https://connectagri.com/
+    - https://jobqlick.com/
   robots: allowed
-  verified: null
-  notes: "Not built (2026-11-08): no complete, countable listing. Boards from the vendor homepage: eyetasticjobs.com, connectagri.com, jobqlick.com, gurushrconsultancy.com, recruitclever.co.uk, beveiligingsvacature.nl. Job pages carry JSON-LD, but on eyetasticjobs.com rss/job.php lists exactly 200 jobs (a cap: 49 jobs in the per-industry feeds rss/{id}.xml are missing from it), each industry feed stops at 20, job_search.php is a POST form, no total count is shown, and /sitemap.xml is the vendor default (239 URLs under /jobsite_demo/, none of the board's jobs)."
+  verified: 2026-11-11
+  generic: yes
+  notes: "Aynsoft's PHP job-board script. rss/job.php is the list; it is capped at 200 items (eyetasticjobs.com: exactly 200 while 49 jobs of its per-industry feeds were missing), so a feed with 200 or more items fails the crawl. Completeness checked 2026-11-11 on both examples: the per-industry RSS feeds (rss/{n}.xml) there are stale files from the vendor's demo install (connectagri: 2008, empty/404; jobqlick: lorem-ipsum 'JOBBOARD DEMO' jobs), so the per-industry counts on job_search_by_industry.php were recomputed from the industry list of every job page in the feed: connectagri 15 = 15 (10 jobs), jobqlick 71 = 71 (108 jobs, 34 without an industry). Job pages that answer HTTP 5xx keep the feed's fields (jobqlick: 3 of 108 answered 500 on every request). Other vendor-listed boards: eyetasticjobs.com (200 = cap, refused), gurushrconsultancy.com (no feed, 404), recruitclever.co.uk (hosting suspended), beveiligingsvacature.nl (403). job_search.php is a POST form and is not used."

@@ -306,6 +306,15 @@
       "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 20
     },
+    "https://connectagri.com/": {
+      "url": "https://connectagri.com/",
+      "last_run_at": "2026-11-11T05:22:51+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 10,
+      "last_error": null,
+      "last_success_at": "2026-11-11T05:22:51+00:00",
+      "last_success_jobs": 10
+    },
     "https://couriergigs.com/": {
       "url": "https://couriergigs.com/",
       "last_run_at": "2026-11-10T18:39:59+00:00",
@@ -476,6 +485,15 @@
       "last_error": null,
       "last_success_at": "2026-11-10T18:39:54+00:00",
       "last_success_jobs": 91
+    },
+    "https://jobqlick.com/": {
+      "url": "https://jobqlick.com/",
+      "last_run_at": "2026-11-11T05:22:53+00:00",
+      "last_status": "ok",
+      "last_jobs_found": 108,
+      "last_error": null,
+      "last_success_at": "2026-11-11T05:22:53+00:00",
+      "last_success_jobs": 108
     },
     "https://jobs.acevo.org.uk/": {
       "url": "https://jobs.acevo.org.uk/",
