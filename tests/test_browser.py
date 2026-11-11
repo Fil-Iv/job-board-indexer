@@ -7,7 +7,6 @@ import pytest
 
 from jobindex.browser import (
     CHALLENGE_PATTERNS,
-    CHALLENGE_URLS,
     BrowserBlockedError,
     BrowserPage,
     browser_user_agent,
@@ -54,6 +53,7 @@ def test_refusal_fails_the_page() -> None:
 def test_challenge_pages_are_recognised() -> None:
     assert CHALLENGE_PATTERNS.search("<title>Just a moment...</title>")
     assert CHALLENGE_PATTERNS.search('<div class="g-recaptcha" data-sitekey="x">')
+    assert CHALLENGE_PATTERNS.search("<title>Attention Required! | Cloudflare</title>")
     assert not CHALLENGE_PATTERNS.search("<h1>Software Engineer</h1>")
 
 
@@ -67,9 +67,12 @@ async def test_admit_checks_robots_and_takes_a_turn() -> None:
     assert [r.url.path for r in seen] == ["/robots.txt"]  # admit itself sends nothing
 
 
-def test_bot_check_scripts_are_never_loaded() -> None:
-    assert CHALLENGE_URLS.search(
-        "https://jobs.x.test/cdn-cgi/challenge-platform/scripts/jsd/main.js"
+def test_background_bot_check_script_is_not_a_challenge() -> None:
+    # Ordinary Dayforce pages carry Cloudflare's invisible bot-check script.
+    page = (
+        "<html><head><title>Job Board | Dayforce Jobs</title></head><body><script>"
+        "(function(){var a=document.createElement('script');"
+        "a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';})();</script></body></html>"
     )
-    assert CHALLENGE_URLS.search("https://www.google.com/recaptcha/api.js")
-    assert not CHALLENGE_URLS.search("https://jobs.x.test/api/jobs/search")
+    assert not CHALLENGE_PATTERNS.search(page)
+    assert CHALLENGE_PATTERNS.search("<script>window._cf_chl_opt={cvId: '3'}</script>")

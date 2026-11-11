@@ -13,8 +13,9 @@ List:  the page itself calls ``POST /api/geo/{namespace}/jobposting/search`` wit
        = jobs in the page, no posting twice, and the final number = ``maxCount``. If the
        total changes during the read (a job posted meanwhile: Costa, 446 -> 447), the list
        is read once more from page 1; a second change fails the crawl.
-       The page also loads Cloudflare's bot-check script (``/cdn-cgi/challenge-platform``);
-       the browser never loads it, and the job list works without it (2026-11-11).
+       The page loads Cloudflare's background bot-check script
+       (``/cdn-cgi/challenge-platform``) like any visitor's browser; no challenge is shown
+       and the job list loads (2026-11-11). A challenge or refusal fails the crawl.
 Job:   the search response has everything: title, full description (plain text with
        HTML entities), locations (city, state code, ISO country, address), posting start
        and expiry. No detail requests.

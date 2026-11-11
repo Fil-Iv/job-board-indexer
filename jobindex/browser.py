@@ -9,18 +9,20 @@ for the job list**. Used by jobBoardHQ, Dayforce, CSOD and Paycom; everything el
 The browser follows the crawling rules of ``HttpClient`` and borrows its robots.txt cache
 and per-host throttle (:meth:`HttpClient.admit`):
 
-* Every request the page makes is intercepted. Requests to hosts outside the connector's
-  ``hosts`` allow-list (analytics, ads, fonts, ...) and images/media/fonts are aborted
-  without being sent. Everything else is checked against its own host's robots.txt and
-  waits for the host's turn (default 1 request/second, or the host's ``Crawl-delay``).
-* A request robots.txt disallows is not sent; it is recorded in ``disallowed`` and
-  :meth:`BrowserPage.check` raises :class:`BrowserBlockedError`, so the crawl fails
-  instead of returning what the page managed to show without it.
-* HTTP 401/403/429 on the page or its API calls, and challenge/CAPTCHA pages, raise
-  :class:`BrowserBlockedError`. They are never solved or worked around: bot-check and
-  challenge scripts (Cloudflare ``/cdn-cgi/challenge-platform/``, reCAPTCHA, hCaptcha,
-  DataDome, PerimeterX, Incapsula, Akamai; :data:`CHALLENGE_URLS`) are not even loaded,
-  including Cloudflare's invisible JavaScript detection.
+* The page loads like it does for a normal visitor: all its scripts, from any host,
+  including bot-check scripts (owner decision 2026-11-11: they are not blocked). Only
+  images, media and fonts are skipped (not needed to read a job list). Every request is
+  checked against its own host's robots.txt and waits for its host's turn (default
+  1 request/second, or the host's ``Crawl-delay``) via :meth:`HttpClient.admit`.
+* The connector's ``hosts`` are the board's own (first-party) hosts. A first-party
+  request robots.txt disallows is not sent and fails the crawl
+  (:class:`BrowserBlockedError`): the list could be incomplete without it. A disallowed
+  third-party request (analytics, maps, feature flags...) is not sent either, and only
+  logged (``skipped_third_party``).
+* If the site then shows a challenge or refuses (first-party HTTP 401/403/429, a
+  ``cf-mitigated: challenge`` response, or a challenge/CAPTCHA page:
+  :data:`CHALLENGE_PATTERNS`), the crawl fails with :class:`BrowserBlockedError` and is
+  recorded as blocked. Nothing is ever solved, clicked through or retried around.
 * The User-Agent names the crawler (``HTTP_USER_AGENT``) in the form big crawlers use,
   ``Mozilla/5.0 (compatible; JobIndexBot/0.1; +url)`` (:func:`browser_user_agent`):
   ASP.NET WebForms sites (jobBoardHQ) send their pager script only to agents of that
@@ -54,20 +56,14 @@ log = logging.getLogger(__name__)
 SKIPPED_RESOURCES = frozenset({"image", "media", "font", "manifest", "texttrack", "eventsource"})
 #: Statuses that mean "the site refuses us" (never retried, never worked around).
 REFUSED_STATUS = frozenset({401, 403, 429})
-#: Text of challenge / CAPTCHA interstitials (Cloudflare, Akamai, Imperva, reCAPTCHA...).
+#: Markers of a challenge / CAPTCHA the site *shows* (interstitial or widget), not of the
+#: background bot-check scripts many pages load for every visitor (Cloudflare's
+#: ``/cdn-cgi/challenge-platform/scripts/jsd/main.js`` is on ordinary Dayforce pages).
 CHALLENGE_PATTERNS = re.compile(
-    r"cf-challenge|challenge-platform|cf_chl_|Just a moment\.\.\.|Attention Required!"
-    r"|g-recaptcha|hcaptcha|captcha-delivery|px-captcha|Incapsula incident"
-    r"|Request unsuccessful\. Incapsula|verify you are (a )?human",
-    re.I,
-)
-#: Bot-management / challenge scripts and endpoints. They are never loaded: passing a
-#: bot check (even an invisible one) is "solving a challenge", which the policy excludes.
-#: If the page cannot show its jobs without them, the API call fails (403) and so does
-#: the crawl.
-CHALLENGE_URLS = re.compile(
-    r"/cdn-cgi/challenge-platform/|challenges\.cloudflare\.com|/recaptcha/|hcaptcha\.com"
-    r"|captcha-delivery\.com|perimeterx\.net|px-cdn\.net|/_Incapsula_Resource|/akam/\d",
+    r"<title>\s*(?:Just a moment\.\.\.|Attention Required! \| Cloudflare)"
+    r"|cf_chl_opt|cf-chl-widget|challenges\.cloudflare\.com/turnstile"
+    r"|class=[\"'][^\"']*\b(?:g-recaptcha|h-captcha)\b|captcha-delivery\.com|px-captcha"
+    r"|Incapsula incident|Request unsuccessful\. Incapsula|verify you are (?:a )?human",
     re.I,
 )
 #: Default navigation / settle timeout. Hosts with a long Crawl-delay need more: every
@@ -109,8 +105,8 @@ class BrowserPage:
     #: Bodies of document/xhr/fetch responses from allowed hosts whose URL matched
     #: ``capture`` (url, status, body), in arrival order.
     responses: list[tuple[str, int, bytes]] = field(default_factory=list)
-    #: Challenge / bot-check scripts the page tried to load (never sent).
-    challenge_requests: list[str] = field(default_factory=list)
+    #: Third-party requests robots.txt disallows (not sent; not fatal): (url, rule).
+    skipped_third_party: list[tuple[str, str | None]] = field(default_factory=list)
     #: Response bodies still being read (awaited by :func:`settle`).
     pending: list["asyncio.Future[None]"] = field(default_factory=list)
 
@@ -253,19 +249,20 @@ class PoliteBrowser:
             if not request.url.startswith(("http://", "https://")):
                 await route.continue_()  # data:, blob: — nothing goes over the network
                 return
-            if CHALLENGE_URLS.search(request.url):
-                bp.challenge_requests.append(request.url)
-                await route.abort("blockedbyclient")
-                return
-            if request.resource_type in SKIPPED_RESOURCES or not host_allowed(
-                _host(request.url), bp.hosts
-            ):
+            if request.resource_type in SKIPPED_RESOURCES:
                 await route.abort("blockedbyclient")
                 return
             allowed, rule = await self.http.admit(request.url)
             if not allowed:
-                log.warning("browser: robots.txt disallows %s (%s); not sent", request.url, rule)
-                bp.disallowed.append((request.url, rule))
+                first_party = host_allowed(_host(request.url), bp.hosts)
+                log.log(
+                    logging.WARNING if first_party else logging.INFO,
+                    "browser: robots.txt disallows %s (%s); not sent",
+                    request.url,
+                    rule,
+                )
+                target = bp.disallowed if first_party else bp.skipped_third_party
+                target.append((request.url, rule))
                 await route.abort("blockedbyclient")
                 return
             await route.continue_()
@@ -276,10 +273,16 @@ class PoliteBrowser:
                 if entry.url == request.url and entry.status is None:
                     entry.status = response.status
                     break
+            if response.headers.get("cf-mitigated", "").lower() == "challenge":
+                bp.refused.append((request.url, "challenge"))  # Cloudflare challenge shown
+                return
             if request.resource_type not in ("document", "xhr", "fetch"):
                 return
             if response.status in REFUSED_STATUS:
-                bp.refused.append((request.url, str(response.status)))
+                if host_allowed(_host(request.url), bp.hosts):
+                    bp.refused.append((request.url, str(response.status)))
+                else:
+                    log.info("browser: third-party %s answered %d", request.url, response.status)
             elif capture is not None and capture.search(request.url):
                 bp.pending.append(asyncio.ensure_future(_keep(response)))
 

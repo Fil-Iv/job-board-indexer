@@ -113,7 +113,7 @@ blocked_by_site:
       - {url: "https://demo.jobboardmount.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://demo.jobboardmount.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: *"}
   - platform: Dayforce
     scope: api
-    impact: "The job search API (POST /api/geo/{namespace}/jobposting/search, allowed by robots.txt) answers 403 when called outside the page. Built since 2026-11-11 as a browser connector that reads the responses the rendered page itself receives (no bot check loaded, no token replayed)."
+    impact: "The job search API (POST /api/geo/{namespace}/jobposting/search, allowed by robots.txt) answers 403 when called outside the page. Built since 2026-11-11 as a browser connector that reads the responses the rendered page itself receives (the page loads like for a visitor; no token replayed)."
     evidence:
       - {url: "https://jobs.dayforcehcm.com/api/geo/loco/jobposting/search", checked_at: "2026-11-07T20:54:30+00:00", http_status: 403, robots_url: "https://jobs.dayforcehcm.com/robots.txt", robots_http_status: 200, robots_rule: null}
       - {url: "https://jobs.dayforcehcm.com/api/geo/costa/jobposting/search", checked_at: "2026-11-07T20:54:30+00:00", http_status: 403, robots_url: "https://jobs.dayforcehcm.com/robots.txt", robots_http_status: 200, robots_rule: null}

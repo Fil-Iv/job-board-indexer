@@ -147,11 +147,16 @@ optional extra `browser`; approved by the project owner 2026-11-11 for robots-al
 only). The browser is held to the same rules as `HttpClient`, whose robots.txt cache and
 per-host throttle it shares:
 
-* only the board's own hosts and the assets it needs are contacted (analytics, ads, fonts
-  and images are not requested); every request waits for its host's turn (1/s or
-  `Crawl-delay`) and is checked against its own host's robots.txt;
-* a disallowed request is not sent and **fails the crawl** (the list would be incomplete);
-  so do HTTP 401/403/429 and challenge/CAPTCHA pages. They are never solved;
+* the page loads like it does for a normal visitor: all its scripts from any host,
+  bot-check scripts included (owner decision 2026-11-11); only images, media and fonts are
+  skipped. Every request waits for its host's turn (1/s or `Crawl-delay`) and is checked
+  against its own host's robots.txt;
+* a disallowed request to the board's own hosts is not sent and **fails the crawl** (the
+  list could be incomplete); a disallowed third-party request (analytics...) is not sent
+  and only logged;
+* if the site then shows a challenge or refuses (first-party 401/403/429,
+  `cf-mitigated: challenge`, a challenge/CAPTCHA page), the crawl fails and the platform is
+  recorded as blocked with evidence. Nothing is ever solved or worked around;
 * nothing is read out of the page to be sent elsewhere (no token replay); the connector
   reads what the page renders or the job-list responses the page itself received;
 * User-Agent `Mozilla/5.0 (compatible; JobIndexBot/0.1; +url)`: still the bot's name, in the

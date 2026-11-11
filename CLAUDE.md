@@ -40,8 +40,10 @@ another team, so it has to be clean, documented and easy to run.
   Connectors must not create their own `httpx` clients.
 - Browser-rendered connectors (Playwright, owner approval 2026-11-11, robots-allowed
   pages only) go through `jobindex.browser.PoliteBrowser`, which applies the same rules
-  to every request the page makes and fails on disallowed URLs, 401/403/429 and
-  challenges. Never read tokens out of a page to replay them elsewhere.
+  to every request the page makes. Pages load like for a visitor (all scripts, bot-check
+  scripts included); a disallowed first-party URL, a 401/403/429 or a challenge the site
+  shows fails the crawl and is recorded as blocked. Never solve challenges, never read
+  tokens out of a page to replay them elsewhere.
 
 ## Failure semantics
 

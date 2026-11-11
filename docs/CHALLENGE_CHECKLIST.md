@@ -236,9 +236,11 @@ other host of the same platform against its own robots.txt.
   jobqlick.com (108); full crawls stored 10 and 108 postings.
 * **Headless browser** — `jobindex/browser.py` (Playwright, optional extra `browser`; owner
   approval 2026-11-11). Every request the page makes is checked against its own host's
-  robots.txt and throttled per host with `HttpClient`'s rules; a disallowed request,
-  401/403/429 or a challenge page fails the crawl; only the board's hosts are contacted;
-  nothing is read out of the page to be replayed. GitHub Actions installs Chromium only in
+  robots.txt and throttled per host with `HttpClient`'s rules. The page loads like it does
+  for a visitor, all scripts included (bot-check scripts too: owner decision 2026-11-11);
+  only images, media and fonts are skipped. A disallowed first-party request, a
+  first-party 401/403/429, or a challenge the site shows fails the crawl and is recorded as
+  blocked; nothing is solved, and nothing is read out of the page to be replayed. GitHub Actions installs Chromium only in
   crawl shards that contain a `uses_browser` platform.
 * **jobBoardHQ** — `jobindex/connectors/jobboardhq.py`. `/search` (allowed) is rendered and
   driven like a visitor: "100 Rows", then the pager's in-place postbacks until the last page
@@ -252,8 +254,9 @@ other host of the same platform against its own robots.txt.
 * **Dayforce** — `jobindex/connectors/dayforce.py`. robots.txt on jobs.dayforcehcm.com has
   no rules, so the board page and every request it makes are allowed. The search API answers
   403 when called directly; inside the rendered page it answers, with the page's own
-  session, which is never read out. The page also loads Cloudflare's bot-check script: the
-  browser never loads it, and the list works without it. The connector reads the search
+  session, which is never read out. The page loads Cloudflare's background bot-check script
+  like any visitor's browser; no challenge is shown and the list loads (re-checked
+  2026-11-11 after the browser stopped skipping such scripts). The connector reads the search
   responses the page receives, clicking the pager until it holds the site's `maxCount`
   (constant total, consecutive offsets, no repeats). Live: El Pollo Loco (17), Costa Coffee
   (446, 18 pages).
