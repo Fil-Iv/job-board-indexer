@@ -158,9 +158,8 @@ Campaign, BMJ, PageUp internal `/ci/` portals).
 
 **Fourth pass (2026-11-11): legal routes re-checked for the 18 not-done platforms**
 
-Prompted by a competitor's public search page (`/api/platforms`, `/api/jobs`; its coverage
-and sources pages need a login and were not used), every blocked and not-built platform was
-re-checked for a route allowed by robots.txt. Three were built:
+Every blocked and not-built platform was re-checked for a route allowed by robots.txt.
+Three were built:
 
 * **Freshteam** — `jobindex/connectors/freshteam.py`. robots.txt on every tenant is
   `Allow: /jobs` + `Disallow: /`: only the JSON widget was refused. The server-rendered

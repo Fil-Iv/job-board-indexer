@@ -276,7 +276,7 @@
   robots: allowed
   verified: 2026-11-11
   generic: no
-  notes: "robots.txt on every tenant: Allow: /jobs, Disallow: / (the /hire/widgets/jobs.json widget stays disallowed and is not used). The /jobs page lists every job server-side (no paging); the number of distinct job links must equal the '#N Jobs' count in og:description. No JSON-LD: the description comes from each job page (.job-details-content; a template bug appends 'Liquid error: ...', removed), the company from og:description 'Posted by : {company} |'. Tenants customise the Liquid template (renous: cards grouped by department; crimsoniteam: default list); parsing uses the shared class names. Unknown tenants answer 200 'We couldn't find ...' (scrut and bipartisanpolicy, the 2026-11-07 examples, have left Freshteam), which is refused as an error. freshworks.freshteam.com answered 503 to robots.txt (treated as disallowed). Second tenant found 2026-11-11 via a competitor's public search page."
+  notes: "robots.txt on every tenant: Allow: /jobs, Disallow: / (the /hire/widgets/jobs.json widget stays disallowed and is not used). The /jobs page lists every job server-side (no paging); the number of distinct job links must equal the '#N Jobs' count in og:description. No JSON-LD: the description comes from each job page (.job-details-content; a template bug appends 'Liquid error: ...', removed), the company from og:description 'Posted by : {company} |'. Tenants customise the Liquid template (renous: cards grouped by department; crimsoniteam: default list); parsing uses the shared class names. Unknown tenants answer 200 'We couldn't find ...' (scrut and bipartisanpolicy, the 2026-11-07 examples, have left Freshteam), which is refused as an error. freshworks.freshteam.com answered 503 to robots.txt (treated as disallowed). Second tenant found 2026-11-11."
 - name: Gem.com
   key: gem
   type: ats
@@ -1220,7 +1220,7 @@
   robots: allowed
   verified: 2026-11-11
   generic: yes
-  notes: "Board found 2026-11-11 via a competitor's public search page: www.mytraveljobs.co.uk (run by Nodex Limited itself; footer 'Job board software by Nodex'). Sitemap: 120 job URLs = the 120 jobs /find-jobs reports; /find-jobs?* (paged search) is disallowed, so the sitemap is the list. JobPosting titles carry extra columns ('Title | Location | Salary | Type'); only the first part is kept. No customer list is published (nodex.co.uk/portfolio redirects to /services; earlier: BuiltWith reports ~49 live sites, AppsRunTheWorld names Big Ant Group, Orchard Recruitment, Sheridan Ward Recruitment without board URLs); further boards are found by the page fingerprint. Only one example board."
+  notes: "Board found 2026-11-11: www.mytraveljobs.co.uk (run by Nodex Limited itself; footer 'Job board software by Nodex'). Sitemap: 120 job URLs = the 120 jobs /find-jobs reports; /find-jobs?* (paged search) is disallowed, so the sitemap is the list. JobPosting titles carry extra columns ('Title | Location | Salary | Type'); only the first part is kept. No customer list is published (nodex.co.uk/portfolio redirects to /services; earlier: BuiltWith reports ~49 live sites, AppsRunTheWorld names Big Ant Group, Orchard Recruitment, Sheridan Ward Recruitment without board URLs); further boards are found by the page fingerprint. Only one example board."
 - name: eJobBoard
   key: ejobboard
   type: jobboard
