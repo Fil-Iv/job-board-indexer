@@ -229,7 +229,7 @@
     - https://app.dover.com/jobs/dover
   robots: allowed
   verified: null
-  notes: "React SPA (empty #root). Likely a public JSON endpoint behind it — would move to easy once found."
+  notes: "React SPA (empty #root). Likely a public JSON endpoint behind it — would move to easy once found. Re-checked 2026-11-11: jobs.dover.com (robots.txt Allow: / except /api/ etc.) serves the career pages as a 4 KB JS shell; its jobs sitemap (/feed/jobs_sitemap, 9,769 job URLs of 3,014 companies) has URLs and lastmod only. Partner syndication feeds /feed/linkedin (70 jobs), /feed/indeed (34) and /feed/ziprecruiter (9) are allowed and carry full postings, but only for jobs sent to that partner: 15 companies are fully covered today, with no per-company count, and 13 feed jobs are missing from the sitemap, so neither is a complete, countable list. No employer site showing Dover jobs server-side was found (embeds load from the disallowed /api/)."
 
 - name: Eightfold AI
   key: eightfold
@@ -608,7 +608,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: "Formerly Newton Software."
+  notes: "Formerly Newton Software. Re-checked 2026-11-11: recruitingbypaycor.com and www.recruitingbypaycor.com are Disallow: /; careers.paycor.com, jobs.paycor.com, recruiting.paycor.com and the old newtonsoftware.com hosts do not resolve (secure.paycor.com: 404 robots.txt, no career pages). Employer career pages embed the disallowed host; no server-side copy found."
 
 - name: Paylocity
   key: paylocity
@@ -795,7 +795,7 @@
   examples: []
   robots: allowed
   verified: null
-  notes: "Not built: blocked (coverage/blocked_by_site.yaml, scope platform). Owner decision 2026-11-08: the internal host is not used, so there is no public listing. Career pages are a JS shell (sitemap.xml 403); the production app bundle sends its job search, without any token, to an Elasticsearch proxy at prod-kong.internal.talentreef.com/apply/proxy-es/{search-en-us|search-fr-ca|search-es-us}/posting/_search (robots.txt 404). One GET ?size=1 returned 200 with full postings (title, HTML description, address, brand, clientId/clientName, contractType, internalOrExternal; 190,608 hits in the index). The host is named internal and takes arbitrary Elasticsearch queries, so it was used for that one request only. The public site filters by clientId.raw (+ brand.raw, location.id) and, for external candidates, internalOrExternal = externalOnly."
+  notes: "Not built: blocked (coverage/blocked_by_site.yaml, scope platform). Owner decision 2026-11-08: the internal host is not used, so there is no public listing. Career pages are a JS shell (sitemap.xml 403); the production app bundle sends its job search, without any token, to an Elasticsearch proxy at prod-kong.internal.talentreef.com/apply/proxy-es/{search-en-us|search-fr-ca|search-es-us}/posting/_search (robots.txt 404). One GET ?size=1 returned 200 with full postings (title, HTML description, address, brand, clientId/clientName, contractType, internalOrExternal; 190,608 hits in the index). The host is named internal and takes arbitrary Elasticsearch queries, so it was used for that one request only. The public site filters by clientId.raw (+ brand.raw, location.id) and, for external candidates, internalOrExternal = externalOnly. Re-checked 2026-11-11: apply.jobappnetwork.com robots.txt allows everything, but pages stay JS shells fed by the internal host; jobappnetwork.com, www.jobappnetwork.com and jobs.talentreef.com do not resolve. No employer site rendering talentReef jobs server-side was found."
 
 - name: Taleo
   key: taleo
@@ -872,7 +872,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: "UKG Pro Recruiting. JSON search endpoint used by the board; check whether it needs the anti-forgery cookie."
+  notes: "UKG Pro Recruiting. JSON search endpoint used by the board; check whether it needs the anti-forgery cookie. Re-checked 2026-11-11: recruiting2.ultipro.com and recruiting.ultipro.ca have the same robots.txt (Allow: */JobBoard/, Disallow: */JobBoardView, Disallow: / otherwise); recruiting3, rec.pro.ukg.net and similar UKG names do not resolve. The allowed JobBoard page has no job data (only the disallowed LoadSearchResults); no employer site rendering UKG jobs server-side was found."
 
 - name: WeRecruit
   key: werecruit
@@ -1052,7 +1052,7 @@
   examples: []
   robots: allowed
   verified: null
-  notes: "productmarketing.jobboardfire.com returned HTTP 403 to our User-Agent (2026-11-07): bot protection."
+  notes: "productmarketing.jobboardfire.com returned HTTP 403 to our User-Agent (2026-11-07): bot protection. Re-checked 2026-11-11: certificate transparency lists 480 tenant subdomains of jobboardfire.com; all 6 sampled (e.g. golangjobs, climatecareers) answer 403 with a Cloudflare challenge (cf-mitigated: challenge) incl. robots.txt, and so do the customer custom domains jobs.trellis.net (formerly jobs.greenbiz.com) and jobs.girlboss.com. jobs.productmarketingalliance.com (named on the customer page) is open but no longer shows any JobBoardFire fingerprint."
 
 - name: SmartJobBoard
   key: smartjobboard
@@ -1113,7 +1113,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: "Not built (re-checked 2026-11-10): no allowed board. Talenetic (UK white-label job board software) has no client page (/clients 404; www.talenetic.com sitemap lists only marketing pages); the only named sites in press (oilfinity.com, TopEngineer.com, 2015) are its own aggregators. Announced customers: britishmedicaljobs.com (2015) now redirects to an unrelated casino site (domain lapsed); jobs.seattletimes.com disallows everything for other bots (User-agent: * Disallow: /; only search/social bots allowed), and the Seattle Times employer site hiring.seattletimes.com now runs on Recruitology, so the Talenetic fingerprint cannot be confirmed there. No public demo board: demo.talenetic.com and jobs.talenetic.com resolve (wildcard DNS) but answer 404. fantastic.jobs/job-board/talenetic names no customer boards."
+  notes: "Not built (re-checked 2026-11-10): no allowed board. Talenetic (UK white-label job board software) has no client page (/clients 404; www.talenetic.com sitemap lists only marketing pages); the only named sites in press (oilfinity.com, TopEngineer.com, 2015) are its own aggregators. Announced customers: britishmedicaljobs.com (2015) now redirects to an unrelated casino site (domain lapsed); jobs.seattletimes.com disallows everything for other bots (User-agent: * Disallow: /; only search/social bots allowed), and the Seattle Times employer site hiring.seattletimes.com now runs on Recruitology, so the Talenetic fingerprint cannot be confirmed there. No public demo board: demo.talenetic.com and jobs.talenetic.com resolve (wildcard DNS) but answer 404. fantastic.jobs/job-board/talenetic names no customer boards. Re-checked 2026-11-11: two live client boards found on talenetic.com subdomains (procontractjobs, mujojobs; footer 'Talenetic Job Board Software'), but both robots.txt files say Disallow: / and the boards redirect to a preview login (/Home/LoginTemp); recorded in blocked_by_site.yaml. Certificate transparency shows only a wildcard. Note: one request to /search on each was made before their robots.txt was read (manual curl check); it only returned the login page and nothing from it is used."
 
 - name: JobMount
   key: jobmount
@@ -1175,7 +1175,7 @@
   examples: []
   robots: allowed
   verified: null
-  notes: "Blocked (2026-11-10; blocked_by_site.yaml). Artha Job Board (Knovator Technologies) is a multi-tenant Next.js SaaS on {tenant}.arthajobboard.com (unknown tenants redirect to /client-not-found); arthajobboard.com answers again (TLS failed on 2026-11-08). Vendor demo board demo.arthajobboard.com (robots.txt Allow: /, sitemap /jd/1/sitemap.xml with 312 job URLs) and a customer board medskil.arthajobboard.com (282 job URLs, mostly placeholder tech titles) were found, but every job page answers 403 with a Cloudflare challenge (cf-mitigated: challenge) to our User-Agent. The listing API is POST api.arthajobboard.com/client/api/v1/jobs/search/guest and picks the tenant from the browser Origin header; without it every call (incl. /robots.txt) returns {code: INVALID_CLIENT}. Faking the Origin header is not done. artha.linkx (lead) does not resolve: .linkx is not a TLD; 'Artha Link' is a product feature on arthajobboard.com."
+  notes: "Blocked (2026-11-10; blocked_by_site.yaml). Artha Job Board (Knovator Technologies) is a multi-tenant Next.js SaaS on {tenant}.arthajobboard.com (unknown tenants redirect to /client-not-found); arthajobboard.com answers again (TLS failed on 2026-11-08). Vendor demo board demo.arthajobboard.com (robots.txt Allow: /, sitemap /jd/1/sitemap.xml with 312 job URLs) and a customer board medskil.arthajobboard.com (282 job URLs, mostly placeholder tech titles) were found, but every job page answers 403 with a Cloudflare challenge (cf-mitigated: challenge) to our User-Agent. The listing API is POST api.arthajobboard.com/client/api/v1/jobs/search/guest and picks the tenant from the browser Origin header; without it every call (incl. /robots.txt) returns {code: INVALID_CLIENT}. Faking the Origin header is not done. artha.linkx (lead) does not resolve: .linkx is not a TLD; 'Artha Link' is a product feature on arthajobboard.com. Re-checked 2026-11-11: certificate transparency for arthajobboard.com lists only vendor infrastructure (api, cdn, kibana, ...) besides the wildcard; no customer custom domain found."
 
 - name: jobboardsoftware.com
   key: jobboardsoftware
@@ -1232,7 +1232,7 @@
   examples: []
   robots: unknown
   verified: null
-  notes: "Not built (re-checked 2026-11-10): no customer board and no demo board. www.ejobboard.com serves a 114-byte page that redirects to /lander (parked domain); demo.ejobboard.com does not resolve. TrustRadius lists the product as discontinued; searches for powered by eJobBoard find no sites (results mix it up with ejobsitesoftware.com)."
+  notes: "Not built (re-checked 2026-11-10): no customer board and no demo board. www.ejobboard.com serves a 114-byte page that redirects to /lander (parked domain); demo.ejobboard.com does not resolve. TrustRadius lists the product as discontinued; searches for powered by eJobBoard find no sites (results mix it up with ejobsitesoftware.com). Re-checked 2026-11-11: certificate transparency for ejobboard.com lists only ejobboard.com and www (parked); no customer board found."
 
 - name: ejobsitesoftware.com
   key: ejobsitesoftware

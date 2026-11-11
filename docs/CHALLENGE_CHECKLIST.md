@@ -16,7 +16,7 @@ endpoint, test or file that shows it.
 
 | # | Criterion | Status | Summary |
 |---|---|---|---|
-| 1 | Working coverage across all 78 platforms | 🟡 | 65 platforms done: 61 work on ≥ 2 real employers (BrassRing only for sites with ≤ 50 jobs; JOIN only for companies with ≤ 100 jobs; CareerPlug without descriptions), CareerSiteCloud, FirstStage, JobKit and Nodex are partial (only one live board / customer site found); 9 are blocked (refused by the site, or talentReef: only an internal host; evidence in `blocked_by_site.yaml`); 4 are not built, each with the exact reason in `platforms.yaml`. 2026-11-10: all 117 example boards crawled OK; 2026-11-11: the 5 new ones too |
+| 1 | Working coverage across all 78 platforms | 🟡 | 65 platforms done: 61 work on ≥ 2 real employers (BrassRing only for sites with ≤ 50 jobs; JOIN only for companies with ≤ 100 jobs; CareerPlug without descriptions), CareerSiteCloud, FirstStage, JobKit and Nodex are partial (only one live board / customer site found); 10 are blocked (refused by the site, or talentReef: only an internal host; evidence in `blocked_by_site.yaml`); 3 are not built, each with the exact reason in `platforms.yaml`. 2026-11-10: all 117 example boards crawled OK; 2026-11-11: the 9 new ones too |
 | 2 | Consistent job records | 🟡 | Local audit DB (43,203 open postings): title, source URL, apply URL 100%; company, description 100% (rounded), location 99%. Live demo (7,132): title, source URL, apply URL 100%, company 99.8%, location 99.0%. Every remaining gap is a field empty at the source (listed). Fixed 2026-11-10: BrassRing lost location/apply URL on re-crawls; "Bengaluru, KA,IN, IN" locations |
 | 3 | Automatic updates | ✅ | Scheduler worker (VPS), change log, closing, failure ≠ closure: shown on live data and in tests. Hosted demo: the 6-hourly GitHub Actions **schedule** fires on its own: [run #5](https://github.com/Fil-Iv/job-board-indexer/actions/runs/42922810814) (event `schedule`, 2026-11-10 23:22 UTC, success); earlier manual crawls recorded failures and kept the jobs |
 | 4 | Deduplication | ✅ | Local: 16 real cross-source duplicates merged (43,203 postings → 43,187 openings), 2,924 same-employer and 667 cross-employer title groups and 4 near misses kept apart, each checked. Live (2026-11-10 19:45 UTC): 7,314 postings → 7,307 openings; 2 cross-platform merges (jobs 5630, 5632: Homeless Link `jobboardcom` + Love Local Jobs `jobiqo`) and 5 across the two Exenzo boards (e.g. job 7173) |
@@ -66,12 +66,12 @@ endpoint, test or file that shows it.
 | Group | Count | Platforms |
 |---|---|---|
 | Working (connector + 2 live employers) | **61** | ADP, ApplicantPro, Ashby, **Avature** (new), BambooHR, **BrassRing** (new; sites with ≤ 50 jobs only), Breezy HR, **CareerPlug** (new 2026-11-11; list only, no descriptions), Comeet, Deel, Eightfold AI, **Freshteam** (new 2026-11-11), Gem, GoHire, Greenhouse, HiBob, HireBridge, HireHive, Hireology, HiringThing, iCIMS, iSolved Hire, JazzHR, Jobvite, **JOIN.com** (new 2026-11-11; companies with ≤ 100 jobs), Kula, Lever, Manatal, Oracle Recruiting, PageUp, **Paradox** (new), Paylocity, Personio, Phenom, Pinpoint, Polymer, Recooty, Recruitee, Rippling, Rival, SAP SuccessFactors, SmartRecruiters, **Taleo** (new), Teamtailor, Trakstar, TriNet, WeRecruit, Workable, Workday, **Zoho Recruit** (new) (ATS); JBoard, **JobBoard.com** (new), JobBoard.io, **jobboardsoftware.com** (Exenzo; new 2026-11-10), Jobboardly, Jobiqo, JobMount, Niceboard, SmartJobBoard, Wiley Madgex, WP Job Manager (job boards) |
-| Blocked — no allowed route | 5 | **Artha** (2026-11-10: job pages 403 with a Cloudflare challenge; the job API picks the tenant from the browser `Origin` header, not faked), Paycor (`Disallow: /`), UltiPro (`Disallow: */JobBoardView` + sitemap), JobBoardFire (403 incl. robots.txt), **talentReef** (only route is an internal search service, no public listing: career pages are JS shells, sitemap 403; owner decision: the `prod-kong.internal.talentreef.com` Elasticsearch proxy is not used) |
-| Blocked by the site — job API refused, no other complete source | 4 | **CSOD** (search API 401 without the page's bearer token; pages are JS shells), Paycom (401, page-issued token), Dover (`Disallow: /api/`), Dayforce (search API 403) |
+| Blocked — no allowed route | 6 | **Artha** (2026-11-10: job pages 403 with a Cloudflare challenge; the job API picks the tenant from the browser `Origin` header, not faked), Paycor (`Disallow: /`), UltiPro (`Disallow: */JobBoardView` + sitemap), JobBoardFire (403 incl. robots.txt; 2026-11-11 also on tenant subdomains and customer domains: Cloudflare challenge), **Talenetic** (2026-11-11: the only live client boards are `Disallow: /` and behind a preview login), **talentReef** (only route is an internal search service, no public listing: career pages are JS shells, sitemap 403; owner decision: the `prod-kong.internal.talentreef.com` Elasticsearch proxy is not used) |
+| Blocked by the site — job API refused, no other complete source | 4 | **CSOD** (search API 401 without the page's bearer token; pages are JS shells), Paycom (401, page-issued token), Dover (`Disallow: /api/`; the allowed partner feeds cover 102 of ~9,800 jobs, not complete for any board), Dayforce (search API 403) |
 | Done, partial (connector + the only live board found) | **4** | **CareerSiteCloud** (new 2026-11-11: WPP's career site, agency views; lists whose order shifts between pages are refused), **FirstStage** ("80 jobs open", 79 linked; up to 1 unlinked job tolerated, a larger gap fails the crawl), **JobKit** (jobs.rubyonrails.org; the 8 other `*.jobkit.io` boards found are all empty), **Nodex** (new 2026-11-11: www.mytraveljobs.co.uk, run by Nodex itself; no customer list published) |
-| Not built | 4 | Route needs page-issued state: jobBoardHQ (paging only via `__VIEWSTATE` postback); listing not complete or countable: ejobsitesoftware.com (feeds capped at 200/20, POST search); no allowed customer board and no public vendor demo board (re-checked 2026-11-10): eJobBoard (domain parked), Talenetic (announced customers gone or `Disallow: /`) |
+| Not built | 3 | Route needs page-issued state: jobBoardHQ (paging only via `__VIEWSTATE` postback); listing not complete or countable: ejobsitesoftware.com (feeds capped at 200/20, POST search); no allowed customer board and no public vendor demo board (re-checked 2026-11-11): eJobBoard (domain parked; certificate transparency shows no other host) |
 
-Blocked-platform evidence: `coverage/blocked_by_site.yaml` (19 entries; each is a real
+Blocked-platform evidence: `coverage/blocked_by_site.yaml` (21 entries; each is a real
 request with URL, timestamp, HTTP status and the deciding robots.txt rule, or — for
 talentReef's internal host — a `policy` reason why an open route is not used, rendered in the
 "Blocked by site" section of `COVERAGE.md`). Tenant-level blocks are listed there too
@@ -200,6 +200,27 @@ other host of the same platform against its own robots.txt.
   stable between requests (WPP's full list of 2,181: 37 jobs on two pages), so a job seen
   twice fails the crawl; boards are agency views: Pep (8, one page), AKQA (26, 2 pages,
   passed three runs in a row). The other ful.io sites are parked, gone or refuse us.
+* **No legal route (evidence added to `blocked_by_site.yaml` / `platforms.yaml`):**
+  * *Dover* — `jobs.dover.com` (robots.txt allows all but `/api/` etc.) has a jobs sitemap
+    (9,769 job URLs, 3,014 companies) but the pages are 4 KB JS shells. The allowed
+    partner feeds (`/feed/linkedin`, `/feed/indeed`, `/feed/ziprecruiter`) carry full
+    postings only for jobs syndicated to that partner (102 in all; 15 companies fully
+    covered), with no per-company count: not a complete, countable list for any board.
+  * *UltiPro* — `recruiting2.ultipro.com` and `recruiting.ultipro.ca` have the same
+    robots.txt (`Disallow: */JobBoardView`); other UKG names do not resolve.
+  * *Paycor* — only `recruitingbypaycor.com` (`Disallow: /`) is live; the other Paycor /
+    Newton career hosts do not resolve.
+  * *talentReef* — `apply.jobappnetwork.com` is allowed but a JS shell fed by the internal
+    host (owner decision stands); no server-side employer copy found.
+  * *Talenetic* — two live client boards found (`procontractjobs`, `mujojobs` on
+    talenetic.com): `Disallow: /` plus a preview login. One request to `/search` on each
+    was made by a manual check before their robots.txt was read; it returned only the
+    login page and nothing is used.
+  * *JobBoardFire* — 480 tenant subdomains in certificate transparency; every one sampled
+    and the customer domains (jobs.trellis.net, jobs.girlboss.com) answer a Cloudflare
+    challenge, robots.txt included.
+  * *Artha*, *eJobBoard* — certificate transparency shows no customer domain (Artha: only
+    vendor infrastructure; eJobBoard: parked domain only).
 
 **Live database runs** (`make seed-demo`, `make crawl`; snapshot at the end of the audit)
 

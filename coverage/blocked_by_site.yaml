@@ -32,10 +32,12 @@ blocked_by_site:
       - {url: "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883c66a3387ef016a55a8046515ad", checked_at: "2026-11-07T06:02:00+00:00", http_status: null, robots_url: "https://recruitingbypaycor.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
   - platform: UltiPro
     scope: platform
-    impact: "Job search JSON (JobBoardView/LoadSearchResults) and sitemap.xml are disallowed; the allowed board page contains no job data, so jobs cannot be listed."
+    impact: "Job search JSON (JobBoardView/LoadSearchResults) and sitemap.xml are disallowed on every UKG Pro Recruiting host (recruiting, recruiting2 .ultipro.com and recruiting.ultipro.ca: same robots.txt, re-checked 2026-11-11); the allowed board page contains no job data, so jobs cannot be listed."
     evidence:
       - {url: "https://recruiting.ultipro.com/SOU1036SOUND/JobBoard/dcc5dbea-875e-4cd1-bfd2-8e046cecc54f/JobBoardView/LoadSearchResults", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://recruiting.ultipro.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: */JobBoardView"}
       - {url: "https://recruiting.ultipro.com/sitemap.xml", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://recruiting.ultipro.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+      - {url: "https://recruiting2.ultipro.com/ald1001aldii/JobBoard/6647d81e-bfc0-495d-9526-499f2b399965/JobBoardView/LoadSearchResults", checked_at: "2026-11-11T05:01:35+00:00", http_status: null, robots_url: "https://recruiting2.ultipro.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: */JobBoardView"}
+      - {url: "https://recruiting.ultipro.ca/sitemap.xml", checked_at: "2026-11-11T05:01:35+00:00", http_status: null, robots_url: "https://recruiting.ultipro.ca/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
   - platform: Eightfold AI
     scope: api
     impact: "/api/apply/v2/jobs is allowed by robots.txt but answers 403 on every tenant; /api/pcsx/search and the /careers sitemap still work."
@@ -51,9 +53,11 @@ blocked_by_site:
       - {url: "https://bipartisanpolicy.freshteam.com/hire/widgets/jobs.json", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://bipartisanpolicy.freshteam.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
   - platform: Dover
     scope: api
-    impact: "Careers JSON API disallowed; HTML pages + sitemap allowed but carry no JobPosting."
+    impact: "Careers JSON API disallowed; jobs.dover.com pages are JS shells and its jobs sitemap lists URLs only. The allowed partner feeds (/feed/linkedin, /feed/indeed, /feed/ziprecruiter) carry full postings but only the jobs syndicated to that partner (102 of the sitemap's 9,769 on 2026-11-11, 15 of 3,014 companies fully covered), with no per-company count, so they are not a complete list for any board."
     evidence:
       - {url: "https://app.dover.com/api/v1/careers-page-slug/dover", checked_at: "2026-11-07T06:16:08+00:00", http_status: null, robots_url: "https://app.dover.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /api/"}
+      - {url: "https://jobs.dover.com/draftwise", checked_at: "2026-11-11T05:01:35+00:00", http_status: 200, robots_url: "https://jobs.dover.com/robots.txt", robots_http_status: 200, robots_rule: null, policy: "4 KB JS shell, no job data"}
+      - {url: "https://jobs.dover.com/feed/linkedin", checked_at: "2026-11-11T05:01:35+00:00", http_status: 200, robots_url: "https://jobs.dover.com/robots.txt", robots_http_status: 200, robots_rule: null, policy: "partner syndication feed: only the jobs sent to that partner (70 here), no per-company count; not a complete list"}
   - platform: CareerPlug
     scope: api
     impact: "jobs.json disallowed and job pages redirect into the disallowed /apps/; the connector reads the allowed server-rendered /jobs list (no descriptions)."
@@ -72,11 +76,15 @@ blocked_by_site:
       - {url: "https://join.com/companies/sitemap-jobs-index.xml", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://join.com/robots.txt", robots_http_status: 200, robots_rule: null}
   - platform: JobBoardFire
     scope: platform
-    impact: "403 on every page incl. robots.txt (vendor site, subdomain and custom-domain boards)."
+    impact: "403 (Cloudflare challenge, cf-mitigated: challenge) on every page incl. robots.txt: vendor site, tenant subdomains (480 names in certificate transparency, 6 sampled 2026-11-11) and the customer custom domains named on its customer page."
     evidence:
       - {url: "https://www.jobboardfire.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://www.jobboardfire.com/robots.txt", robots_http_status: 403, robots_rule: null}
       - {url: "https://productmarketing.jobboardfire.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://productmarketing.jobboardfire.com/robots.txt", robots_http_status: 403, robots_rule: null}
       - {url: "https://jobs.sfaac.com/", checked_at: "2026-11-07T06:16:08+00:00", http_status: 403, robots_url: "https://jobs.sfaac.com/robots.txt", robots_http_status: 403, robots_rule: null}
+      - {url: "https://golangjobs.jobboardfire.com/", checked_at: "2026-11-11T05:01:35+00:00", http_status: 403, robots_url: "https://golangjobs.jobboardfire.com/robots.txt", robots_http_status: 403, robots_rule: null}
+      - {url: "https://climatecareers.jobboardfire.com/", checked_at: "2026-11-11T05:01:35+00:00", http_status: 403, robots_url: "https://climatecareers.jobboardfire.com/robots.txt", robots_http_status: 403, robots_rule: null}
+      - {url: "https://jobs.trellis.net/", checked_at: "2026-11-11T05:01:35+00:00", http_status: 403, robots_url: "https://jobs.trellis.net/robots.txt", robots_http_status: 403, robots_rule: null}
+      - {url: "https://jobs.girlboss.com/", checked_at: "2026-11-11T05:01:35+00:00", http_status: 403, robots_url: "https://jobs.girlboss.com/robots.txt", robots_http_status: 403, robots_rule: null}
   - platform: Wiley Madgex
     scope: tenant
     impact: "Some boards answer 403 (or disallow everything); timeshighereducation.com/unijobs and jobs.chronicle.com are open and indexed. jobs.sciencecareers.org answers 403 to the GitHub Actions crawler (robots.txt 200, allows it; the same request from a home connection got 200 on 2026-11-10), so it is not a demo source."
@@ -128,3 +136,9 @@ blocked_by_site:
       - {url: "https://demo.arthajobboard.com/job-detail/devops-engineer", checked_at: "2026-11-10T19:19:01+00:00", http_status: 403, robots_url: "https://demo.arthajobboard.com/robots.txt", robots_http_status: 200, robots_rule: "Allow: /"}
       - {url: "https://medskil.arthajobboard.com/job-detail/animation-developer", checked_at: "2026-11-10T19:19:01+00:00", http_status: 403, robots_url: "https://medskil.arthajobboard.com/robots.txt", robots_http_status: 200, robots_rule: "Allow: /"}
       - {url: "https://api.arthajobboard.com/client/api/v1/jobs/search/guest", checked_at: "2026-11-10T19:19:02+00:00", http_status: 200, robots_url: "https://api.arthajobboard.com/robots.txt", robots_http_status: 200, robots_rule: null, policy: "tenant only via a faked browser Origin header ({code: INVALID_CLIENT} without it)"}
+  - platform: Talenetic
+    scope: platform
+    impact: "The only live customer boards found (client subdomains of talenetic.com, 2026-11-11) disallow everything for all crawlers and redirect to a preview login page."
+    evidence:
+      - {url: "https://procontractjobs.talenetic.com/search", checked_at: "2026-11-11T05:01:50+00:00", http_status: null, robots_url: "https://procontractjobs.talenetic.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
+      - {url: "https://mujojobs.talenetic.com/search", checked_at: "2026-11-11T05:01:50+00:00", http_status: null, robots_url: "https://mujojobs.talenetic.com/robots.txt", robots_http_status: 200, robots_rule: "Disallow: /"}
