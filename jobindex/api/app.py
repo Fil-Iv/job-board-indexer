@@ -54,7 +54,7 @@ job-board platforms.
 """
 
 app = FastAPI(
-    title="JobIndex",
+    title="JobForge",
     version=__version__,
     description=DESCRIPTION,
     lifespan=lifespan,

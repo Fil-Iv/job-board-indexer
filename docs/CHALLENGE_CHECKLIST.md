@@ -4,7 +4,7 @@
 [/docs](https://job-board-indexer.vercel.app/docs)). Reviewer walkthrough:
 [DEMO.md](DEMO.md).
 
-Audit of JobIndex against the six challenge completion criteria. Full audit run
+Audit of JobForge against the six challenge completion criteria. Full audit run
 end-to-end on real data on **2026-11-08** (UTC), locally: `make up` → `make migrate` →
 `make seed-demo` (every example board in `coverage/platforms.yaml`) → `make crawl` (two
 passes, a third for 8 sources after fixes) → dedup → API, UI and DB queries. **Re-verified

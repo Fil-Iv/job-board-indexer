@@ -1,4 +1,4 @@
-# Operating JobIndex
+# Operating JobForge
 
 Day-to-day tasks for a running deployment ([DEPLOY.md](DEPLOY.md)). Commands are shown
 for the VPS setup; locally replace the prefix with `docker compose run --rm app`. For the
@@ -70,7 +70,7 @@ sources**) — jobs stay as they are.
 
 ## Size budget
 
-The free Supabase database holds 500 MB; JobIndex aims to stay under ~400 MB. Measured
+The free Supabase database holds 500 MB; JobForge aims to stay under ~400 MB. Measured
 locally (Nov 2026): **≈ 15 KB per stored posting** including description text, HTML, the
 full-text `tsvector`, indexes and history (43k postings = 675 MB). So 400 MB ≈ 25k
 postings. The demo stores far fewer:
@@ -244,7 +244,7 @@ boards) do not hold up the queue; the CPU cost is small.
 Supabase Free + Vercel Hobby + GitHub Actions on a public repository cost nothing. The
 limits that matter (as published by the providers in 2026; check their pricing pages):
 
-| Service | Free tier | What it means for JobIndex |
+| Service | Free tier | What it means for JobForge |
 |---|---|---|
 | Supabase Free | **500 MB database**, 5 GB egress/month, shared pooler (~15 session connections), 2 free projects per account, no downloadable backups | The [size budget](#size-budget) keeps the demo at ~150 MB; `crawl.yml` fails loudly above 450 MB |
 | | **Paused after 7 days without activity** | The 6-hourly crawl keeps it active. If the crawl stops (e.g. disabled workflow), restore the project in the dashboard |

@@ -1,4 +1,4 @@
-# Deploying JobIndex
+# Deploying JobForge
 
 Two supported setups. Both run the same code, migrations and CLI.
 
@@ -35,7 +35,7 @@ Supabase pooler (Supavisor), which has IPv4:
 * **Session pooler, port 5432** — migrations and the crawler (long sessions).
 * **Transaction pooler, port 6543** — Vercel (many short-lived function instances).
 
-JobIndex turns server-side prepared statements off automatically for pooler URLs
+JobForge turns server-side prepared statements off automatically for pooler URLs
 (`*.pooler.supabase.com`, port 6543; psycopg `prepare_threshold=None` — the asyncpg
 equivalent would be `statement_cache_size=0`), see `jobindex/db.py`. No URL flags needed.
 
@@ -53,7 +53,7 @@ from time to time; if a label below differs, look for the same setting nearby.
    (Frankfurt)* `eu-central-1` ↔ Vercel `fra1`, or *East US (N. Virginia)* `us-east-1` ↔
    Vercel `iad1`. Note it; you set the Vercel region to match in A3.
 5. **Create new project** and wait until it shows as healthy (1–2 minutes).
-6. **Turn off the public Data API** (JobIndex does not use it, and tables in `public`
+6. **Turn off the public Data API** (JobForge does not use it, and tables in `public`
    would otherwise be reachable with the project's API keys): **Project Settings → Data
    API** → disable **Enable Data API** (or, if your dashboard only offers it, remove
    `public` from **Exposed schemas**) → **Save**.
@@ -69,7 +69,7 @@ from time to time; if a label below differs, look for the same setting nearby.
    alter default privileges for role postgres in schema public
      grant select on tables to jobindex_web;
 
-   -- Supabase's API roles get nothing on JobIndex tables (defence in depth).
+   -- Supabase's API roles get nothing on JobForge tables (defence in depth).
    revoke all on all tables in schema public from anon, authenticated;
    alter default privileges for role postgres in schema public
      revoke all on tables from anon, authenticated;

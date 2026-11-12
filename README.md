@@ -1,4 +1,4 @@
-# JobIndex
+# JobForge
 
 **Live demo: <https://job-board-indexer.vercel.app>** — search page; API docs at
 [/docs](https://job-board-indexer.vercel.app/docs), counts at
