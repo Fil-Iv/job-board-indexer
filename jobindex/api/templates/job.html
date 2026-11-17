@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% import "_job.html" as jobs with context %}
+{% macro dt(value) %}{% if value %}<time datetime="{{ value.isoformat() }}">{{ value.strftime('%Y-%m-%d %H:%M') }} UTC</time>{% else %}–{% endif %}{% endmacro %}
+{% block title %}{% if job %}{{ job.title }}{% if job.company %} – {{ job.company }}{% endif %}{% else %}Job not found{% endif %} – JobForge{% endblock %}
+{% block head %}{% if job %}<link rel="canonical" href="/job/{{ job.id }}">{% endif %}{% endblock %}
+{% block content %}
+  {% if not job %}
+  <h2 class="page-title">Job not found</h2>
+  <div class="empty">No posting with this ID. It may have been closed and pruned. <a href="/">Search open jobs</a></div>
+  {% else %}
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Search</a> › <span aria-current="page">Job {{ job.id }}</span></nav>
+  <article class="job-page">
+    <h2 class="page-title job-title">{{ job.title }}</h2>
+    <p class="job-sub">{% if job.company %}<strong>{{ job.company }}</strong>{% endif %}
+      {% set place = jobs.place(job) %}{% if place %} · {{ place }}{% endif %}
+      {% if job.status.value == 'open' %}<i class="badge st-live">open</i>{% else %}<i class="badge st-blocked">closed</i>{% endif %}</p>
+
+    <dl class="facts">
+      <div><dt>Salary</dt><dd>{{ jobs.salary(job) or 'not published' }}</dd></div>
+      <div><dt>Employment</dt><dd>{{ job.employment_type|replace('_', ' ') if job.employment_type else 'not stated' }}</dd></div>
+      <div><dt>Workplace</dt><dd>{{ job.remote_type.value if job.remote_type.value != 'unknown' else 'not stated' }}</dd></div>
+      <div><dt>Posted</dt><dd>{{ dt(job.posted_at) if job.posted_at else 'not given by the source' }}</dd></div>
+      <div><dt>First seen</dt><dd>{{ dt(job.first_seen_at) }}</dd></div>
+      <div><dt>Last seen</dt><dd>{{ dt(job.last_seen_at) }}</dd></div>
+      <div><dt>Last checked</dt><dd>{{ dt(last_checked) }}</dd></div>
+      <div><dt>Status</dt><dd>{{ job.status.value }}{% if job.closed_at %} since {{ dt(job.closed_at) }}{% endif %}</dd></div>
+    </dl>
+
+    <section class="panel" id="listings">
+      <h2>{% if job.sources|length > 1 %}Found on {{ job.sources|length }} sites{% else %}Source{% endif %}</h2>
+      {% if job.sources|length > 1 %}<p class="note">These listings are one opening: deduplication matched them by company, title and location
+        (or the same URL), so search shows it once.</p>{% endif %}
+      <div class="table-scroll">
+      <table class="cov-table rows-stack">
+        <thead><tr><th>Platform</th><th>Board</th><th>Status</th><th>First seen</th><th>Last seen</th><th>Links</th></tr></thead>
+        <tbody>
+        {% for s in job.sources %}
+          <tr><td data-label="Platform">{{ s.platform|platform_name }}</td><td data-label="Board">{{ s.board_identifier }}</td>
+            <td data-label="Status">{{ s.status.value }}</td><td data-label="First seen">{{ s.first_seen_at.strftime('%Y-%m-%d') }}</td><td data-label="Last seen">{{ s.last_seen_at.strftime('%Y-%m-%d') }}</td>
+            <td data-label="Links"><span>{{ jobs.listing_links(s) }}</span></td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <section class="panel" id="description">
+      <h2>Description</h2>
+      {% if job.description_text %}<div class="description">{{ job.description_text }}</div>
+      {% else %}<p class="note">The source publishes no description; see the posting.</p>{% endif %}
+    </section>
+
+    <section class="panel" id="history">
+      <h2>Change history</h2>
+      {% if changes %}
+      <div class="table-scroll">
+      <table class="cov-table history rows-stack">
+        <thead><tr><th>When</th><th>Field</th><th>Change</th><th>Cause</th></tr></thead>
+        <tbody>
+        {% for c in changes %}
+          <tr><td data-label="When">{{ c.at.strftime('%Y-%m-%d %H:%M') }}</td><td data-label="Field">{{ c.field|replace('_', ' ') }}{% if job.sources|length > 1 %} <small>({{ c.platform|platform_name }})</small>{% endif %}</td>
+            <td data-label="Change"><span>{% if c.field in ('description_html', 'description_text') %}text changed{% else %}{% if c.old %}<del>{{ c.old }}</del>{% else %}<i>(empty)</i>{% endif %} → <ins>{{ c.new if c.new else '(empty)' }}</ins>{% endif %}</span></td>
+            <td data-label="Cause">{{ c.cause }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </div>
+      {% if changes|length == max_changes %}<p class="note">Latest {{ max_changes }} changes.</p>{% endif %}
+      <p class="note"><b>upstream</b>: the employer changed the posting; <b>parser</b>: we re-read the same data with a newer parser; <b>local</b>: our own metadata.</p>
+      {% else %}
+      <p class="note">No changes since it was first seen.</p>
+      {% endif %}
+    </section>
+  </article>
+  {% endif %}
+{% endblock %}

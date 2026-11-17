@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "_globe.html" as globe %}
+{% import "_job.html" as jobs with context %}
 {% block title %}{% if params.q %}{{ params.q }} – {% endif %}JobForge{% endblock %}
 {% block head %}<link rel="alternate" type="application/rss+xml" title="This search (RSS)" href="{{ rss_url }}">{% endblock %}
 {% block style %}{% if hero %}{{ globe.style() }}{% endif %}{% endblock %}
@@ -54,32 +55,24 @@
     {% set main = job.sources[0] %}
     <li class="job">
       <h2>
-        {% if main.source_url|safe_url %}<a href="{{ main.source_url|safe_url }}" rel="noopener nofollow" target="_blank">{{ job.title }}</a>{% else %}{{ job.title }}{% endif %}
+        <a href="/job/{{ job.id }}">{{ job.title }}</a>
       </h2>
       <div class="meta">
         {% if job.company %}<strong>{{ job.company }}</strong>{% endif %}
-        {% set place = [job.city, job.region, job.country]|select|join(', ') %}
-        {% if place or job.location_raw %}<span>{{ place or job.location_raw }}</span>{% endif %}
+        {% set place = jobs.place(job) %}
+        {% if place %}<span>{{ place }}</span>{% endif %}
         {% if job.remote_type.value != 'unknown' %}<span class="tag gem gem-{{ job.remote_type.value }}">{{ job.remote_type.value }}</span>{% endif %}
         {% if job.employment_type %}<span class="tag rune">{{ job.employment_type|replace('_', ' ') }}</span>{% endif %}
-        {% if job.salary_min or job.salary_max %}
-          <span class="salary">{{ job.salary_currency or '' }}
-            {% if job.salary_min %}{{ "{:,.0f}".format(job.salary_min) }}{% endif %}{% if job.salary_min and job.salary_max and job.salary_max != job.salary_min %}–{% endif %}{% if job.salary_max and job.salary_max != job.salary_min %}{{ "{:,.0f}".format(job.salary_max) }}{% endif %}
-            {% if job.salary_period %}/ {{ job.salary_period }}{% endif %}</span>
-        {% endif %}
+        {{ jobs.salary(job) }}
         <span>{{ (job.posted_at or job.first_seen_at).strftime('%Y-%m-%d') }}</span>
         {% if job.status.value == 'closed' %}<span class="closed">closed</span>{% endif %}
+        {% if job.sources|length > 1 %}<a class="tag dup" href="/job/{{ job.id }}#listings" title="The same opening was found on {{ job.sources|length }} sites and merged">{{ job.sources|length }} sources</a>{% endif %}
       </div>
       <div class="links">
         {% for s in job.sources %}
           <span>
             <span class="src">{{ s.platform|platform_name }}{% if s.status.value == 'closed' %} (closed){% endif %}:</span>
-            {% set posting = s.source_url|safe_url %}{% set apply = s.apply_url|safe_url %}
-            {% if posting and apply and apply == posting %}<a href="{{ posting }}" rel="noopener nofollow" target="_blank">posting · apply</a>
-            {% else %}
-              {% if posting %}<a href="{{ posting }}" rel="noopener nofollow" target="_blank">posting</a>{% endif %}
-              {% if apply %}{% if posting %}· {% endif %}<a href="{{ apply }}" rel="noopener nofollow" target="_blank">apply</a>{% endif %}
-            {% endif %}
+            {{ jobs.listing_links(s) }}
           </span>
         {% endfor %}
       </div>

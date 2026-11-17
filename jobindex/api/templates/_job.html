@@ -1,0 +1,17 @@
+{#- Shared bits of job cards (index.html) and the job page (job.html). -#}
+{% macro place(job) %}{{ [job.city, job.region, job.country]|select|join(', ') or job.location_raw or '' }}{% endmacro %}
+{% macro salary(job) -%}
+  {%- if job.salary_min or job.salary_max -%}
+  <span class="salary">{{ job.salary_currency or '' }}
+    {% if job.salary_min %}{{ "{:,.0f}".format(job.salary_min) }}{% endif %}{% if job.salary_min and job.salary_max and job.salary_max != job.salary_min %}–{% endif %}{% if job.salary_max and job.salary_max != job.salary_min %}{{ "{:,.0f}".format(job.salary_max) }}{% endif %}
+    {% if job.salary_period %}/ {{ job.salary_period }}{% endif %}</span>
+  {%- endif -%}
+{%- endmacro %}
+{% macro listing_links(s) -%}
+  {% set posting = s.source_url|safe_url %}{% set apply = s.apply_url|safe_url %}
+  {% if posting and apply and apply == posting %}<a href="{{ posting }}" rel="noopener nofollow" target="_blank">posting · apply</a>
+  {% else %}
+    {% if posting %}<a href="{{ posting }}" rel="noopener nofollow" target="_blank">posting</a>{% endif %}
+    {% if apply %}{% if posting %}· {% endif %}<a href="{{ apply }}" rel="noopener nofollow" target="_blank">apply</a>{% endif %}
+  {% endif %}
+{%- endmacro %}

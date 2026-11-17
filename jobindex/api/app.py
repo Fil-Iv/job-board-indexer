@@ -16,6 +16,7 @@ from jobindex.api.browse import router as browse_router
 from jobindex.api.coverage_page import router as coverage_router
 from jobindex.api.deps import SessionDep
 from jobindex.api.feed import router as feed_router
+from jobindex.api.job_page import router as job_page_router
 from jobindex.api.mcp import router as mcp_router
 from jobindex.api.places import router as places_router
 from jobindex.api.pulse import router as pulse_router
@@ -79,6 +80,7 @@ app.include_router(pulse_router)
 app.include_router(browse_router)
 app.include_router(places_router)
 app.include_router(coverage_router)
+app.include_router(job_page_router)
 
 UNCACHED_PATHS = frozenset({"/health"})
 
