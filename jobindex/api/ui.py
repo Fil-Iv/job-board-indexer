@@ -42,6 +42,14 @@ def safe_url(url: str | None) -> str | None:
 templates.env.filters["safe_url"] = safe_url
 
 
+def public_url(request: Request, path: str) -> str:
+    """Absolute URL of ``path`` as the visitor sees it (Vercel terminates TLS in front
+    of the app and passes the original scheme in X-Forwarded-Proto)."""
+    scheme = request.headers.get("x-forwarded-proto", request.url.scheme).split(",")[0].strip()
+    host = request.headers.get("host") or request.url.netloc
+    return f"{scheme}://{host}{path}"
+
+
 def _enum[E: (RemoteType, EmploymentType, StatusFilter)](
     cls: type[E], value: str | None, default: E | None = None
 ) -> E | None:
@@ -147,6 +155,8 @@ async def index(
             "results": results,
             "stats": stats,
             "page_url": page_url,
+            "nav": "search",
+            "mcp_url": public_url(request, "/mcp"),
             "remote_types": [r.value for r in RemoteType if r is not RemoteType.UNKNOWN],
             "employment_types": [e.value for e in EmploymentType],
         },

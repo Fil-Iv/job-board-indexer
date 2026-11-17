@@ -145,8 +145,9 @@ Do **not** use the "Direct connection" string: it is IPv6-only on the free tier.
 On Vercel (`VERCEL=1`) the app automatically uses no connection pool of its own (the
 transaction pooler pools), runs every transaction `READ ONLY`, and lets the CDN cache API
 responses for 60 s (`API_CACHE_SECONDS`; `/health` is never cached). It never crawls or
-schedules anything; the API has no write endpoints. Optional variables: `LOG_LEVEL`,
-`API_CACHE_SECONDS`.
+schedules anything; the API has no write endpoints (`POST /mcp` carries the read-only MCP
+tools, rate-limited per client IP and per function instance). Optional variables:
+`LOG_LEVEL`, `API_CACHE_SECONDS`, `MCP_RATE_LIMIT_PER_MINUTE` (default 60).
 
 Vercel redeploys on every push to `main`. A push with a new migration also starts
 `migrate`; for a minute the new API code may meet the old schema, so keep migrations

@@ -62,6 +62,40 @@ several sources is returned once, with every source's link.
 careers pages. For the last kind it downloads the page (respecting robots.txt) and looks for
 platform fingerprints (embed scripts, iframes, links to the hosted board).
 
+## Use JobForge in your AI agent (MCP)
+
+The API is also an [MCP](https://modelcontextprotocol.io) server at **`/mcp`**
+(Streamable HTTP, stateless JSON, read-only, no auth, rate-limited per client IP via
+`MCP_RATE_LIMIT_PER_MINUTE`, default 60). Tools:
+
+| Tool | Arguments | Returns |
+|---|---|---|
+| `search_jobs` | `q`, `company`, `location`, `remote_type` (`remote`/`hybrid`/`onsite`), `page` | 10 openings per page: id, title, company, location, salary, date, URL |
+| `get_job` | `id` | Full description text, every listing's posting and apply URL |
+
+Claude Code:
+
+```sh
+claude mcp add --transport http jobforge https://job-board-indexer.vercel.app/mcp
+```
+
+Claude Desktop: *Settings → Connectors → Add custom connector* with the URL above, or in
+`claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "jobforge": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://job-board-indexer.vercel.app/mcp"]
+    }
+  }
+}
+```
+
+Locally the endpoint is `http://localhost:8000/mcp`. Implementation notes:
+`jobindex/api/mcp.py`.
+
 ## Supported platforms
 
 65 connectors (61 verified on two real employers each; CareerSiteCloud, FirstStage, JobKit and Nodex are

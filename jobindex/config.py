@@ -30,6 +30,9 @@ class Settings(BaseSettings):
     # Set to "1" by Vercel at runtime. Switches the defaults of database_null_pool,
     # database_read_only (both true) and api_cache_seconds (60) unless set explicitly.
     vercel: bool = False
+    # MCP endpoint (jobindex/api/mcp.py): requests per minute per client IP
+    # (per function instance on Vercel).
+    mcp_rate_limit_per_minute: int = 60
 
     # HTTP / crawling etiquette
     http_user_agent: str = "JobIndexBot/0.1 (+https://example.com/jobindex-bot)"

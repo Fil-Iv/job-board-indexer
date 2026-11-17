@@ -62,7 +62,14 @@ def test_entry_point_imports_no_crawler_runtime() -> None:
 
 
 def test_api_has_no_write_endpoints() -> None:
-    methods = {m for r in app.routes if isinstance(r, APIRoute) for m in r.methods or ()}
+    # POST /mcp is JSON-RPC transport for the read-only MCP tools (tests/test_mcp.py).
+    methods = {
+        m
+        for r in app.routes
+        if isinstance(r, APIRoute)
+        for m in r.methods or ()
+        if not (r.path == "/mcp" and m == "POST")
+    }
     assert methods <= {"GET", "HEAD"}
 
 
