@@ -12,7 +12,7 @@ from datetime import UTC, date, datetime, time
 from decimal import Decimal
 from typing import Any
 
-from sqlalchemy import ColumnElement, Select, and_, func, or_, select
+from sqlalchemy import ColumnElement, Select, and_, func, literal_column, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from jobindex.api.schemas import (
@@ -84,12 +84,41 @@ def _location_filter(location: str) -> ColumnElement[bool]:
     return and_(*conditions)
 
 
+#: ts_rank_cd weights for {D, C, B, A}: description (C) counts 1/20 of a title (A) match.
+RANK_WEIGHTS = "{0.01,0.05,0.4,1.0}"
+#: A one-word query must match the title / company or the start of the description:
+#: a word deep in a long description ("…our cybersecurity policy…") is not what the job is.
+LEAD_CHARS = 400
+_PLAIN_WORD = re.compile(r"^[^\s\"'()-][^\s\"'()]*$")
+
+
+def _tsquery(q: str) -> ColumnElement[Any]:
+    return func.websearch_to_tsquery("english", q)
+
+
+def _text_filter(q: str) -> ColumnElement[bool]:
+    query = _tsquery(q)
+    matches: ColumnElement[bool] = Job.search_vector.op("@@")(query)
+    if not _PLAIN_WORD.match(q.strip()) or q.strip().lower() == "or":
+        return matches  # phrases, several words, exclusions: full-text as is
+    in_title_or_company = func.ts_filter(Job.search_vector, literal_column("'{a,b}'::\"char\"[]"))
+    english: ColumnElement[Any] = literal_column("'english'::regconfig")
+    lead = func.to_tsvector(english, func.left(Job.description_text, LEAD_CHARS))
+    return and_(matches, or_(in_title_or_company.op("@@")(query), lead.op("@@")(query)))
+
+
+def rank(q: str) -> ColumnElement[float]:
+    """Relevance: title matches far above company, company above description."""
+    weights: ColumnElement[Any] = literal_column(f"'{RANK_WEIGHTS}'::float4[]")
+    return func.ts_rank_cd(weights, Job.search_vector, _tsquery(q))
+
+
 def _filters(p: SearchParams) -> list[ColumnElement[bool]]:
     where: list[ColumnElement[bool]] = []
     if p.status is not StatusFilter.ANY:
         where.append(Job.status == JobStatus(p.status.value))
     if p.q:
-        where.append(Job.search_vector.op("@@")(func.websearch_to_tsquery("english", p.q)))
+        where.append(_text_filter(p.q))
     if p.company:
         where.append(_company_filter(p.company.strip()))
     if p.location and p.location.strip(", "):
@@ -118,8 +147,7 @@ async def search(session: AsyncSession, p: SearchParams) -> JobSearchOut:
         select(gid).join(Source, Source.id == Job.source_id).where(*_filters(p)).group_by(gid)
     )
     if p.q and not p.newest_first:
-        rank = func.ts_rank(Job.search_vector, func.websearch_to_tsquery("english", p.q))
-        order = [func.max(rank).desc(), gid.desc()]
+        order: list[ColumnElement[Any]] = [func.max(rank(p.q)).desc(), gid.desc()]
     else:
         newest = func.max(func.coalesce(Job.posted_at, Job.first_seen_at))
         order = [newest.desc(), gid.desc()]
