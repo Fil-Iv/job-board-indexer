@@ -40,6 +40,27 @@ def alembic_config(database_url: str) -> Config:
     return cfg
 
 
+# Recreates the hosted (Supabase) setup in the test database, so the migrations are
+# tested against it: Supabase's API roles with Supabase's default grants on everything
+# new in `public`, and the website role from docs/DEPLOY.md A1 step 7 (NOLOGIN here).
+SUPABASE_LIKE_ROLES_SQL = """
+DO $$
+DECLARE r text;
+BEGIN
+  FOREACH r IN ARRAY ARRAY['anon', 'authenticated', 'jobindex_web'] LOOP
+    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = r) THEN
+      EXECUTE format('CREATE ROLE %I NOLOGIN', r);
+    END IF;
+  END LOOP;
+END $$;
+GRANT USAGE ON SCHEMA public TO anon, authenticated, jobindex_web;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO anon, authenticated;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO anon, authenticated;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON FUNCTIONS TO anon, authenticated;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO jobindex_web;
+"""
+
+
 @pytest.fixture(scope="session")
 def migrated_db(database_url: str) -> str:
     """Reset the test database and apply all migrations once per test session."""
@@ -47,6 +68,7 @@ def migrated_db(database_url: str) -> str:
     with engine.begin() as conn:
         conn.execute(text("DROP SCHEMA public CASCADE"))
         conn.execute(text("CREATE SCHEMA public"))
+        conn.execute(text(SUPABASE_LIKE_ROLES_SQL))
     engine.dispose()
     command.upgrade(alembic_config(database_url), "head")
     return database_url

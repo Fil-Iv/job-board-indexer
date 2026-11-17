@@ -171,6 +171,8 @@ jobs:
         run: python -m jobindex.cli dedup
       - name: Check career pages queued via /add (robots.txt, platform, dry-run count)
         run: python -m jobindex.cli check-pending --limit 20
+      - name: Database access audit (RLS on, nothing for anon/authenticated)
+        run: python -m jobindex.cli db-security
       - name: Job summary
         env:
           SINCE: ${{ needs.plan.outputs.started_at }}

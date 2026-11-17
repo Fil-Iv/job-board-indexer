@@ -45,3 +45,7 @@ jobs:
           alembic current
           alembic upgrade head
           alembic current
+      # Fails if a public table has RLS off or anon/authenticated can reach anything
+      # (Supabase's Data API roles; docs/DEPLOY.md#database-access-lockdown).
+      - name: Database access audit
+        run: python -m jobindex.cli db-security

@@ -69,7 +69,8 @@ from time to time; if a label below differs, look for the same setting nearby.
    alter default privileges for role postgres in schema public
      grant select on tables to jobindex_web;
 
-   -- Supabase's API roles get nothing on JobForge tables (defence in depth).
+   -- Supabase's API roles get nothing on JobForge tables (defence in depth; migration
+   -- 0007 repeats this and enables RLS, see "Database access lockdown" below).
    revoke all on all tables in schema public from anon, authenticated;
    alter default privileges for role postgres in schema public
      revoke all on tables from anon, authenticated;
@@ -163,6 +164,47 @@ limits: per-client rate limits, one row per URL, `INTAKE_QUEUE_PER_HOUR` (30) an
 Vercel redeploys on every push to `main`. A push with a new migration also starts
 `migrate`; for a minute the new API code may meet the old schema, so keep migrations
 backwards-compatible (add columns before using them).
+
+### Database access lockdown
+
+JobIndex never uses Supabase's Data API (PostgREST); everything connects through the
+pooler. So that the project's public anon key can never read data, even if the Data API is
+switched back on, migration **0007** (2026-11-17, after Supabase's
+`rls_disabled_in_public` alert):
+
+* enables **Row Level Security on every table in `public`** (`alembic_version` and
+  `pending_sources` included) with explicit policies for our roles only: `owner_all` for
+  the role that runs migrations and the crawler (`postgres`, the table owner), `web_read`
+  (SELECT, every table) and `web_insert` (`pending_sources`) for `jobindex_web`.
+  `jobindex_web`'s grants stay as in A1 step 7 + migration 0005;
+* **revokes everything** on tables, sequences and functions in `public` from `anon` and
+  `authenticated` and removes them from `postgres`'s default privileges, so new tables
+  are not granted to them either. They get no policies.
+
+**A new table** needs the same in its migration (copy the loop body of
+`migrations/versions/0007_row_level_security.py`): `ENABLE ROW LEVEL SECURITY`,
+`owner_all`, `web_read`. Otherwise `tests/test_db_security.py` fails in CI (the test
+database gets Supabase-like roles and grants first, `tests/conftest.py`).
+
+**Checks**:
+
+* `python -m jobindex.cli db-security` lists every public table with RLS off, every
+  privilege `anon` / `authenticated` hold (also default privileges), and any
+  `jobindex_web` right beyond SELECT + INSERT on `pending_sources` or without a policy;
+  exit 1 if anything is found. `migrate.yml` runs it after every `alembic upgrade head`,
+  `crawl.yml` in `finalize`.
+* From outside, with the anon key (**Project Settings → API Keys**; it is public by
+  design), the Data API must return no rows:
+
+  ```sh
+  curl -s "https://<ref>.supabase.co/rest/v1/jobs?select=id&limit=1" \
+    -H "apikey: $ANON_KEY" -H "Authorization: Bearer $ANON_KEY"
+  ```
+
+  Expected: an error (`permission denied for table jobs`, or a 404/"not found" while the
+  Data API is disabled as in A1 step 6), **never** a JSON array with rows.
+* **Advisors → Security Advisor** in the Supabase dashboard shows no
+  `rls_disabled_in_public` error after the migrate run.
 
 ### A4. Before going public
 

@@ -24,6 +24,9 @@ Commands:
     prune [--closed-days N] [--changes-days N] [--runs-days N]
                                              delete old closed postings / history / runs
                                              (defaults: *_RETENTION_DAYS settings)
+    db-security                              audit database access: RLS on every public table,
+                                             nothing for Supabase's anon/authenticated roles
+                                             (exit 1 on any problem)
     check-pending [--limit N]                live-check URLs queued via /add or POST /sources
                                              (robots.txt, platform, dry-run job count)
     schedule                                 crawl continuously (the worker process)
@@ -50,6 +53,7 @@ from jobindex.coverage import PLATFORMS_FILE, load_platforms
 from jobindex.crawler import CrawlResult, active_source_ids, crawl_sources
 from jobindex.crawlplan import crawl_summary, plan_shards, render_summary, source_estimates
 from jobindex.db import create_engine, create_session_factory
+from jobindex.dbsecurity import audit
 from jobindex.dedup import run_dedup
 from jobindex.http import FetchError, HttpClient
 from jobindex.intake import process_pending
@@ -151,6 +155,9 @@ def _build_parser() -> argparse.ArgumentParser:
     size.add_argument("--warn-above-mb", type=float, metavar="MB", help="warn if larger")
     size.add_argument(
         "--fail-above-mb", type=float, metavar="MB", help="exit 1 if the database is larger"
+    )
+    sub.add_parser(
+        "db-security", help="audit RLS and grants (exit 1 if anon/authenticated can reach data)"
     )
     prune_cmd = sub.add_parser("prune", help="delete old closed postings, history and runs")
     prune_cmd.add_argument("--closed-days", type=int, metavar="N", help="closed > N days ago")
@@ -340,6 +347,16 @@ async def report_db_size(
             "(see docs/OPERATIONS.md#size-budget)",
         )
     return 0
+
+
+async def db_security(session_factory: async_sessionmaker[AsyncSession]) -> int:
+    async with session_factory() as session:
+        problems = await audit(session)
+    for problem in problems:
+        _annotate("error", f"db-security: {problem} (see docs/DEPLOY.md#database-access-lockdown)")
+    if not problems:
+        print("db-security: ok (RLS on every public table, nothing granted to anon/authenticated)")
+    return 1 if problems else 0
 
 
 async def run_prune(
@@ -592,6 +609,8 @@ async def _run(args: argparse.Namespace, registry: Registry) -> int:
             return await report_db_size(
                 session_factory, args.markdown, args.fail_above_mb, args.warn_above_mb
             )
+        if args.command == "db-security":
+            return await db_security(session_factory)
         if args.command == "crawl-due":
             return await crawl_due(session_factory, args.min_hours, args.github_output)
         if args.command == "crawl-plan":

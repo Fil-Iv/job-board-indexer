@@ -39,7 +39,7 @@ replaces the `worker` with GitHub Actions and the `app` container with Vercel:
 | Workflow | When | What |
 |---|---|---|
 | `crawl.yml` | every 6 h (`17 */6 * * *` UTC) + **Run workflow** | `plan` → `crawl` matrix → `finalize` (below) |
-| `migrate.yml` | push to `main` touching migrations/models, + manual | `alembic upgrade head` |
+| `migrate.yml` | push to `main` touching migrations/models, + manual | `alembic upgrade head`, then `db-security` |
 | `ci.yml` | every push / pull request | `make lint`, `make test` |
 
 **crawl.yml in detail**
@@ -54,7 +54,9 @@ replaces the `worker` with GitHub Actions and the `app` container with Vercel:
    continues where this one stopped (generic pages: checkpoint valid 24 h; Workday: 2 h).
    The job timeout is 5 h, GitHub's hard limit 6 h. Failed sources are a warning, not a
    failed job; they are in the summary.
-3. **finalize** (also after failed shards): `prune`, `dedup`, `crawl-summary` (Markdown
+3. **finalize** (also after failed shards): `prune`, `dedup`, `check-pending`,
+   `db-security` (fails if a public table has RLS off or Supabase's `anon` /
+   `authenticated` roles hold any privilege), `crawl-summary` (Markdown
    job summary: runs, found/new/updated/closed per platform, failures) and `db-size`
    (warning above `DB_WARN_MB`, **fails the run above `DB_FAIL_MB`**, so GitHub e-mails
    you).
@@ -70,6 +72,20 @@ with *seed* ticked. **Many boards at once** (fast JSON platforms): add slugs to
 (checks each one live through `HttpClient`: robots.txt, public list, open jobs) and the
 boards with ≥ 5 open jobs go to `coverage/demo_sources_extra.yaml`; push, seed as above. **Remove one**: set `active = false` in Supabase (**Table Editor →
 sources**) — jobs stay as they are.
+
+### Supabase security alert (`rls_disabled_in_public` and similar)
+
+Supabase e-mails when a table in `public` is reachable through its Data API. Everything
+JobIndex needs is in migration 0007 ([DEPLOY.md](DEPLOY.md#database-access-lockdown)):
+
+1. **Actions → migrate → Run workflow** (or push a migration). It runs
+   `alembic upgrade head` and then `db-security`, which fails and names each problem
+   (table without RLS, privilege held by `anon` / `authenticated`, extra `jobindex_web`
+   right). A table created outside the migrations (e.g. in the SQL editor) shows up here.
+2. Fix it in a new migration (RLS + `owner_all` / `web_read` policies, revoke from
+   `anon`, `authenticated`), never by hand only; `make test` checks the same rules.
+3. Verify: `curl` with the anon key returns no rows (DEPLOY.md), `/health`, `/jobs`,
+   `POST /mcp` and the next crawl work, and **Advisors → Security Advisor** is clean.
 
 ## Size budget
 
