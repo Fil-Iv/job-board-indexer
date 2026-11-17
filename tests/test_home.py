@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from jobindex.api import places
 from jobindex.api.app import app
+from jobindex.config import get_settings
 from jobindex.models import Job, Source
 
 
@@ -89,3 +90,40 @@ async def test_mobile_safeguards(client: httpx.AsyncClient) -> None:
     assert 'button.className = "copy-btn"' in page
     assert "minmax(min(100%, 140px), 1fr)" in page
     assert "@supports (-webkit-touch-callout: none)" in page
+
+
+async def test_free_tier_note_on_the_hosted_demo_only(
+    client: httpx.AsyncClient, session: AsyncSession, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The hosted demo says its size is the free database's limit, not the product's."""
+    places._cache.clear()
+    t0 = datetime(2026, 11, 1, tzinfo=UTC)
+    session.add(Source(id=1, platform="greenhouse", board_identifier="a", base_url="https://a"))
+    await session.flush()
+    for i, company in enumerate(["Acme", "ACME", "Globex"]):
+        session.add(
+            Job(
+                source_id=1,
+                external_id=str(i),
+                title=f"T{i}",
+                company=company,
+                first_seen_at=t0,
+                last_seen_at=t0,
+                content_hash=str(i),
+            )
+        )
+    await session.commit()
+    note = "Hosted demo on free tiers:"
+    assert note not in (await client.get("/")).text  # local / VPS: no cap, no note
+
+    monkeypatch.setenv("VERCEL", "1")
+    get_settings.cache_clear()
+    try:
+        for path in ("/", "/coverage"):
+            page = (await client.get(path)).text
+            assert f"{note} 3 jobs from 2 employers." in page, path
+            assert "docs/OPERATIONS.md#scaling" in page
+    finally:
+        monkeypatch.delenv("VERCEL")
+        get_settings.cache_clear()
+        places._cache.clear()

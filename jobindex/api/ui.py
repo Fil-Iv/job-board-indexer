@@ -25,6 +25,7 @@ from jobindex.api.deps import SessionDep
 from jobindex.api.schemas import SENIORITY_LABELS, EmploymentType, Seniority, StatusFilter
 from jobindex.api.search import SearchParams, group_id, search
 from jobindex.catalog import platform_name
+from jobindex.config import get_settings
 from jobindex.currency import infer_currency
 from jobindex.models import Job, JobStatus, RemoteType, Source
 
@@ -135,6 +136,30 @@ async def header_stats(session: AsyncSession) -> HeaderStats:
     )
 
 
+@dataclass(slots=True)
+class DemoScale:
+    """Size of the hosted demo for the "capped by the free tier" note (home, /coverage)."""
+
+    jobs: int
+    employers: int
+
+
+async def demo_scale(session: AsyncSession, stats: HeaderStats) -> DemoScale | None:
+    """The hosted demo's size, or ``None`` outside Vercel (a VPS index is not capped).
+
+    The demo's size is set by the free 500 MB database (docs/OPERATIONS.md#scaling),
+    not by the software; the pages say so.
+    """
+    if not get_settings().vercel:
+        return None
+    employers = await session.scalar(
+        select(func.count(func.distinct(func.lower(Job.company)))).where(
+            Job.status == JobStatus.OPEN
+        )
+    )
+    return DemoScale(jobs=stats.open_openings, employers=employers or 0)
+
+
 router = APIRouter(include_in_schema=False)
 
 FAVICON = (Path(__file__).parent / "static" / "favicon.svg").read_bytes()
@@ -195,5 +220,6 @@ async def index(
             "remote_types": [r.value for r in RemoteType if r is not RemoteType.UNKNOWN],
             "employment_types": [e.value for e in EmploymentType],
             "seniorities": [(s.value, SENIORITY_LABELS[s]) for s in Seniority],
+            "demo": await demo_scale(session, stats),
         },
     )

@@ -4,8 +4,9 @@
 {% block content %}
   <h2 class="page-title">Platform coverage</h2>
   <p class="summary">All {{ rows|length }} platforms the index has to cover: {{ groups[0][1]|length }} applicant tracking systems and
-    {{ groups[1][1]|length }} job-board platforms. Open jobs and crawl times are live from the hosted index (up to 200 jobs per board);
+    {{ groups[1][1]|length }} job-board platforms. Open jobs and crawl times are live from the hosted index (up to 1,000 jobs per board);
     blocked platforms show the request the site refused.</p>
+  {% include "_demo_note.html" %}
 
   <div class="tiles">
     {% for s in statuses %}

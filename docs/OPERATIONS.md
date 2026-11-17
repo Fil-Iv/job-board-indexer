@@ -253,6 +253,27 @@ interval (e.g. `{"greenhouse": 120}`) rather than the rate. Increase `CRAWL_CONC
 (8–16) once you have thousands of sources so slow detail-fetching crawls (Workday, sitemap
 boards) do not hold up the queue; the CPU cost is small.
 
+## Scaling
+
+**The hosted demo is capped by the free database tier, not by the software.** The same
+code, schema and crawler run in all three setups; only the database size (and so the
+storage limits in the [size budget](#size-budget)) and the crawl cadence change.
+Current demo (2026-11-17): **9,132 open jobs from 101 boards, 57 MB**, as of the last
+finished crawl; the crawl now adding the 278 boards of `demo_sources_extra.yaml` takes it
+to ≈ 48,000 jobs from ≈ 380 employers, ≈ 300 MB.
+
+| | Free tier (hosted demo) | Supabase Pro | One VPS |
+|---|---|---|---|
+| Database size | 500 MB (budget ≤ 400 MB) | 8 GB included, more per GB | disk of the VPS (80–240 GB) |
+| Approx. job capacity | ≈ 80,000 postings with the demo limits (4.7 KB each: text ≤ 1,500 chars, no HTML, 14-day closed retention); demo runs ≈ 48,000 | ≈ 1.5 M with the demo limits, ≈ 500,000 with full descriptions and full history (≈ 14 KB each) | ≈ 150,000 open jobs (~1,000 boards) in 3–5 GB, ≈ 1.5 M (~10,000 boards) in 30–50 GB, full text and history |
+| Monthly cost | €0 (Supabase Free + Vercel Hobby + GitHub Actions on a public repo) | $25 (≈ €23) + usage; Vercel Hobby/Pro; crawler on Actions (€0) or a small VPS (€5–10) | ≈ €10–35 (~1,000 boards), ≈ €30–120 (~10,000 boards) |
+| Crawl frequency | every 6 h (GitHub Actions, ≤ 5 h per run, 4 shards) | every 6 h on Actions; hourly with the `worker` on a small VPS | continuous: hourly per board (Workday/Oracle 4 h), per-platform intervals |
+
+Moving up a tier: raise or unset `MAX_JOBS_PER_SOURCE`, `DESCRIPTION_*_MAX_CHARS` and the
+`*_RETENTION_DAYS` limits, raise `DB_WARN_MB` / `DB_FAIL_MB`, and seed more boards
+(`make seed-demo` registers every example board). Details and prices:
+[below](#capacity-and-monthly-cost).
+
 ## Capacity and monthly cost
 
 ### Hosted demo: €0/month

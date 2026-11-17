@@ -4,6 +4,8 @@
 [/docs](https://job-board-indexer.vercel.app/docs)). Reviewer walkthrough:
 [DEMO.md](DEMO.md).
 
+**The demo is capped by the free database tier, not by the product.** Hosted demo on free tiers (Supabase Free 500 MB): 9,132 open jobs from 101 boards (57 MB, last finished crawl, 2026-11-17); the crawl now running adds 278 boards, ≈ 48,000 jobs from ≈ 380 employers, ≈ 300 MB. The same system indexes far more with a larger database (≈ 1.5 M jobs on Supabase Pro, full history on a VPS): see the scaling table in [OPERATIONS.md#scaling](OPERATIONS.md#scaling).
+
 Audit of JobForge against the six challenge completion criteria. Full audit run
 end-to-end on real data on **2026-11-08** (UTC), locally: `make up` → `make migrate` →
 `make seed-demo` (every example board in `coverage/platforms.yaml`) → `make crawl` (two

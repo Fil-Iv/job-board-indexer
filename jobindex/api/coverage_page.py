@@ -16,7 +16,7 @@ from sqlalchemy import func, select
 
 from jobindex.api.deps import SessionDep
 from jobindex.api.pulse import CACHE_SECONDS
-from jobindex.api.ui import header_stats, templates
+from jobindex.api.ui import demo_scale, header_stats, templates
 from jobindex.catalog import catalog
 from jobindex.models import Job, JobStatus, Source
 
@@ -99,12 +99,14 @@ async def coverage_page(request: Request, session: SessionDep) -> HTMLResponse:
     ]
     counts = {s: sum(r.status == s for r in rows) for s in STATUSES}
     groups = [(TYPE_TITLES[t], [r for r in rows if r.type == t]) for t in TYPE_TITLES]
+    stats = await header_stats(session)
     response = templates.TemplateResponse(
         request,
         "coverage.html",
         {
             "nav": "coverage",
-            "stats": await header_stats(session),
+            "stats": stats,
+            "demo": await demo_scale(session, stats),
             "rows": rows,
             "groups": groups,
             "counts": counts,

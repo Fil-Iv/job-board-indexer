@@ -14,6 +14,8 @@ offline [GeoNames](https://www.geonames.org) extract, CC BY 4.0, `scripts/make_c
 Reviewer walkthrough:
 [docs/DEMO.md](docs/DEMO.md).
 
+**The demo is capped by the free database tier, not by the product.** Hosted demo on free tiers (Supabase Free 500 MB): 9,132 open jobs from 101 boards (57 MB, last finished crawl, 2026-11-17); the crawl now running adds 278 boards, ≈ 48,000 jobs from ≈ 380 employers, ≈ 300 MB. The same system indexes far more with a larger database (≈ 1.5 M jobs on Supabase Pro, full history on a VPS): see the scaling table in [docs/OPERATIONS.md#scaling](docs/OPERATIONS.md#scaling).
+
 A job board indexer: pulls postings from ATS platforms (Greenhouse, Lever, Workday, …) and
 job-board platforms into one searchable, continuously updated PostgreSQL index.
 
@@ -23,7 +25,7 @@ Project rules (stack, connector conventions, crawling etiquette) are in [CLAUDE.
 |---|---|
 | [docs/DEMO.md](docs/DEMO.md) | 11-step reviewer walkthrough: live search, API examples, MCP for AI agents, adding a source, coverage evidence |
 | [docs/DEPLOY.md](docs/DEPLOY.md) | **Hosted demo for €0** (Supabase + Vercel + GitHub Actions), click by click; alternative: one VPS (`docker-compose.prod.yml`, HTTPS, backups) |
-| [docs/OPERATIONS.md](docs/OPERATIONS.md) | Crawl workflow, **size budget**, add a source, re-run a board, monitor failures, tuning, **monthly cost** + upgrade path, external dependencies |
+| [docs/OPERATIONS.md](docs/OPERATIONS.md) | Crawl workflow, **size budget**, add a source, re-run a board, monitor failures, tuning, **scaling table** (free tier / Supabase Pro / VPS), **monthly cost** + upgrade path, external dependencies |
 | [docs/CONNECTORS.md](docs/CONNECTORS.md) | How each connector works, how to add one, deduplication rules |
 | [docs/COVERAGE.md](docs/COVERAGE.md) | Generated: all 78 platforms, status, live job counts |
 

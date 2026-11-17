@@ -1,0 +1,4 @@
+{#- "Capped by the free tier, not by the product" note; `demo` is ui.DemoScale or None (not on Vercel). -#}
+{% if demo %}<p class="demo-note">Hosted demo on free tiers: {{ "{:,}".format(demo.jobs) }} jobs from {{ "{:,}".format(demo.employers) }} employers.
+  The same system indexes far more with a larger database; see
+  <a href="https://github.com/Fil-Iv/job-board-indexer/blob/main/docs/OPERATIONS.md#scaling" rel="noopener">Operations</a>.</p>{% endif %}
