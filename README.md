@@ -17,7 +17,7 @@ Project rules (stack, connector conventions, crawling etiquette) are in [CLAUDE.
 
 | Doc | |
 |---|---|
-| [docs/DEMO.md](docs/DEMO.md) | 10-step reviewer walkthrough: live search, API examples, adding a source, coverage evidence |
+| [docs/DEMO.md](docs/DEMO.md) | 11-step reviewer walkthrough: live search, API examples, MCP for AI agents, adding a source, coverage evidence |
 | [docs/DEPLOY.md](docs/DEPLOY.md) | **Hosted demo for €0** (Supabase + Vercel + GitHub Actions), click by click; alternative: one VPS (`docker-compose.prod.yml`, HTTPS, backups) |
 | [docs/OPERATIONS.md](docs/OPERATIONS.md) | Crawl workflow, **size budget**, add a source, re-run a board, monitor failures, tuning, **monthly cost** + upgrade path, external dependencies |
 | [docs/CONNECTORS.md](docs/CONNECTORS.md) | How each connector works, how to add one, deduplication rules |

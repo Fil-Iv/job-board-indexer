@@ -1,7 +1,7 @@
 # Reviewer walkthrough
 
-Ten steps through the running system, about 15 minutes. Steps 1–8 need only a browser or
-`curl`; steps 9–10 need Docker and `make` (README, *Quick start*).
+Eleven steps through the running system, about 20 minutes. Steps 1–9 need only a browser
+or `curl`; steps 10–11 need Docker and `make` (README, *Quick start*).
 
 **Live demo: <https://job-board-indexer.vercel.app>** (Vercel + Supabase Postgres,
 refreshed by GitHub Actions every 6 h; see [DEPLOY.md](DEPLOY.md), part A). The hosted demo
@@ -83,7 +83,35 @@ Love Local Jobs); the API returns it once, with both listings in `sources`. Rule
 checked merges / near misses: [CONNECTORS.md](CONNECTORS.md#deduplication),
 [CHALLENGE_CHECKLIST.md §4](CHALLENGE_CHECKLIST.md#4-deduplication--).
 
-## 7. Automatic updates and failures
+## 7. AI agents (MCP)
+
+The same search is an [MCP](https://modelcontextprotocol.io) server at `$B/mcp`
+(Streamable HTTP, stateless JSON; read-only, no auth, 60 requests/minute per client IP).
+Every JSON-RPC message is one `POST`:
+
+```sh
+mcp() { curl -s $B/mcp -H 'Content-Type: application/json' \
+          -H 'Accept: application/json, text/event-stream' -d "$1"; echo; }
+
+mcp '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"curl","version":"1"}}}'
+mcp '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'        # search_jobs, get_job + input schemas
+mcp '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"search_jobs","arguments":{"q":"python","location":"Germany"}}}'
+mcp '{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"get_job","arguments":{"id":3720}}}'   # an id from the search
+mcp '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"search_jobs","arguments":{"page":0}}}' # isError: invalid arguments
+curl -s -o /dev/null -w "%{http_code}\n" $B/mcp                # 405: no SSE stream, POST only
+```
+
+`search_jobs` takes `q`, `company`, `location`, `remote_type`, `page` (10 openings per
+page) and returns them in `structuredContent` (plus the same JSON as text);
+`get_job` adds the description and every listing's posting / apply URL.
+
+With a real agent: `claude mcp add --transport http jobforge $B/mcp`, then ask Claude Code
+e.g. "find remote Python jobs in Germany". Claude Desktop setup and all details: the
+search page's [*Use JobForge in your AI agent*](https://job-board-indexer.vercel.app/#agents)
+section and README, *Use JobForge in your AI agent (MCP)*. Code and tests:
+`jobindex/api/mcp.py`, `tests/test_mcp.py`.
+
+## 8. Automatic updates and failures
 
 * Crawl runs: <https://github.com/Fil-Iv/job-board-indexer/actions/workflows/crawl.yml>.
   Open a run → **Summary**: per-platform counts (found / new / updated / closed / failed)
@@ -94,7 +122,7 @@ checked merges / near misses: [CONNECTORS.md](CONNECTORS.md#deduplication),
 * Locally the same runs continuously: `python -m jobindex.cli schedule` (the `worker`
   service of the VPS setup, DEPLOY.md part B).
 
-## 8. Coverage evidence (78 platforms)
+## 9. Coverage evidence (78 platforms)
 
 | What | Where |
 |---|---|
@@ -107,7 +135,7 @@ checked merges / near misses: [CONNECTORS.md](CONNECTORS.md#deduplication),
 On the live demo: `curl -s $B/stats` lists the platforms with indexed jobs, and
 `curl -s "$B/sources"` lists every board.
 
-## 9. Add a source (locally)
+## 10. Add a source (locally)
 
 ```sh
 make up && make migrate
@@ -126,7 +154,7 @@ entry to [`coverage/demo_sources.yaml`](../coverage/demo_sources.yaml), push, th
 A new **platform** = one connector module + a test on a saved real response:
 [CONNECTORS.md](CONNECTORS.md#adding-a-connector).
 
-## 10. Tests and code quality
+## 11. Tests and code quality
 
 ```sh
 make test       # ~890 offline tests (fixtures; no network), separate test database
