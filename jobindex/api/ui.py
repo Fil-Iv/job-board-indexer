@@ -3,10 +3,9 @@
 It runs the same search as ``GET /jobs``. Form values are parsed leniently: an empty or
 invalid field is ignored instead of producing a 422 error page.
 
-The page has two themes, both in ``templates/index.html`` (plain CSS, no build step): the
-default "Dark Fantasy" look (rendered server-side as ``data-theme="fantasy"``) and a clean
-light look, switched by a header button and remembered in ``localStorage``.
-The choice is purely client-side, so CDN caching still works.
+Every page shares one look (``templates/base.html``, plain CSS, no build step): dark slate,
+cyan accent, IBM Plex Sans / Mono. The landing page (no filters, page 1) adds a world map
+of open jobs with a secondary globe view (``templates/_globe.html``).
 """
 
 from dataclasses import dataclass
@@ -139,7 +138,7 @@ FAVICON = (Path(__file__).parent / "static" / "favicon.svg").read_bytes()
 
 @router.get("/favicon.svg")
 async def favicon() -> Response:
-    """The site icon: a gold anvil with a rune spark (original SVG)."""
+    """The site icon: a cyan anvil with a spark on slate (original SVG)."""
     return Response(
         FAVICON,
         media_type="image/svg+xml",

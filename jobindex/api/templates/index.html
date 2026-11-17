@@ -61,8 +61,8 @@
         {% if job.company %}<strong>{{ job.company }}</strong>{% endif %}
         {% set place = jobs.place(job) %}
         {% if place %}<span>{{ place }}</span>{% endif %}
-        {% if job.remote_type.value != 'unknown' %}<span class="tag gem gem-{{ job.remote_type.value }}">{{ job.remote_type.value }}</span>{% endif %}
-        {% if job.employment_type %}<span class="tag rune">{{ job.employment_type|replace('_', ' ') }}</span>{% endif %}
+        {% if job.remote_type.value != 'unknown' %}<span class="tag workplace">{{ job.remote_type.value }}</span>{% endif %}
+        {% if job.employment_type %}<span class="tag">{{ job.employment_type|replace('_', ' ') }}</span>{% endif %}
         {{ jobs.salary(job) }}
         <span>{{ (job.posted_at or job.first_seen_at).strftime('%Y-%m-%d') }}</span>
         {% if job.status.value == 'closed' %}<span class="closed">closed</span>{% endif %}

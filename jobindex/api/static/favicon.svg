@@ -1,15 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- JobForge mark: a gold anvil with a four-pointed rune spark (original artwork). -->
+  <!-- JobForge mark: a cyan anvil with a spark on slate (original artwork). -->
   <defs>
-    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#f6e3a4"/>
-      <stop offset=".5" stop-color="#e0bd62"/>
-      <stop offset="1" stop-color="#9c7426"/>
+    <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8fbff"/>
+      <stop offset="1" stop-color="#2fc4d4"/>
     </linearGradient>
   </defs>
-  <rect x="1" y="1" width="30" height="30" rx="7" fill="#1b1915" stroke="#9c7426" stroke-width="1.5"/>
-  <path fill="url(#gold)" stroke="#4a3612" stroke-width=".6" stroke-linejoin="round"
+  <rect x="1" y="1" width="30" height="30" rx="3" fill="#0e151c" stroke="#3d4e5d" stroke-width="1.5"/>
+  <path fill="url(#steel)" stroke="#0b3b42" stroke-width=".6" stroke-linejoin="round"
         d="M3.5 12.5H27V16H22.2C20.4 16 19.4 17.3 19.4 19V20.5H22.5V23H9.5V20.5H12.6V19C12.6 17.3 11.6 16 9.8 16C7 16 4.8 14.6 3.5 12.5Z"/>
-  <path fill="url(#gold)" stroke="#4a3612" stroke-width=".6" d="M8 23.5H24V26.5H8Z"/>
-  <path fill="#ffe08a" d="M18 3L18.9 6.1L22 7L18.9 7.9L18 11L17.1 7.9L14 7L17.1 6.1Z"/>
+  <path fill="url(#steel)" stroke="#0b3b42" stroke-width=".6" d="M8 23.5H24V26.5H8Z"/>
+  <path fill="#4ff0ff" d="M18 3L18.9 6.1L22 7L18.9 7.9L18 11L17.1 7.9L14 7L17.1 6.1Z"/>
 </svg>

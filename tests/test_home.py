@@ -1,4 +1,4 @@
-"""Home-page hero globe and site icon (templates/_globe.html, ui.favicon)."""
+"""Home-page world map / globe hero and site icon (templates/_globe.html, ui.favicon)."""
 
 import re
 from collections.abc import AsyncIterator
@@ -23,15 +23,16 @@ async def client(
         yield c
 
 
-async def test_globe_on_the_landing_page_only(client: httpx.AsyncClient) -> None:
+async def test_map_on_the_landing_page_only(client: httpx.AsyncClient) -> None:
     landing = (await client.get("/")).text
-    assert 'id="astrolabe"' in landing
+    assert 'id="atlas"' in landing
+    assert 'id="globe"' in landing
     assert "/places.json" in landing
     for query in ("/?q=python", "/?location=Berlin", "/?page=2"):
-        assert 'id="astrolabe"' not in (await client.get(query)).text, query
+        assert 'id="atlas"' not in (await client.get(query)).text, query
 
 
-async def test_globe_assets_are_pinned_with_integrity(client: httpx.AsyncClient) -> None:
+async def test_map_assets_are_pinned_with_integrity(client: httpx.AsyncClient) -> None:
     page = (await client.get("/")).text
     assert "<script defer src=" in page
     for tag in re.findall(r"<script[^>]*\bsrc=[^>]*>", page):
@@ -71,7 +72,8 @@ async def test_map_toggle_and_briefing(client: httpx.AsyncClient, session: Async
     page = (await client.get("/")).text
     places._cache.clear()
     assert '<div class="view-toggle" role="group" aria-label="View" hidden>' in page
-    assert 'data-view="map"' in page
+    # the map is the main view, the globe the second one
+    assert page.index('data-view="map" aria-pressed="true"') < page.index('data-view="globe"')
     assert '<div class="atlas" id="atlas" hidden>' in page
     assert "geoNaturalEarth1" in page
     assert "Countries with open jobs (2):" in page

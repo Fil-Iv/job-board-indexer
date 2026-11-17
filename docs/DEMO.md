@@ -17,7 +17,10 @@ B=https://job-board-indexer.vercel.app
 
 ## 1. Search page
 
-Open <https://job-board-indexer.vercel.app/?q=engineer&location=Berlin>.
+The home page opens with a world map of open jobs: countries with jobs are highlighted
+(brighter for more), hover shows the count, a click opens that country in `/browse`; "Globe"
+switches to a rotating globe with the top cities. Then search:
+<https://job-board-indexer.vercel.app/?q=engineer&location=Berlin>.
 
 Each card is one **opening**. Under it, every listing of that opening is shown with its
 platform and links: "posting" (the page on the original site) and "apply". When the

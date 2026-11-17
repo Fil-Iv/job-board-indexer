@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="fantasy">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,47 +7,20 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Uncial+Antiqua&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<script>
-  // Themes: "fantasy" (Dark Fantasy, the default rendered by the server), "light" and
-  // "command" (Command Center). The header button cycles them in that order; the choice is
-  // remembered in localStorage and applied before the page paints. Storage may be blocked
-  // (private mode), so every access is wrapped in try/catch.
-  (function () {
-    var KEY = "jobindex-theme";
-    var THEMES = ["fantasy", "light", "command"];
-    var NAMES = { fantasy: "Dark Fantasy", light: "Light", command: "Command Center" };
-    var root = document.documentElement;
-    function valid(theme) { return THEMES.indexOf(theme) >= 0 ? theme : "fantasy"; }
-    window.jobindexTheme = {
-      themes: THEMES,
-      names: NAMES,
-      get: function () { return valid(root.getAttribute("data-theme")); },
-      next: function () { return THEMES[(THEMES.indexOf(this.get()) + 1) % THEMES.length]; },
-      set: function (theme) {
-        root.setAttribute("data-theme", valid(theme));
-        try { localStorage.setItem(KEY, valid(theme)); } catch (e) { /* storage unavailable */ }
-      }
-    };
-    var saved = null;
-    try { saved = localStorage.getItem(KEY); } catch (e) { /* storage unavailable */ }
-    if (saved && THEMES.indexOf(saved) >= 0) root.setAttribute("data-theme", saved);
-  })();
-</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-  /* ---------- Base + light theme (clean). Dark Fantasy overrides it further below. ---------- */
+  /* ---------- Base layout and colours (one look: slate, cyan accent, IBM Plex) ---------- */
   :root {
-    --bg: #f7f7f5; --card: #fff; --text: #1d1d1f; --muted: #626267; --line: #e3e3e0;
-    --accent: #1f5fbf; --accent-text: #fff; --closed: #a33;
-    --bar: #1f5fbf; --bar-track: #ececea;
-    --remote: #1f5fbf; --hybrid: #7b3fb3; --onsite: #c77d12; --unknown: #c9c9c4;
-    --title: var(--text); --flourish: #3a3a3e;
-    /* Typography, both themes (Google Fonts, display=swap): titles, headings, small caps, body */
-    --display: "Cinzel Decorative", "Cinzel", Georgia, serif;
-    --heading: "Uncial Antiqua", "Cinzel", Georgia, serif;
-    --caps: "Cinzel", "Trajan Pro", Georgia, serif;
-    --body: "Cormorant Garamond", Garamond, "Iowan Old Style", Georgia, serif;
-    color-scheme: light;
+    color-scheme: dark;
+    --bg: #0e151c; --card: #141e27; --text: #d9e4ec; --muted: #9aabb9; --line: #2e3d4a;
+    --accent: #4ff0ff; --accent-text: #03181c; --closed: #ff9a9a;
+    --bar: #4ff0ff; --bar-track: #0a1117;
+    --remote: #4ff0ff; --hybrid: #b996ff; --onsite: #ffc857; --unknown: #3a4a57;
+    --title: #eaf6fb; --frame: #3d4e5d; --well: #0a1117;
+    --display: "IBM Plex Sans", "Inter", system-ui, sans-serif;
+    --caps: "IBM Plex Mono", "JetBrains Mono", ui-monospace, Menlo, monospace;
+    --body: "IBM Plex Sans", "Inter", system-ui, sans-serif;
+    --diamond: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M4 0 8 4 4 8 0 4z' fill='%23f2f7fa'/%3E%3C/svg%3E");
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--text);
@@ -61,9 +34,6 @@
   header nav { margin-left: auto; font-size: 13px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   a { color: var(--accent); }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .theme-toggle { font: inherit; font-size: 13px; color: var(--text); background: var(--card);
-                  border: 1px solid var(--line); border-radius: 99px; padding: 4px 12px; cursor: pointer; }
-  .theme-toggle::before { content: "\25C6\00A0"; color: var(--accent); }
   form { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
          padding: 14px; display: grid; gap: 10px;
          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
@@ -138,11 +108,7 @@
   .st-partial, .st-running { color: #6e4a00; background: #fdf1d6; border-color: #e8c97c; }
   .st-blocked, .st-failed { color: #9b231a; background: #fbe8e5; border-color: #eab0a8; }
   .st-not-built, .st-cancelled { color: #4d4d52; background: #ececea; border-color: #d0d0cc; }
-  [data-theme="fantasy"] .badge { font-family: var(--caps); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; border-radius: 3px; }
-  [data-theme="fantasy"] .st-live, [data-theme="fantasy"] .st-success { color: #d9f2df; background: linear-gradient(#2c7146, #174a2b); border-color: #4f9a68; }
-  [data-theme="fantasy"] .st-partial, [data-theme="fantasy"] .st-running { color: #fcebc0; background: linear-gradient(#8a611a, #5c3e0c); border-color: #c79a3f; }
-  [data-theme="fantasy"] .st-blocked, [data-theme="fantasy"] .st-failed { color: #fde0db; background: linear-gradient(#8c2a20, #5a1610); border-color: #c0574a; }
-  [data-theme="fantasy"] .st-not-built, [data-theme="fantasy"] .st-cancelled { color: #d8cba8; background: linear-gradient(#3e382e, #27231d); border-color: #6b5c3c; }
+
   .legend-note { margin-top: 10px; }
   .cov { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
   .cov-row { padding: 9px 0; border-top: 1px solid var(--line); }
@@ -158,7 +124,7 @@
   .cov-table td { padding: 3px 6px 3px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; vertical-align: top; }
   .cov-table th.num, .cov-table td.num { text-align: right; }
   .fail { color: var(--closed); font-weight: 600; }
-  [data-theme="fantasy"] .fail { color: #f19a8c; }
+
   .evidence { margin: 6px 0; }
   .evidence p { margin: 4px 0; }
   .evidence ul { margin: 2px 0; padding-left: 18px; }
@@ -176,10 +142,7 @@
   .history del { color: var(--muted); }
   .history ins { text-decoration: none; font-weight: 600; }
   .tag.dup { text-decoration: none; }
-  [data-theme="fantasy"] .facts { background: linear-gradient(rgba(0, 0, 0, .15), rgba(0, 0, 0, .35)), var(--panel);
-    border: 3px double var(--gold-deep); border-radius: 4px; }
-  [data-theme="fantasy"] .job-page .page-title { font-size: 28px; }
-  [data-theme="fantasy"] .facts .salary { color: var(--gold); }
+
   @media (max-width: 600px) {  /* tables become labelled blocks */
     .rows-stack thead { display: none; }
     .rows-stack tr { display: block; padding: 6px 0; border-bottom: 1px solid var(--line); }
@@ -193,7 +156,7 @@
   .runs td { white-space: nowrap; }
   .runs td:nth-child(2), .runs td:nth-child(3) { white-space: normal; }
   .tile .badge { margin-right: 4px; }
-  [data-theme="fantasy"] .rule .example { background: rgba(0, 0, 0, .3); border-left-color: var(--gold); }
+
   /* Add a career page */
   .add-form { grid-template-columns: 1fr; }
   .add-actions { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: end; margin-top: 12px; }
@@ -201,17 +164,15 @@
                       grid-template-columns: none; }
   .add-actions button { width: auto; font: inherit; padding: 7px 18px; cursor: pointer; font-weight: 600; border: 0; border-radius: 7px;
                         background: var(--accent); color: var(--accent-text); }
-  [data-theme] .add-actions button { font: 700 15px/1.2 var(--caps); letter-spacing: .04em; }  /* Uncial's "t" reads as "c" */
-  [data-theme="fantasy"] .add-actions button { font: 700 15px/1.2 var(--caps); color: var(--ink); border-radius: 3px;
-    background: linear-gradient(#f3dc94, #d2a948 45%, #b38a32 55%, #e2c06a); border: 1px solid var(--gold-dark);
-    box-shadow: inset 0 1px 0 rgba(255, 250, 220, .8), 0 0 0 2px #1a140a, 0 0 0 3px var(--gold-deep); }
+  .add-actions button { font: 700 15px/1.2 var(--caps); letter-spacing: .04em; }
+
   .add-actions label { min-width: 180px; }
   .add-error { margin-top: 14px; color: var(--closed); font-style: normal; }
-  [data-theme="fantasy"] .add-error { color: #f19a8c; background: var(--panel); border-color: #8c2a20; }
+
   .fail-note { color: var(--closed); }
-  [data-theme="fantasy"] .fail-note { color: #f19a8c; }
+
   .done-note { margin: 12px 0 0; padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--bg); border-radius: 4px; }
-  [data-theme="fantasy"] .done-note { background: rgba(0, 0, 0, .3); border-left-color: var(--gold); }
+
   .facts dd.wrap { overflow-wrap: anywhere; }
   /* Browse: place lists */
   .crumbs { font-size: 13px; color: var(--muted); }
@@ -223,232 +184,126 @@
   .places .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .places .num { color: var(--accent); font-weight: 600; }
   nav a[aria-current="page"] { font-weight: 700; text-decoration: none; }
+  /* Numbers: lining, tabular where compared (after the font shorthands above) */
+  body, input, select, .tile b { font-variant-numeric: lining-nums; }
+  .num, .tile b, .totals b, .salary, time, .pager .pos, .places .num, .summary, .meta, .chart li, .ranges li, .legend { font-variant-numeric: lining-nums tabular-nums; }
+  code, pre code { font: 14px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 
-  /* ---------- Dark Fantasy theme: dark stone, parchment, gold trim (CSS-only textures) ---------- */
-  :root[data-theme="fantasy"] {
-    color-scheme: dark;
-    --stone: #1b1915; --stone-hi: #2a2620; --panel: #24201a;
-    --text: #efe3c2; --muted: #cbbb94; --line: #5a4a2c;
-    --gold: #e0bd62; --gold-deep: #9c7426; --gold-dark: #4a3612;
-    --parchment: #ecdcb2; --parchment-edge: #c9ae74; --ink: #2a1b0c; --ink-muted: #563f22;
-    --ink-link: #7a2412; --closed: #8e1b14;
-    --bg: var(--stone); --card: var(--panel); --accent: var(--gold); --accent-text: var(--ink);
-    --bar: linear-gradient(#f3dc94, #d2a948 50%, #9c7426); --bar-track: #14120e;
-    --remote: linear-gradient(#2f6fd0, #173f86); --hybrid: linear-gradient(#8a45c7, #4e1f80);
-    --onsite: linear-gradient(#ffd27a, #d9921f); --unknown: #4a4234;
-    --title: var(--gold); --flourish: var(--gold);
-  }
-  [data-theme="fantasy"] body {
-    font: 17px/1.45 var(--body);
-    background-color: var(--stone);
+  /* ---------- The look: 1px frames with corner diamonds, IBM Plex Sans for text and
+     headings, IBM Plex Mono for captions and numbers (original design). Later rules refine
+     the base layout above. ---------- */
+  body {
+    font: 400 16px/1.55 var(--body);
+    background-color: var(--bg);
     background-image:
-      radial-gradient(ellipse at 50% 0%, rgba(224, 189, 98, .08), transparent 60%),
-      radial-gradient(circle at 20% 30%, rgba(255, 255, 255, .035) 0 2px, transparent 3px),
-      radial-gradient(circle at 70% 80%, rgba(0, 0, 0, .35) 0 3px, transparent 4px),
-      radial-gradient(circle at 40% 60%, rgba(255, 255, 255, .025) 0 1px, transparent 2px),
-      repeating-linear-gradient(0deg, transparent 0 62px, rgba(0, 0, 0, .45) 62px 64px, rgba(255, 255, 255, .03) 64px 65px),
-      repeating-linear-gradient(90deg, transparent 0 126px, rgba(0, 0, 0, .3) 126px 128px),
-      radial-gradient(ellipse at center, var(--stone-hi), var(--stone) 70%);
-    background-size: 100% 600px, 37px 41px, 53px 47px, 23px 29px, auto, auto, 100% 100%;
-    background-attachment: scroll, scroll, scroll, scroll, scroll, scroll, fixed;
+      linear-gradient(115deg, transparent 0 34%, rgba(79, 240, 255, .05) 44%, rgba(255, 255, 255, .045) 50%, transparent 62%),
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 48px),
+      radial-gradient(ellipse at 50% -10%, #1d2b37, var(--bg) 62%);
+    background-attachment: fixed, scroll, scroll, fixed;
     min-height: 100vh;
   }
-  [data-theme="fantasy"] body::before {  /* vignette */
-    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, .7) 100%); }
-  [data-theme="fantasy"] main { position: relative; z-index: 1; }
-  [data-theme="fantasy"] header.top { padding-bottom: 14px; margin-bottom: 18px;
-    border-bottom: 1px solid transparent;
-    border-image: linear-gradient(90deg, transparent, var(--gold-deep) 15%, var(--gold) 50%, var(--gold-deep) 85%, transparent) 1; }
-  [data-theme="fantasy"] header h1 { font-family: var(--heading); font-weight: 700; font-size: 28px;
-    letter-spacing: .08em; color: var(--gold); text-shadow: 0 1px 0 #000, 0 0 12px rgba(224, 189, 98, .25); }
-  [data-theme="fantasy"] .totals { font-size: 14px; }
-  [data-theme="fantasy"] .totals b { color: var(--gold); }
-  [data-theme="fantasy"] a { color: var(--gold); }
-  [data-theme="fantasy"] .theme-toggle { font-family: var(--heading); font-size: 12px; letter-spacing: .05em;
-    color: var(--gold); background: linear-gradient(#2f2a21, #1d1a15); border: 1px solid var(--gold-deep); }
-  [data-theme="fantasy"] .theme-toggle::before { color: #7fb2ff; }
-  [data-theme="fantasy"] form { background: linear-gradient(rgba(0, 0, 0, .15), rgba(0, 0, 0, .35)), var(--panel);
-    border: 3px double var(--gold-deep); border-radius: 4px;
-    box-shadow: 0 0 0 1px #000, inset 0 0 24px rgba(0, 0, 0, .6), 0 6px 18px rgba(0, 0, 0, .5); }
-  [data-theme="fantasy"] label { font-family: var(--caps); font-size: 11px; letter-spacing: .06em;
-    text-transform: uppercase; color: var(--muted); }
-  [data-theme="fantasy"] input, [data-theme="fantasy"] select {
-    font-family: var(--body); font-size: 16px; text-transform: none; letter-spacing: 0; color: var(--text);
-    background: #14120e; border: 1px solid var(--line); border-radius: 3px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, .7); }
-  [data-theme="fantasy"] input::placeholder { color: #9d8f6f; }
-  [data-theme="fantasy"] .wide input { font-size: 18px; }
-  [data-theme="fantasy"] form button {  /* engraved metal */
-    font-family: var(--heading); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: 14px;
-    color: var(--ink); text-shadow: 0 1px 0 rgba(255, 240, 200, .6);
-    background: linear-gradient(#f3dc94, #d2a948 45%, #b38a32 55%, #e2c06a);
-    border: 1px solid var(--gold-dark); border-radius: 3px;
-    box-shadow: inset 0 1px 0 rgba(255, 250, 220, .8), inset 0 -2px 3px rgba(74, 54, 18, .6),
-                0 0 0 2px #1a140a, 0 0 0 3px var(--gold-deep), 0 3px 6px rgba(0, 0, 0, .6); }
-  [data-theme="fantasy"] form button:hover { filter: brightness(1.08); }
-  [data-theme="fantasy"] form button:active { box-shadow: inset 0 2px 5px rgba(74, 54, 18, .8),
-                0 0 0 2px #1a140a, 0 0 0 3px var(--gold-deep); }
-  [data-theme="fantasy"] .summary { font-style: italic; font-size: 15px; }
-  [data-theme="fantasy"] ol { gap: 18px; padding: 4px; }
-  [data-theme="fantasy"] li.job, [data-theme="fantasy"] .empty {  /* parchment panel, gold double border */
-    position: relative; color: var(--ink); border: 4px double var(--gold-deep); border-radius: 3px;
-    padding: 14px 18px;
-    background-color: var(--parchment);
-    background-image:
-      radial-gradient(ellipse at 30% 20%, rgba(255, 250, 230, .55), transparent 55%),
-      radial-gradient(ellipse at 80% 90%, rgba(150, 110, 50, .18), transparent 50%),
-      repeating-linear-gradient(3deg, transparent 0 3px, rgba(120, 90, 40, .035) 3px 4px);
-    box-shadow: 0 0 0 1px var(--gold-dark), 0 0 0 3px var(--gold), 0 0 0 4px var(--gold-dark),
-                inset 0 0 28px rgba(120, 80, 30, .45), 0 8px 18px rgba(0, 0, 0, .55); }
-  [data-theme="fantasy"] li.job::before, [data-theme="fantasy"] li.job::after {  /* corner studs */
-    content: ""; position: absolute; top: -9px; width: 10px; height: 10px; transform: rotate(45deg);
-    background: linear-gradient(135deg, #f6e3a4, var(--gold-deep)); border: 1px solid var(--gold-dark); }
-  [data-theme="fantasy"] li.job::before { left: -9px; }
-  [data-theme="fantasy"] li.job::after { right: -9px; }
-  [data-theme="fantasy"] .job h2 { font-family: var(--heading); font-weight: 700; font-size: 18px;
-    letter-spacing: .02em; color: var(--ink); margin-bottom: 4px; }
-  [data-theme="fantasy"] .job h2 a { color: var(--ink); }
-  [data-theme="fantasy"] .meta, [data-theme="fantasy"] .links .src, [data-theme="fantasy"] .empty { color: var(--ink-muted); }
-  [data-theme="fantasy"] .meta { font-size: 15px; }
-  [data-theme="fantasy"] .meta strong { color: var(--ink); }
-  [data-theme="fantasy"] .links { font-size: 15px; border-top: 1px solid rgba(120, 85, 35, .35); padding-top: 6px; }
-  [data-theme="fantasy"] .job a, [data-theme="fantasy"] .empty a { color: var(--ink-link); }
-  [data-theme="fantasy"] .job :focus-visible { outline-color: var(--ink); }
-  [data-theme="fantasy"] .closed { color: var(--closed); font-weight: 600; }
-  [data-theme="fantasy"] .tag { font-size: 13px; color: var(--ink); border-color: rgba(86, 63, 34, .5); background: rgba(255, 250, 230, .35); }
-  [data-theme="fantasy"] .gem {  /* gem badges */
-    color: #fff; font-weight: 600; letter-spacing: .03em; border: 1px solid rgba(0, 0, 0, .55); border-radius: 4px;
-    padding: 0 9px 0 20px; position: relative; text-shadow: 0 1px 1px rgba(0, 0, 0, .6);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -2px 3px rgba(0, 0, 0, .35), 0 0 0 1px var(--gold-deep); }
-  [data-theme="fantasy"] .gem::before { content: ""; position: absolute; left: 6px; top: 50%; width: 8px; height: 8px;
-    margin-top: -4px; transform: rotate(45deg); background: radial-gradient(circle at 30% 30%, #fff, rgba(255, 255, 255, .2) 60%);
-    border: 1px solid rgba(255, 255, 255, .5); }
-  [data-theme="fantasy"] .gem-remote { background: linear-gradient(#2f6fd0, #173f86); }
-  [data-theme="fantasy"] .gem-hybrid { background: linear-gradient(#8a45c7, #4e1f80); }
-  [data-theme="fantasy"] .gem-onsite { color: var(--ink); text-shadow: 0 1px 0 rgba(255, 240, 200, .5);
-    background: linear-gradient(#ffd27a, #d9921f); }
-  [data-theme="fantasy"] .gem-onsite::before { border-color: rgba(42, 27, 12, .4); }
-  [data-theme="fantasy"] .rune {  /* employment type: small rune badge */
-    font-family: var(--caps); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--gold); background: linear-gradient(#3a342a, #211d17); border: 1px solid var(--gold-dark);
-    border-radius: 2px; padding: 1px 8px; box-shadow: 0 0 0 1px rgba(156, 116, 38, .6); }
-  [data-theme="fantasy"] .rune::before { content: "\16DF\00A0"; }
-  [data-theme="fantasy"] .salary { color: #6a470b; font-weight: 600; }  /* dark gold: AA on parchment */
-  [data-theme="fantasy"] .salary::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 5px;
-    border-radius: 50%; vertical-align: -1px; border: 1px solid var(--gold-dark);
-    background: radial-gradient(circle at 35% 35%, #fff2c0, #e0bd62 45%, #9c7426); }
-  [data-theme="fantasy"] .job .links a {  /* small gold buttons */
-    display: inline-block; padding: 0 10px; margin: 2px 0; border-radius: 3px; text-decoration: none;
-    font-family: var(--caps); font-size: 12px; font-weight: 700; letter-spacing: .05em; line-height: 22px;
-    color: var(--ink); background: linear-gradient(#f3dc94, #d2a948 50%, #c39a3d);
-    border: 1px solid var(--gold-dark); box-shadow: inset 0 1px 0 rgba(255, 250, 220, .7), 0 1px 2px rgba(0, 0, 0, .35); }
-  [data-theme="fantasy"] .job .links a:hover { filter: brightness(1.1); }
-  [data-theme="fantasy"] .empty { font-style: italic; font-size: 17px; }
-  [data-theme="fantasy"] .pager { border-bottom: 2px solid var(--gold-deep); align-items: end; }
-  [data-theme="fantasy"] .pager .pos { font-style: italic; font-size: 15px; }
-  [data-theme="fantasy"] .pager a {  /* stone tabs */
-    display: inline-block; font-family: var(--heading); font-weight: 700; letter-spacing: .05em; text-decoration: none;
-    color: var(--gold); padding: 8px 16px 6px; border: 1px solid var(--gold-deep); border-bottom: 0;
-    border-radius: 8px 8px 0 0; background: linear-gradient(#3a352c, #24201a);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 -2px 6px rgba(0, 0, 0, .4); }
-  [data-theme="fantasy"] .pager a:hover { background: linear-gradient(#4a4337, #2c271f); }
-  [data-theme="fantasy"] .panel {
-    background: linear-gradient(rgba(0, 0, 0, .15), rgba(0, 0, 0, .35)), var(--panel);
-    border: 3px double var(--gold-deep); border-radius: 4px;
-    box-shadow: 0 0 0 1px #000, inset 0 0 24px rgba(0, 0, 0, .6), 0 6px 18px rgba(0, 0, 0, .5); }
-  [data-theme="fantasy"] .panel h2, [data-theme="fantasy"] .panel h3 {
-    font-family: var(--heading); letter-spacing: .05em; color: var(--gold); }
-  [data-theme="fantasy"] .panel h2 { font-size: 20px; }
-  [data-theme="fantasy"] pre { background: #14120e; border-color: var(--line);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, .7); color: var(--text); }
-  [data-theme="fantasy"] .panel .note { font-style: italic; }
-  [data-theme="fantasy"] .page-title { font-family: var(--heading); letter-spacing: .06em; color: var(--gold); font-size: 24px; }
-  [data-theme="fantasy"] .tile { background: linear-gradient(#2f2a21, #1d1a15); border: 1px solid var(--gold-deep); border-radius: 4px;
-    box-shadow: 0 0 0 1px #000, inset 0 0 16px rgba(0, 0, 0, .6); text-align: center; }
-  [data-theme="fantasy"] .tile b { font-family: var(--heading); color: var(--gold); text-shadow: 0 1px 0 #000, 0 0 10px rgba(224, 189, 98, .3); }
-  [data-theme="fantasy"] .tile span { font-style: italic; font-size: 15px; }
-  [data-theme="fantasy"] .chart li, [data-theme="fantasy"] .ranges li, [data-theme="fantasy"] .legend { font-size: 16px; }
-  [data-theme="fantasy"] .bar, [data-theme="fantasy"] .range, [data-theme="fantasy"] .stack {
-    border: 1px solid var(--gold-dark); box-shadow: inset 0 2px 4px rgba(0, 0, 0, .8); }
-  [data-theme="fantasy"] .bar > span { box-shadow: inset 0 1px 0 rgba(255, 250, 220, .6); }
-  [data-theme="fantasy"] .range .median { background: var(--parchment); box-shadow: 0 0 4px #000; }
-  [data-theme="fantasy"] small { color: var(--muted); font-size: 13px; }
-  [data-theme="fantasy"] .crumbs { font-style: italic; font-size: 15px; }
-  [data-theme="fantasy"] .places a { color: var(--text); background: linear-gradient(#2f2a21, #1d1a15);
-    border: 1px solid var(--gold-dark); border-radius: 3px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06); }
-  [data-theme="fantasy"] .places a:hover { border-color: var(--gold); box-shadow: 0 0 8px rgba(224, 189, 98, .25); }
-  [data-theme="fantasy"] .places .num { color: var(--gold); font-family: var(--heading); font-size: 14px; }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  :focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+
+  /* Header: "JOBFORGE // LIVE" */
+  header.top { padding-bottom: 12px; border-bottom: 1px solid var(--frame); }
+  header h1 { font: 600 22px/1.2 var(--display); letter-spacing: .24em; text-transform: uppercase; color: var(--title); }
+  header h1 a::after { content: " // LIVE"; font: 500 13px var(--caps); letter-spacing: .18em; color: var(--accent); vertical-align: 3px; }
+  .totals, .totals b { font-family: var(--caps); font-size: 13px; }
+  .totals b { color: var(--accent); font-weight: 500; }
+  header nav { font: 500 12px/1.4 var(--caps); letter-spacing: .12em; text-transform: uppercase; }
+
+  /* Titles: uppercase, spaced, "//" marker, a thin cyan rule */
+  .page-title, .hero-text h2 {
+    font: 600 22px/1.25 var(--display); letter-spacing: .2em; text-transform: uppercase; color: var(--title); text-shadow: none; }
+  .page-title::before, .hero-text h2::before { content: "// "; color: var(--accent); }
+  .page-title::after, .hero-text h2::after {  /* thin cyan rule under titles */
+    content: ""; display: block; height: 1px; width: 180px; max-width: 100%; margin: 8px 0 2px;
+    background: linear-gradient(90deg, var(--accent), transparent); }
+  .panel h2 { font: 500 14px/1.4 var(--caps); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .panel h3 { font: 500 13px/1.4 var(--caps); letter-spacing: .12em; text-transform: uppercase; color: var(--title); }
+  .summary, .crumbs, .pager .pos, .hero-text .hint { font-family: var(--caps); font-size: 13px; letter-spacing: .02em; }
+  .hero-text p { font-size: 17px; font-style: normal; }
+
+  /* Frames: 1px grey lines, square corners, small white diamonds at the corners */
+  .panel, form#search, form.add-form, li.job, .tile, .facts, .empty {
+    position: relative; border: 1px solid var(--frame); border-radius: 0; box-shadow: none; color: var(--text);
+    background: linear-gradient(180deg, rgba(79, 240, 255, .035), transparent 45%), var(--card); }
+  .panel::before, form#search::before, form.add-form::before, li.job::before, .tile::before, .empty::before {
+    content: ""; position: absolute; inset: -4px; pointer-events: none;
+    background: var(--diamond) 0 0 / 7px 7px no-repeat, var(--diamond) 100% 0 / 7px 7px no-repeat,
+                var(--diamond) 0 100% / 7px 7px no-repeat, var(--diamond) 100% 100% / 7px 7px no-repeat; }
+  .facts { background: var(--well); }
+
+  /* Filters */
+  label { font: 500 11px/1.3 var(--caps); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  input, select { font: 400 15px/1.3 var(--body); color: var(--text);
+    background: var(--well); border: 1px solid var(--frame); border-radius: 0; }
+  .wide input { font-size: 17px; }
+  input::placeholder { color: #75889a; }
+  form button, .add-actions button {
+    font: 500 13px/1.2 var(--caps); letter-spacing: .16em; text-transform: uppercase; color: var(--accent);
+    background: rgba(79, 240, 255, .06); border: 1px solid var(--accent); border-radius: 0; padding: 8px 18px; }
+  form button:hover, .add-actions button:hover { background: rgba(79, 240, 255, .16); }
+
+  /* Job cards */
+  ol { gap: 14px; padding: 4px; }
+  li.job { padding: 14px 16px; }
+  .job h2 { font: 600 17px/1.35 var(--body); letter-spacing: .01em; }
+  .job h2 a { color: var(--title); }
+  .job h2 a:hover { color: var(--accent); }
+  .meta { font-size: 14px; color: var(--muted); }
+  .meta strong { color: var(--text); }
+  .tag, .badge { font: 500 11px/1.6 var(--caps); letter-spacing: .1em; text-transform: uppercase;
+    border-radius: 0; padding: 0 7px; }
+  .tag { color: var(--text); border-color: var(--frame); }
+  .salary, .meta time, .meta > span:last-child { font-family: var(--caps); font-size: 13px; }
+  .salary { color: var(--accent); }
+  .links { font-size: 14px; border-top: 1px dashed var(--line); padding-top: 6px; }
+  .links .src { font: 500 12px var(--caps); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .closed, .fail, .fail-note, .add-error { color: var(--closed); }
+  .pager a { font: 500 12px var(--caps); letter-spacing: .14em; text-transform: uppercase; }
+
+  /* Status badges */
+  .st-live, .st-success { color: #4ff0ff; background: rgba(79, 240, 255, .08); border-color: rgba(79, 240, 255, .55); }
+  .st-partial, .st-running { color: #ffc857; background: rgba(255, 200, 87, .08); border-color: rgba(255, 200, 87, .55); }
+  .st-blocked, .st-failed { color: #ff9a9a; background: rgba(255, 120, 120, .08); border-color: rgba(255, 140, 140, .55); }
+  .st-not-built, .st-cancelled { color: #b3c2ce; background: rgba(255, 255, 255, .04); border-color: #4a5b6a; }
+
+  /* Numbers, tables, charts: monospace */
+  .num, .tile b, .places .num, .facts dd, .cov-table td, .cov-num, time { font-family: var(--caps); }
+  .tile { text-align: left; }
+  .tile b { font: 500 28px/1.15 var(--caps); color: var(--accent); }
+  .tile span { font: 500 11px/1.4 var(--caps); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .facts dt { font: 500 11px/1.3 var(--caps); letter-spacing: .14em; color: var(--muted); }
+  .facts dd { font-size: 14px; }
+  .cov-table, .chart li, .ranges li, .legend, .places a { font-size: 14px; }
+  .cov-table th { font: 500 11px/1.3 var(--caps); letter-spacing: .12em; text-transform: uppercase; }
+  .bar, .range, .stack { border-radius: 0; border: 1px solid var(--line); }
+  .bar > span { border-radius: 0; box-shadow: 0 0 8px rgba(79, 240, 255, .45); }
+  .range .band { border-radius: 0; opacity: .7; }
+  .range .median { background: #fff; }
+  .places a { background: var(--well); border: 1px solid var(--frame); border-radius: 0; color: var(--text); }
+  .places a:hover { border-color: var(--accent); }
+  .places .num { font: 500 13px var(--caps); color: var(--accent); }
+  pre { background: var(--well); border: 1px solid var(--frame); border-radius: 0; }
+  .done-note, .rule .example { background: rgba(79, 240, 255, .06); border-left: 2px solid var(--accent); border-radius: 0; }
+  .cov-row summary { font: 500 12px var(--caps); letter-spacing: .08em; text-transform: uppercase; }
+  .description { font-size: 15px; }
+  .history ins { color: var(--accent); }
+
   @media (max-width: 480px) {
-    [data-theme="fantasy"] header h1 { font-size: 24px; }
-    [data-theme="fantasy"] li.job { padding: 12px 13px; }
-  }
-  /* ---------- Typography (both themes; colours come from the theme) ----------
-     Cinzel Decorative: titles and section headings. Uncial Antiqua: the main button
-     only: its "t" reads as "c" ("Scacs", "Remoce, hybrid or onsice") even at 22px, so
-     section headings use Cinzel Decorative and job titles, nav and small buttons Cinzel. Cormorant Garamond 500:
-     everything else, with lining figures (its default is old-style), tabular wherever
-     numbers are compared. */
-  [data-theme] body { font: 500 18px/1.55 var(--body); }
-  [data-theme] header h1 { font: 700 30px/1.15 var(--display); letter-spacing: .06em; color: var(--title); }
-  [data-theme] header h1 a { color: inherit; }
-  [data-theme] .page-title { font: 700 26px/1.2 var(--display); letter-spacing: .05em; color: var(--title); margin-top: 4px; }
-  [data-theme] .page-title::after, [data-theme] .hero-text h2::after {  /* flourish divider (original SVG) */
-    content: ""; display: block; width: 168px; max-width: 100%; height: 14px; margin: 6px 0 2px -4px; background: var(--flourish);
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 168 14'%3E%3Cdefs%3E%3ClinearGradient id='l'%3E%3Cstop offset='0' stop-opacity='0'/%3E%3Cstop offset='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='r'%3E%3Cstop offset='0'/%3E%3Cstop offset='1' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 7H64' stroke='url(%23l)' stroke-width='1.4'/%3E%3Cpath d='M104 7H168' stroke='url(%23r)' stroke-width='1.4'/%3E%3Cpath d='M64 7c4-6 10-6 11 0M104 7c-4 6-10 6-11 0' fill='none' stroke='%23000' stroke-width='1.1'/%3E%3Cpath d='M84 1l6 6-6 6-6-6z'/%3E%3Ccircle cx='75' cy='7' r='1.4'/%3E%3Ccircle cx='93' cy='7' r='1.4'/%3E%3C/svg%3E") center / contain no-repeat;
-            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 168 14'%3E%3Cdefs%3E%3ClinearGradient id='l'%3E%3Cstop offset='0' stop-opacity='0'/%3E%3Cstop offset='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='r'%3E%3Cstop offset='0'/%3E%3Cstop offset='1' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 7H64' stroke='url(%23l)' stroke-width='1.4'/%3E%3Cpath d='M104 7H168' stroke='url(%23r)' stroke-width='1.4'/%3E%3Cpath d='M64 7c4-6 10-6 11 0M104 7c-4 6-10 6-11 0' fill='none' stroke='%23000' stroke-width='1.1'/%3E%3Cpath d='M84 1l6 6-6 6-6-6z'/%3E%3Ccircle cx='75' cy='7' r='1.4'/%3E%3Ccircle cx='93' cy='7' r='1.4'/%3E%3C/svg%3E") center / contain no-repeat; }
-  [data-theme] .panel h2 { font: 700 21px/1.25 var(--display); letter-spacing: .04em; color: var(--title); }
-  [data-theme] .panel h3 { font: 700 16px/1.3 var(--caps); letter-spacing: .05em; color: var(--title); }
-  [data-theme] .job h2 { font: 700 18px/1.3 var(--caps); letter-spacing: .03em; text-transform: none; }
-  [data-theme] header nav { font: 600 15px/1.3 var(--caps); letter-spacing: .04em; }
-  [data-theme] .theme-toggle { font: 600 13px/1.2 var(--caps); letter-spacing: .05em; text-transform: none; }
-  [data-theme] form button { font: 400 17px/1.2 var(--heading); letter-spacing: .04em; text-transform: none; }
-  [data-theme] .pager a { font: 700 15px/1.2 var(--caps); letter-spacing: .05em; }
-  [data-theme] label { font: 600 12px/1.3 var(--caps); letter-spacing: .07em; text-transform: uppercase; }
-  [data-theme] input, [data-theme] select { font: 500 17px/1.3 var(--body); }
-  [data-theme] .wide input { font-size: 19px; }
-  [data-theme] .totals, [data-theme] .meta, [data-theme] .links, [data-theme] .summary,
-  [data-theme] .crumbs, [data-theme] .pager .pos, [data-theme] .panel .note { font-size: 16px; }
-  [data-theme] .tag { font-size: 14px; }
-  [data-theme] .rune, [data-theme] .job .links a { font-family: var(--caps); }
-  [data-theme] small { font-size: 14px; }
-  [data-theme] .chart li, [data-theme] .ranges li, [data-theme] .legend, [data-theme] .places a { font-size: 17px; }
-  [data-theme] .tile b { font: 700 30px/1.1 var(--body); }
-  [data-theme] .tile span { font-size: 16px; }
-  [data-theme] .places .num { font: 600 17px/1.3 var(--body); }
-  /* after every font shorthand above (it resets font-variant-numeric) */
-  [data-theme] body, [data-theme] input, [data-theme] select, [data-theme] .tile b { font-variant-numeric: lining-nums; }
-  [data-theme] .num, [data-theme] .tile b, [data-theme] .totals b, [data-theme] .salary, [data-theme] time,
-  [data-theme] .pager .pos, [data-theme] .places .num, [data-theme] .summary, [data-theme] .meta,
-  [data-theme] .chart li, [data-theme] .ranges li, [data-theme] .legend { font-variant-numeric: lining-nums tabular-nums; }
-  [data-theme] code, [data-theme] pre code { font: 14px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-  @media (max-width: 480px) {
-    [data-theme] header h1 { font-size: 26px; }
-    [data-theme] .page-title { font-size: 22px; }
-    [data-theme] .job h2 { font-size: 18px; }
+    header h1 { font-size: 19px; letter-spacing: .18em; }
+    .page-title, .hero-text h2 { font-size: 19px; letter-spacing: .14em; }
   }
 
-{% include "theme_command.css" %}
-
-  /* ---------- Motion polish: card fade-in, gold shimmer on buttons (off for reduced motion) ---------- */
+  /* ---------- Motion: job cards fade in on scroll (off for reduced motion) ---------- */
   .reveal li.job { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
   .reveal li.job.seen { opacity: 1; transform: none; }
-  [data-theme="fantasy"] form button, [data-theme="fantasy"] .job .links a,
-  [data-theme="fantasy"] .theme-toggle, [data-theme="fantasy"] .pager a { position: relative; overflow: hidden; }
-  [data-theme="fantasy"] .job .links a { vertical-align: middle; }  /* overflow moves the inline-block baseline */
-  [data-theme="fantasy"] form button::after, [data-theme="fantasy"] .job .links a::after,
-  [data-theme="fantasy"] .theme-toggle::after, [data-theme="fantasy"] .pager a::after {
-    content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 45%; pointer-events: none;
-    background: linear-gradient(100deg, transparent, rgba(255, 246, 210, .75), transparent);
-    transform: skewX(-20deg); opacity: 0; }
-  [data-theme="fantasy"] form button:hover::after, [data-theme="fantasy"] .job .links a:hover::after,
-  [data-theme="fantasy"] .theme-toggle:hover::after, [data-theme="fantasy"] .pager a:hover::after {
-    animation: shimmer .8s ease-out; }
-  @keyframes shimmer { from { left: -60%; opacity: 1; } to { left: 120%; opacity: 1; } }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal li.job { opacity: 1; transform: none; transition: none; }
-    [data-theme="fantasy"] form button:hover::after, [data-theme="fantasy"] .job .links a:hover::after,
-    [data-theme="fantasy"] .theme-toggle:hover::after, [data-theme="fantasy"] .pager a:hover::after { animation: none; }
   }
 {% block style %}{% endblock %}
 </style>
@@ -474,25 +329,11 @@
       <a href="/status"{% if nav == 'status' %} aria-current="page"{% endif %}>Status</a> ·
       <a href="/add"{% if nav == 'add' %} aria-current="page"{% endif %}>Add a board</a> ·
       <a href="/docs">API</a>
-      <button type="button" class="theme-toggle" id="theme-toggle" title="Switch theme">Light</button>
     </nav>
   </header>
 
 {% block content %}{% endblock %}
 </main>
-<script>
-  // Theme toggle (see the script in <head>).
-  (function () {
-    var button = document.getElementById("theme-toggle"), themes = window.jobindexTheme;
-    // The label names the theme the button switches to (Dark Fantasy -> Light -> Command Center).
-    function sync() {
-      button.textContent = themes.names[themes.next()];
-      button.title = "Theme: " + themes.names[themes.get()] + ". Switch to " + themes.names[themes.next()];
-    }
-    button.addEventListener("click", function () { themes.set(themes.next()); sync(); });
-    sync();
-  })();
-</script>
 {% block scripts %}{% endblock %}
 </body>
 </html>

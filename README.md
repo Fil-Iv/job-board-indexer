@@ -7,7 +7,8 @@
 [/browse](https://job-board-indexer.vercel.app/browse). Every search has an RSS feed:
 `/jobs.rss` with the same query parameters as the search page (newest 50 matches), e.g.
 [/jobs.rss?q=python&remote_type=remote](https://job-board-indexer.vercel.app/jobs.rss?q=python&remote_type=remote).
-The home page's globe plots the top 150 cities from
+The home page maps the countries with open jobs (a world map, with a globe view) and the
+top 150 cities from
 [/places.json](https://job-board-indexer.vercel.app/places.json) (city positions from an
 offline [GeoNames](https://www.geonames.org) extract, CC BY 4.0, `scripts/make_cities.py`).
 Reviewer walkthrough:

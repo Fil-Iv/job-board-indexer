@@ -1,155 +1,77 @@
-{#- Home-page hero: the "astrolabe globe" and a flat map ("Globe / Map" toggle, the
-    choice is remembered). The map is SVG in the Natural Earth projection (same d3-geo and
-    data): countries with open jobs are filled with the theme accent, opacity by count.
-    Below both, a server-rendered "Countries with open jobs" briefing line.
-    Home-page hero: the "astrolabe globe". A canvas globe (d3-geo orthographic projection,
-    world-atlas 110m countries) with gold rune markers on the cities with open jobs
-    (GET /places.json), between two SVG layers of brass rings (back half / front half).
-    Libraries come pinned, with SRI, from cdn.jsdelivr.net (~61 KB of JS, no build step).
-    Pauses off-screen and in hidden tabs; static under prefers-reduced-motion. -#}
+{#- Home-page hero: a flat world map of open jobs (the main view) and a rotating globe
+    (secondary "Globe" toggle, choice remembered). Both use d3-geo + world-atlas 110m
+    countries, pinned with SRI from cdn.jsdelivr.net (~61 KB of JS, no build step), and the
+    same data: GET /places.json (top cities, openings per country).
+
+    Map: SVG, Natural Earth projection; countries with open jobs are filled cyan, opacity by
+    count; city dots; hover "Country – N jobs", click -> /browse/CC.
+    Globe: canvas, orthographic, cyan markers sized by openings; drag to turn, click a
+    marker -> search, a country -> /browse. Built on first use; pauses off-screen and in
+    hidden tabs; static under prefers-reduced-motion.
+    Below both: a server-rendered "Countries with open jobs" briefing line. -#}
 
 {% set CDN = "https://cdn.jsdelivr.net/npm/" %}
 
 {% macro style() %}
-  .hero { display: grid; gap: 8px 24px; align-items: center; margin: 0 0 20px;
-          grid-template-columns: minmax(0, 1fr) minmax(0, 440px); }
+  .hero { margin: 0 0 20px; display: grid; gap: 10px; }
+  .hero-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 8px 24px; }
   .hero-text h2 { margin: 0 0 6px; }
   .hero-text p { margin: 4px 0; color: var(--muted); }
-  .astrolabe {
-    position: relative; width: 100%; max-width: 440px; aspect-ratio: 1; user-select: none;
-    --g-sea-in: #f8f7f3; --g-sea-out: #e7e5df; --g-land: #fff; --g-land-hi: #fff; --g-border: #1d1d1f;
-    --g-grid: rgba(29, 29, 31, .10); --g-rim: #1d1d1f; --g-shade: rgba(0, 0, 0, .05);
-    --g-hover: #dfe8f6; --g-mark: #1f5fbf; --g-glow: rgba(31, 95, 191, .10);
-    --ring: #1d1d1f; --ring-hi: #1d1d1f; --ring-line: #f7f7f5; --ring-w: 1.4; --ring-tick: #1d1d1f;
-  }
-  [data-theme="fantasy"] .astrolabe {
-    --g-sea-in: #1f3140; --g-sea-out: #070c11; --g-land: #b99859; --g-land-hi: #ecd9a6; --g-border: #6a4b1a;
-    --g-grid: rgba(224, 189, 98, .22); --g-rim: #e0bd62; --g-shade: rgba(0, 0, 0, .55);
-    --g-hover: #f6e6b4; --g-mark: #ffe08a; --g-glow: rgba(255, 196, 77, .55);
-    --ring: #9c7426; --ring-hi: #f3dc94; --ring-line: #2a1b0c; --ring-w: 4; --ring-tick: #f3dc94;
-  }
-  @media (max-width: 720px) { .hero { grid-template-columns: minmax(0, 1fr); }
-                              .astrolabe { justify-self: center; max-width: 320px; } }
-  .atlas-col { display: grid; gap: 8px; justify-items: center; min-width: 0; }
-  .view-toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 99px; overflow: hidden; justify-self: end; }
+  .hero-text .lead { font-size: 17px; }
+  .hero-text .hint { font: 400 13px/1.6 var(--caps); letter-spacing: .02em; }
+  .view-toggle { display: inline-flex; border: 1px solid var(--frame); }
   .view-toggle[hidden] { display: none; }
-  .view-toggle button { font: 600 13px/1.2 var(--caps); letter-spacing: .06em; padding: 5px 14px; border: 0; cursor: pointer;
-    background: var(--card); color: var(--text); }
-  .view-toggle button[aria-pressed="true"] { background: var(--accent); color: var(--accent-text); }
-  [data-theme="fantasy"] .view-toggle { border-color: var(--gold-deep); border-radius: 3px; }
-  [data-theme="fantasy"] .view-toggle button { background: linear-gradient(#2f2a21, #1d1a15); color: var(--gold); }
-  [data-theme="fantasy"] .view-toggle button[aria-pressed="true"] { background: linear-gradient(#f3dc94, #d2a948 50%, #b38a32); color: var(--ink); }
-  [data-theme="command"] .view-toggle { border-color: var(--frame); border-radius: 0; }
-  [data-theme="command"] .view-toggle button { font: 500 12px/1.2 var(--caps); letter-spacing: .14em; text-transform: uppercase; background: transparent; }
-  [data-theme="command"] .view-toggle button[aria-pressed="true"] { background: rgba(79, 240, 255, .14); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-  .hero.map-mode { grid-template-columns: minmax(0, 1fr); }
-  .hero.map-mode .atlas-col { justify-items: stretch; }
-  .atlas { position: relative; width: 100%; --map-fill: #1f5fbf; --map-empty: #e9e8e3; --map-border: #a3a3a0; --map-sea: #f2f1ed;
-    --map-grid: rgba(29, 29, 31, .07); --map-dot: #0b2d5e; }
-  [data-theme="fantasy"] .atlas { --map-fill: #e0bd62; --map-empty: #2b2720; --map-border: #6a5732; --map-sea: #0f151b;
-    --map-grid: rgba(224, 189, 98, .12); --map-dot: #fff3c8; }
-  [data-theme="command"] .atlas { --map-fill: #4ff0ff; --map-empty: #17232d; --map-border: #3d4e5d; --map-sea: #0a1117;
+  .view-toggle button { font: 500 12px/1.2 var(--caps); letter-spacing: .14em; text-transform: uppercase; padding: 6px 14px;
+    border: 0; cursor: pointer; background: transparent; color: var(--text); }
+  .view-toggle button[aria-pressed="true"] { background: rgba(79, 240, 255, .14); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .atlas, .globe { position: relative; width: 100%; }
+  .atlas { --map-fill: #4ff0ff; --map-empty: #17232d; --map-border: #3d4e5d; --map-sea: #0a1117;
     --map-grid: rgba(79, 240, 255, .08); --map-dot: #eafcff; }
-  .atlas svg { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: var(--map-sea); }
-  [data-theme="fantasy"] .atlas svg { border: 3px double var(--gold-deep); }
-  [data-theme="command"] .atlas svg { border-color: var(--frame); }
+  .atlas svg { display: block; width: 100%; height: auto; border: 1px solid var(--frame); background: var(--map-sea); }
   .atlas .map-grid { fill: none; stroke: var(--map-grid); stroke-width: .6; }
   .atlas .map-c { fill: var(--map-empty); stroke: var(--map-border); stroke-width: .5; vector-effect: non-scaling-stroke; }
   .atlas .has-jobs { fill: var(--map-fill); cursor: pointer; }
-  .atlas .has-jobs:hover, .atlas .has-jobs.hot { fill-opacity: 1 !important; stroke: var(--text); stroke-width: 1.2; }
+  .atlas .has-jobs:hover, .atlas .has-jobs.hot { fill-opacity: 1 !important; stroke: #fff; stroke-width: 1.2; }
   .atlas .map-dot { fill: var(--map-dot); opacity: .8; pointer-events: none; }
-  .briefing { grid-column: 1 / -1; margin: 6px 0 0; font: 400 13px/1.7 "IBM Plex Mono", ui-monospace, Menlo, monospace;
-    letter-spacing: .02em; color: var(--muted);
-    border-top: 1px solid var(--line); padding-top: 8px; }
+  .globe { max-width: 460px; aspect-ratio: 1; justify-self: center; user-select: none;
+    --g-sea-in: #10222e; --g-sea-out: #060b10; --g-land: #1a2833; --g-land-hi: #24394a; --g-border: rgba(79, 240, 255, .38);
+    --g-grid: rgba(79, 240, 255, .13); --g-rim: #4ff0ff; --g-shade: rgba(0, 0, 0, .45);
+    --g-hover: #2a5c69; --g-mark: #4ff0ff; --g-glow: rgba(79, 240, 255, .5); }
+  .globe canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: pan-y; cursor: grab; }
+  .globe canvas.dragging { cursor: grabbing; }
+  .globe canvas.pointing { cursor: pointer; }
+  .globe-tip { position: absolute; z-index: 3; pointer-events: none; padding: 3px 9px; white-space: nowrap;
+    transform: translate(-50%, -130%); font: 500 13px/1.5 var(--caps); letter-spacing: .04em; color: var(--text);
+    background: var(--well); border: 1px solid var(--accent); box-shadow: 0 0 12px rgba(79, 240, 255, .25); }
+  .briefing { margin: 4px 0 0; font: 400 13px/1.7 var(--caps); letter-spacing: .02em; color: var(--muted);
+    border-top: 1px dashed var(--frame); padding-top: 8px; }
   .briefing .brief-label { text-transform: uppercase; letter-spacing: .12em; color: var(--text); margin-right: 4px; }
   .briefing a { white-space: nowrap; text-decoration: none; }
   .briefing a:hover { text-decoration: underline; }
-  .briefing b { font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
-  [data-theme="fantasy"] .briefing { font: 400 15px/1.7 var(--body); border-top-color: var(--gold-dark); }
-  [data-theme="fantasy"] .briefing .brief-label { font: 600 12px var(--caps); color: var(--gold); }
-  [data-theme="command"] .briefing { border-top: 1px dashed var(--frame); }
-  .astrolabe > * { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .astrolabe canvas { touch-action: pan-y; cursor: grab; z-index: 1; }
-  .astrolabe canvas.dragging { cursor: grabbing; }
-  .astrolabe canvas.pointing { cursor: pointer; }
-  .astrolabe svg { pointer-events: none; overflow: visible; }
-  .astrolabe .front { z-index: 2; }
-  .astrolabe .band { fill: none; stroke: var(--ring); stroke-width: var(--ring-w); }
-  .astrolabe .band-hi { fill: none; stroke: var(--ring-hi); stroke-width: calc(var(--ring-w) * .35); opacity: .8; }
-  .astrolabe .band-line { fill: none; stroke: var(--ring-line); stroke-width: .6; opacity: .55; }
-  [data-theme="light"] .astrolabe .band-line, [data-theme="light"] .astrolabe .band-hi { display: none; }
-  .astrolabe .ticks, .astrolabe .majors, .astrolabe .bead { fill: none; stroke: var(--ring-tick); }
-  .astrolabe .ticks { stroke-width: 5; stroke-dasharray: .45 5.55; opacity: .75; }
-  .astrolabe .majors { stroke-width: 10; stroke-dasharray: .9 29.1; }
-  .astrolabe .bead { stroke-width: 7; stroke-linecap: round; stroke-dasharray: .01 359.99; }
-  [data-theme="light"] .astrolabe .ticks { stroke-width: 3; opacity: .5; }
-  [data-theme="light"] .astrolabe .majors { stroke-width: 6; }
-  [data-theme="light"] .astrolabe .bead { stroke-width: 5; }
-  .astrolabe .ring * { animation: orbit var(--dur) linear infinite; }
-  .astrolabe .ring.rev * { animation-direction: reverse; }
-  .astrolabe.paused .ring * { animation-play-state: paused; }
-  @keyframes orbit { to { stroke-dashoffset: -360; } }
-  @media (prefers-reduced-motion: reduce) { .astrolabe .ring * { animation: none; } }
-  .globe-tip { position: absolute; inset: auto; z-index: 3; width: auto; height: auto; pointer-events: none;
-    padding: 3px 9px; border-radius: 5px; font-size: 16px; white-space: nowrap; transform: translate(-50%, -130%);
-    background: var(--card); color: var(--text); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0, 0, 0, .18); }
-  [data-theme="fantasy"] .globe-tip { background: #14120e; color: var(--parchment);
-    border: 1px solid var(--gold-deep); box-shadow: 0 0 0 1px #000, 0 4px 12px rgba(0, 0, 0, .7); }
-  .hero-text h2 { font: 700 30px/1.2 var(--display); letter-spacing: .05em; color: var(--title); }
-  [data-theme="fantasy"] .hero-text h2 { text-shadow: 0 1px 0 #000, 0 0 12px rgba(224, 189, 98, .25); }
-  .hero-text p { font-size: 19px; }
-  .hero-text .hint { font-size: 16px; }
-  [data-theme="fantasy"] .hero-text p { font-style: italic; }
-  @media (max-width: 480px) { .hero-text h2 { font-size: 25px; } }
-{% endmacro %}
-
-{% macro _ring(cls, rx, ry, tilt, dur, clip) %}
-    <g class="ring {{ cls }}" transform="rotate({{ tilt }})" style="--dur: {{ dur }}s" clip-path="url(#{{ clip }})">
-      <ellipse class="band" rx="{{ rx }}" ry="{{ ry }}"/>
-      <ellipse class="band-hi" rx="{{ rx }}" ry="{{ ry }}" transform="translate(0 -1)"/>
-      <ellipse class="band-line" rx="{{ rx - 1 }}" ry="{{ ry - 1 }}"/>
-      <ellipse class="ticks" rx="{{ rx }}" ry="{{ ry }}" pathLength="360"/>
-      <ellipse class="majors" rx="{{ rx }}" ry="{{ ry }}" pathLength="360"/>
-      <ellipse class="bead" rx="{{ rx }}" ry="{{ ry }}" pathLength="360"/>
-    </g>
-{% endmacro %}
-
-{% macro _rings(clip) %}
-  {{ _ring("r1", 212, 54, -16, 70, clip) }}
-  {{ _ring("r2 rev", 229, 34, 23, 110, clip) }}
-  {{ _ring("r3", 243, 96, -58, 160, clip) }}
+  .briefing b { font-weight: 500; }
 {% endmacro %}
 
 {% macro markup(stats, briefing) %}
   <section class="hero" id="hero" aria-labelledby="hero-title">
-    <div class="hero-text">
-      <h2 id="hero-title">The known world of work</h2>
-      <p>{{ "{:,}".format(stats.open_openings) }} open jobs from {{ stats.platforms|length }} job platforms, charted in one index.</p>
-      <p class="hint">Turn the globe or switch to the map, follow a rune to a city's jobs, or pick a country.
-        <a href="/browse">Browse by place →</a></p>
-      <p class="hint"><small>City positions: <a href="https://www.geonames.org" rel="noopener">GeoNames</a> (CC BY 4.0).</small></p>
-    </div>
-    {# Hidden until the script runs: without JavaScript there is no globe, just the text. #}
-    <div class="atlas-col">
-    <div class="view-toggle" role="group" aria-label="View" hidden>
-      <button type="button" data-view="globe" aria-pressed="true">Globe</button><button type="button" data-view="map" aria-pressed="false">Map</button>
-    </div>
-    <div class="astrolabe" id="astrolabe" hidden>
-      <svg class="back" viewBox="-250 -250 500 500" aria-hidden="true">
-        <defs>
-          <clipPath id="ring-back" clipPathUnits="userSpaceOnUse"><rect x="-260" y="-260" width="520" height="260"/></clipPath>
-          <clipPath id="ring-front" clipPathUnits="userSpaceOnUse"><rect x="-260" y="0" width="520" height="260"/></clipPath>
-        </defs>
-        {{ _rings("ring-back") }}
-      </svg>
-      <canvas role="img" aria-label="Globe with the cities that have open jobs. Drag to turn it."></canvas>
-      <svg class="front" viewBox="-250 -250 500 500" aria-hidden="true">{{ _rings("ring-front") }}</svg>
-      <div class="globe-tip" role="status" hidden></div>
+    <div class="hero-head">
+      <div class="hero-text">
+        <h2 id="hero-title">The known world of work</h2>
+        <p class="lead">{{ "{:,}".format(stats.open_openings) }} open jobs from {{ stats.platforms|length }} job platforms, mapped in one index.</p>
+        <p class="hint">Pick a country to browse it, or open the globe and follow a marker to a city's jobs.
+          <a href="/browse">Browse by place →</a> · City positions: <a href="https://www.geonames.org" rel="noopener">GeoNames</a> (CC BY 4.0)</p>
+      </div>
+      {# Shown by the script; without JavaScript there is no map, just the briefing. #}
+      <div class="view-toggle" role="group" aria-label="View" hidden>
+        <button type="button" data-view="map" aria-pressed="true">Map</button><button type="button" data-view="globe" aria-pressed="false">Globe</button>
+      </div>
     </div>
     <div class="atlas" id="atlas" hidden>
       <svg viewBox="0 0 960 500" role="img" aria-label="World map: countries with open jobs are highlighted, brighter for more jobs. Select a country to browse it."></svg>
       <div class="globe-tip" role="status" hidden></div>
     </div>
+    <div class="globe" id="globe" hidden>
+      <canvas role="img" aria-label="Globe with the cities that have open jobs. Drag to turn it."></canvas>
+      <div class="globe-tip" role="status" hidden></div>
     </div>
     {% if briefing %}
     <p class="briefing"><span class="brief-label">Countries with open jobs ({{ briefing|length }}):</span>
@@ -166,242 +88,29 @@
 <script>
 (function () {
   "use strict";
-  var box = document.getElementById("astrolabe");
-  if (!box || !window.fetch || !window.requestAnimationFrame) return;
-  box.hidden = false;  // reserve the space now; the globe draws once data arrives
+  var hero = document.getElementById("hero");
+  var atlas = document.getElementById("atlas"), globeBox = document.getElementById("globe");
+  if (!hero || !atlas || !window.fetch || !window.requestAnimationFrame) return;
+  atlas.hidden = false;  // reserve the space now; the map draws once data arrives
 
   var ATLAS = "{{ CDN }}world-atlas@2.0.2/countries-110m.json";
   var ATLAS_SRI = "sha384-yOCJ+8ShBm8UDqtAVtAvxTDDf4gXo5edxl/YG0FmVC5OTmqVLl7utuVGBDEeZWHf";
-  var SPEED = 4;          // degrees per second of auto-rotation
-  var RESUME_MS = 2500;   // auto-rotation resumes this long after a drag
+  var VIEW_KEY = "jobindex-atlas-view";
   var reduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function getJSON(url, integrity) {
     var opts = integrity ? { integrity: integrity, mode: "cors" } : {};
     return fetch(url, opts).then(function (r) { if (!r.ok) throw new Error(url); return r.json(); });
   }
-  function fail() { box.hidden = true; }
   function fmt(n) { return n.toLocaleString("en-US"); }
   function jobs(n) { return fmt(n) + (n === 1 ? " job" : " jobs"); }
-
-  function start(world, data) {
-    var d3 = window.d3, topojson = window.topojson;
-    var canvas = box.querySelector("canvas"), tip = box.querySelector(".globe-tip");
-    var ctx = canvas.getContext("2d");
-    var countries = topojson.feature(world, world.objects.countries).features;
-    var info = data.countries || {};
-    var places = (data.places || []).map(function (p, i) {
-      return { p: p, ll: [p.lng, p.lat], phase: i * 1.7, x: 0, y: 0, r: 0, seen: false };
-    });
-    var max = places.reduce(function (m, d) { return Math.max(m, d.p.count); }, 1);
-    var projection = d3.geoOrthographic().clipAngle(90).precision(0.6);
-    var path = d3.geoPath(projection, ctx);
-    var graticule = d3.geoGraticule10();
-    var sphere = { type: "Sphere" };
-    var rot = [30, -24];  // centre on the North Atlantic, tilted north
-    var size = 0, R = 0, colors = {};
-    var hoverPlace = null, hoverCountry = null;
-    var drag = null, resumeAt = 0, visible = true, running = false, drawQueued = false, last = 0;
-    var over = false;  // pointer on the globe: hold still so a rune can be clicked
-
-    function readColors() {
-      var cs = getComputedStyle(box);
-      ["sea-in", "sea-out", "land", "land-hi", "border", "grid", "rim", "shade", "hover", "mark", "glow"]
-        .forEach(function (k) { colors[k] = cs.getPropertyValue("--g-" + k).trim(); });
-      colors.fantasy = document.documentElement.getAttribute("data-theme") === "fantasy";
-    }
-
-    function resize() {
-      size = box.clientWidth;
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(size * dpr);
-      canvas.height = Math.round(size * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      R = size * 0.37;  // rings sit at 0.42-0.49 of the box (viewBox units /500)
-      projection.scale(R).translate([size / 2, size / 2]);
-      requestDraw();
-    }
-
-    function star(x, y, r) {  // four-pointed rune star
-      var s = r * 0.32;
-      ctx.beginPath();
-      ctx.moveTo(x, y - r); ctx.lineTo(x + s, y - s); ctx.lineTo(x + r, y); ctx.lineTo(x + s, y + s);
-      ctx.lineTo(x, y + r); ctx.lineTo(x - s, y + s); ctx.lineTo(x - r, y); ctx.lineTo(x - s, y - s);
-      ctx.closePath();
-    }
-
-    function draw(t) {
-      var c = size / 2, k = size / 440;
-      projection.rotate(rot);
-      ctx.clearRect(0, 0, size, size);
-
-      var sea = ctx.createRadialGradient(c - R * 0.35, c - R * 0.4, R * 0.1, c, c, R);
-      sea.addColorStop(0, colors["sea-in"]); sea.addColorStop(1, colors["sea-out"]);
-      ctx.beginPath(); path(sphere); ctx.fillStyle = sea; ctx.fill();
-
-      ctx.beginPath(); path(graticule); ctx.strokeStyle = colors.grid; ctx.lineWidth = 0.7; ctx.stroke();
-
-      var land = ctx.createRadialGradient(c - R * 0.3, c - R * 0.35, R * 0.05, c, c, R * 1.05);
-      land.addColorStop(0, colors["land-hi"]); land.addColorStop(1, colors.land);
-      ctx.beginPath(); countries.forEach(function (f) { path(f); });
-      ctx.fillStyle = land; ctx.fill();
-      ctx.strokeStyle = colors.border; ctx.lineWidth = colors.fantasy ? 0.6 : 0.5; ctx.stroke();
-      if (hoverCountry) {
-        ctx.beginPath(); path(hoverCountry); ctx.fillStyle = colors.hover; ctx.fill();
-        ctx.lineWidth = 1; ctx.stroke();
-      }
-
-      var shade = ctx.createRadialGradient(c - R * 0.3, c - R * 0.3, R * 0.2, c, c, R);
-      shade.addColorStop(0, "rgba(0,0,0,0)"); shade.addColorStop(1, colors.shade);
-      ctx.beginPath(); path(sphere); ctx.fillStyle = shade; ctx.fill();
-
-      var centre = [-rot[0], -rot[1]];
-      places.forEach(function (d) {
-        var dist = d3.geoDistance(d.ll, centre);
-        d.seen = dist < Math.PI / 2 - 0.05;
-        if (!d.seen) return;
-        var xy = projection(d.ll);
-        d.x = xy[0]; d.y = xy[1];
-        d.r = (2.4 + 6 * Math.sqrt(d.p.count / max)) * k;
-        var edge = Math.min(1, (Math.PI / 2 - dist) * 3);  // fade towards the limb
-        var pulse = reduced ? 0.5 : (Math.sin(t / 650 + d.phase) + 1) / 2;
-        var hot = d === hoverPlace;
-        ctx.globalAlpha = edge;
-        var halo = d.r * (hot ? 3.4 : 2.2 + pulse * 1.1);
-        var g = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, halo);
-        g.addColorStop(0, colors.glow); g.addColorStop(1, "rgba(0,0,0,0)");
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(d.x, d.y, halo, 0, 2 * Math.PI); ctx.fill();
-        star(d.x, d.y, d.r * (hot ? 1.5 : 1.15));
-        ctx.fillStyle = colors.mark; ctx.fill();
-        if (colors.fantasy) { ctx.strokeStyle = "rgba(60,35,0,.8)"; ctx.lineWidth = 0.6; ctx.stroke(); }
-        ctx.beginPath(); ctx.arc(d.x, d.y, Math.max(0.8, d.r * 0.22), 0, 2 * Math.PI);
-        ctx.fillStyle = colors.fantasy ? "#fff8e0" : colors["sea-in"]; ctx.fill();
-      });
-      ctx.globalAlpha = 1;
-
-      ctx.beginPath(); path(sphere); ctx.strokeStyle = colors.rim; ctx.lineWidth = colors.fantasy ? 1.6 : 1; ctx.stroke();
-    }
-
-    function frame(now) {
-      if (!visible || document.hidden || reduced) { running = false; return; }
-      var dt = Math.min(now - last, 100); last = now;
-      if (!drag && !over && now > resumeAt) rot[0] += SPEED * dt / 1000;
-      draw(now);
-      requestAnimationFrame(frame);
-    }
-    function requestDraw() {  // one redraw when not animating (reduced motion, paused)
-      if (running || drawQueued) return;
-      drawQueued = true;
-      requestAnimationFrame(function (now) { drawQueued = false; draw(now); });
-    }
-    function update() {
-      var on = visible && !document.hidden && !reduced;
-      box.classList.toggle("paused", !(visible && !document.hidden));
-      if (on && !running) { running = true; last = performance.now(); requestAnimationFrame(frame); }
-    }
-
-    function pick(ev) {  // marker under the pointer, else the country
-      var rect = canvas.getBoundingClientRect();
-      var x = ev.clientX - rect.left, y = ev.clientY - rect.top, slop = ev.pointerType === "touch" ? 12 : 5;
-      var best = null, bestD = Infinity;
-      places.forEach(function (d) {
-        if (!d.seen) return;
-        var dd = Math.hypot(d.x - x, d.y - y);
-        if (dd < d.r + slop && dd < bestD) { best = d; bestD = dd; }
-      });
-      if (best) return { place: best, x: x, y: y };
-      if (Math.hypot(x - size / 2, y - size / 2) > R) return { x: x, y: y };
-      var ll = projection.invert([x, y]);
-      for (var i = 0; ll && i < countries.length; i++) {
-        if (d3.geoContains(countries[i], ll)) return { country: countries[i], x: x, y: y };
-      }
-      return { x: x, y: y };
-    }
-    function showTip(text, x, y) {
-      tip.textContent = text; tip.hidden = false;
-      tip.style.left = Math.max(70, Math.min(size - 70, x)) + "px"; tip.style.top = y + "px";
-    }
-    function hover(ev) {
-      var hit = pick(ev), known = hit.country && info[hit.country.id];
-      var place = hit.place || null, country = known ? hit.country : null;
-      if (place !== hoverPlace || country !== hoverCountry) { hoverPlace = place; hoverCountry = country; requestDraw(); }
-      canvas.classList.toggle("pointing", !!(place || country));
-      if (place) showTip(place.p.name + ", " + place.p.country_name + " – " + jobs(place.p.count), hit.x, hit.y);
-      else if (country) showTip(known.name + " – " + jobs(known.count), hit.x, hit.y);
-      else tip.hidden = true;
-    }
-
-    canvas.addEventListener("pointerdown", function (ev) {
-      drag = { x: ev.clientX, y: ev.clientY, rot: rot.slice(), moved: false, id: ev.pointerId };
-      canvas.setPointerCapture(ev.pointerId);
-    });
-    canvas.addEventListener("pointermove", function (ev) {
-      if (!drag) { if (ev.pointerType === "mouse") { over = true; hover(ev); } return; }
-      var dx = ev.clientX - drag.x, dy = ev.clientY - drag.y, k = 90 / R;
-      if (Math.abs(dx) + Math.abs(dy) > 5 && !drag.moved) {
-        drag.moved = true; canvas.classList.add("dragging"); tip.hidden = true;
-      }
-      if (!drag.moved) return;
-      rot[0] = drag.rot[0] + dx * k;
-      rot[1] = Math.max(-75, Math.min(75, drag.rot[1] - dy * k));
-      requestDraw();
-    });
-    function end(ev) {
-      if (!drag) return;
-      var click = !drag.moved && ev.type === "pointerup";
-      drag = null; canvas.classList.remove("dragging"); resumeAt = performance.now() + RESUME_MS;
-      if (!click) return;
-      var hit = pick(ev), known = hit.country && info[hit.country.id];
-      if (hit.place) window.location.href = hit.place.p.href;
-      else if (known) window.location.href = known.href;
-    }
-    canvas.addEventListener("pointerup", end);
-    canvas.addEventListener("pointercancel", end);
-    canvas.addEventListener("pointerleave", function () {
-      over = false; tip.hidden = true;
-      if (hoverPlace || hoverCountry) { hoverPlace = hoverCountry = null; requestDraw(); }
-    });
-
-    readColors();
-    new MutationObserver(function () { readColors(); requestDraw(); })
-      .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-    if (window.ResizeObserver) new ResizeObserver(resize).observe(box); else window.addEventListener("resize", resize);
-    if (window.IntersectionObserver) {
-      new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; update(); }).observe(box);
-    }
-    document.addEventListener("visibilitychange", update);
-    resize();
-    update();
-    setupViews(d3, countries, info, data.places || []);
+  function showTip(tip, box, text, x, y) {
+    tip.textContent = text; tip.hidden = false;
+    tip.style.left = Math.max(80, Math.min(box.clientWidth - 80, x)) + "px"; tip.style.top = y + "px";
   }
 
-  // ---- Globe / Map toggle and the flat map (built on first use) ----
-  var VIEW_KEY = "jobindex-atlas-view";
-  function setupViews(d3, countries, info, places) {
-    var hero = document.getElementById("hero"), atlas = document.getElementById("atlas");
-    var toggle = hero.querySelector(".view-toggle"), built = false;
-    function show(view) {
-      var map = view === "map";
-      if (map && !built) { buildMap(d3, atlas, countries, info, places); built = true; }
-      hero.classList.toggle("map-mode", map);
-      box.hidden = map; atlas.hidden = !map;  // the hidden globe stops animating (off-screen)
-      toggle.querySelectorAll("button").forEach(function (b) {
-        b.setAttribute("aria-pressed", String(b.getAttribute("data-view") === view));
-      });
-    }
-    toggle.addEventListener("click", function (ev) {
-      var view = ev.target.getAttribute && ev.target.getAttribute("data-view");
-      if (!view) return;
-      show(view);
-      try { localStorage.setItem(VIEW_KEY, view); } catch (e) { /* storage unavailable */ }
-    });
-    toggle.hidden = false;
-    var saved = null;
-    try { saved = localStorage.getItem(VIEW_KEY); } catch (e) { /* storage unavailable */ }
-    if (saved === "map") show("map");
-  }
-
-  function buildMap(d3, atlas, countries, info, places) {
+  // ---- Flat map (main view) ----
+  function buildMap(d3, countries, info, places) {
     var NS = "http://www.w3.org/2000/svg", W = 960, H = 500;
     var svg = atlas.querySelector("svg"), tip = atlas.querySelector(".globe-tip");
     var projection = d3.geoNaturalEarth1().fitExtent([[6, 6], [W - 6, H - 6]], { type: "Sphere" });
@@ -437,10 +146,7 @@
       if (t !== hot) { if (hot) hot.classList.remove("hot"); hot = t; if (t) t.classList.add("hot"); }
       if (!t) { tip.hidden = true; return; }
       var c = info[t.getAttribute("data-id")], r = atlas.getBoundingClientRect();
-      tip.textContent = c.name + " – " + jobs(c.count);
-      tip.hidden = false;
-      tip.style.left = Math.max(80, Math.min(r.width - 80, ev.clientX - r.left)) + "px";
-      tip.style.top = (ev.clientY - r.top) + "px";
+      showTip(tip, atlas, c.name + " – " + jobs(c.count), ev.clientX - r.left, ev.clientY - r.top);
     });
     svg.addEventListener("pointerleave", function () {
       tip.hidden = true;
@@ -452,11 +158,185 @@
     });
   }
 
+  // ---- Globe (secondary view, built on first use) ----
+  function buildGlobe(d3, countries, info, data) {
+    var SPEED = 4, RESUME_MS = 2500;  // degrees per second; pause after a drag
+    var canvas = globeBox.querySelector("canvas"), tip = globeBox.querySelector(".globe-tip");
+    var ctx = canvas.getContext("2d");
+    var places = (data.places || []).map(function (p, i) {
+      return { p: p, ll: [p.lng, p.lat], phase: i * 1.7, x: 0, y: 0, r: 0, seen: false };
+    });
+    var max = places.reduce(function (m, d) { return Math.max(m, d.p.count); }, 1);
+    var projection = d3.geoOrthographic().clipAngle(90).precision(0.6);
+    var path = d3.geoPath(projection, ctx);
+    var graticule = d3.geoGraticule10(), sphere = { type: "Sphere" };
+    var rot = [30, -24];  // centre on the North Atlantic, tilted north
+    var size = 0, R = 0, colors = {}, hoverPlace = null, hoverCountry = null;
+    var drag = null, resumeAt = 0, visible = true, running = false, drawQueued = false, last = 0;
+    var over = false;  // pointer on the globe: hold still so a marker can be clicked
+    var cs = getComputedStyle(globeBox);
+    ["sea-in", "sea-out", "land", "land-hi", "border", "grid", "rim", "shade", "hover", "mark", "glow"]
+      .forEach(function (k) { colors[k] = cs.getPropertyValue("--g-" + k).trim(); });
+
+    function resize() {
+      size = globeBox.clientWidth;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(size * dpr); canvas.height = Math.round(size * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      R = size * 0.45;
+      projection.scale(R).translate([size / 2, size / 2]);
+      requestDraw();
+    }
+    function diamond(x, y, r) {
+      ctx.beginPath(); ctx.moveTo(x, y - r); ctx.lineTo(x + r, y); ctx.lineTo(x, y + r); ctx.lineTo(x - r, y); ctx.closePath();
+    }
+    function draw(t) {
+      var c = size / 2, k = size / 440;
+      projection.rotate(rot);
+      ctx.clearRect(0, 0, size, size);
+      var sea = ctx.createRadialGradient(c - R * 0.35, c - R * 0.4, R * 0.1, c, c, R);
+      sea.addColorStop(0, colors["sea-in"]); sea.addColorStop(1, colors["sea-out"]);
+      ctx.beginPath(); path(sphere); ctx.fillStyle = sea; ctx.fill();
+      ctx.beginPath(); path(graticule); ctx.strokeStyle = colors.grid; ctx.lineWidth = 0.7; ctx.stroke();
+      var land = ctx.createRadialGradient(c - R * 0.3, c - R * 0.35, R * 0.05, c, c, R * 1.05);
+      land.addColorStop(0, colors["land-hi"]); land.addColorStop(1, colors.land);
+      ctx.beginPath(); countries.forEach(function (f) { path(f); });
+      ctx.fillStyle = land; ctx.fill(); ctx.strokeStyle = colors.border; ctx.lineWidth = 0.5; ctx.stroke();
+      if (hoverCountry) {
+        ctx.beginPath(); path(hoverCountry); ctx.fillStyle = colors.hover; ctx.fill(); ctx.lineWidth = 1; ctx.stroke();
+      }
+      var shade = ctx.createRadialGradient(c - R * 0.3, c - R * 0.3, R * 0.2, c, c, R);
+      shade.addColorStop(0, "rgba(0,0,0,0)"); shade.addColorStop(1, colors.shade);
+      ctx.beginPath(); path(sphere); ctx.fillStyle = shade; ctx.fill();
+      var centre = [-rot[0], -rot[1]];
+      places.forEach(function (d) {
+        var dist = d3.geoDistance(d.ll, centre);
+        d.seen = dist < Math.PI / 2 - 0.05;
+        if (!d.seen) return;
+        var xy = projection(d.ll);
+        d.x = xy[0]; d.y = xy[1];
+        d.r = (2.2 + 5 * Math.sqrt(d.p.count / max)) * k;
+        var pulse = reduced ? 0.5 : (Math.sin(t / 650 + d.phase) + 1) / 2, hot = d === hoverPlace;
+        ctx.globalAlpha = Math.min(1, (Math.PI / 2 - dist) * 3);  // fade towards the limb
+        var halo = d.r * (hot ? 3.4 : 2.2 + pulse * 1.1);
+        var g = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, halo);
+        g.addColorStop(0, colors.glow); g.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(d.x, d.y, halo, 0, 2 * Math.PI); ctx.fill();
+        diamond(d.x, d.y, d.r * (hot ? 1.5 : 1.1)); ctx.fillStyle = colors.mark; ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+      ctx.beginPath(); path(sphere); ctx.strokeStyle = colors.rim; ctx.lineWidth = 1; ctx.stroke();
+    }
+    function frame(now) {
+      if (!visible || document.hidden || reduced) { running = false; return; }
+      var dt = Math.min(now - last, 100); last = now;
+      if (!drag && !over && now > resumeAt) rot[0] += SPEED * dt / 1000;
+      draw(now);
+      requestAnimationFrame(frame);
+    }
+    function requestDraw() {  // one redraw when not animating (reduced motion, paused)
+      if (running || drawQueued) return;
+      drawQueued = true;
+      requestAnimationFrame(function (now) { drawQueued = false; draw(now); });
+    }
+    function update() {
+      if (visible && !document.hidden && !reduced && !running) {
+        running = true; last = performance.now(); requestAnimationFrame(frame);
+      }
+    }
+    function pick(ev) {  // marker under the pointer, else the country
+      var rect = canvas.getBoundingClientRect();
+      var x = ev.clientX - rect.left, y = ev.clientY - rect.top, slop = ev.pointerType === "touch" ? 12 : 5;
+      var best = null, bestD = Infinity;
+      places.forEach(function (d) {
+        if (!d.seen) return;
+        var dd = Math.hypot(d.x - x, d.y - y);
+        if (dd < d.r + slop && dd < bestD) { best = d; bestD = dd; }
+      });
+      if (best) return { place: best, x: x, y: y };
+      if (Math.hypot(x - size / 2, y - size / 2) > R) return { x: x, y: y };
+      var ll = projection.invert([x, y]);
+      for (var i = 0; ll && i < countries.length; i++) {
+        if (d3.geoContains(countries[i], ll)) return { country: countries[i], x: x, y: y };
+      }
+      return { x: x, y: y };
+    }
+    function hover(ev) {
+      var hit = pick(ev), known = hit.country && info[hit.country.id];
+      var place = hit.place || null, country = known ? hit.country : null;
+      if (place !== hoverPlace || country !== hoverCountry) { hoverPlace = place; hoverCountry = country; requestDraw(); }
+      canvas.classList.toggle("pointing", !!(place || country));
+      if (place) showTip(tip, globeBox, place.p.name + ", " + place.p.country_name + " – " + jobs(place.p.count), hit.x, hit.y);
+      else if (country) showTip(tip, globeBox, known.name + " – " + jobs(known.count), hit.x, hit.y);
+      else tip.hidden = true;
+    }
+    canvas.addEventListener("pointerdown", function (ev) {
+      drag = { x: ev.clientX, y: ev.clientY, rot: rot.slice(), moved: false };
+      canvas.setPointerCapture(ev.pointerId);
+    });
+    canvas.addEventListener("pointermove", function (ev) {
+      if (!drag) { if (ev.pointerType === "mouse") { over = true; hover(ev); } return; }
+      var dx = ev.clientX - drag.x, dy = ev.clientY - drag.y, k = 90 / R;
+      if (Math.abs(dx) + Math.abs(dy) > 5 && !drag.moved) { drag.moved = true; canvas.classList.add("dragging"); tip.hidden = true; }
+      if (!drag.moved) return;
+      rot[0] = drag.rot[0] + dx * k;
+      rot[1] = Math.max(-75, Math.min(75, drag.rot[1] - dy * k));
+      requestDraw();
+    });
+    function end(ev) {
+      if (!drag) return;
+      var click = !drag.moved && ev.type === "pointerup";
+      drag = null; canvas.classList.remove("dragging"); resumeAt = performance.now() + RESUME_MS;
+      if (!click) return;
+      var hit = pick(ev), known = hit.country && info[hit.country.id];
+      if (hit.place) window.location.href = hit.place.p.href;
+      else if (known) window.location.href = known.href;
+    }
+    canvas.addEventListener("pointerup", end);
+    canvas.addEventListener("pointercancel", end);
+    canvas.addEventListener("pointerleave", function () {
+      over = false; tip.hidden = true;
+      if (hoverPlace || hoverCountry) { hoverPlace = hoverCountry = null; requestDraw(); }
+    });
+    if (window.ResizeObserver) new ResizeObserver(resize).observe(globeBox); else window.addEventListener("resize", resize);
+    if (window.IntersectionObserver) {  // also false while the map view hides the globe
+      new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; update(); }).observe(globeBox);
+    }
+    document.addEventListener("visibilitychange", update);
+    resize();
+    update();
+  }
+
+  function start(world, data) {
+    var d3 = window.d3, topojson = window.topojson;
+    var countries = topojson.feature(world, world.objects.countries).features;
+    var info = data.countries || {}, toggle = hero.querySelector(".view-toggle"), globeBuilt = false;
+    buildMap(d3, countries, info, data.places || []);
+    function show(view) {
+      var globe = view === "globe";
+      atlas.hidden = globe; globeBox.hidden = !globe;
+      if (globe && !globeBuilt) { buildGlobe(d3, countries, info, data); globeBuilt = true; }
+      toggle.querySelectorAll("button").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.getAttribute("data-view") === view));
+      });
+    }
+    toggle.addEventListener("click", function (ev) {
+      var view = ev.target.getAttribute && ev.target.getAttribute("data-view");
+      if (!view) return;
+      show(view);
+      try { localStorage.setItem(VIEW_KEY, view); } catch (e) { /* storage unavailable */ }
+    });
+    toggle.hidden = false;
+    var saved = null;
+    try { saved = localStorage.getItem(VIEW_KEY); } catch (e) { /* storage unavailable */ }
+    if (saved === "globe") show("globe");
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
-    if (!window.d3 || !window.d3.geoOrthographic || !window.topojson) return fail();
+    if (!window.d3 || !window.d3.geoNaturalEarth1 || !window.topojson) { atlas.hidden = true; return; }
     Promise.all([getJSON(ATLAS, ATLAS_SRI), getJSON("/places.json")])
       .then(function (r) { start(r[0], r[1]); })
-      .catch(fail);
+      .catch(function () { atlas.hidden = true; });
   });
 })();
 </script>
