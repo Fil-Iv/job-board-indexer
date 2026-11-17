@@ -117,7 +117,7 @@ async def add_submit(request: Request, session: SessionDep) -> HTMLResponse:
     try:
         url = clean_url(raw_url)
         check = await _check(session, url)
-        if action == "request":
+        if action == "request" and check.existing_source_id is None:
             async with writable_session(request) as writer:
                 row, created = await queue(writer, check)
             return await _page(request, session, url=url, check=check, queued=row, created=created)
@@ -260,6 +260,9 @@ async def post_source(
             return SourceRequestOut.model_validate(
                 _out(check, "created" if created else "exists", source_id=source.id)
             )
+        if check.existing_source_id is not None:  # already indexed: nothing to queue
+            response.status_code = 200
+            return SourceRequestOut.model_validate(_out(check, "exists"))
         async with writable_session(request) as writer:
             row, created = await queue(writer, check)
         return SourceRequestOut.model_validate(

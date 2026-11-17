@@ -141,6 +141,18 @@ async def test_api_save(client: httpx.AsyncClient, env: pytest.MonkeyPatch) -> N
     assert (await client.post("/sources", json=other, headers=headers)).status_code == 403
 
 
+async def test_api_existing_source_is_not_queued(
+    client: httpx.AsyncClient, session: AsyncSession
+) -> None:
+    session.add(Source(id=4, platform="lever", board_identifier="acme", base_url=LEVER))
+    await session.commit()
+    response = await client.post("/sources", json={"url": LEVER})
+    assert response.status_code == 200
+    assert (response.json()["status"], response.json()["source_id"]) == ("exists", 4)
+    await client.post("/add", data={"url": LEVER, "action": "request"})
+    assert await session.scalar(select(PendingSource)) is None
+
+
 async def test_api_errors_and_docs(client: httpx.AsyncClient) -> None:
     bad = await client.post("/sources", json={"url": "ftp://x.example/"})
     assert bad.status_code == 400
