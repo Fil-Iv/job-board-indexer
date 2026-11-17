@@ -22,6 +22,8 @@ Commands:
     prune [--closed-days N] [--changes-days N] [--runs-days N]
                                              delete old closed postings / history / runs
                                              (defaults: *_RETENTION_DAYS settings)
+    check-pending [--limit N]                live-check URLs queued via /add or POST /sources
+                                             (robots.txt, platform, dry-run job count)
     schedule                                 crawl continuously (the worker process)
 """
 
@@ -48,6 +50,7 @@ from jobindex.crawlplan import crawl_summary, plan_shards, render_summary, sourc
 from jobindex.db import create_engine, create_session_factory
 from jobindex.dedup import run_dedup
 from jobindex.http import FetchError, HttpClient
+from jobindex.intake import process_pending
 from jobindex.maintenance import db_size, prune, recover_abandoned_runs, render_db_size
 from jobindex.models import FetchStatus, Source
 from jobindex.quality import fill_rates, render_markdown, render_text
@@ -63,6 +66,11 @@ def _build_parser() -> argparse.ArgumentParser:
     add = sub.add_parser("add-source", help="register a job board by URL")
     add.add_argument("url")
     add.add_argument("--company-name", help="override the company name")
+
+    pending = sub.add_parser(
+        "check-pending", help="live-check career pages queued via /add or POST /sources"
+    )
+    pending.add_argument("--limit", type=int, default=20, help="at most this many (oldest first)")
 
     seed = sub.add_parser(
         "seed-demo", help="register the example boards from coverage/platforms.yaml"
@@ -557,6 +565,10 @@ async def _run(args: argparse.Namespace, registry: Registry) -> int:
             if args.command == "seed-demo":
                 only = set(args.platform) if args.platform else None
                 return await seed_demo(session_factory, registry, http, only)
+            if args.command == "check-pending":
+                checked = await process_pending(session_factory, registry, http, args.limit)
+                print(f"check-pending: {checked} queued URL(s) checked")
+                return 0
             if args.command == "add-source":
                 return await add_source(
                     session_factory, registry, http, args.url, args.company_name

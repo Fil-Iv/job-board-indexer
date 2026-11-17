@@ -13,8 +13,6 @@ Tools (read-only, no auth): ``search_jobs`` and ``get_job``, the same queries as
 """
 
 import json
-import time
-from collections import deque
 from typing import Any, Literal
 
 from fastapi import APIRouter, Request, Response
@@ -24,6 +22,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from jobindex import __version__
 from jobindex.api.deps import SessionDep
+from jobindex.api.ratelimit import client_ip, limiter
 from jobindex.api.schemas import JobDetailOut, JobOut
 from jobindex.api.search import SearchParams, get_opening, search
 from jobindex.config import get_settings
@@ -167,36 +166,6 @@ async def get_job(session: AsyncSession, args: GetJobArgs) -> dict[str, Any] | N
             for s in opening.sources
         ],
     }
-
-
-class RateLimiter:
-    """Sliding window: at most ``limit`` requests per ``window`` seconds per key."""
-
-    def __init__(self, window: float = 60.0) -> None:
-        self.window = window
-        self._hits: dict[str, deque[float]] = {}
-
-    def retry_after(self, key: str, limit: int, now: float | None = None) -> int:
-        """0 when the request may proceed (and is counted), else seconds to wait."""
-        now = time.monotonic() if now is None else now
-        if len(self._hits) > 10_000:  # forget idle clients
-            self._hits = {k: v for k, v in self._hits.items() if v and v[-1] > now - self.window}
-        hits = self._hits.setdefault(key, deque())
-        while hits and hits[0] <= now - self.window:
-            hits.popleft()
-        if len(hits) >= limit:
-            return max(1, int(hits[0] + self.window - now) + 1)
-        hits.append(now)
-        return 0
-
-
-limiter = RateLimiter()
-
-
-def client_ip(request: Request) -> str:
-    """Vercel puts the real client first in X-Forwarded-For."""
-    forwarded = request.headers.get("x-forwarded-for", "")
-    return forwarded.split(",")[0].strip() or (request.client.host if request.client else "?")
 
 
 def _error(msg_id: Any, code: int, message: str, status: int = 200) -> JSONResponse:

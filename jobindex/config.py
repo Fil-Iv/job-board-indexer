@@ -101,6 +101,16 @@ class Settings(BaseSettings):
 
     log_level: str = "INFO"
 
+    # Adding career pages (/add, POST /sources; jobindex/intake.py). ADMIN_TOKEN lets a
+    # maintainer save a source directly; without it requests are queued in
+    # pending_sources. Live checks (robots.txt, page fetch, dry-run job count) run only
+    # where crawling is allowed: never on Vercel, which only detects from the URL.
+    admin_token: str | None = None
+    intake_live_checks: bool = True
+    intake_dry_run_timeout_seconds: float = 45
+    intake_queue_per_hour: int = 30  # pending requests accepted per hour, all clients
+    intake_queue_max_pending: int = 500
+
     @model_validator(mode="after")
     def _serverless_defaults(self) -> Self:
         if self.vercel:
@@ -116,6 +126,8 @@ class Settings(BaseSettings):
             # /pulse. tests/test_vercel.py keeps the two defaults equal.
             if "max_jobs_per_source" not in explicit:
                 self.max_jobs_per_source = DEMO_MAX_JOBS_PER_SOURCE
+            if "intake_live_checks" not in explicit:
+                self.intake_live_checks = False  # no crawling on Vercel
         return self
 
 

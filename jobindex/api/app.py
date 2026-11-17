@@ -12,6 +12,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy import func, select, text
 
 from jobindex import __version__
+from jobindex.api.add_page import router as add_router
 from jobindex.api.browse import router as browse_router
 from jobindex.api.coverage_page import router as coverage_router
 from jobindex.api.deps import SessionDep
@@ -83,6 +84,7 @@ app.include_router(places_router)
 app.include_router(coverage_router)
 app.include_router(job_page_router)
 app.include_router(status_router)
+app.include_router(add_router)
 
 UNCACHED_PATHS = frozenset({"/health"})
 

@@ -145,9 +145,20 @@ Do **not** use the "Direct connection" string: it is IPv6-only on the free tier.
 On Vercel (`VERCEL=1`) the app automatically uses no connection pool of its own (the
 transaction pooler pools), runs every transaction `READ ONLY`, and lets the CDN cache API
 responses for 60 s (`API_CACHE_SECONDS`; `/health` is never cached). It never crawls or
-schedules anything; the API has no write endpoints (`POST /mcp` carries the read-only MCP
-tools, rate-limited per client IP and per function instance). Optional variables:
-`LOG_LEVEL`, `API_CACHE_SECONDS`, `MCP_RATE_LIMIT_PER_MINUTE` (default 60).
+schedules anything (`POST /mcp` carries the read-only MCP tools, rate-limited per client
+IP and per function instance). Optional variables: `LOG_LEVEL`, `API_CACHE_SECONDS`,
+`MCP_RATE_LIMIT_PER_MINUTE` (default 60).
+
+**The one write: the review queue** (owner approval 2026-11-17). `/add` and
+`POST /sources` store requested career pages in `pending_sources`. Migration 0005 grants
+`jobindex_web` `SELECT, INSERT` on that table (and its id sequence) only; everything else
+stays read-only. On Vercel (`INTAKE_LIVE_CHECKS` is off) the page detects the platform
+from the URL pattern alone, fetches nothing, and saving a source directly is disabled
+(`ADMIN_TOKEN` + a writable database are needed: local or VPS). The crawl workflow's
+`check-pending` step then checks queued URLs (robots.txt, the page, a dry-run job count)
+through the polite HTTP client; a maintainer adds good ones with `add-source`. Abuse
+limits: per-client rate limits, one row per URL, `INTAKE_QUEUE_PER_HOUR` (30) and
+`INTAKE_QUEUE_MAX_PENDING` (500). No IP addresses or other personal data are stored.
 
 Vercel redeploys on every push to `main`. A push with a new migration also starts
 `migrate`; for a minute the new API code may meet the old schema, so keep migrations

@@ -22,7 +22,7 @@ from jobindex.db import create_session_factory
 from tests.fakes import FakeConnector, FakeDetailConnector
 
 ROOT = Path(__file__).resolve().parent.parent
-TABLES = ("job_changes", "fetch_runs", "jobs", "sources")
+TABLES = ("job_changes", "fetch_runs", "jobs", "sources", "pending_sources")
 
 
 @pytest.fixture(scope="session")

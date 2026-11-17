@@ -5,6 +5,7 @@ from jobindex.models.enums import ChangeCause, FetchStatus, JobStatus, RemoteTyp
 from jobindex.models.fetch_run import FetchRun
 from jobindex.models.job import Job
 from jobindex.models.job_change import JobChange
+from jobindex.models.pending_source import PendingSource
 from jobindex.models.source import Source
 
 __all__ = [
@@ -15,6 +16,7 @@ __all__ = [
     "Job",
     "JobChange",
     "JobStatus",
+    "PendingSource",
     "RemoteType",
     "Source",
 ]

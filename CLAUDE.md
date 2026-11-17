@@ -14,7 +14,10 @@ another team, so it has to be clean, documented and easy to run.
 - **Approved hosting (2026-11-08)** for the public demo — nothing else without approval:
   Supabase Postgres (free tier, 500 MB) as the database, Vercel for the API + search page
   (Python function, read-only DB use, no crawling/scheduling there), GitHub Actions for
-  the crawler, migrations and CI. All connections go through the Supabase pooler
+  the crawler, migrations and CI. **Approved 2026-11-17:** the website's DB role may
+  `SELECT, INSERT` on `pending_sources` only (the `/add` review queue); Vercel still never
+  fetches pasted URLs — it detects from the URL pattern, the crawler's `check-pending`
+  step does robots.txt / page / dry-run. All connections go through the Supabase pooler
   (session :5432 for crawler/migrations, transaction :6543 for Vercel; prepared
   statements off). The repository is **public**: never commit secrets, `.env` files,
   dumps or personal data. docker-compose stays the local dev setup; the single-VPS

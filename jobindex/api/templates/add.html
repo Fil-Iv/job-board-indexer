@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Add a career page – JobForge{% endblock %}
+{% macro yesno(value, yes='yes', no='no') %}{% if value is none %}–{% elif value %}{{ yes }}{% else %}{{ no }}{% endif %}{% endmacro %}
+{% block content %}
+  <h2 class="page-title">Add a career page</h2>
+  <p class="summary">Paste a company's career page or a job board. JobForge detects which of its
+    <a href="/coverage">platforms</a> runs it and can index it.</p>
+
+  <form method="post" action="/add" class="add-form">
+    <div class="wide">
+      <input type="url" name="url" value="{{ url or '' }}" placeholder="https://jobs.lever.co/acme or https://acme.com/careers" aria-label="Career page URL" required maxlength="2048">
+      <button type="submit" name="action" value="check">Check</button>
+    </div>
+  </form>
+
+  {% if error %}<div class="empty add-error" role="alert">{{ error }}</div>{% endif %}
+
+  {% if check %}
+  <section class="panel" id="result">
+    <h2>{% if check.found %}{{ check.platform_name }}{% else %}No platform detected{% endif %}</h2>
+    <dl class="facts">
+      <div><dt>Platform</dt><dd>{% if check.found %}{{ check.platform_name }} <small>({{ check.platform }})</small>{% else %}not recognised{% endif %}</dd></div>
+      <div><dt>Board</dt><dd>{{ check.board_identifier or '–' }}</dd></div>
+      <div><dt>Detected by</dt><dd>{{ {'url': 'URL pattern', 'page': 'the page (HTML / redirect)'}.get(check.detected_by, '–') }}</dd></div>
+      <div><dt>robots.txt</dt><dd>{% if not check.live %}checked by the crawler{% elif check.robots_allowed is none %}–{% elif check.robots_allowed %}<i class="badge st-live">allowed</i>{% else %}<i class="badge st-blocked">disallowed</i>{% if check.robots_rule %} <code>{{ check.robots_rule }}</code>{% endif %}{% endif %}</dd></div>
+      <div><dt>Dry run</dt><dd>{% if not check.live %}checked by the crawler{% elif check.preview_jobs is not none %}<b>{{ "{:,}".format(check.preview_jobs) }}</b> open jobs{% else %}–{% endif %}</dd></div>
+      <div><dt>In the index</dt><dd>{% if check.existing_source_id %}yes, <a href="/?platform={{ check.platform }}">{{ "{:,}".format(check.existing_open_jobs) }} open jobs</a>{% else %}not yet{% endif %}</dd></div>
+    </dl>
+    {% if check.error %}<p class="note fail-note">{{ check.error }}</p>{% endif %}
+    {% if not check.live %}
+    <p class="note">This public demo is read-only and does not crawl: it recognises the platform from the URL alone.
+      A requested URL is checked by the crawler on its next run (robots.txt, the page itself for custom domains, a dry-run job count)
+      and reviewed before it is indexed.</p>
+    {% endif %}
+
+    {% if queued %}
+    <p class="done-note" role="status">{% if created %}Thanks! Request <b>#{{ queued.id }}</b> is queued for review.{% else %}This URL is already in the review queue (request <b>#{{ queued.id }}</b>, {{ queued.status }}).{% endif %}
+      <a href="/add?request_id={{ queued.id }}">Follow its status →</a></p>
+    {% elif saved %}
+    <p class="done-note" role="status">{% if created %}Source <b>#{{ saved.id }}</b> created; it is crawled on the next run.{% else %}Already a source (<b>#{{ saved.id }}</b>).{% endif %}</p>
+    {% elif check.existing_source_id %}
+    <p class="note">Already indexed, nothing to add.</p>
+    {% else %}
+    <div class="add-actions">
+      <form method="post" action="/add">
+        <input type="hidden" name="url" value="{{ check.url }}">
+        <button type="submit" name="action" value="request">Request indexing</button>
+      </form>
+      {% if can_save %}
+      <form method="post" action="/add" class="admin-save">
+        <input type="hidden" name="url" value="{{ check.url }}">
+        <label>Admin token <input type="password" name="token" autocomplete="off" required></label>
+        <button type="submit" name="action" value="save">Save source</button>
+      </form>
+      {% endif %}
+    </div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if pending %}
+  <section class="panel" id="request">
+    <h2>Request #{{ pending.id }}</h2>
+    <dl class="facts">
+      <div><dt>URL</dt><dd class="wrap">{{ pending.url }}</dd></div>
+      <div><dt>Status</dt><dd><i class="badge st-{{ {'pending': 'running', 'checked': 'live', 'added': 'success', 'rejected': 'blocked'}[pending.status] }}">{{ pending.status }}</i></dd></div>
+      <div><dt>Submitted</dt><dd>{{ pending.submitted_at.strftime('%Y-%m-%d %H:%M') }} UTC</dd></div>
+      <div><dt>Platform</dt><dd>{{ pending.platform|platform_name or '–' }}{% if pending.board_identifier %} · {{ pending.board_identifier }}{% endif %}</dd></div>
+      <div><dt>Checked</dt><dd>{{ pending.checked_at.strftime('%Y-%m-%d %H:%M') ~ ' UTC' if pending.checked_at else 'not yet' }}</dd></div>
+      <div><dt>robots.txt</dt><dd>{{ yesno(pending.robots_allowed, 'allowed', 'disallowed') }}</dd></div>
+      <div><dt>Dry run</dt><dd>{{ "{:,} open jobs".format(pending.preview_jobs) if pending.preview_jobs is not none else '–' }}</dd></div>
+    </dl>
+    {% if pending.error %}<p class="note fail-note">{{ pending.error }}</p>{% endif %}
+  </section>
+  {% endif %}
+
+  <section class="panel">
+    <h2>How it works</h2>
+    <p>Supported: hosted boards (<code>jobs.lever.co/acme</code>, <code>boards.greenhouse.io/acme</code>, <code>acme.wd5.myworkdayjobs.com/…</code>),
+      embedded boards and custom-domain career sites that run one of the <a href="/coverage">supported platforms</a>.</p>
+    <p>We only index sites whose robots.txt allows it, with a clear User-Agent and at most one request per second per site.
+      Requests are reviewed before indexing. Developers: <code>POST /sources</code> (<a href="/docs#/sources">API docs</a>).</p>
+  </section>
+{% endblock %}

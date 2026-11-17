@@ -7,8 +7,9 @@ import httpx
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from jobindex.api import mcp
+from jobindex.api import mcp, ratelimit
 from jobindex.api.app import app
+from jobindex.api.ratelimit import RateLimiter
 from jobindex.config import get_settings
 from tests.test_api import _seed
 
@@ -20,7 +21,7 @@ async def client(
     session_factory: async_sessionmaker[AsyncSession],
 ) -> AsyncIterator[httpx.AsyncClient]:
     app.state.session_factory = session_factory
-    mcp.limiter._hits.clear()
+    ratelimit.limiter._hits.clear()
     transport = httpx.ASGITransport(app=app)
     async with httpx.AsyncClient(transport=transport, base_url="http://test") as c:
         yield c
@@ -144,7 +145,7 @@ async def test_rate_limit(client: httpx.AsyncClient, monkeypatch: pytest.MonkeyP
 
 
 def test_rate_limiter_window() -> None:
-    limiter = mcp.RateLimiter(window=60)
+    limiter = RateLimiter(window=60)
     assert [limiter.retry_after("a", 2, now=t) for t in (0, 1, 2)] == [0, 0, 59]
     assert limiter.retry_after("a", 2, now=60.5) == 0  # first hit left the window
 
