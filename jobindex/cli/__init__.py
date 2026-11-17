@@ -12,6 +12,8 @@ Commands:
                                              (then dedup); see `crawl --help`
     crawl-plan --shards N [--recover-after-hours H] [--github-output FILE]
                                              split active sources into N shards (JSON)
+    crawl-due --min-hours H [--github-output FILE]
+                                             is the last crawl at least H hours old? (due=…)
     crawl-summary --since ISO-TIME           Markdown summary of the runs since then
     set-company <source_id> <name>           set the company name used for the source's jobs
     dedup                                    recompute cross-source duplicates
@@ -39,7 +41,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import yaml
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from jobindex.config import get_settings
@@ -52,7 +54,7 @@ from jobindex.dedup import run_dedup
 from jobindex.http import FetchError, HttpClient
 from jobindex.intake import process_pending
 from jobindex.maintenance import db_size, prune, recover_abandoned_runs, render_db_size
-from jobindex.models import FetchStatus, Source
+from jobindex.models import FetchRun, FetchStatus, Source
 from jobindex.quality import fill_rates, render_markdown, render_text
 from jobindex.scheduler import CrawlScheduler
 
@@ -106,6 +108,12 @@ def _build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="exit 0 even if some sources failed (failures are recorded and printed)",
     )
+
+    due = sub.add_parser(
+        "crawl-due", help="is a crawl due? (scheduled workflow guard against double runs)"
+    )
+    due.add_argument("--min-hours", type=float, required=True, help="hours since the last crawl")
+    due.add_argument("--github-output", type=Path, help="append due=true|false to this file")
 
     plan = sub.add_parser("crawl-plan", help="split active sources into shards (JSON)")
     plan.add_argument("--shards", type=int, required=True, metavar="N")
@@ -431,6 +439,28 @@ async def crawl(
     return 1 if failed else 0
 
 
+async def crawl_due(
+    session_factory: async_sessionmaker[AsyncSession],
+    min_hours: float,
+    github_output: Path | None = None,
+    now: datetime | None = None,
+) -> int:
+    """Print (and write to ``$GITHUB_OUTPUT``) ``due=true`` when the latest crawl started
+    at least ``min_hours`` ago (or never ran). The workflow's cron fires more often than
+    the crawl interval because GitHub delays or drops scheduled events; this keeps the
+    actual cadence at about ``min_hours``."""
+    now = now or datetime.now(UTC)
+    async with session_factory() as session:
+        last = await session.scalar(select(func.max(FetchRun.started_at)))
+    due = last is None or now - last >= timedelta(hours=min_hours)
+    age = "never" if last is None else f"{(now - last).total_seconds() / 3600:.1f} h ago"
+    print(f"due={'true' if due else 'false'} (last crawl started {age}, interval {min_hours:g} h)")
+    if github_output is not None:
+        with github_output.open("a", encoding="utf-8") as f:
+            f.write(f"due={'true' if due else 'false'}\n")
+    return 0
+
+
 async def crawl_plan(
     session_factory: async_sessionmaker[AsyncSession],
     shards: int,
@@ -547,6 +577,8 @@ async def _run(args: argparse.Namespace, registry: Registry) -> int:
             return await report_db_size(
                 session_factory, args.markdown, args.fail_above_mb, args.warn_above_mb
             )
+        if args.command == "crawl-due":
+            return await crawl_due(session_factory, args.min_hours, args.github_output)
         if args.command == "crawl-plan":
             return await crawl_plan(
                 session_factory, args.shards, args.recover_after_hours, args.github_output

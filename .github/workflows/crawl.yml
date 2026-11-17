@@ -1,4 +1,9 @@
-# Crawl every active source into the hosted database (Supabase), every 6 hours.
+# Crawl every active source into the hosted database (Supabase), about every 6 hours.
+#
+# The cron fires every 2 h and `crawl-due` skips the run unless the last crawl started at
+# least 5.5 h ago: GitHub delays scheduled events by up to hours and sometimes drops them
+# (2026-11-17: the 12:17 run never started, others started ~1.5 h late), so a single
+# 6-hourly cron left gaps of 12 h and more. Manual runs always crawl.
 #
 #   plan      -> recovers runs left 'running' by killed jobs, splits the sources into
 #                shards (all sources of a platform in one shard: per-host rate limits)
@@ -14,7 +19,7 @@ name: crawl
 
 on:
   schedule:
-    - cron: "17 */6 * * *" # every 6 h (off the hour: GitHub delays jobs queued at :00)
+    - cron: "17 */2 * * *" # every 2 h, off the hour; crawl-due keeps the cadence at ~6 h
   workflow_dispatch:
     inputs:
       seed:
@@ -58,6 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     outputs:
+      due: ${{ steps.due.outputs.due }}
       matrix: ${{ steps.plan.outputs.matrix }}
       started_at: ${{ steps.plan.outputs.started_at }}
     steps:
@@ -74,12 +80,21 @@ jobs:
             echo "::error::DATABASE_URL secret is not set (docs/DEPLOY.md)"
             exit 1
           fi
+      - name: Is a crawl due?
+        id: due
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "due=true" >> "$GITHUB_OUTPUT"; echo "manual run: always crawl"
+          else
+            python -m jobindex.cli crawl-due --min-hours 5.5 --github-output "$GITHUB_OUTPUT"
+          fi
       - name: Seed demo sources
         if: ${{ inputs.seed }}
         # Fails (and stops the run) only if more than 10% of the boards fail to register;
         # a few that refuse us or no longer resolve are reported and skipped.
         run: python -m jobindex.cli seed-demo --file coverage/demo_sources.yaml
       - name: Plan shards
+        if: ${{ steps.due.outputs.due == 'true' }}
         id: plan
         env:
           SHARDS: ${{ inputs.shards || '4' }}
@@ -90,6 +105,7 @@ jobs:
 
   crawl:
     needs: plan
+    if: ${{ needs.plan.outputs.due == 'true' }}
     runs-on: ubuntu-latest
     # GitHub's hard limit is 6 h; the crawl stops itself at the deadline below, so the
     # job ends cleanly (runs recorded as failed, checkpoints kept) instead of being killed.
@@ -133,7 +149,7 @@ jobs:
   finalize:
     needs: [plan, crawl]
     # Also after failed/cancelled shards: what did finish should be deduplicated.
-    if: ${{ always() && needs.plan.result == 'success' }}
+    if: ${{ always() && needs.plan.result == 'success' && needs.plan.outputs.due == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:

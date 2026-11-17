@@ -178,3 +178,42 @@ async def test_empty_summary(session: AsyncSession) -> None:
     text = render_summary(summary)
     assert "**0 succeeded, 0 failed** · 0 active sources · **0 open postings**" in text
     assert "Failures" not in text
+
+
+@pytest.mark.usefixtures("settings_env")
+async def test_crawl_due(
+    session: AsyncSession,
+    fake_registry: Registry,
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """The workflow's 2-hourly cron only crawls when the last crawl is >= 5.5 h old."""
+    out_file = tmp_path / "github_output"
+    args = ["crawl-due", "--min-hours", "5.5", "--github-output", str(out_file)]
+    assert await asyncio.to_thread(main, args, fake_registry) == 0
+    assert "due=true (last crawl started never" in capsys.readouterr().out  # never crawled
+
+    ids = await _sources(session, "fake")
+    session.add(
+        FetchRun(
+            source_id=ids[0],
+            started_at=utcnow() - timedelta(hours=2),
+            status=FetchStatus.SUCCESS,
+        )
+    )
+    await session.commit()
+    assert await asyncio.to_thread(main, args, fake_registry) == 0
+    assert "due=false (last crawl started 2.0 h ago" in capsys.readouterr().out
+
+    session.add(
+        FetchRun(
+            source_id=ids[0],
+            started_at=utcnow() - timedelta(hours=1),
+            status=FetchStatus.FAILED,
+        )
+    )
+    await session.commit()
+    one_hour = ["crawl-due", "--min-hours", "1", "--github-output", str(out_file)]
+    assert await asyncio.to_thread(main, one_hour, fake_registry) == 0
+    assert "due=true (last crawl started 1.0 h ago, interval 1 h)" in capsys.readouterr().out
+    assert out_file.read_text().splitlines() == ["due=true", "due=false", "due=true"]
