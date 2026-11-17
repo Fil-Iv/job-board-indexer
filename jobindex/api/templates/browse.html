@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{% if country %}{{ country.label }} – {% endif %}Browse by place – JobForge{% endblock %}
+{% macro places(items, show_detail=false) %}
+  <ul class="places">
+    {% for p in items %}
+    <li><a href="{{ p.href }}"><span class="name">{{ p.label }}{% if show_detail and p.detail %} <small>{{ p.detail }}</small>{% endif %}</span>
+      <span class="num">{{ "{:,}".format(p.count) }}</span></a></li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+{% block content %}
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="/browse"{% if not country %} aria-current="page"{% endif %}>All countries</a>
+    {% if country %} › <span aria-current="page">{{ country.label }}</span>{% endif %}
+  </nav>
+  {% if not country %}
+  <h2 class="page-title">Browse jobs by place</h2>
+  <p class="summary">{{ countries|length }} countries with open jobs. Pick a country to see its regions and cities.</p>
+  {% if countries %}
+  <section class="panel" id="countries">{{ places(countries) }}</section>
+  {% else %}
+  <div class="empty">No open jobs with a known country yet.</div>
+  {% endif %}
+  {% else %}
+  <h2 class="page-title">{{ country.label }}</h2>
+  <p class="summary">{{ "{:,}".format(country.count) }} open job{{ '' if country.count == 1 else 's' }} ·
+    <a href="{{ country.href }}">search all jobs in {{ country.label }} →</a></p>
+  {% if country.count == 0 %}
+  <div class="empty">No open jobs in {{ country.label }} right now. <a href="/browse">Back to all countries</a></div>
+  {% else %}
+  {% if regions %}
+  <section class="panel" id="regions">
+    <h2>Regions</h2>
+    {{ places(regions) }}
+  </section>
+  {% endif %}
+  {% if cities %}
+  <section class="panel" id="cities">
+    <h2>Cities</h2>
+    {{ places(cities, true) }}
+  </section>
+  {% endif %}
+  {% if not regions and not cities %}<p class="note">These postings name only the country.</p>{% endif %}
+  {% endif %}
+  {% endif %}
+{% endblock %}

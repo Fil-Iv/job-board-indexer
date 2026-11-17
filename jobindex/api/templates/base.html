@@ -112,6 +112,15 @@
   .seg-onsite { background: var(--onsite); } .seg-unknown { background: var(--unknown); }
   @media (max-width: 480px) { .chart li, .ranges li { grid-template-columns: minmax(0, 45%) 1fr; }
                               .chart .num, .ranges .num { grid-column: 1 / -1; text-align: left; margin-top: -4px; } }
+  /* Browse: place lists */
+  .crumbs { font-size: 13px; color: var(--muted); }
+  .places { list-style: none; padding: 0; margin: 4px 0; display: grid; gap: 6px;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); }
+  .places a { display: flex; justify-content: space-between; gap: 8px; padding: 6px 10px; border-radius: 7px;
+              border: 1px solid var(--line); background: var(--bg); text-decoration: none; color: var(--text); }
+  .places a:hover { border-color: var(--accent); }
+  .places .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .places .num { color: var(--accent); font-weight: 600; }
   nav a[aria-current="page"] { font-weight: 700; text-decoration: none; }
 
   /* ---------- Dark Fantasy theme: dark stone, parchment, gold trim (CSS-only textures) ---------- */
@@ -265,6 +274,11 @@
   [data-theme="fantasy"] .bar > span { box-shadow: inset 0 1px 0 rgba(255, 250, 220, .6); }
   [data-theme="fantasy"] .range .median { background: var(--parchment); box-shadow: 0 0 4px #000; }
   [data-theme="fantasy"] small { color: var(--muted); font-size: 13px; }
+  [data-theme="fantasy"] .crumbs { font-style: italic; font-size: 15px; }
+  [data-theme="fantasy"] .places a { color: var(--text); background: linear-gradient(#2f2a21, #1d1a15);
+    border: 1px solid var(--gold-dark); border-radius: 3px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06); }
+  [data-theme="fantasy"] .places a:hover { border-color: var(--gold); box-shadow: 0 0 8px rgba(224, 189, 98, .25); }
+  [data-theme="fantasy"] .places .num { color: var(--gold); font-family: var(--heading); font-size: 14px; }
   @media (max-width: 480px) {
     [data-theme="fantasy"] header h1 { font-size: 24px; }
     [data-theme="fantasy"] li.job { padding: 12px 13px; }
@@ -285,6 +299,7 @@
     </div>
     <nav>
       <a href="/"{% if nav == 'search' %} aria-current="page"{% endif %}>Search</a> ·
+      <a href="/browse"{% if nav == 'browse' %} aria-current="page"{% endif %}>Browse</a> ·
       <a href="/pulse"{% if nav == 'pulse' %} aria-current="page"{% endif %}>Pulse</a> ·
       <a href="/#agents">AI agents</a> ·
       <a href="/docs">API</a> · <a href="/stats">Stats</a>
