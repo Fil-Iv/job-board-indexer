@@ -1,4 +1,8 @@
-{#- Home-page hero: the "astrolabe globe". A canvas globe (d3-geo orthographic projection,
+{#- Home-page hero: the "astrolabe globe" and a flat map ("Globe / Map" toggle, the
+    choice is remembered). The map is SVG in the Natural Earth projection (same d3-geo and
+    data): countries with open jobs are filled with the theme accent, opacity by count.
+    Below both, a server-rendered "Countries with open jobs" briefing line.
+    Home-page hero: the "astrolabe globe". A canvas globe (d3-geo orthographic projection,
     world-atlas 110m countries) with gold rune markers on the cities with open jobs
     (GET /places.json), between two SVG layers of brass rings (back half / front half).
     Libraries come pinned, with SRI, from cdn.jsdelivr.net (~61 KB of JS, no build step).
@@ -26,6 +30,44 @@
   }
   @media (max-width: 720px) { .hero { grid-template-columns: minmax(0, 1fr); }
                               .astrolabe { justify-self: center; max-width: 320px; } }
+  .atlas-col { display: grid; gap: 8px; justify-items: center; min-width: 0; }
+  .view-toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 99px; overflow: hidden; justify-self: end; }
+  .view-toggle[hidden] { display: none; }
+  .view-toggle button { font: 600 13px/1.2 var(--caps); letter-spacing: .06em; padding: 5px 14px; border: 0; cursor: pointer;
+    background: var(--card); color: var(--text); }
+  .view-toggle button[aria-pressed="true"] { background: var(--accent); color: var(--accent-text); }
+  [data-theme="fantasy"] .view-toggle { border-color: var(--gold-deep); border-radius: 3px; }
+  [data-theme="fantasy"] .view-toggle button { background: linear-gradient(#2f2a21, #1d1a15); color: var(--gold); }
+  [data-theme="fantasy"] .view-toggle button[aria-pressed="true"] { background: linear-gradient(#f3dc94, #d2a948 50%, #b38a32); color: var(--ink); }
+  [data-theme="command"] .view-toggle { border-color: var(--frame); border-radius: 0; }
+  [data-theme="command"] .view-toggle button { font: 500 12px/1.2 var(--caps); letter-spacing: .14em; text-transform: uppercase; background: transparent; }
+  [data-theme="command"] .view-toggle button[aria-pressed="true"] { background: rgba(79, 240, 255, .14); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .hero.map-mode { grid-template-columns: minmax(0, 1fr); }
+  .hero.map-mode .atlas-col { justify-items: stretch; }
+  .atlas { position: relative; width: 100%; --map-fill: #1f5fbf; --map-empty: #e9e8e3; --map-border: #a3a3a0; --map-sea: #f2f1ed;
+    --map-grid: rgba(29, 29, 31, .07); --map-dot: #0b2d5e; }
+  [data-theme="fantasy"] .atlas { --map-fill: #e0bd62; --map-empty: #2b2720; --map-border: #6a5732; --map-sea: #0f151b;
+    --map-grid: rgba(224, 189, 98, .12); --map-dot: #fff3c8; }
+  [data-theme="command"] .atlas { --map-fill: #4ff0ff; --map-empty: #17232d; --map-border: #3d4e5d; --map-sea: #0a1117;
+    --map-grid: rgba(79, 240, 255, .08); --map-dot: #eafcff; }
+  .atlas svg { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: var(--map-sea); }
+  [data-theme="fantasy"] .atlas svg { border: 3px double var(--gold-deep); }
+  [data-theme="command"] .atlas svg { border-color: var(--frame); }
+  .atlas .map-grid { fill: none; stroke: var(--map-grid); stroke-width: .6; }
+  .atlas .map-c { fill: var(--map-empty); stroke: var(--map-border); stroke-width: .5; vector-effect: non-scaling-stroke; }
+  .atlas .has-jobs { fill: var(--map-fill); cursor: pointer; }
+  .atlas .has-jobs:hover, .atlas .has-jobs.hot { fill-opacity: 1 !important; stroke: var(--text); stroke-width: 1.2; }
+  .atlas .map-dot { fill: var(--map-dot); opacity: .8; pointer-events: none; }
+  .briefing { grid-column: 1 / -1; margin: 6px 0 0; font: 400 13px/1.7 "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    letter-spacing: .02em; color: var(--muted);
+    border-top: 1px solid var(--line); padding-top: 8px; }
+  .briefing .brief-label { text-transform: uppercase; letter-spacing: .12em; color: var(--text); margin-right: 4px; }
+  .briefing a { white-space: nowrap; text-decoration: none; }
+  .briefing a:hover { text-decoration: underline; }
+  .briefing b { font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
+  [data-theme="fantasy"] .briefing { font: 400 15px/1.7 var(--body); border-top-color: var(--gold-dark); }
+  [data-theme="fantasy"] .briefing .brief-label { font: 600 12px var(--caps); color: var(--gold); }
+  [data-theme="command"] .briefing { border-top: 1px dashed var(--frame); }
   .astrolabe > * { position: absolute; inset: 0; width: 100%; height: 100%; }
   .astrolabe canvas { touch-action: pan-y; cursor: grab; z-index: 1; }
   .astrolabe canvas.dragging { cursor: grabbing; }
@@ -78,16 +120,20 @@
   {{ _ring("r3", 243, 96, -58, 160, clip) }}
 {% endmacro %}
 
-{% macro markup(stats) %}
-  <section class="hero" aria-labelledby="hero-title">
+{% macro markup(stats, briefing) %}
+  <section class="hero" id="hero" aria-labelledby="hero-title">
     <div class="hero-text">
       <h2 id="hero-title">The known world of work</h2>
       <p>{{ "{:,}".format(stats.open_openings) }} open jobs from {{ stats.platforms|length }} job platforms, charted in one index.</p>
-      <p class="hint">Turn the globe, follow a rune to a city's jobs, or pick a country.
+      <p class="hint">Turn the globe or switch to the map, follow a rune to a city's jobs, or pick a country.
         <a href="/browse">Browse by place →</a></p>
       <p class="hint"><small>City positions: <a href="https://www.geonames.org" rel="noopener">GeoNames</a> (CC BY 4.0).</small></p>
     </div>
     {# Hidden until the script runs: without JavaScript there is no globe, just the text. #}
+    <div class="atlas-col">
+    <div class="view-toggle" role="group" aria-label="View" hidden>
+      <button type="button" data-view="globe" aria-pressed="true">Globe</button><button type="button" data-view="map" aria-pressed="false">Map</button>
+    </div>
     <div class="astrolabe" id="astrolabe" hidden>
       <svg class="back" viewBox="-250 -250 500 500" aria-hidden="true">
         <defs>
@@ -100,6 +146,16 @@
       <svg class="front" viewBox="-250 -250 500 500" aria-hidden="true">{{ _rings("ring-front") }}</svg>
       <div class="globe-tip" role="status" hidden></div>
     </div>
+    <div class="atlas" id="atlas" hidden>
+      <svg viewBox="0 0 960 500" role="img" aria-label="World map: countries with open jobs are highlighted, brighter for more jobs. Select a country to browse it."></svg>
+      <div class="globe-tip" role="status" hidden></div>
+    </div>
+    </div>
+    {% if briefing %}
+    <p class="briefing"><span class="brief-label">Countries with open jobs ({{ briefing|length }}):</span>
+      {% for c in briefing[:24] %}<a href="{{ c.href }}">{{ c.name }}&nbsp;<b>{{ "{:,}".format(c.count) }}</b></a>{{ ' · ' if not loop.last }}{% endfor %}
+      {%- if briefing|length > 24 %} · <a href="/browse">{{ briefing|length - 24 }} more →</a>{% endif %}</p>
+    {% endif %}
   </section>
 {% endmacro %}
 
@@ -152,7 +208,7 @@
       var cs = getComputedStyle(box);
       ["sea-in", "sea-out", "land", "land-hi", "border", "grid", "rim", "shade", "hover", "mark", "glow"]
         .forEach(function (k) { colors[k] = cs.getPropertyValue("--g-" + k).trim(); });
-      colors.fantasy = document.documentElement.getAttribute("data-theme") !== "light";
+      colors.fantasy = document.documentElement.getAttribute("data-theme") === "fantasy";
     }
 
     function resize() {
@@ -316,6 +372,84 @@
     document.addEventListener("visibilitychange", update);
     resize();
     update();
+    setupViews(d3, countries, info, data.places || []);
+  }
+
+  // ---- Globe / Map toggle and the flat map (built on first use) ----
+  var VIEW_KEY = "jobindex-atlas-view";
+  function setupViews(d3, countries, info, places) {
+    var hero = document.getElementById("hero"), atlas = document.getElementById("atlas");
+    var toggle = hero.querySelector(".view-toggle"), built = false;
+    function show(view) {
+      var map = view === "map";
+      if (map && !built) { buildMap(d3, atlas, countries, info, places); built = true; }
+      hero.classList.toggle("map-mode", map);
+      box.hidden = map; atlas.hidden = !map;  // the hidden globe stops animating (off-screen)
+      toggle.querySelectorAll("button").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.getAttribute("data-view") === view));
+      });
+    }
+    toggle.addEventListener("click", function (ev) {
+      var view = ev.target.getAttribute && ev.target.getAttribute("data-view");
+      if (!view) return;
+      show(view);
+      try { localStorage.setItem(VIEW_KEY, view); } catch (e) { /* storage unavailable */ }
+    });
+    toggle.hidden = false;
+    var saved = null;
+    try { saved = localStorage.getItem(VIEW_KEY); } catch (e) { /* storage unavailable */ }
+    if (saved === "map") show("map");
+  }
+
+  function buildMap(d3, atlas, countries, info, places) {
+    var NS = "http://www.w3.org/2000/svg", W = 960, H = 500;
+    var svg = atlas.querySelector("svg"), tip = atlas.querySelector(".globe-tip");
+    var projection = d3.geoNaturalEarth1().fitExtent([[6, 6], [W - 6, H - 6]], { type: "Sphere" });
+    var path = d3.geoPath(projection);
+    var max = 1;
+    Object.keys(info).forEach(function (id) { max = Math.max(max, info[id].count); });
+    function el(name, attrs) {
+      var node = document.createElementNS(NS, name);
+      Object.keys(attrs).forEach(function (k) { node.setAttribute(k, attrs[k]); });
+      return svg.appendChild(node);
+    }
+    el("path", { d: path(d3.geoGraticule10()), "class": "map-grid" });
+    countries.forEach(function (f) {
+      var known = info[f.id], d = path(f);
+      if (!d) return;
+      var node = el("path", { d: d, "class": known ? "map-c has-jobs" : "map-c" });
+      if (known) {
+        node.style.fillOpacity = (0.22 + 0.78 * Math.sqrt(known.count / max)).toFixed(3);
+        node.setAttribute("data-id", f.id);
+      }
+    });
+    places.forEach(function (p) {
+      var xy = projection([p.lng, p.lat]);
+      if (xy) el("circle", { cx: xy[0].toFixed(1), cy: xy[1].toFixed(1), r: 1.6, "class": "map-dot" });
+    });
+    var hot = null;
+    function target(ev) {
+      var t = ev.target;
+      return t && t.classList && t.classList.contains("has-jobs") ? t : null;
+    }
+    svg.addEventListener("pointermove", function (ev) {
+      var t = target(ev);
+      if (t !== hot) { if (hot) hot.classList.remove("hot"); hot = t; if (t) t.classList.add("hot"); }
+      if (!t) { tip.hidden = true; return; }
+      var c = info[t.getAttribute("data-id")], r = atlas.getBoundingClientRect();
+      tip.textContent = c.name + " – " + jobs(c.count);
+      tip.hidden = false;
+      tip.style.left = Math.max(80, Math.min(r.width - 80, ev.clientX - r.left)) + "px";
+      tip.style.top = (ev.clientY - r.top) + "px";
+    });
+    svg.addEventListener("pointerleave", function () {
+      tip.hidden = true;
+      if (hot) { hot.classList.remove("hot"); hot = null; }
+    });
+    svg.addEventListener("click", function (ev) {
+      var t = target(ev);
+      if (t) window.location.href = info[t.getAttribute("data-id")].href;
+    });
   }
 
   document.addEventListener("DOMContentLoaded", function () {

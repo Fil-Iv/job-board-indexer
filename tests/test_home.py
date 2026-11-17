@@ -2,12 +2,15 @@
 
 import re
 from collections.abc import AsyncIterator
+from datetime import UTC, datetime
 
 import httpx
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from jobindex.api import places
 from jobindex.api.app import app
+from jobindex.models import Job, Source
 
 
 @pytest.fixture
@@ -45,3 +48,33 @@ async def test_favicon(client: httpx.AsyncClient) -> None:
     assert response.headers["content-type"] == "image/svg+xml"
     assert response.text.startswith("<svg")
     assert 'href="/favicon.svg"' in (await client.get("/browse")).text
+
+
+async def test_map_toggle_and_briefing(client: httpx.AsyncClient, session: AsyncSession) -> None:
+    places._cache.clear()
+    t0 = datetime(2026, 11, 1, tzinfo=UTC)
+    session.add(Source(id=1, platform="greenhouse", board_identifier="a", base_url="https://a"))
+    await session.flush()
+    for i, cc in enumerate(["US", "US", "DE"]):
+        session.add(
+            Job(
+                source_id=1,
+                external_id=str(i),
+                title="T",
+                country=cc,
+                first_seen_at=t0,
+                last_seen_at=t0,
+                content_hash=str(i),
+            )
+        )
+    await session.commit()
+    page = (await client.get("/")).text
+    places._cache.clear()
+    assert '<div class="view-toggle" role="group" aria-label="View" hidden>' in page
+    assert 'data-view="map"' in page
+    assert '<div class="atlas" id="atlas" hidden>' in page
+    assert "geoNaturalEarth1" in page
+    assert "Countries with open jobs (2):" in page
+    assert page.index("/browse/US") < page.index("/browse/DE")  # by count
+    assert "United States&nbsp;<b>2</b>" in page
+    assert "Countries with open jobs" not in (await client.get("/?q=x")).text

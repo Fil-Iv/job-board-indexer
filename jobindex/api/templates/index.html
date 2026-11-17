@@ -5,11 +5,11 @@
 {% block head %}<link rel="alternate" type="application/rss+xml" title="This search (RSS)" href="{{ rss_url }}">{% endblock %}
 {% block style %}{% if hero %}{{ globe.style() }}{% endif %}{% endblock %}
 {% block content %}
-  {% if hero %}{{ globe.markup(stats) }}{% endif %}
+  {% if hero %}{{ globe.markup(stats, briefing) }}{% endif %}
 
   <form method="get" action="/" id="search">
     <div class="wide">
-      <input type="search" name="q" value="{{ form.q or '' }}" placeholder='Search jobs, e.g. python "data engineer" -senior' aria-label="Search" autofocus>
+      <input type="search" name="q" value="{{ form.q or '' }}" placeholder='Search jobs, e.g. python "data engineer" -senior' aria-label="Search"{% if not hero %} autofocus{% endif %}>
       <button type="submit">Search</button>
     </div>
     <label>Company <input name="company" value="{{ form.company or '' }}"></label>

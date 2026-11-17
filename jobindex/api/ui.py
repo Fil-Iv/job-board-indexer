@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Any
 from urllib.parse import urlencode, urlsplit
 
 from fastapi import APIRouter, Depends, Request
@@ -160,6 +160,14 @@ async def index(
     def page_url(page: int) -> str:
         return "/?" + urlencode({**form, "page": page})
 
+    hero = not form and params.page == 1  # the globe / map, on the plain landing page
+    briefing: list[dict[str, Any]] = []
+    if hero:
+        from jobindex.api.places import cached_places  # places imports this module
+
+        countries = (await cached_places(session))["countries"].values()
+        briefing = sorted(countries, key=lambda c: (-c["count"], c["name"]))
+
     return templates.TemplateResponse(
         request,
         "index.html",
@@ -173,7 +181,8 @@ async def index(
             "platform_options": sorted(
                 stats.platforms, key=lambda p: platform_name(p[0]).casefold()
             ),
-            "hero": not form and params.page == 1,  # the globe, on the plain landing page
+            "hero": hero,
+            "briefing": briefing,
             "rss_url": "/jobs.rss" + (f"?{urlencode(form)}" if form else ""),
             "mcp_url": public_url(request, "/mcp"),
             "remote_types": [r.value for r in RemoteType if r is not RemoteType.UNKNOWN],

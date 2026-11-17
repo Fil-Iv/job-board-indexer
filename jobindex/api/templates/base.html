@@ -7,24 +7,31 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Uncial+Antiqua&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Uncial+Antiqua&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <script>
-  // Theme: "fantasy" (Dark Fantasy, the default rendered by the server) or "light", chosen
-  // with the header button and remembered in localStorage. Applied before the page paints;
-  // storage may be blocked (private mode), so every access is wrapped in try/catch.
+  // Themes: "fantasy" (Dark Fantasy, the default rendered by the server), "light" and
+  // "command" (Command Center). The header button cycles them in that order; the choice is
+  // remembered in localStorage and applied before the page paints. Storage may be blocked
+  // (private mode), so every access is wrapped in try/catch.
   (function () {
     var KEY = "jobindex-theme";
+    var THEMES = ["fantasy", "light", "command"];
+    var NAMES = { fantasy: "Dark Fantasy", light: "Light", command: "Command Center" };
     var root = document.documentElement;
+    function valid(theme) { return THEMES.indexOf(theme) >= 0 ? theme : "fantasy"; }
     window.jobindexTheme = {
-      get: function () { return root.getAttribute("data-theme") === "light" ? "light" : "fantasy"; },
+      themes: THEMES,
+      names: NAMES,
+      get: function () { return valid(root.getAttribute("data-theme")); },
+      next: function () { return THEMES[(THEMES.indexOf(this.get()) + 1) % THEMES.length]; },
       set: function (theme) {
-        root.setAttribute("data-theme", theme === "light" ? "light" : "fantasy");
-        try { localStorage.setItem(KEY, theme); } catch (e) { /* storage unavailable */ }
+        root.setAttribute("data-theme", valid(theme));
+        try { localStorage.setItem(KEY, valid(theme)); } catch (e) { /* storage unavailable */ }
       }
     };
     var saved = null;
     try { saved = localStorage.getItem(KEY); } catch (e) { /* storage unavailable */ }
-    if (saved === "light") root.setAttribute("data-theme", "light");
+    if (saved && THEMES.indexOf(saved) >= 0) root.setAttribute("data-theme", saved);
   })();
 </script>
 <style>
@@ -421,6 +428,8 @@
     [data-theme] .job h2 { font-size: 18px; }
   }
 
+{% include "theme_command.css" %}
+
   /* ---------- Motion polish: card fade-in, gold shimmer on buttons (off for reduced motion) ---------- */
   .reveal li.job { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
   .reveal li.job.seen { opacity: 1; transform: none; }
@@ -465,7 +474,7 @@
       <a href="/status"{% if nav == 'status' %} aria-current="page"{% endif %}>Status</a> ·
       <a href="/add"{% if nav == 'add' %} aria-current="page"{% endif %}>Add a board</a> ·
       <a href="/docs">API</a>
-      <button type="button" class="theme-toggle" id="theme-toggle" title="Switch theme">Light theme</button>
+      <button type="button" class="theme-toggle" id="theme-toggle" title="Switch theme">Light</button>
     </nav>
   </header>
 
@@ -474,13 +483,13 @@
 <script>
   // Theme toggle (see the script in <head>).
   (function () {
-    var button = document.getElementById("theme-toggle");
-    // The label names the theme the button switches to.
-    function sync() { button.textContent = window.jobindexTheme.get() === "fantasy" ? "Light theme" : "Dark Fantasy"; }
-    button.addEventListener("click", function () {
-      window.jobindexTheme.set(window.jobindexTheme.get() === "fantasy" ? "light" : "fantasy");
-      sync();
-    });
+    var button = document.getElementById("theme-toggle"), themes = window.jobindexTheme;
+    // The label names the theme the button switches to (Dark Fantasy -> Light -> Command Center).
+    function sync() {
+      button.textContent = themes.names[themes.next()];
+      button.title = "Theme: " + themes.names[themes.get()] + ". Switch to " + themes.names[themes.next()];
+    }
+    button.addEventListener("click", function () { themes.set(themes.next()); sync(); });
     sync();
   })();
 </script>

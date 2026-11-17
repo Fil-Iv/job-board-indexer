@@ -280,14 +280,18 @@ async def test_search_page_header_totals_and_platform_filter(
 
 
 async def test_search_page_themes(client: httpx.AsyncClient, session: AsyncSession) -> None:
-    """Dark Fantasy by default; a light theme chosen with the toggle is kept in localStorage."""
+    """Dark Fantasy by default; the toggle cycles Dark Fantasy -> Light -> Command Center
+    and the choice is kept in localStorage."""
     await _seed(session)
     html = (await client.get("/")).text
     assert '<html lang="en" data-theme="fantasy">' in html  # server renders the default theme
-    assert 'id="theme-toggle" title="Switch theme">Light theme</button>' in html
-    assert 'if (saved === "light") root.setAttribute("data-theme", "light");' in html
-    assert ':root[data-theme="fantasy"]' in html
+    assert 'id="theme-toggle" title="Switch theme">Light</button>' in html
+    assert 'var THEMES = ["fantasy", "light", "command"];' in html
+    assert "if (saved && THEMES.indexOf(saved) >= 0) root.setAttribute" in html
+    for theme in ("fantasy", "command"):
+        assert f':root[data-theme="{theme}"]' in html
+    assert "IBM+Plex+Mono" in html
     # Storage may be blocked (private mode): every access is wrapped in try/catch.
     assert "try { saved = localStorage.getItem(KEY); } catch" in html
-    assert "try { localStorage.setItem(KEY, theme); } catch" in html
+    assert "try { localStorage.setItem(KEY, valid(theme)); } catch" in html
     assert 'class="tag gem gem-remote"' in html
