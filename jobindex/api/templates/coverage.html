@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Platform coverage – JobForge{% endblock %}
+{% macro date(dt) %}{% if dt %}<time datetime="{{ dt.isoformat() if dt.isoformat is defined else dt }}">{{ (dt.strftime('%Y-%m-%d') if dt.strftime is defined else dt[:10]) }}</time>{% else %}never{% endif %}{% endmacro %}
+{% block content %}
+  <h2 class="page-title">Platform coverage</h2>
+  <p class="summary">All {{ rows|length }} platforms the index has to cover: {{ groups[0][1]|length }} applicant tracking systems and
+    {{ groups[1][1]|length }} job-board platforms. Open jobs and crawl times are live from the hosted index (up to 200 jobs per board);
+    blocked platforms show the request the site refused.</p>
+
+  <div class="tiles">
+    {% for s in statuses %}
+    <div class="tile"><b>{{ counts[s] }}</b><span><i class="badge st-{{ s|replace(' ', '-') }}">{{ s }}</i></span></div>
+    {% endfor %}
+  </div>
+  <p class="note legend-note">
+    <i class="badge st-live">live</i> connector built, crawled in the demo ·
+    <i class="badge st-partial">partial</i> built, but only part of the platform can be covered ·
+    <i class="badge st-blocked">blocked</i> the site refuses every usable route (robots.txt or HTTP 401/403/429) ·
+    <i class="badge st-not-built">not built</i> no connector yet</p>
+
+  {% for title, items in groups %}
+  <section class="panel">
+    <h2>{{ title }} ({{ items|length }})</h2>
+    <ul class="cov">
+      {% for r in items %}
+      <li id="p-{{ r.key }}" class="cov-row">
+        <div class="cov-head">
+          <span class="cov-name">{% if r.boards %}<a href="/?platform={{ r.key }}">{{ r.name }}</a>{% else %}{{ r.name }}{% endif %}</span>
+          <i class="badge st-{{ r.status|replace(' ', '-') }}">{{ r.status }}</i>
+          <span class="cov-num">{% if r.boards %}<b>{{ "{:,}".format(r.open_jobs) }}</b> open jobs · {{ r.boards|length }} board{{ '' if r.boards|length == 1 else 's' }} · last crawl {{ date(r.last_success_at) }}{% elif r.status in ('live', 'partial') %}not in the demo index{% endif %}</span>
+        </div>
+        {% if r.partial %}<p class="cov-why">Partial: {{ r.partial }}</p>{% endif %}
+        {% if r.boards or r.examples or r.blocks %}
+        <details{% if r.status == 'blocked' %} open{% endif %}>
+          <summary>{% if r.boards %}Boards{% endif %}{% if r.boards and (r.examples or r.blocks) %}, {% endif %}{% if r.examples %}example runs{% endif %}{% if r.blocks %}{{ ', ' if r.boards or r.examples }}block evidence{% endif %}</summary>
+          {% if r.boards %}
+          <table class="cov-table">
+            <thead><tr><th>Board in the demo</th><th class="num">Open jobs</th><th>Last success</th><th>State</th></tr></thead>
+            <tbody>
+            {% for b in r.boards %}
+              <tr><td>{% if b.url|safe_url %}<a href="{{ b.url|safe_url }}" rel="noopener nofollow" target="_blank">{{ b.board }}</a>{% else %}{{ b.board }}{% endif %}</td>
+                <td class="num">{{ "{:,}".format(b.open_jobs) }}</td><td>{{ date(b.last_success_at) }}</td>
+                <td>{% if b.failures %}<span class="fail" title="{{ b.last_error or '' }}">failing ×{{ b.failures }}</span>{% else %}ok{% endif %}</td></tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          {% endif %}
+          {% if r.examples %}
+          <table class="cov-table">
+            <thead><tr><th>Coverage example</th><th class="num">Jobs</th><th>Last successful run</th></tr></thead>
+            <tbody>
+            {% for e in r.examples %}
+              <tr><td><a href="{{ e.url|safe_url }}" rel="noopener nofollow" target="_blank">{{ e.url|replace('https://', '') }}</a></td>
+                <td class="num">{{ "{:,}".format(e.last_success_jobs) if e.last_success_jobs is not none else '–' }}</td>
+                <td>{{ date(e.last_success_at) }}{% if e.last_status and e.last_status != 'ok' %} <span class="fail">(last run {{ e.last_status }})</span>{% endif %}</td></tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          {% endif %}
+          {% for b in r.blocks %}
+          <div class="evidence">
+            <p><b>{{ b.label }}</b> <small>({{ b.scope }} block)</small>: {{ b.impact }}</p>
+            <ul>
+              {% for e in b.evidence %}
+              <li><code>{{ e.url }}</code> →
+                {% if e.policy %}not used: {{ e.policy }}{% elif e.http_status %}HTTP <b>{{ e.http_status }}</b>{% else %}robots.txt <code>{{ e.robots_rule }}</code>{% endif %}
+                <small>checked {{ e.checked_at[:10] }}</small></li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endfor %}
+        </details>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+  <p class="note">Source files: <code>coverage/platforms.yaml</code>, <code>coverage/blocked_by_site.yaml</code>, generated report <code>docs/COVERAGE.md</code>.</p>
+{% endblock %}

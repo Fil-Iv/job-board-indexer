@@ -33,10 +33,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from jobindex.api.deps import SessionDep
 from jobindex.api.search import group_id
 from jobindex.api.ui import HeaderStats, header_stats, templates
+from jobindex.catalog import platform_name
 from jobindex.config import get_settings
 from jobindex.dedup.keys import company_key
 from jobindex.models import Job, JobStatus, RemoteType, Source
-from jobindex.platform_names import platform_name
 
 CACHE_SECONDS = 600
 TOP_COUNTRIES = 20

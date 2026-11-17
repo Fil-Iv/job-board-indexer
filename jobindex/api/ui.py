@@ -25,8 +25,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from jobindex.api.deps import SessionDep
 from jobindex.api.schemas import EmploymentType, StatusFilter
 from jobindex.api.search import SearchParams, group_id, search
+from jobindex.catalog import platform_name
 from jobindex.models import Job, JobStatus, RemoteType, Source
-from jobindex.platform_names import platform_name
 
 templates = Jinja2Templates(directory=Path(__file__).parent / "templates")
 

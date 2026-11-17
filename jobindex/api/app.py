@@ -13,6 +13,7 @@ from sqlalchemy import func, select, text
 
 from jobindex import __version__
 from jobindex.api.browse import router as browse_router
+from jobindex.api.coverage_page import router as coverage_router
 from jobindex.api.deps import SessionDep
 from jobindex.api.feed import router as feed_router
 from jobindex.api.mcp import router as mcp_router
@@ -77,6 +78,7 @@ app.include_router(mcp_router)
 app.include_router(pulse_router)
 app.include_router(browse_router)
 app.include_router(places_router)
+app.include_router(coverage_router)
 
 UNCACHED_PATHS = frozenset({"/health"})
 

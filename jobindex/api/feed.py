@@ -15,7 +15,7 @@ from jobindex.api.deps import SessionDep
 from jobindex.api.schemas import JobOut
 from jobindex.api.search import SearchParams, search
 from jobindex.api.ui import form_params, public_url, safe_url
-from jobindex.platform_names import platform_name
+from jobindex.catalog import platform_name
 
 FEED_SIZE = 50
 ATOM = "http://www.w3.org/2005/Atom"

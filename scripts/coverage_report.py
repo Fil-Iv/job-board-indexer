@@ -14,6 +14,7 @@ import argparse
 import logging
 import sys
 
+from jobindex.catalog import write_snapshot
 from jobindex.coverage import REPORT_FILE, PlanError, run
 
 
@@ -25,6 +26,7 @@ def main() -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     try:
         run(crawl=not args.no_crawl, only=set(args.only) if args.only else None)
+        write_snapshot()  # the website's copy (jobindex/data/coverage.json)
     except PlanError as exc:
         print(f"coverage/platforms.yaml is invalid: {exc}", file=sys.stderr)
         return 2
