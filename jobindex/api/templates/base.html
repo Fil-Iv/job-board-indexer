@@ -36,7 +36,14 @@
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   form { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
          padding: 14px; display: grid; gap: 10px;
-         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+         grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); }
+  label > input, label > select { max-width: 100%; }
+  /* iOS Safari gives date inputs a native minimum width that ignores width: 100% and
+     overflows the 2-column form at 375 px; drop the native look there only. */
+  @supports (-webkit-touch-callout: none) {
+    input[type="date"] { -webkit-appearance: none; appearance: none; display: block; min-width: 0; min-height: 38px; }
+    input[type="date"]::-webkit-date-and-time-value { text-align: left; }
+  }
   form .wide { grid-column: 1 / -1; display: flex; gap: 8px; }
   label { display: grid; gap: 3px; font-size: 12px; color: var(--muted); min-width: 0; }
   input, select, form button { font: inherit; color: inherit; background: var(--bg);
@@ -288,6 +295,13 @@
   .places a:hover { border-color: var(--accent); }
   .places .num { font: 500 13px var(--caps); color: var(--accent); }
   pre { background: var(--well); border: 1px solid var(--frame); border-radius: 0; }
+  /* Code blocks wrap inside their box (no sideways scroll on phones) and get a copy button. */
+  pre { position: relative; white-space: pre-wrap; overflow-wrap: anywhere; }
+  pre.has-copy { padding-right: 70px; }
+  .copy-btn { position: absolute; top: 6px; right: 6px; font: 500 11px/1.4 var(--caps); letter-spacing: .1em;
+    text-transform: uppercase; color: var(--accent); background: var(--card); border: 1px solid var(--frame);
+    padding: 3px 8px; cursor: pointer; }
+  .copy-btn:hover { border-color: var(--accent); }
   .done-note, .rule .example { background: rgba(79, 240, 255, .06); border-left: 2px solid var(--accent); border-radius: 0; }
   .cov-row summary { font: 500 12px var(--caps); letter-spacing: .08em; text-transform: uppercase; }
   .description { font-size: 15px; }
@@ -334,6 +348,26 @@
 
 {% block content %}{% endblock %}
 </main>
+<script>
+  // Copy buttons on code blocks (clipboard API needs a secure context; skipped elsewhere).
+  (function () {
+    if (!navigator.clipboard) return;
+    document.querySelectorAll("pre").forEach(function (pre) {
+      var button = document.createElement("button");
+      button.type = "button"; button.className = "copy-btn"; button.textContent = "Copy";
+      button.setAttribute("aria-label", "Copy to clipboard");
+      button.addEventListener("click", function () {
+        var code = pre.querySelector("code") || pre;
+        navigator.clipboard.writeText(code.textContent).then(function () {
+          button.textContent = "Copied";
+          setTimeout(function () { button.textContent = "Copy"; }, 1500);
+        }, function () { button.textContent = "Select"; });
+      });
+      pre.classList.add("has-copy");
+      pre.appendChild(button);
+    });
+  })();
+</script>
 {% block scripts %}{% endblock %}
 </body>
 </html>

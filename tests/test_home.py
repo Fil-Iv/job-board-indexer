@@ -80,3 +80,12 @@ async def test_map_toggle_and_briefing(client: httpx.AsyncClient, session: Async
     assert page.index("/browse/US") < page.index("/browse/DE")  # by count
     assert "United States&nbsp;<b>2</b>" in page
     assert "Countries with open jobs" not in (await client.get("/?q=x")).text
+
+
+async def test_mobile_safeguards(client: httpx.AsyncClient) -> None:
+    """Code blocks wrap and get a copy button; the filter grid and iOS date input fit 375 px."""
+    page = (await client.get("/")).text
+    assert "pre { position: relative; white-space: pre-wrap; overflow-wrap: anywhere; }" in page
+    assert 'button.className = "copy-btn"' in page
+    assert "minmax(min(100%, 140px), 1fr)" in page
+    assert "@supports (-webkit-touch-callout: none)" in page
