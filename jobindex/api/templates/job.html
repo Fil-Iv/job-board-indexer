@@ -12,7 +12,7 @@
   <article class="job-page">
     <h2 class="page-title job-title">{{ job.title }}</h2>
     <p class="job-sub">{% if job.company %}<strong>{{ job.company }}</strong>{% endif %}
-      {% set place = jobs.place(job) %}{% if place %} · {{ place }}{% endif %}
+      {% set place = jobs.place(job) %}{% if place %}<span>{{ place }}</span>{% endif %}
       {% if job.status.value == 'open' %}<i class="badge st-live">open</i>{% else %}<i class="badge st-blocked">closed</i>{% endif %}</p>
 
     <dl class="facts">
