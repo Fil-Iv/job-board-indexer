@@ -1,7 +1,10 @@
 {% extends "base.html" %}
+{% import "_globe.html" as globe %}
 {% block title %}{% if params.q %}{{ params.q }} – {% endif %}JobForge{% endblock %}
 {% block head %}<link rel="alternate" type="application/rss+xml" title="This search (RSS)" href="{{ rss_url }}">{% endblock %}
+{% block style %}{% if hero %}{{ globe.style() }}{% endif %}{% endblock %}
 {% block content %}
+  {% if hero %}{{ globe.markup(stats) }}{% endif %}
 
   <form method="get" action="/" id="search">
     <div class="wide">
@@ -46,7 +49,7 @@
   </p>
 
   {% if results.items %}
-  <ol>
+  <ol id="results">
     {% for job in results.items %}
     {% set main = job.sources[0] %}
     <li class="job">
@@ -121,5 +124,19 @@
   document.querySelectorAll("#search select, #search input[type=date]").forEach(function (el) {
     el.addEventListener("change", function () { el.form.submit(); });
   });
+  // Job cards fade in as they scroll into view (cards above the fold appear at once).
+  (function () {
+    var list = document.getElementById("results");
+    var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!list || still || !window.IntersectionObserver) return;
+    var seen = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("seen"); seen.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -40px 0px" });
+    list.classList.add("reveal");
+    list.querySelectorAll("li.job").forEach(function (li) { seen.observe(li); });
+  })();
 </script>
+{% if hero %}{{ globe.script() }}{% endif %}
 {% endblock %}

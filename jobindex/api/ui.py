@@ -17,7 +17,7 @@ from typing import Annotated
 from urllib.parse import urlencode, urlsplit
 
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, Response
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -132,6 +132,18 @@ async def header_stats(session: AsyncSession) -> HeaderStats:
 
 router = APIRouter(include_in_schema=False)
 
+FAVICON = (Path(__file__).parent / "static" / "favicon.svg").read_bytes()
+
+
+@router.get("/favicon.svg")
+async def favicon() -> Response:
+    """The site icon: a gold anvil with a rune spark (original SVG)."""
+    return Response(
+        FAVICON,
+        media_type="image/svg+xml",
+        headers={"Cache-Control": "public, max-age=86400, s-maxage=604800"},
+    )
+
 
 @router.get("/", response_class=HTMLResponse)
 async def index(
@@ -156,6 +168,7 @@ async def index(
             "stats": stats,
             "page_url": page_url,
             "nav": "search",
+            "hero": not form and params.page == 1,  # the globe, on the plain landing page
             "rss_url": "/jobs.rss" + (f"?{urlencode(form)}" if form else ""),
             "mcp_url": public_url(request, "/mcp"),
             "remote_types": [r.value for r in RemoteType if r is not RemoteType.UNKNOWN],

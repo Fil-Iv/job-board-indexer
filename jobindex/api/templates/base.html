@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}JobForge{% endblock %}</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
@@ -285,6 +286,26 @@
   @media (max-width: 480px) {
     [data-theme="fantasy"] header h1 { font-size: 24px; }
     [data-theme="fantasy"] li.job { padding: 12px 13px; }
+  }
+  /* ---------- Motion polish: card fade-in, gold shimmer on buttons (off for reduced motion) ---------- */
+  .reveal li.job { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
+  .reveal li.job.seen { opacity: 1; transform: none; }
+  [data-theme="fantasy"] form button, [data-theme="fantasy"] .job .links a,
+  [data-theme="fantasy"] .theme-toggle, [data-theme="fantasy"] .pager a { position: relative; overflow: hidden; }
+  [data-theme="fantasy"] .job .links a { vertical-align: middle; }  /* overflow moves the inline-block baseline */
+  [data-theme="fantasy"] form button::after, [data-theme="fantasy"] .job .links a::after,
+  [data-theme="fantasy"] .theme-toggle::after, [data-theme="fantasy"] .pager a::after {
+    content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 45%; pointer-events: none;
+    background: linear-gradient(100deg, transparent, rgba(255, 246, 210, .75), transparent);
+    transform: skewX(-20deg); opacity: 0; }
+  [data-theme="fantasy"] form button:hover::after, [data-theme="fantasy"] .job .links a:hover::after,
+  [data-theme="fantasy"] .theme-toggle:hover::after, [data-theme="fantasy"] .pager a:hover::after {
+    animation: shimmer .8s ease-out; }
+  @keyframes shimmer { from { left: -60%; opacity: 1; } to { left: 120%; opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal li.job { opacity: 1; transform: none; transition: none; }
+    [data-theme="fantasy"] form button:hover::after, [data-theme="fantasy"] .job .links a:hover::after,
+    [data-theme="fantasy"] .theme-toggle:hover::after, [data-theme="fantasy"] .pager a:hover::after { animation: none; }
   }
 {% block style %}{% endblock %}
 </style>
