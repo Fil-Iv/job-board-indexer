@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{% if params.q %}{{ params.q }} – {% endif %}JobForge{% endblock %}
+{% block head %}<link rel="alternate" type="application/rss+xml" title="This search (RSS)" href="{{ rss_url }}">{% endblock %}
 {% block content %}
 
   <form method="get" action="/" id="search">
@@ -41,6 +42,7 @@
   <p class="summary">
     {{ "{:,}".format(results.total) }} opening{{ '' if results.total == 1 else 's' }}
     {% if results.pages > 1 %}· page {{ results.page }} of {{ results.pages }}{% endif %}
+    <a class="feed" href="{{ rss_url }}" title="Follow this search in a feed reader">RSS</a>
   </p>
 
   {% if results.items %}

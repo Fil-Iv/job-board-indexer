@@ -156,6 +156,7 @@ async def index(
             "stats": stats,
             "page_url": page_url,
             "nav": "search",
+            "rss_url": "/jobs.rss" + (f"?{urlencode(form)}" if form else ""),
             "mcp_url": public_url(request, "/mcp"),
             "remote_types": [r.value for r in RemoteType if r is not RemoteType.UNKNOWN],
             "employment_types": [e.value for e in EmploymentType],

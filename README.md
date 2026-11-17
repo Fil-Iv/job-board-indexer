@@ -4,7 +4,10 @@
 [/docs](https://job-board-indexer.vercel.app/docs), counts at
 [/stats](https://job-board-indexer.vercel.app/stats), market overview at
 [/pulse](https://job-board-indexer.vercel.app/pulse), jobs by country and city at
-[/browse](https://job-board-indexer.vercel.app/browse). Reviewer walkthrough:
+[/browse](https://job-board-indexer.vercel.app/browse). Every search has an RSS feed:
+`/jobs.rss` with the same query parameters as the search page (newest 50 matches), e.g.
+[/jobs.rss?q=python&remote_type=remote](https://job-board-indexer.vercel.app/jobs.rss?q=python&remote_type=remote).
+Reviewer walkthrough:
 [docs/DEMO.md](docs/DEMO.md).
 
 A job board indexer: pulls postings from ATS platforms (Greenhouse, Lever, Workday, …) and

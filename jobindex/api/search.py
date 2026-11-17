@@ -42,6 +42,7 @@ class SearchParams:
     source_id: int | None = None
     page: int = 1
     size: int = 20
+    newest_first: bool = False  # ignore relevance even when q is given (RSS feeds)
 
 
 def group_id() -> ColumnElement[int]:
@@ -101,7 +102,7 @@ async def search(session: AsyncSession, p: SearchParams) -> JobSearchOut:
     stmt: Select[Any] = (
         select(gid).join(Source, Source.id == Job.source_id).where(*_filters(p)).group_by(gid)
     )
-    if p.q:
+    if p.q and not p.newest_first:
         rank = func.ts_rank(Job.search_vector, func.websearch_to_tsquery("english", p.q))
         order = [func.max(rank).desc(), gid.desc()]
     else:
