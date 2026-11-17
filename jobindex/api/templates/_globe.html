@@ -9,9 +9,8 @@
 {% macro style() %}
   .hero { display: grid; gap: 8px 24px; align-items: center; margin: 0 0 20px;
           grid-template-columns: minmax(0, 1fr) minmax(0, 440px); }
-  .hero-text h2 { font-size: 24px; margin: 0 0 6px; }
+  .hero-text h2 { margin: 0 0 6px; }
   .hero-text p { margin: 4px 0; color: var(--muted); }
-  .hero-text .hint { font-size: 13px; }
   .astrolabe {
     position: relative; width: 100%; max-width: 440px; aspect-ratio: 1; user-select: none;
     --g-sea-in: #f8f7f3; --g-sea-out: #e7e5df; --g-land: #fff; --g-land-hi: #fff; --g-border: #1d1d1f;
@@ -50,14 +49,16 @@
   @keyframes orbit { to { stroke-dashoffset: -360; } }
   @media (prefers-reduced-motion: reduce) { .astrolabe .ring * { animation: none; } }
   .globe-tip { position: absolute; inset: auto; z-index: 3; width: auto; height: auto; pointer-events: none;
-    padding: 3px 9px; border-radius: 5px; font-size: 13px; white-space: nowrap; transform: translate(-50%, -130%);
+    padding: 3px 9px; border-radius: 5px; font-size: 16px; white-space: nowrap; transform: translate(-50%, -130%);
     background: var(--card); color: var(--text); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0, 0, 0, .18); }
-  [data-theme="fantasy"] .globe-tip { font-size: 15px; background: #14120e; color: var(--parchment);
+  [data-theme="fantasy"] .globe-tip { background: #14120e; color: var(--parchment);
     border: 1px solid var(--gold-deep); box-shadow: 0 0 0 1px #000, 0 4px 12px rgba(0, 0, 0, .7); }
-  [data-theme="fantasy"] .hero-text h2 { font-family: var(--heading); letter-spacing: .05em; color: var(--gold);
-    text-shadow: 0 1px 0 #000, 0 0 12px rgba(224, 189, 98, .25); }
-  [data-theme="fantasy"] .hero-text p { font-style: italic; font-size: 17px; }
-  [data-theme="fantasy"] .hero-text .hint { font-size: 15px; }
+  .hero-text h2 { font: 700 30px/1.2 var(--display); letter-spacing: .05em; color: var(--title); }
+  [data-theme="fantasy"] .hero-text h2 { text-shadow: 0 1px 0 #000, 0 0 12px rgba(224, 189, 98, .25); }
+  .hero-text p { font-size: 19px; }
+  .hero-text .hint { font-size: 16px; }
+  [data-theme="fantasy"] .hero-text p { font-style: italic; }
+  @media (max-width: 480px) { .hero-text h2 { font-size: 25px; } }
 {% endmacro %}
 
 {% macro _ring(cls, rx, ry, tilt, dur, clip) %}

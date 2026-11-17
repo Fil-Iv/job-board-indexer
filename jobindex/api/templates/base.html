@@ -7,7 +7,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Uncial+Antiqua&display=swap">
 <script>
   // Theme: "fantasy" (Dark Fantasy, the default rendered by the server) or "light", chosen
   // with the header button and remembered in localStorage. Applied before the page paints;
@@ -34,6 +34,12 @@
     --accent: #1f5fbf; --accent-text: #fff; --closed: #a33;
     --bar: #1f5fbf; --bar-track: #ececea;
     --remote: #1f5fbf; --hybrid: #7b3fb3; --onsite: #c77d12; --unknown: #c9c9c4;
+    --title: var(--text); --flourish: #3a3a3e;
+    /* Typography, both themes (Google Fonts, display=swap): titles, headings, small caps, body */
+    --display: "Cinzel Decorative", "Cinzel", Georgia, serif;
+    --heading: "Uncial Antiqua", "Cinzel", Georgia, serif;
+    --caps: "Cinzel", "Trajan Pro", Georgia, serif;
+    --body: "Cormorant Garamond", Garamond, "Iowan Old Style", Georgia, serif;
     color-scheme: light;
   }
   * { box-sizing: border-box; }
@@ -139,8 +145,7 @@
     --bar: linear-gradient(#f3dc94, #d2a948 50%, #9c7426); --bar-track: #14120e;
     --remote: linear-gradient(#2f6fd0, #173f86); --hybrid: linear-gradient(#8a45c7, #4e1f80);
     --onsite: linear-gradient(#ffd27a, #d9921f); --unknown: #4a4234;
-    --heading: "Cinzel", "Trajan Pro", Georgia, serif;
-    --body: "EB Garamond", Garamond, "Iowan Old Style", Georgia, serif;
+    --title: var(--gold); --flourish: var(--gold);
   }
   [data-theme="fantasy"] body {
     font: 17px/1.45 var(--body);
@@ -175,7 +180,7 @@
   [data-theme="fantasy"] form { background: linear-gradient(rgba(0, 0, 0, .15), rgba(0, 0, 0, .35)), var(--panel);
     border: 3px double var(--gold-deep); border-radius: 4px;
     box-shadow: 0 0 0 1px #000, inset 0 0 24px rgba(0, 0, 0, .6), 0 6px 18px rgba(0, 0, 0, .5); }
-  [data-theme="fantasy"] label { font-family: var(--heading); font-size: 11px; letter-spacing: .06em;
+  [data-theme="fantasy"] label { font-family: var(--caps); font-size: 11px; letter-spacing: .06em;
     text-transform: uppercase; color: var(--muted); }
   [data-theme="fantasy"] input, [data-theme="fantasy"] select {
     font-family: var(--body); font-size: 16px; text-transform: none; letter-spacing: 0; color: var(--text);
@@ -234,7 +239,7 @@
     background: linear-gradient(#ffd27a, #d9921f); }
   [data-theme="fantasy"] .gem-onsite::before { border-color: rgba(42, 27, 12, .4); }
   [data-theme="fantasy"] .rune {  /* employment type: small rune badge */
-    font-family: var(--heading); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    font-family: var(--caps); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
     color: var(--gold); background: linear-gradient(#3a342a, #211d17); border: 1px solid var(--gold-dark);
     border-radius: 2px; padding: 1px 8px; box-shadow: 0 0 0 1px rgba(156, 116, 38, .6); }
   [data-theme="fantasy"] .rune::before { content: "\16DF\00A0"; }
@@ -244,7 +249,7 @@
     background: radial-gradient(circle at 35% 35%, #fff2c0, #e0bd62 45%, #9c7426); }
   [data-theme="fantasy"] .job .links a {  /* small gold buttons */
     display: inline-block; padding: 0 10px; margin: 2px 0; border-radius: 3px; text-decoration: none;
-    font-family: var(--heading); font-size: 12px; font-weight: 700; letter-spacing: .05em; line-height: 22px;
+    font-family: var(--caps); font-size: 12px; font-weight: 700; letter-spacing: .05em; line-height: 22px;
     color: var(--ink); background: linear-gradient(#f3dc94, #d2a948 50%, #c39a3d);
     border: 1px solid var(--gold-dark); box-shadow: inset 0 1px 0 rgba(255, 250, 220, .7), 0 1px 2px rgba(0, 0, 0, .35); }
   [data-theme="fantasy"] .job .links a:hover { filter: brightness(1.1); }
@@ -287,6 +292,51 @@
     [data-theme="fantasy"] header h1 { font-size: 24px; }
     [data-theme="fantasy"] li.job { padding: 12px 13px; }
   }
+  /* ---------- Typography (both themes; colours come from the theme) ----------
+     Cinzel Decorative: titles and section headings. Uncial Antiqua: the main button
+     only: its "t" reads as "c" ("Scacs", "Remoce, hybrid or onsice") even at 22px, so
+     section headings use Cinzel Decorative and job titles, nav and small buttons Cinzel. Cormorant Garamond 500:
+     everything else, with lining figures (its default is old-style), tabular wherever
+     numbers are compared. */
+  [data-theme] body { font: 500 18px/1.55 var(--body); }
+  [data-theme] header h1 { font: 700 30px/1.15 var(--display); letter-spacing: .06em; color: var(--title); }
+  [data-theme] header h1 a { color: inherit; }
+  [data-theme] .page-title { font: 700 26px/1.2 var(--display); letter-spacing: .05em; color: var(--title); margin-top: 4px; }
+  [data-theme] .page-title::after, [data-theme] .hero-text h2::after {  /* flourish divider (original SVG) */
+    content: ""; display: block; width: 168px; max-width: 100%; height: 14px; margin: 6px 0 2px -4px; background: var(--flourish);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 168 14'%3E%3Cdefs%3E%3ClinearGradient id='l'%3E%3Cstop offset='0' stop-opacity='0'/%3E%3Cstop offset='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='r'%3E%3Cstop offset='0'/%3E%3Cstop offset='1' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 7H64' stroke='url(%23l)' stroke-width='1.4'/%3E%3Cpath d='M104 7H168' stroke='url(%23r)' stroke-width='1.4'/%3E%3Cpath d='M64 7c4-6 10-6 11 0M104 7c-4 6-10 6-11 0' fill='none' stroke='%23000' stroke-width='1.1'/%3E%3Cpath d='M84 1l6 6-6 6-6-6z'/%3E%3Ccircle cx='75' cy='7' r='1.4'/%3E%3Ccircle cx='93' cy='7' r='1.4'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 168 14'%3E%3Cdefs%3E%3ClinearGradient id='l'%3E%3Cstop offset='0' stop-opacity='0'/%3E%3Cstop offset='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='r'%3E%3Cstop offset='0'/%3E%3Cstop offset='1' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 7H64' stroke='url(%23l)' stroke-width='1.4'/%3E%3Cpath d='M104 7H168' stroke='url(%23r)' stroke-width='1.4'/%3E%3Cpath d='M64 7c4-6 10-6 11 0M104 7c-4 6-10 6-11 0' fill='none' stroke='%23000' stroke-width='1.1'/%3E%3Cpath d='M84 1l6 6-6 6-6-6z'/%3E%3Ccircle cx='75' cy='7' r='1.4'/%3E%3Ccircle cx='93' cy='7' r='1.4'/%3E%3C/svg%3E") center / contain no-repeat; }
+  [data-theme] .panel h2 { font: 700 21px/1.25 var(--display); letter-spacing: .04em; color: var(--title); }
+  [data-theme] .panel h3 { font: 700 16px/1.3 var(--caps); letter-spacing: .05em; color: var(--title); }
+  [data-theme] .job h2 { font: 700 18px/1.3 var(--caps); letter-spacing: .03em; text-transform: none; }
+  [data-theme] header nav { font: 600 15px/1.3 var(--caps); letter-spacing: .04em; }
+  [data-theme] .theme-toggle { font: 600 13px/1.2 var(--caps); letter-spacing: .05em; text-transform: none; }
+  [data-theme] form button { font: 400 17px/1.2 var(--heading); letter-spacing: .04em; text-transform: none; }
+  [data-theme] .pager a { font: 700 15px/1.2 var(--caps); letter-spacing: .05em; }
+  [data-theme] label { font: 600 12px/1.3 var(--caps); letter-spacing: .07em; text-transform: uppercase; }
+  [data-theme] input, [data-theme] select { font: 500 17px/1.3 var(--body); }
+  [data-theme] .wide input { font-size: 19px; }
+  [data-theme] .totals, [data-theme] .meta, [data-theme] .links, [data-theme] .summary,
+  [data-theme] .crumbs, [data-theme] .pager .pos, [data-theme] .panel .note { font-size: 16px; }
+  [data-theme] .tag { font-size: 14px; }
+  [data-theme] .rune, [data-theme] .job .links a { font-family: var(--caps); }
+  [data-theme] small { font-size: 14px; }
+  [data-theme] .chart li, [data-theme] .ranges li, [data-theme] .legend, [data-theme] .places a { font-size: 17px; }
+  [data-theme] .tile b { font: 700 30px/1.1 var(--body); }
+  [data-theme] .tile span { font-size: 16px; }
+  [data-theme] .places .num { font: 600 17px/1.3 var(--body); }
+  /* after every font shorthand above (it resets font-variant-numeric) */
+  [data-theme] body, [data-theme] input, [data-theme] select, [data-theme] .tile b { font-variant-numeric: lining-nums; }
+  [data-theme] .num, [data-theme] .tile b, [data-theme] .totals b, [data-theme] .salary, [data-theme] time,
+  [data-theme] .pager .pos, [data-theme] .places .num, [data-theme] .summary, [data-theme] .meta,
+  [data-theme] .chart li, [data-theme] .ranges li, [data-theme] .legend { font-variant-numeric: lining-nums tabular-nums; }
+  [data-theme] code, [data-theme] pre code { font: 14px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  @media (max-width: 480px) {
+    [data-theme] header h1 { font-size: 26px; }
+    [data-theme] .page-title { font-size: 22px; }
+    [data-theme] .job h2 { font-size: 18px; }
+  }
+
   /* ---------- Motion polish: card fade-in, gold shimmer on buttons (off for reduced motion) ---------- */
   .reveal li.job { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
   .reveal li.job.seen { opacity: 1; transform: none; }
