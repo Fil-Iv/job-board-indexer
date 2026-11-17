@@ -31,6 +31,7 @@ from sqlalchemy import ColumnElement, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from jobindex.api.deps import SessionDep
+from jobindex.api.schemas import SENIORITY_LABELS, Seniority
 from jobindex.api.search import group_id
 from jobindex.api.ui import HeaderStats, header_stats, templates
 from jobindex.catalog import platform_name
@@ -91,6 +92,7 @@ class Pulse:
     countries: list[Bar] = field(default_factory=list)
     platforms: list[Bar] = field(default_factory=list)
     workplace: list[Bar] = field(default_factory=list)
+    seniority: list[Bar] = field(default_factory=list)
     companies: list[Bar] = field(default_factory=list)
     salaries: list[SalaryBand] = field(default_factory=list)
     cap: int = 0  # MAX_JOBS_PER_SOURCE of the index (0 = no cap)
@@ -183,6 +185,21 @@ async def compute_pulse(session: AsyncSession, now: datetime | None = None) -> P
         if r is not RemoteType.UNKNOWN:
             bar.href = f"/?remote_type={r.value}"
 
+    by_level: dict[str, int] = {
+        level: n
+        for level, n in await session.execute(
+            select(Job.seniority, _openings()).where(is_open).group_by(Job.seniority)
+        )
+    }
+    seniority = bars(
+        [(SENIORITY_LABELS[s], by_level.get(s.value, 0)) for s in Seniority],
+        sum(by_level.values()),
+    )
+    for bar, s in zip(seniority, Seniority, strict=True):
+        bar.key = s.value
+        if s is not Seniority.UNKNOWN:
+            bar.href = f"/?seniority={s.value}"
+
     cap = get_settings().max_jobs_per_source
     companies = await _top_companies(session, cap, open_openings)
 
@@ -213,6 +230,7 @@ async def compute_pulse(session: AsyncSession, now: datetime | None = None) -> P
         countries=countries,
         platforms=platforms,
         workplace=workplace,
+        seniority=seniority,
         companies=companies,
         salaries=salaries,
         cap=cap,

@@ -37,6 +37,8 @@ def feed_title(p: SearchParams) -> str:
         parts.append(p.remote_type.value)
     if p.employment_type:
         parts.append(p.employment_type.replace("_", " "))
+    if p.seniority:
+        parts.append(p.seniority)
     if p.platform:
         parts.append(f"on {platform_name(p.platform)}")
     described = ", ".join(x for x in parts if x)

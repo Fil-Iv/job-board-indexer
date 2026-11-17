@@ -28,6 +28,7 @@ from jobindex.api.schemas import (
     JobDetailOut,
     JobSearchOut,
     PlatformStats,
+    Seniority,
     SourceOut,
     StatsOut,
     StatusFilter,
@@ -139,6 +140,14 @@ def search_params(
         EmploymentType | None,
         Query(description="Normalised employment type.", examples=["full_time"]),
     ] = None,
+    seniority: Annotated[
+        Seniority | None,
+        Query(
+            description="Level derived from the job title (see `seniority` in the result):"
+            " internship, junior, mid, senior, lead, management, or unknown.",
+            examples=["senior"],
+        ),
+    ] = None,
     salary_min: Annotated[
         Decimal | None,
         Query(
@@ -191,6 +200,7 @@ def search_params(
         location=location or None,
         remote_type=remote_type,
         employment_type=employment_type.value if employment_type else None,
+        seniority=seniority.value if seniority else None,
         salary_min=salary_min,
         salary_currency=salary_currency,
         posted_since=posted_since,

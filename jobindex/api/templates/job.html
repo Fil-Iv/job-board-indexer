@@ -18,6 +18,7 @@
     <dl class="facts">
       <div><dt>Salary</dt><dd>{{ jobs.salary(job) or 'not published' }}</dd></div>
       <div><dt>Employment</dt><dd>{{ job.employment_type|replace('_', ' ') if job.employment_type else 'not stated' }}</dd></div>
+      <div><dt>Seniority</dt><dd>{{ job.seniority.value if job.seniority.value != 'unknown' else 'not stated' }}</dd></div>
       <div><dt>Workplace</dt><dd>{{ job.remote_type.value if job.remote_type.value != 'unknown' else 'not stated' }}</dd></div>
       <div><dt>Posted</dt><dd>{{ dt(job.posted_at) if job.posted_at else 'not given by the source' }}</dd></div>
       <div><dt>First seen</dt><dd>{{ dt(job.first_seen_at) }}</dd></div>

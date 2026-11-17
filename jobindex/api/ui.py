@@ -22,7 +22,7 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from jobindex.api.deps import SessionDep
-from jobindex.api.schemas import EmploymentType, StatusFilter
+from jobindex.api.schemas import SENIORITY_LABELS, EmploymentType, Seniority, StatusFilter
 from jobindex.api.search import SearchParams, group_id, search
 from jobindex.catalog import platform_name
 from jobindex.models import Job, JobStatus, RemoteType, Source
@@ -51,7 +51,7 @@ def public_url(request: Request, path: str) -> str:
     return f"{scheme}://{host}{path}"
 
 
-def _enum[E: (RemoteType, EmploymentType, StatusFilter)](
+def _enum[E: (RemoteType, EmploymentType, StatusFilter, Seniority)](
     cls: type[E], value: str | None, default: E | None = None
 ) -> E | None:
     try:
@@ -88,12 +88,14 @@ def _platform(value: str | None) -> str | None:
 def form_params(request: Request) -> SearchParams:
     qp = request.query_params
     employment = _enum(EmploymentType, qp.get("employment_type"))
+    level = _enum(Seniority, qp.get("seniority"))
     return SearchParams(
         q=(qp.get("q") or "").strip() or None,
         company=(qp.get("company") or "").strip() or None,
         location=(qp.get("location") or "").strip() or None,
         remote_type=_enum(RemoteType, qp.get("remote_type")),
         employment_type=employment.value if employment else None,
+        seniority=level.value if level else None,
         salary_min=_decimal(qp.get("salary_min")),
         posted_since=_date(qp.get("posted_since")),
         status=_enum(StatusFilter, qp.get("status"), StatusFilter.OPEN) or StatusFilter.OPEN,
@@ -186,5 +188,6 @@ async def index(
             "mcp_url": public_url(request, "/mcp"),
             "remote_types": [r.value for r in RemoteType if r is not RemoteType.UNKNOWN],
             "employment_types": [e.value for e in EmploymentType],
+            "seniorities": [(s.value, SENIORITY_LABELS[s]) for s in Seniority],
         },
     )

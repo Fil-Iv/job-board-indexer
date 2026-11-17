@@ -64,6 +64,9 @@ class SearchJobsArgs(BaseModel):
     remote_type: Literal["remote", "hybrid", "onsite"] | None = Field(
         None, description="Work arrangement."
     )
+    seniority: Literal["internship", "junior", "mid", "senior", "lead", "management"] | None = (
+        Field(None, description="Level derived from the job title.")
+    )
     page: int = Field(1, ge=1, le=MAX_PAGE, description=f"1-based page, {RESULTS_PER_PAGE}/page.")
 
 
@@ -86,7 +89,8 @@ TOOLS: list[dict[str, Any]] = [
         "name": "search_jobs",
         "title": "Search jobs",
         "description": "Search open job postings. Returns openings with id, title, company,"
-        " location, work arrangement, salary (when published), posting date and URL.",
+        " location, work arrangement, seniority, salary (when published), posting date"
+        " and URL.",
         "inputSchema": _schema(SearchJobsArgs),
         "annotations": {"readOnlyHint": True, "openWorldHint": False},
     },
@@ -118,6 +122,7 @@ def _summary(job: JobOut) -> dict[str, Any]:
         "location": ", ".join(p for p in (job.city, job.region, job.country) if p)
         or job.location_raw,
         "remote_type": job.remote_type.value,
+        "seniority": job.seniority.value,
         "employment_type": job.employment_type,
         "salary": salary,
         "posted": (job.posted_at or job.first_seen_at).date().isoformat(),
@@ -133,6 +138,7 @@ async def search_jobs(session: AsyncSession, args: SearchJobsArgs) -> dict[str, 
             company=(args.company or "").strip() or None,
             location=(args.location or "").strip() or None,
             remote_type=RemoteType(args.remote_type) if args.remote_type else None,
+            seniority=args.seniority,
             page=args.page,
             size=RESULTS_PER_PAGE,
         ),

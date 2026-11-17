@@ -35,6 +35,7 @@ class SearchParams:
     location: str | None = None
     remote_type: RemoteType | None = None
     employment_type: str | None = None
+    seniority: str | None = None
     salary_min: Decimal | None = None
     salary_currency: str | None = None
     posted_since: date | None = None
@@ -127,6 +128,8 @@ def _filters(p: SearchParams) -> list[ColumnElement[bool]]:
         where.append(Job.remote_type == p.remote_type)
     if p.employment_type:
         where.append(Job.employment_type == p.employment_type)
+    if p.seniority:
+        where.append(Job.seniority == p.seniority)
     if p.salary_min is not None:
         where.append(func.coalesce(Job.salary_max, Job.salary_min) >= p.salary_min)
     if p.salary_currency:
@@ -215,6 +218,7 @@ async def load_openings(
             "region": canonical.region,
             "country": canonical.country,
             "remote_type": canonical.remote_type,
+            "seniority": canonical.seniority,
             "status": (
                 JobStatus.OPEN
                 if any(j.status is JobStatus.OPEN for j in jobs)

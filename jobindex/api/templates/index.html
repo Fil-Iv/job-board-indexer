@@ -26,6 +26,12 @@
         {% for e in employment_types %}<option value="{{ e }}" {{ 'selected' if form.employment_type == e }}>{{ e|replace('_', ' ')|capitalize }}</option>{% endfor %}
       </select>
     </label>
+    <label>Seniority
+      <select name="seniority">
+        <option value="">Any</option>
+        {% for value, label in seniorities %}<option value="{{ value }}" {{ 'selected' if form.seniority == value }}>{{ label }}</option>{% endfor %}
+      </select>
+    </label>
     <label>Min. salary <input name="salary_min" inputmode="numeric" value="{{ form.salary_min or '' }}" placeholder="60000"></label>
     <label>Posted since <input type="date" name="posted_since" value="{{ form.posted_since or '' }}"></label>
     <label>Platform
@@ -63,6 +69,7 @@
         {% if place %}<span>{{ place }}</span>{% endif %}
         {% if job.remote_type.value != 'unknown' %}<span class="tag workplace">{{ job.remote_type.value }}</span>{% endif %}
         {% if job.employment_type %}<span class="tag">{{ job.employment_type|replace('_', ' ') }}</span>{% endif %}
+        {% if job.seniority.value != 'unknown' %}<span class="tag level">{{ job.seniority.value }}</span>{% endif %}
         {{ jobs.salary(job) }}
         <span>{{ (job.posted_at or job.first_seen_at).strftime('%Y-%m-%d') }}</span>
         {% if job.status.value == 'closed' %}<span class="closed">closed</span>{% endif %}

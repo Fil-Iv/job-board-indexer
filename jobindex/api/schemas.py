@@ -26,6 +26,30 @@ class EmploymentType(StrEnum):
     APPRENTICESHIP = "apprenticeship"
 
 
+class Seniority(StrEnum):
+    """Seniority level derived from the job title (``jobs.seniority``, a generated column;
+    see ``jobindex.models.job.SENIORITY_SQL``)."""
+
+    INTERNSHIP = "internship"
+    JUNIOR = "junior"
+    MID = "mid"
+    SENIOR = "senior"
+    LEAD = "lead"
+    MANAGEMENT = "management"
+    UNKNOWN = "unknown"
+
+
+SENIORITY_LABELS = {
+    Seniority.INTERNSHIP: "Internship",
+    Seniority.JUNIOR: "Junior",
+    Seniority.MID: "Mid",
+    Seniority.SENIOR: "Senior",
+    Seniority.LEAD: "Lead",
+    Seniority.MANAGEMENT: "Management",
+    Seniority.UNKNOWN: "Not stated",
+}
+
+
 class JobSourceOut(BaseModel):
     """One listing of an opening: the posting as one source (job board) publishes it."""
 
@@ -52,6 +76,12 @@ class JobOut(BaseModel):
     region: str | None
     country: str | None = Field(description="ISO 3166-1 alpha-2 code.", examples=["DE"])
     remote_type: RemoteType
+    seniority: Seniority = Field(
+        description="Level derived from the title: internship (intern, trainee, Praktikant,"
+        " Werkstudent, stagiaire, ...), junior (junior, associate, entry), mid (mid, II),"
+        " senior (senior, sr), lead (staff, principal, lead), management (manager, head,"
+        " director, VP), unknown."
+    )
     employment_type: str | None = Field(examples=["full_time"])
     salary_min: Decimal | None
     salary_max: Decimal | None

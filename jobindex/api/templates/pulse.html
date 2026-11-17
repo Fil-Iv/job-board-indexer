@@ -37,6 +37,20 @@
       <p class="note">As stated or detected in the posting; many postings do not say.</p>
     </section>
 
+    <section class="panel wide" id="seniority">
+      <h2>Seniority</h2>
+      <div class="stack" role="img" aria-label="{% for b in pulse.seniority %}{{ b.label }} {{ '%.0f'|format(b.share * 100) }}%{{ ', ' if not loop.last }}{% endfor %}">
+        {% for b in pulse.seniority if b.count %}<span class="seg lvl-{{ b.key }}" style="width: {{ '%.2f'|format(b.share * 100) }}%"></span>{% endfor %}
+      </div>
+      <ul class="legend">
+        {% for b in pulse.seniority %}
+        <li><i class="lvl-{{ b.key }}"></i>{% if b.href %}<a href="{{ b.href }}">{{ b.label }}</a>{% else %}{{ b.label }}{% endif %}
+          <b>{{ '%.0f'|format(b.share * 100) }}%</b> <small>({{ "{:,}".format(b.count) }})</small></li>
+        {% endfor %}
+      </ul>
+      <p class="note">Derived from the job title (intern, Werkstudent, stagiaire, junior, senior, staff, head, …); titles without a level count as not stated.</p>
+    </section>
+
     <section class="panel" id="countries">
       <h2>Open jobs by country</h2>
       {{ chart(pulse.countries) }}

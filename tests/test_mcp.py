@@ -65,7 +65,7 @@ async def test_tools_list(client: httpx.AsyncClient) -> None:
     tools = {t["name"]: t for t in (await rpc(client, "tools/list"))["result"]["tools"]}
     assert set(tools) == {"search_jobs", "get_job"}
     props = tools["search_jobs"]["inputSchema"]["properties"]
-    assert set(props) == {"q", "company", "location", "remote_type", "page"}
+    assert set(props) == {"q", "company", "location", "remote_type", "seniority", "page"}
     assert tools["get_job"]["inputSchema"]["required"] == ["id"]
     assert all(t["annotations"]["readOnlyHint"] for t in tools.values())
 
