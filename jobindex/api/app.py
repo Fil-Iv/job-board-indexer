@@ -32,6 +32,7 @@ from jobindex.api.schemas import (
     StatusFilter,
 )
 from jobindex.api.search import MAX_PAGE_SIZE, SearchParams, get_opening, group_id, search
+from jobindex.api.status_page import router as status_router
 from jobindex.api.ui import router as ui_router
 from jobindex.config import get_settings
 from jobindex.db import create_engine, create_session_factory
@@ -81,6 +82,7 @@ app.include_router(browse_router)
 app.include_router(places_router)
 app.include_router(coverage_router)
 app.include_router(job_page_router)
+app.include_router(status_router)
 
 UNCACHED_PATHS = frozenset({"/health"})
 

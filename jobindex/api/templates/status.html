@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Crawl status – JobForge{% endblock %}
+{% macro dt(value) %}{% if value %}<time datetime="{{ value.isoformat() }}">{{ value.strftime('%Y-%m-%d %H:%M') }}</time>{% else %}–{% endif %}{% endmacro %}
+{% macro badge(status) %}<i class="badge st-{{ status }}">{{ 'ok' if status == 'success' else status }}</i>{% endmacro %}
+{% macro runs_table(runs) %}
+  <div class="table-scroll">
+  <table class="cov-table rows-stack runs">
+    <thead><tr><th>Started (UTC)</th><th>Source</th><th>Result</th><th class="num">Found</th><th class="num">New</th><th class="num">Updated</th><th class="num">Closed</th><th class="num">Time</th></tr></thead>
+    <tbody>
+    {% for r in runs %}
+      <tr{% if r.status == 'failed' %} class="failed-row"{% endif %}>
+        <td data-label="Started">{{ dt(r.started_at) }}</td>
+        <td data-label="Source"><span>{{ r.platform|platform_name }} · {{ r.board }}</span></td>
+        <td data-label="Result"><span>{{ badge(r.status) }}{% if r.error %} <small class="err" title="{{ r.error }}">{{ r.error|truncate(70, true, '…', 0) }}</small>{% endif %}</span></td>
+        <td data-label="Found" class="num">{{ "{:,}".format(r.found) if r.status == 'success' else '–' }}</td>
+        <td data-label="New" class="num">{{ "{:,}".format(r.new) if r.status == 'success' else '–' }}</td>
+        <td data-label="Updated" class="num">{{ "{:,}".format(r.updated) if r.status == 'success' else '–' }}</td>
+        <td data-label="Closed" class="num">{{ "{:,}".format(r.closed) if r.status == 'success' else '–' }}</td>
+        <td data-label="Time" class="num">{{ '%.0f s'|format(r.seconds) if r.seconds is not none else '…' }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+{% endmacro %}
+{% block content %}
+  <h2 class="page-title">Crawl status</h2>
+  <p class="summary">Every source's latest crawl and the most recent runs, live from <code>fetch_runs</code>. Machine-readable: <a href="/stats">/stats</a>, <a href="/sources">/sources</a>.</p>
+
+  <section class="panel rule" id="never-closed">
+    <h2>A failed fetch never closes jobs</h2>
+    <p>A job is closed only after a <b>successful</b> crawl of its source no longer lists it. When a crawl fails (timeout, HTTP error,
+      a page missing from a paginated list, a sudden drop in the job count) the run is recorded as failed, the source's failure
+      counter goes up, and its jobs are left exactly as they were. Failed runs below therefore always show “–” for closed.</p>
+    {% if example %}
+    <p class="example"><b>Latest real example:</b> on {{ dt(example.run.started_at) }} UTC the crawl of
+      <b>{{ example.run.platform|platform_name }} · {{ example.run.board }}</b> failed
+      (<code>{{ example.run.error|truncate(120, true, '…', 0) }}</code>).
+      Its <b>{{ "{:,}".format(example.kept_open) }}</b> open job{{ '' if example.kept_open == 1 else 's' }} that this run could not see
+      stayed open{% if example.last_success_at %}; the source's last successful crawl was {{ dt(example.last_success_at) }} UTC{% endif %}.
+      <a href="/?platform={{ example.run.platform }}">See its jobs →</a></p>
+    {% else %}
+    <p class="note">No failed run of a source with open jobs in the retained history right now; the rule is enforced by tests (<code>tests/test_crawler.py</code>).</p>
+    {% endif %}
+  </section>
+
+  <div class="tiles">
+    <div class="tile"><b>{{ totals.runs }}</b><span>sources crawled</span></div>
+    <div class="tile"><b>{{ totals.ok }}</b><span>{{ badge('success') }} latest run</span></div>
+    <div class="tile"><b>{{ totals.failed }}</b><span>{{ badge('failed') }} latest run</span></div>
+    <div class="tile"><b>{{ totals.running }}</b><span>{{ badge('running') }} now</span></div>
+  </div>
+
+  <section class="panel" id="failing">
+    <h2>Failing now ({{ failing|length }})</h2>
+    {% if failing %}
+    <div class="table-scroll">
+    <table class="cov-table rows-stack">
+      <thead><tr><th>Source</th><th class="num">Failures in a row</th><th>Last success</th><th>Last error</th></tr></thead>
+      <tbody>
+      {% for s in failing %}
+        <tr><td data-label="Source"><span>{{ s.platform|platform_name }} · {{ s.board_identifier }}</span></td>
+          <td data-label="Failures in a row" class="num">{{ s.consecutive_failures }}</td>
+          <td data-label="Last success">{{ dt(s.last_success_at) if s.last_success_at else 'never' }}</td>
+          <td data-label="Last error"><span><small class="err">{{ (s.last_error or '')|truncate(140, true, '…', 0) }}</small></span></td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    <p class="note">Their jobs stay as they were until a crawl succeeds again. Sites that refuse the crawler are listed on <a href="/coverage">/coverage</a>.</p>
+    {% else %}<p class="note">Every active source's last crawl succeeded.</p>{% endif %}
+  </section>
+
+  <section class="panel" id="recent">
+    <h2>Latest {{ recent|length }} runs</h2>
+    {{ runs_table(recent) }}
+  </section>
+
+  <section class="panel" id="sources">
+    <h2>Latest run per source ({{ latest|length }})</h2>
+    <p class="note">Failed first, then by platform.</p>
+    {{ runs_table(latest) }}
+  </section>
+{% endblock %}

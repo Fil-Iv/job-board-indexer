@@ -179,6 +179,14 @@
     .rows-stack td { display: flex; gap: 12px; justify-content: space-between; border: 0; padding: 1px 0; text-align: right; }
     .rows-stack td::before { content: attr(data-label); color: var(--muted); text-align: left; flex: none; }
   }
+  /* Status page */
+  .rule p { margin: 6px 0; }
+  .rule .example { padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--bg); border-radius: 4px; }
+  .err { color: var(--muted); overflow-wrap: anywhere; }
+  .runs td { white-space: nowrap; }
+  .runs td:nth-child(2), .runs td:nth-child(3) { white-space: normal; }
+  .tile .badge { margin-right: 4px; }
+  [data-theme="fantasy"] .rule .example { background: rgba(0, 0, 0, .3); border-left-color: var(--gold); }
   /* Browse: place lists */
   .crumbs { font-size: 13px; color: var(--muted); }
   .places { list-style: none; padding: 0; margin: 4px 0; display: grid; gap: 6px;
@@ -435,7 +443,8 @@
       <a href="/pulse"{% if nav == 'pulse' %} aria-current="page"{% endif %}>Pulse</a> ·
       <a href="/coverage"{% if nav == 'coverage' %} aria-current="page"{% endif %}>Coverage</a> ·
       <a href="/#agents">AI agents</a> ·
-      <a href="/docs">API</a> · <a href="/stats">Stats</a>
+      <a href="/status"{% if nav == 'status' %} aria-current="page"{% endif %}>Status</a> ·
+      <a href="/docs">API</a>
       <button type="button" class="theme-toggle" id="theme-toggle" title="Switch theme">Light theme</button>
     </nav>
   </header>
