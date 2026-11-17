@@ -2,7 +2,8 @@
 
 **Live demo: <https://job-board-indexer.vercel.app>** — search page; API docs at
 [/docs](https://job-board-indexer.vercel.app/docs), counts at
-[/stats](https://job-board-indexer.vercel.app/stats). Reviewer walkthrough:
+[/stats](https://job-board-indexer.vercel.app/stats), market overview at
+[/pulse](https://job-board-indexer.vercel.app/pulse). Reviewer walkthrough:
 [docs/DEMO.md](docs/DEMO.md).
 
 A job board indexer: pulls postings from ATS platforms (Greenhouse, Lever, Workday, …) and

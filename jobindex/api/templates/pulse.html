@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Market pulse – JobForge{% endblock %}
+{% macro chart(items, unit='') %}
+  <ul class="chart">
+    {% for b in items %}
+    <li>
+      <span class="label">{% if b.href %}<a href="{{ b.href }}">{{ b.label }}</a>{% else %}{{ b.label }}{% endif %}</span>
+      <span class="bar" aria-hidden="true"><span style="width: {{ '%.1f'|format(b.pct) }}%"></span></span>
+      <span class="num">{{ "{:,}".format(b.count) }}{% if b.share %} <small>{{ '%.0f'|format(b.share * 100) if b.share >= 0.01 else '<1' }}%</small>{% endif %}</span>
+    </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}
+{% block content %}
+  <h2 class="page-title">Market pulse</h2>
+  <p class="summary">Open jobs across every indexed board. Updated every 10 minutes; figures as of
+    <time datetime="{{ pulse.generated_at.isoformat() }}">{{ pulse.generated_at.strftime('%Y-%m-%d %H:%M') }} UTC</time>.</p>
+
+  <div class="tiles">
+    <div class="tile"><b>{{ "{:,}".format(pulse.open_openings) }}</b><span>open jobs</span></div>
+    <div class="tile"><b>{{ "{:,}".format(pulse.new_24h) }}</b><span>new in 24 hours</span></div>
+    <div class="tile"><b>{{ "{:,}".format(pulse.new_7d) }}</b><span>new in 7 days</span></div>
+  </div>
+
+  <div class="grid">
+    <section class="panel" id="workplace">
+      <h2>Remote, hybrid or onsite</h2>
+      <div class="stack" role="img" aria-label="{% for b in pulse.workplace %}{{ b.label }} {{ '%.0f'|format(b.share * 100) }}%{{ ', ' if not loop.last }}{% endfor %}">
+        {% for b in pulse.workplace if b.count %}<span class="seg seg-{{ b.key }}" style="width: {{ '%.2f'|format(b.share * 100) }}%"></span>{% endfor %}
+      </div>
+      <ul class="legend">
+        {% for b in pulse.workplace %}
+        <li><i class="seg-{{ b.key }}"></i>{% if b.href %}<a href="{{ b.href }}">{{ b.label }}</a>{% else %}{{ b.label }}{% endif %}
+          <b>{{ '%.0f'|format(b.share * 100) }}%</b> <small>({{ "{:,}".format(b.count) }})</small></li>
+        {% endfor %}
+      </ul>
+      <p class="note">As stated or detected in the posting; many postings do not say.</p>
+    </section>
+
+    <section class="panel" id="salaries">
+      <h2>Salary ranges where known</h2>
+      {% if pulse.salaries %}
+      <ul class="ranges">
+        {% for s in pulse.salaries %}
+        <li>
+          <span class="label">{{ s.currency }} / {{ s.period }} <small>({{ "{:,}".format(s.count) }})</small></span>
+          <span class="range" aria-hidden="true">
+            <span class="band" style="left: {{ '%.1f'|format(s.pos(s.p25)) }}%; width: {{ '%.1f'|format(s.pos(s.p75) - s.pos(s.p25)) }}%"></span>
+            <span class="median" style="left: {{ '%.1f'|format(s.pos(s.median)) }}%"></span>
+          </span>
+          <span class="num">{{ "{:,.0f}".format(s.p25) }}–{{ "{:,.0f}".format(s.p75) }} <small>median {{ "{:,.0f}".format(s.median) }}</small></span>
+        </li>
+        {% endfor %}
+      </ul>
+      <p class="note">Middle half (25th–75th percentile) of published salaries, by currency and period; the tick is the median.
+        Counts are postings with a salary (at least 5 per group).</p>
+      {% else %}
+      <p class="note">Not enough postings publish a salary yet.</p>
+      {% endif %}
+    </section>
+
+    <section class="panel" id="countries">
+      <h2>Open jobs by country</h2>
+      {{ chart(pulse.countries) }}
+      <p class="note"><a href="/browse">Browse every country and city →</a></p>
+    </section>
+
+    <section class="panel" id="companies">
+      <h2>Top {{ pulse.companies|length }} hiring companies</h2>
+      {{ chart(pulse.companies) }}
+    </section>
+
+    <section class="panel wide" id="platforms">
+      <h2>Open postings by platform</h2>
+      {{ chart(pulse.platforms) }}
+      <p class="note">Postings, not openings: a job listed on two platforms counts for each.</p>
+    </section>
+  </div>
+{% endblock %}

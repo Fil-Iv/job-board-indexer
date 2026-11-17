@@ -14,6 +14,7 @@ from sqlalchemy import func, select, text
 from jobindex import __version__
 from jobindex.api.deps import SessionDep
 from jobindex.api.mcp import router as mcp_router
+from jobindex.api.pulse import router as pulse_router
 from jobindex.api.schemas import (
     EmploymentType,
     FailureOut,
@@ -69,6 +70,7 @@ app = FastAPI(
 
 app.include_router(ui_router)
 app.include_router(mcp_router)
+app.include_router(pulse_router)
 
 UNCACHED_PATHS = frozenset({"/health"})
 
