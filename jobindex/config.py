@@ -6,6 +6,8 @@ from typing import Self
 from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+DEMO_MAX_JOBS_PER_SOURCE = 200  # default of MAX_JOBS_PER_SOURCE in crawl.yml
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
@@ -109,6 +111,11 @@ class Settings(BaseSettings):
                 self.database_read_only = True
             if "api_cache_seconds" not in explicit:
                 self.api_cache_seconds = 60
+            # The hosted demo's crawler (.github/workflows/crawl.yml) caps sources at
+            # this many postings; the API never crawls, it only explains the cap on
+            # /pulse. tests/test_vercel.py keeps the two defaults equal.
+            if "max_jobs_per_source" not in explicit:
+                self.max_jobs_per_source = DEMO_MAX_JOBS_PER_SOURCE
         return self
 
 

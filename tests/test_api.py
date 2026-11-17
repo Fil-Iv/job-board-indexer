@@ -259,8 +259,8 @@ async def test_search_page_header_totals_and_platform_filter(
     assert "<b>2</b> open jobs" in html  # openings: the merged Python job + the designer
     assert "<b>2</b> platforms" in html
     assert "last crawl <b>never</b>" in html
-    assert '<option value="greenhouse" >greenhouse (2)</option>' in html
-    assert '<option value="niceboard" >niceboard (1)</option>' in html
+    assert '<option value="greenhouse" >Greenhouse (2)</option>' in html
+    assert '<option value="niceboard" >Niceboard (1)</option>' in html
 
     source = await session.get(Source, 1)
     assert source is not None
@@ -268,7 +268,7 @@ async def test_search_page_header_totals_and_platform_filter(
     await session.commit()
     html = (await client.get("/", params={"platform": "niceboard"})).text
     assert '<time datetime="2026-10-01T00:00:00+00:00">2026-10-01 00:00 UTC</time>' in html
-    assert '<option value="niceboard" selected>niceboard (1)</option>' in html
+    assert '<option value="niceboard" selected>Niceboard (1)</option>' in html
     assert "1 opening" in html
     assert "Product Designer" not in html
 

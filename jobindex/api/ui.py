@@ -26,6 +26,7 @@ from jobindex.api.deps import SessionDep
 from jobindex.api.schemas import EmploymentType, StatusFilter
 from jobindex.api.search import SearchParams, group_id, search
 from jobindex.models import Job, JobStatus, RemoteType, Source
+from jobindex.platform_names import platform_name
 
 templates = Jinja2Templates(directory=Path(__file__).parent / "templates")
 
@@ -40,6 +41,7 @@ def safe_url(url: str | None) -> str | None:
 
 
 templates.env.filters["safe_url"] = safe_url
+templates.env.filters["platform_name"] = platform_name
 
 
 def public_url(request: Request, path: str) -> str:
@@ -168,6 +170,9 @@ async def index(
             "stats": stats,
             "page_url": page_url,
             "nav": "search",
+            "platform_options": sorted(
+                stats.platforms, key=lambda p: platform_name(p[0]).casefold()
+            ),
             "hero": not form and params.page == 1,  # the globe, on the plain landing page
             "rss_url": "/jobs.rss" + (f"?{urlencode(form)}" if form else ""),
             "mcp_url": public_url(request, "/mcp"),

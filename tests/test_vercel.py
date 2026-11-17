@@ -2,6 +2,7 @@
 light and in sync with pyproject.toml. See docs/DEPLOY.md."""
 
 import json
+import re
 import subprocess
 import sys
 import tomllib
@@ -15,7 +16,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from jobindex.api.app import app
 from jobindex.api.deps import session_factory
-from jobindex.config import Settings, get_settings
+from jobindex.config import DEMO_MAX_JOBS_PER_SOURCE, Settings, get_settings
 from jobindex.coverage import ROOT
 
 NOT_ON_VERCEL = {"uvicorn", "apscheduler", "alembic"}  # server, scheduler, migrations
@@ -121,3 +122,16 @@ async def test_session_factory_created_without_lifespan() -> None:
     factory = session_factory(bare)
     assert session_factory(bare) is factory
     await factory.kw["bind"].dispose()
+
+
+def test_demo_cap_matches_the_crawl_workflow(monkeypatch: pytest.MonkeyPatch) -> None:
+    # /pulse on Vercel explains the per-source cap the crawler applies.
+    workflow = (ROOT / ".github" / "workflows" / "crawl.yml").read_text()
+    pattern = r"MAX_JOBS_PER_SOURCE: \$\{\{ vars\.MAX_JOBS_PER_SOURCE \|\| '(\d+)' \}\}"
+    match = re.search(pattern, workflow)
+    assert match is not None
+    assert int(match.group(1)) == DEMO_MAX_JOBS_PER_SOURCE
+    monkeypatch.delenv("MAX_JOBS_PER_SOURCE", raising=False)
+    monkeypatch.delenv("VERCEL", raising=False)
+    assert Settings(_env_file=None, vercel=True).max_jobs_per_source == DEMO_MAX_JOBS_PER_SOURCE
+    assert Settings(_env_file=None, vercel=False).max_jobs_per_source == 0

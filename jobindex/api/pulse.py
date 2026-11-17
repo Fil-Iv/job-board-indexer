@@ -7,10 +7,16 @@ the database sees at most one round of them per 10 minutes per instance.
 
 Counts are *openings* (postings deduplicated across sources, see ``jobindex.dedup``),
 except "by platform" and salaries, which count *postings* (an opening listed on two
-platforms counts for both).
+platforms counts for both). Companies are grouped by ``dedup.keys.company_key`` ("East
+West Bank" == "EastWest Bank") and shown with their most common spelling.
+
+The hosted demo stores at most ``MAX_JOBS_PER_SOURCE`` postings per source, so a big
+employer's count stops there; the page says so, and marks companies with a capped
+source "200+".
 """
 
 import time
+from collections import Counter
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
 from decimal import Decimal
@@ -27,7 +33,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from jobindex.api.deps import SessionDep
 from jobindex.api.search import group_id
 from jobindex.api.ui import HeaderStats, header_stats, templates
+from jobindex.config import get_settings
+from jobindex.dedup.keys import company_key
 from jobindex.models import Job, JobStatus, RemoteType, Source
+from jobindex.platform_names import platform_name
 
 CACHE_SECONDS = 600
 TOP_COUNTRIES = 20
@@ -55,6 +64,7 @@ class Bar:
     share: float  # of the chart total
     href: str | None = None
     key: str | None = None
+    capped: bool = False  # a source of it hit the per-source cap: the real count is higher
 
 
 @dataclass(slots=True)
@@ -83,6 +93,7 @@ class Pulse:
     workplace: list[Bar] = field(default_factory=list)
     companies: list[Bar] = field(default_factory=list)
     salaries: list[SalaryBand] = field(default_factory=list)
+    cap: int = 0  # MAX_JOBS_PER_SOURCE of the index (0 = no cap)
 
 
 def bars(rows: list[tuple[str, int]], total: int | None = None, **extra: Any) -> list[Bar]:
@@ -151,7 +162,9 @@ async def compute_pulse(session: AsyncSession, now: datetime | None = None) -> P
     ]
     platforms = bars(platform_rows)
     for bar in platforms:
-        bar.href = f"/?platform={bar.label}"
+        bar.key = bar.label
+        bar.label = platform_name(bar.key)
+        bar.href = f"/?platform={bar.key}"
 
     by_type: dict[RemoteType, int] = {
         r: n
@@ -170,19 +183,8 @@ async def compute_pulse(session: AsyncSession, now: datetime | None = None) -> P
         if r is not RemoteType.UNKNOWN:
             bar.href = f"/?remote_type={r.value}"
 
-    company_rows = [
-        (c, n)
-        for c, n in await session.execute(
-            select(Job.company, _openings())
-            .where(is_open, Job.company.is_not(None), Job.company != "")
-            .group_by(Job.company)
-            .order_by(_openings().desc(), Job.company)
-            .limit(TOP_COMPANIES)
-        )
-    ]
-    companies = bars(company_rows, open_openings)
-    for bar in companies:
-        bar.href = "/?" + urlencode({"company": bar.label})
+    cap = get_settings().max_jobs_per_source
+    companies = await _top_companies(session, cap, open_openings)
 
     mid = func.coalesce((Job.salary_min + Job.salary_max) / 2, Job.salary_max, Job.salary_min)
     pct = [func.percentile_cont(p).within_group(mid) for p in (0.25, 0.5, 0.75, 0.9)]
@@ -213,7 +215,52 @@ async def compute_pulse(session: AsyncSession, now: datetime | None = None) -> P
         workplace=workplace,
         companies=companies,
         salaries=salaries,
+        cap=cap,
     )
+
+
+async def _top_companies(session: AsyncSession, cap: int, open_openings: int) -> list[Bar]:
+    """Top companies by distinct open openings across all their sources, spellings
+    grouped by ``company_key``."""
+    is_open = Job.status == JobStatus.OPEN
+    has_company = (Job.company.is_not(None), Job.company != "")
+    openings: dict[str, set[int]] = {}
+    spellings: dict[str, Counter[str]] = {}
+    for company, opening, n in await session.execute(
+        select(Job.company, group_id(), func.count())
+        .where(is_open, *has_company)
+        .group_by(Job.company, group_id())
+    ):
+        key = company_key(company)
+        if not key:
+            continue
+        openings.setdefault(key, set()).add(opening)
+        spellings.setdefault(key, Counter())[company] += n
+    capped: set[str] = set()
+    if cap > 0:
+        capped = {
+            company_key(company)
+            for (company,) in await session.execute(
+                select(Job.company)
+                .where(is_open, *has_company)
+                .group_by(Job.company, Job.source_id)
+                .having(func.count() >= cap)
+            )
+        }
+
+    def display(key: str) -> str:  # most common spelling; ties: alphabetical
+        return min(spellings[key].items(), key=lambda kv: (-kv[1], kv[0]))[0]
+
+    top = sorted(openings, key=lambda k: (-len(openings[k]), display(k).casefold()))
+    rows = [(display(k), len(openings[k])) for k in top[:TOP_COMPANIES]]
+    companies = bars(rows, open_openings)
+    for bar, key in zip(companies, top, strict=False):
+        bar.key = key
+        bar.capped = key in capped
+        # the shortest spelling, which the search's company filter finds in the others
+        shortest = min(spellings[key], key=lambda s: (len(s), s))
+        bar.href = "/?" + urlencode({"company": shortest})
+    return companies
 
 
 _cache: dict[str, tuple[float, Pulse, HeaderStats]] = {}

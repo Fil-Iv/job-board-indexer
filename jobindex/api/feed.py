@@ -15,6 +15,7 @@ from jobindex.api.deps import SessionDep
 from jobindex.api.schemas import JobOut
 from jobindex.api.search import SearchParams, search
 from jobindex.api.ui import form_params, public_url, safe_url
+from jobindex.platform_names import platform_name
 
 FEED_SIZE = 50
 ATOM = "http://www.w3.org/2005/Atom"
@@ -37,7 +38,7 @@ def feed_title(p: SearchParams) -> str:
     if p.employment_type:
         parts.append(p.employment_type.replace("_", " "))
     if p.platform:
-        parts.append(f"on {p.platform}")
+        parts.append(f"on {platform_name(p.platform)}")
     described = ", ".join(x for x in parts if x)
     return f"JobForge: {described}" if described else "JobForge: newest jobs"
 
@@ -64,7 +65,8 @@ def _item(channel: Element, job: JobOut, search_page: str) -> None:
         amount = "–".join(f"{v:,.0f}" for v in dict.fromkeys(x for x in (low, high) if x))
         period = f" / {job.salary_period}" if job.salary_period else ""
         details.append(f"{job.salary_currency or ''} {amount}{period}".strip())
-    details.append("via " + ", ".join(dict.fromkeys(s.platform for s in job.sources)))
+    names = dict.fromkeys(platform_name(s.platform) for s in job.sources)
+    details.append("via " + ", ".join(names))
     SubElement(item, "description").text = _text(" · ".join(details))
     if job.company:
         SubElement(item, "category").text = _text(job.company)

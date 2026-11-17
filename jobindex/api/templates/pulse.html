@@ -6,7 +6,7 @@
     <li>
       <span class="label">{% if b.href %}<a href="{{ b.href }}">{{ b.label }}</a>{% else %}{{ b.label }}{% endif %}</span>
       <span class="bar" aria-hidden="true"><span style="width: {{ '%.1f'|format(b.pct) }}%"></span></span>
-      <span class="num">{{ "{:,}".format(b.count) }}{% if b.share %} <small>{{ '%.0f'|format(b.share * 100) if b.share >= 0.01 else '<1' }}%</small>{% endif %}</span>
+      <span class="num">{{ "{:,}".format(b.count) }}{% if b.capped %}<abbr title="at least one source of it is capped at {{ pulse.cap }} jobs in this demo">+</abbr>{% endif %}{% if b.share %} <small>{{ '%.0f'|format(b.share * 100) if b.share >= 0.01 else '<1' }}%</small>{% endif %}</span>
     </li>
     {% endfor %}
   </ul>
@@ -23,7 +23,7 @@
   </div>
 
   <div class="grid">
-    <section class="panel" id="workplace">
+    <section class="panel wide" id="workplace">
       <h2>Remote, hybrid or onsite</h2>
       <div class="stack" role="img" aria-label="{% for b in pulse.workplace %}{{ b.label }} {{ '%.0f'|format(b.share * 100) }}%{{ ', ' if not loop.last }}{% endfor %}">
         {% for b in pulse.workplace if b.count %}<span class="seg seg-{{ b.key }}" style="width: {{ '%.2f'|format(b.share * 100) }}%"></span>{% endfor %}
@@ -37,7 +37,22 @@
       <p class="note">As stated or detected in the posting; many postings do not say.</p>
     </section>
 
-    <section class="panel" id="salaries">
+    <section class="panel" id="countries">
+      <h2>Open jobs by country</h2>
+      {{ chart(pulse.countries) }}
+      <p class="note"><a href="/browse">Browse every country and city →</a></p>
+    </section>
+
+    <section class="panel" id="companies">
+      <h2>Top {{ pulse.companies|length }} hiring companies</h2>
+      {{ chart(pulse.companies) }}
+      <p class="note">Distinct open jobs across all of a company's boards; spellings such as
+        "East West Bank" and "EastWest Bank" count as one.
+        {% if pulse.cap %}The hosted demo keeps up to {{ pulse.cap }} jobs per source, so the biggest employers
+        stop near {{ pulse.cap }} here (marked +); a full crawl has more.{% endif %}</p>
+    </section>
+
+    <section class="panel wide" id="salaries">
       <h2>Salary ranges where known</h2>
       {% if pulse.salaries %}
       <ul class="ranges">
@@ -57,17 +72,6 @@
       {% else %}
       <p class="note">Not enough postings publish a salary yet.</p>
       {% endif %}
-    </section>
-
-    <section class="panel" id="countries">
-      <h2>Open jobs by country</h2>
-      {{ chart(pulse.countries) }}
-      <p class="note"><a href="/browse">Browse every country and city →</a></p>
-    </section>
-
-    <section class="panel" id="companies">
-      <h2>Top {{ pulse.companies|length }} hiring companies</h2>
-      {{ chart(pulse.companies) }}
     </section>
 
     <section class="panel wide" id="platforms">

@@ -2,7 +2,7 @@ COMPOSE ?= docker compose
 RUN     := $(COMPOSE) run --rm app
 PROD    := docker compose -f docker-compose.prod.yml --env-file .env.prod
 
-.PHONY: help up down logs migrate test test-live lint format seed-demo demo-sources db-size prune crawl dedup dedup-report fill-rates coverage parser-fingerprint shell \
+.PHONY: help up down logs migrate test test-live lint format seed-demo demo-sources db-size prune crawl dedup dedup-report fill-rates coverage parser-fingerprint platform-names shell \
         prod-up prod-down prod-logs prod-backup
 
 help:  ## List targets
@@ -81,3 +81,6 @@ prod-logs:  ## Follow production app + worker logs
 
 prod-backup:  ## Make a database backup now (into BACKUP_DIR)
 	$(PROD) exec backup /scripts/backup.sh now
+
+platform-names:  ## Copy platform display names from coverage/platforms.yaml into jobindex/data
+	$(RUN) python -m jobindex.platform_names

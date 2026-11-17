@@ -6,6 +6,7 @@ matches when any of its listings matches (e.g. only one source publishes the sal
 """
 
 import math
+import re
 from dataclasses import dataclass
 from datetime import UTC, date, datetime, time
 from decimal import Decimal
@@ -54,6 +55,20 @@ def _like(value: str) -> str:
     return f"%{escaped}%"
 
 
+_NOT_ASCII_ALNUM = re.compile(r"[^a-z0-9]+")
+
+
+def _company_filter(name: str) -> ColumnElement[bool]:
+    """Company contains ``name`` (any case), or does so with spaces and punctuation
+    removed on both sides: "East West Bank" also finds "EastWest Bank"."""
+    contains = Job.company.ilike(_like(name))
+    compact = _NOT_ASCII_ALNUM.sub("", name.lower())
+    if not compact or compact == name.lower():
+        return contains
+    squeezed = func.regexp_replace(func.lower(Job.company), "[^a-z0-9]+", "", "g")
+    return or_(contains, squeezed.like(_like(compact)))
+
+
 def _location_filter(location: str) -> ColumnElement[bool]:
     """``"Berlin"``, ``"CA"``, ``"Germany"`` or ``"Austin, TX, US"``: every comma-separated
     part must match the city, region or country (country names become ISO codes)."""
@@ -76,7 +91,7 @@ def _filters(p: SearchParams) -> list[ColumnElement[bool]]:
     if p.q:
         where.append(Job.search_vector.op("@@")(func.websearch_to_tsquery("english", p.q)))
     if p.company:
-        where.append(Job.company.ilike(_like(p.company.strip())))
+        where.append(_company_filter(p.company.strip()))
     if p.location and p.location.strip(", "):
         where.append(_location_filter(p.location))
     if p.remote_type is not None:

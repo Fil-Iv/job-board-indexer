@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from jobindex.api import pulse
 from jobindex.api.app import app
+from jobindex.config import get_settings
 from jobindex.dedup import run_dedup
 from jobindex.models import Job, JobStatus, RemoteType, Source
 
@@ -92,7 +93,11 @@ async def test_compute_pulse(session: AsyncSession) -> None:
     assert p.countries[0].share == pytest.approx(0.6)
     assert p.countries[0].href == "/browse/US"
 
-    assert [(b.label, b.count) for b in p.platforms] == [("greenhouse", 7), ("lever", 3)]
+    assert [(b.label, b.key, b.count) for b in p.platforms] == [
+        ("Greenhouse", "greenhouse", 7),
+        ("Lever.co", "lever", 3),
+    ]
+    assert [b.href for b in p.platforms] == ["/?platform=greenhouse", "/?platform=lever"]
     assert [(b.key, b.count) for b in p.workplace] == [
         ("remote", 2),
         ("hybrid", 2),
@@ -135,3 +140,59 @@ async def test_pulse_is_cached(client: httpx.AsyncClient, session: AsyncSession)
 async def test_pulse_empty_index(client: httpx.AsyncClient) -> None:
     page = (await client.get("/pulse")).text
     assert "Not enough postings publish a salary yet." in page
+
+
+async def test_companies_grouped_by_normalised_name_and_capped(
+    client: httpx.AsyncClient, session: AsyncSession, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    session.add_all(
+        [
+            Source(id=1, platform="greenhouse", board_identifier="a", base_url="https://a"),
+            Source(id=2, platform="lever", board_identifier="b", base_url="https://b"),
+        ]
+    )
+    await session.flush()
+    spellings = (
+        ["East West Bank"] * 3  # source 1: 3 postings (= the cap below)
+        + ["EastWest Bank", "EastWest Bank", "East-West Bank, Inc."]  # source 2
+        + ["Acme"] * 2
+    )
+    for i, name in enumerate(spellings):
+        session.add(
+            Job(
+                source_id=1 if i < 3 or i >= 6 else 2,
+                external_id=str(i),
+                title=f"Teller {i}",
+                company=name,
+                first_seen_at=NOW,
+                last_seen_at=NOW,
+                content_hash=str(i),
+            )
+        )
+    await session.commit()
+    await run_dedup(session, now=NOW)
+
+    companies = await pulse._top_companies(session, cap=3, open_openings=8)
+    assert [(b.label, b.count, b.capped) for b in companies] == [
+        ("East West Bank", 6, True),  # one company, most common spelling, a source at cap
+        ("Acme", 2, False),
+    ]
+    # the link finds every spelling
+    href = companies[0].href
+    assert href == "/?company=EastWest+Bank"
+    body = (await client.get("/jobs", params={"company": "EastWest Bank"})).json()
+    assert body["total"] == 6
+
+    monkeypatch.setenv("MAX_JOBS_PER_SOURCE", "3")
+    get_settings.cache_clear()
+    try:
+        page = (await client.get("/pulse")).text
+    finally:
+        get_settings.cache_clear()
+    assert "keeps up to 3 jobs per source" in page
+    assert 'capped at 3 jobs in this demo">+</abbr>' in page
+
+
+async def test_no_cap_note_without_a_cap(client: httpx.AsyncClient, session: AsyncSession) -> None:
+    await seed(session)
+    assert "jobs per source" not in (await client.get("/pulse")).text

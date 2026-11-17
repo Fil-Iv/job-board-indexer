@@ -56,7 +56,7 @@ async def test_feed_items(client: httpx.AsyncClient, session: AsyncSession) -> N
     assert item.findtext("guid") == "jobforge-opening-1"
     assert item.findtext("pubDate") == "Thu, 01 Oct 2026 00:00:00 GMT"
     assert item.findtext("description") == (
-        "DE · remote · full time · EUR 70,000–90,000 / year · via greenhouse, niceboard"
+        "DE · remote · full time · EUR 70,000–90,000 / year · via Greenhouse, Niceboard"
     )
 
 

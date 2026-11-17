@@ -31,8 +31,8 @@
       <select name="platform">
         <option value="">Any</option>
         {% set known = stats.platforms|map('first')|list %}
-        {% for p, n in stats.platforms %}<option value="{{ p }}" {{ 'selected' if params.platform == p }}>{{ p }} ({{ "{:,}".format(n) }})</option>{% endfor %}
-        {% if params.platform and params.platform not in known %}<option value="{{ params.platform }}" selected>{{ params.platform }}</option>{% endif %}
+        {% for p, n in platform_options %}<option value="{{ p }}" {{ 'selected' if params.platform == p }}>{{ p|platform_name }} ({{ "{:,}".format(n) }})</option>{% endfor %}
+        {% if params.platform and params.platform not in known %}<option value="{{ params.platform }}" selected>{{ params.platform|platform_name }}</option>{% endif %}
       </select>
     </label>
     <label>Status
@@ -73,7 +73,7 @@
       <div class="links">
         {% for s in job.sources %}
           <span>
-            <span class="src">{{ s.platform }}{% if s.status.value == 'closed' %} (closed){% endif %}:</span>
+            <span class="src">{{ s.platform|platform_name }}{% if s.status.value == 'closed' %} (closed){% endif %}:</span>
             {% set posting = s.source_url|safe_url %}{% set apply = s.apply_url|safe_url %}
             {% if posting and apply and apply == posting %}<a href="{{ posting }}" rel="noopener nofollow" target="_blank">posting · apply</a>
             {% else %}
