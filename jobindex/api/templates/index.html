@@ -3,7 +3,7 @@
 {% import "_job.html" as jobs with context %}
 {% block title %}{% if params.q %}{{ params.q }} – {% endif %}JobForge{% endblock %}
 {% block head %}<link rel="alternate" type="application/rss+xml" title="This search (RSS)" href="{{ rss_url }}">{% endblock %}
-{% block style %}{% if hero %}{{ globe.style() }}{% endif %}{% endblock %}
+{% block style %}{% if hero or map_url %}{{ globe.style() }}{% endif %}{% endblock %}
 {% block content %}
   {% if hero %}{{ globe.markup(stats, briefing) }}{% endif %}
 
@@ -54,6 +54,8 @@
     {% if results.pages > 1 %}· page {{ results.page }} of {{ results.pages }}{% endif %}
     <a class="feed" href="{{ rss_url }}" title="Follow this search in a feed reader">RSS</a>
   </p>
+
+  {% if map_url %}{{ globe.markup(stats, [], compact=True, places_url=map_url) }}{% endif %}
 
   {% if results.items %}
   <ol id="results">
@@ -138,5 +140,5 @@
     list.querySelectorAll("li.job").forEach(function (li) { seen.observe(li); });
   })();
 </script>
-{% if hero %}{{ globe.script() }}{% endif %}
+{% if hero or map_url %}{{ globe.script() }}{% endif %}
 {% endblock %}

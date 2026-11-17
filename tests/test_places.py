@@ -182,3 +182,33 @@ async def test_empty_index(client: httpx.AsyncClient) -> None:
     body = (await client.get("/places.json")).json()
     assert body["places"] == []
     assert body["countries"] == {}
+
+
+async def test_places_filtered_by_search(client: httpx.AsyncClient, session: AsyncSession) -> None:
+    await seed(session)
+    # jobs 3-5 are Portland (US); "Job 3" matches only the first of them by title
+    body = (await client.get("/places.json", params={"q": "Job 3", "location": "US"})).json()
+    assert [(p["name"], p["count"]) for p in body["places"]] == [("Portland", 1)]
+    assert set(body["countries"]) == {"840"}
+    country = body["countries"]["840"]
+    # links narrow the current search instead of going to /browse
+    assert parse_qs(urlsplit(country["href"]).query) == {"q": ["Job 3"], "location": ["US"]}
+    point = parse_qs(urlsplit(body["places"][0]["href"]).query)
+    assert point["q"] == ["Job 3"]
+    assert point["location"] == ["Portland, OR, US"]
+    # the page's lenient parsing: invalid values are ignored, not a 422
+    assert (await client.get("/places.json", params={"remote_type": "nope"})).status_code == 200
+
+
+async def test_compact_map_on_search_results(
+    client: httpx.AsyncClient, session: AsyncSession
+) -> None:
+    await seed(session)
+    page = (await client.get("/", params={"q": "job", "location": "GB"})).text
+    assert 'class="hero compact"' in page
+    assert 'data-places="/places.json?q=job&amp;location=GB"' in page
+    assert "Where these jobs are" in page
+    assert 'data-view="globe"' in page  # the globe toggle stays
+    assert "Countries with open jobs" not in page
+    nothing = (await client.get("/", params={"q": "zzzz-no-match"})).text
+    assert 'id="hero"' not in nothing  # no map over an empty result

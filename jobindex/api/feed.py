@@ -16,6 +16,7 @@ from jobindex.api.schemas import JobOut
 from jobindex.api.search import SearchParams, search
 from jobindex.api.ui import form_params, public_url, safe_url
 from jobindex.catalog import platform_name
+from jobindex.currency import infer_currency
 
 FEED_SIZE = 50
 ATOM = "http://www.w3.org/2005/Atom"
@@ -66,7 +67,15 @@ def _item(channel: Element, job: JobOut, search_page: str) -> None:
         low, high = job.salary_min, job.salary_max
         amount = "–".join(f"{v:,.0f}" for v in dict.fromkeys(x for x in (low, high) if x))
         period = f" / {job.salary_period}" if job.salary_period else ""
-        details.append(f"{job.salary_currency or ''} {amount}{period}".strip())
+        currency = job.salary_currency or infer_currency(job.country)
+        note = (
+            ""
+            if job.salary_currency
+            else " (currency inferred from the location)"
+            if currency
+            else " (currency not stated)"
+        )
+        details.append(f"{currency or ''} {amount}{period}{note}".strip())
     names = dict.fromkeys(platform_name(s.platform) for s in job.sources)
     details.append("via " + ", ".join(names))
     SubElement(item, "description").text = _text(" · ".join(details))

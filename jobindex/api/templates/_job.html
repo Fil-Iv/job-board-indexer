@@ -2,9 +2,11 @@
 {% macro place(job) %}{{ [job.city, job.region, job.country]|select|join(', ') or job.location_raw or '' }}{% endmacro %}
 {% macro salary(job) -%}
   {%- if job.salary_min or job.salary_max -%}
-  <span class="salary">{{ job.salary_currency or '' }}
+  {%- set inferred = None if job.salary_currency else job.country|local_currency -%}
+  <span class="salary">{{ job.salary_currency or inferred or '' }}
     {% if job.salary_min %}{{ "{:,.0f}".format(job.salary_min) }}{% endif %}{% if job.salary_min and job.salary_max and job.salary_max != job.salary_min %}–{% endif %}{% if job.salary_max and job.salary_max != job.salary_min %}{{ "{:,.0f}".format(job.salary_max) }}{% endif %}
-    {% if job.salary_period %}/ {{ job.salary_period }}{% endif %}</span>
+    {% if job.salary_period %}/ {{ job.salary_period }}{% endif %}
+    {%- if not job.salary_currency %} <small class="cur-note">({{ 'currency inferred from the location' if inferred else 'currency not stated' }})</small>{% endif %}</span>
   {%- endif -%}
 {%- endmacro %}
 {% macro listing_links(s) -%}

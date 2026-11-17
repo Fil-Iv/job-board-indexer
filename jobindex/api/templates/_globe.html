@@ -8,7 +8,9 @@
     Globe: canvas, orthographic, cyan markers sized by openings; drag to turn, click a
     marker -> search, a country -> /browse. Built on first use; pauses off-screen and in
     hidden tabs; static under prefers-reduced-motion.
-    Below both: a server-rendered "Countries with open jobs" briefing line. -#}
+    Below both: a server-rendered "Countries with open jobs" briefing line.
+    Compact mode (search results): a smaller map of the jobs matching the search
+    (/places.json with the page's query); a click narrows the search to that place. -#}
 
 {% set CDN = "https://cdn.jsdelivr.net/npm/" %}
 
@@ -49,24 +51,33 @@
   .briefing a { white-space: nowrap; text-decoration: none; }
   .briefing a:hover { text-decoration: underline; }
   .briefing b { font-weight: 500; }
+  .hero.compact { margin: 6px 0 14px; gap: 6px; }
+  .hero.compact .hero-head { align-items: center; }
+  .hero.compact .map-title { margin: 0; font: 500 12px/1.4 var(--caps); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .hero.compact .atlas { max-width: 560px; justify-self: center; }
+  .hero.compact .globe { max-width: 320px; }
 {% endmacro %}
 
-{% macro markup(stats, briefing) %}
-  <section class="hero" id="hero" aria-labelledby="hero-title">
+{% macro markup(stats, briefing, compact=False, places_url="/places.json") %}
+  <section class="hero{{ ' compact' if compact }}" id="hero" aria-labelledby="hero-title" data-places="{{ places_url }}">
     <div class="hero-head">
+      {% if compact %}
+      <h2 class="map-title" id="hero-title">Where these jobs are <small>· select a country to narrow the search</small></h2>
+      {% else %}
       <div class="hero-text">
         <h2 id="hero-title">The known world of work</h2>
         <p class="lead">{{ "{:,}".format(stats.open_openings) }} open jobs from {{ stats.platforms|length }} job platforms, mapped in one index.</p>
         <p class="hint">Pick a country to browse it, or open the globe and follow a marker to a city's jobs.
           <a href="/browse">Browse by place →</a> · City positions: <a href="https://www.geonames.org" rel="noopener">GeoNames</a> (CC BY 4.0)</p>
       </div>
+      {% endif %}
       {# Shown by the script; without JavaScript there is no map, just the briefing. #}
       <div class="view-toggle" role="group" aria-label="View" hidden>
         <button type="button" data-view="map" aria-pressed="true">Map</button><button type="button" data-view="globe" aria-pressed="false">Globe</button>
       </div>
     </div>
     <div class="atlas" id="atlas" hidden>
-      <svg viewBox="0 0 960 500" role="img" aria-label="World map: countries with open jobs are highlighted, brighter for more jobs. Select a country to browse it."></svg>
+      <svg viewBox="0 0 960 500" role="img" aria-label="World map: countries with {{ 'matching' if compact else 'open' }} jobs are highlighted, brighter for more jobs. Select a country to {{ 'narrow the search to it' if compact else 'browse it' }}."></svg>
       <div class="globe-tip" role="status" hidden></div>
     </div>
     <div class="globe" id="globe" hidden>
@@ -334,7 +345,7 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     if (!window.d3 || !window.d3.geoNaturalEarth1 || !window.topojson) { atlas.hidden = true; return; }
-    Promise.all([getJSON(ATLAS, ATLAS_SRI), getJSON("/places.json")])
+    Promise.all([getJSON(ATLAS, ATLAS_SRI), getJSON(hero.getAttribute("data-places") || "/places.json")])
       .then(function (r) { start(r[0], r[1]); })
       .catch(function () { atlas.hidden = true; });
   });

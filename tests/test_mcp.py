@@ -79,7 +79,13 @@ async def test_search_and_get(client: httpx.AsyncClient, session: AsyncSession) 
     assert job["id"] == 1
     assert job["title"] == "Senior Python Engineer"
     assert job["remote_type"] == "remote"
-    assert job["salary"] == {"min": 70000.0, "max": 90000.0, "currency": "EUR", "period": "year"}
+    assert job["salary"] == {
+        "min": 70000.0,
+        "max": 90000.0,
+        "currency": "EUR",
+        "currency_inferred": False,
+        "period": "year",
+    }
     assert job["url"] == "https://boards.greenhouse.io/acme/jobs/1"
     assert '"Senior Python Engineer"' in result["content"][0]["text"]
 

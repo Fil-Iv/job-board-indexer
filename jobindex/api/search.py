@@ -114,6 +114,11 @@ def rank(q: str) -> ColumnElement[float]:
     return func.ts_rank_cd(weights, Job.search_vector, _tsquery(q))
 
 
+def search_filters(p: SearchParams) -> list[ColumnElement[bool]]:
+    """WHERE clauses of a search (``Job`` joined with ``Source``), also used by the map."""
+    return _filters(p)
+
+
 def _filters(p: SearchParams) -> list[ColumnElement[bool]]:
     where: list[ColumnElement[bool]] = []
     if p.status is not StatusFilter.ANY:

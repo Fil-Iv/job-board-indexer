@@ -20,9 +20,10 @@ from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlencode
 
 import pycountry
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -30,8 +31,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from jobindex.api.browse import search_url
 from jobindex.api.deps import SessionDep
 from jobindex.api.pulse import CACHE_SECONDS, country_name
-from jobindex.api.search import group_id
-from jobindex.models import Job, JobStatus
+from jobindex.api.search import SearchParams, group_id, search_filters
+from jobindex.api.ui import form_params
+from jobindex.models import Job, Source
 
 GAZETTEER = Path(__file__).resolve().parent.parent / "data" / "cities.tsv.gz"
 TOP_PLACES = 150
@@ -146,12 +148,25 @@ class _Point:
     best_count: int = 0
 
 
-async def compute_places(session: AsyncSession) -> dict[str, Any]:
+def _narrow(form: dict[str, str], location: str) -> str:
+    """The current search (``form``) narrowed to ``location``."""
+    rest = {k: v for k, v in form.items() if k not in ("location", "page")}
+    return "/?" + urlencode({**rest, "location": location})
+
+
+async def compute_places(
+    session: AsyncSession,
+    params: SearchParams | None = None,
+    form: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    """Map data for open jobs, or for the jobs matching a search (``params``, with the
+    page's ``form`` values to build links that narrow that search to a place)."""
     openings = func.count(func.distinct(group_id()))
-    is_open = Job.status == JobStatus.OPEN
+    where = search_filters(params or SearchParams())
     rows = await session.execute(
         select(Job.city, Job.region, Job.country, openings)
-        .where(is_open, Job.city.is_not(None), Job.city != "", Job.country.is_not(None))
+        .join(Source, Source.id == Job.source_id)
+        .where(*where, Job.city.is_not(None), Job.city != "", Job.country.is_not(None))
         .group_by(Job.city, Job.region, Job.country)
         .order_by(openings.desc())
         .limit(MAX_NAME_ROWS)
@@ -169,7 +184,8 @@ async def compute_places(session: AsyncSession) -> dict[str, Any]:
 
     by_country = await session.execute(
         select(Job.country, openings)
-        .where(is_open, Job.country.is_not(None))
+        .join(Source, Source.id == Job.source_id)
+        .where(*where, Job.country.is_not(None))
         .group_by(Job.country)
         .order_by(openings.desc())
     )
@@ -181,7 +197,7 @@ async def compute_places(session: AsyncSession) -> dict[str, Any]:
                 "code": code,
                 "name": country_name(code),
                 "count": n,
-                "href": f"/browse/{code}",
+                "href": _narrow(form, code) if form else f"/browse/{code}",
             }
 
     top = sorted(points.values(), key=lambda p: (-p.count, p.city.name))[:TOP_PLACES]
@@ -194,7 +210,12 @@ async def compute_places(session: AsyncSession) -> dict[str, Any]:
                 "lat": p.city.lat,
                 "lng": p.city.lng,
                 "count": p.count,
-                "href": search_url(p.best_spelling, p.best_region, p.city.country),
+                "href": _narrow(
+                    form,
+                    ", ".join(x for x in (p.best_spelling, p.best_region, p.city.country) if x),
+                )
+                if form
+                else search_url(p.best_spelling, p.best_region, p.city.country),
             }
             for p in top
         ],
@@ -219,11 +240,21 @@ router = APIRouter(include_in_schema=False)
 
 
 @router.get("/places.json")
-async def places_json(session: SessionDep) -> JSONResponse:
+async def places_json(request: Request, session: SessionDep) -> JSONResponse:
     """Top cities with open jobs (name, country, lat/lng, openings, search link) and
-    openings per country keyed by ISO numeric code, for the home-page globe."""
+    openings per country keyed by ISO numeric code, for the home-page map and globe.
+
+    With the search page's parameters (``q``, ``location``, ``seniority``, ...) it covers
+    only the matching jobs, and its links narrow that search to a place; without them
+    (cached in-process) the links go to ``/browse``."""
+    form = {k: v for k, v in request.query_params.items() if k != "page" and v}
+    data = (
+        await compute_places(session, form_params(request), form)
+        if form
+        else await cached_places(session)
+    )
     return JSONResponse(
-        await cached_places(session),
+        data,
         headers={
             "Cache-Control": f"public, max-age=300, s-maxage={CACHE_SECONDS}, "
             f"stale-while-revalidate={CACHE_SECONDS}"

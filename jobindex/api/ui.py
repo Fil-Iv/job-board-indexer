@@ -25,6 +25,7 @@ from jobindex.api.deps import SessionDep
 from jobindex.api.schemas import SENIORITY_LABELS, EmploymentType, Seniority, StatusFilter
 from jobindex.api.search import SearchParams, group_id, search
 from jobindex.catalog import platform_name
+from jobindex.currency import infer_currency
 from jobindex.models import Job, JobStatus, RemoteType, Source
 
 templates = Jinja2Templates(directory=Path(__file__).parent / "templates")
@@ -41,6 +42,7 @@ def safe_url(url: str | None) -> str | None:
 
 templates.env.filters["safe_url"] = safe_url
 templates.env.filters["platform_name"] = platform_name
+templates.env.filters["local_currency"] = infer_currency
 
 
 def public_url(request: Request, path: str) -> str:
@@ -183,6 +185,10 @@ async def index(
                 stats.platforms, key=lambda p: platform_name(p[0]).casefold()
             ),
             "hero": hero,
+            # search results: a compact map of the matching jobs (same data, filtered)
+            "map_url": None
+            if hero or not results.total
+            else "/places.json" + (f"?{urlencode(form)}" if form else ""),
             "briefing": briefing,
             "rss_url": "/jobs.rss" + (f"?{urlencode(form)}" if form else ""),
             "mcp_url": public_url(request, "/mcp"),

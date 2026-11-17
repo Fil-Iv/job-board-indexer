@@ -26,6 +26,7 @@ from jobindex.api.ratelimit import client_ip, limiter
 from jobindex.api.schemas import JobDetailOut, JobOut
 from jobindex.api.search import SearchParams, get_opening, search
 from jobindex.config import get_settings
+from jobindex.currency import infer_currency
 from jobindex.models import RemoteType
 
 PROTOCOL_VERSIONS = ("2025-06-18", "2025-03-26", "2024-11-05")  # newest first
@@ -112,7 +113,9 @@ def _summary(job: JobOut) -> dict[str, Any]:
         salary = {
             "min": float(job.salary_min) if job.salary_min is not None else None,
             "max": float(job.salary_max) if job.salary_max is not None else None,
-            "currency": job.salary_currency,
+            # Not published by the source: the location's currency, flagged as inferred.
+            "currency": job.salary_currency or infer_currency(job.country),
+            "currency_inferred": job.salary_currency is None,
             "period": job.salary_period,
         }
     return {
