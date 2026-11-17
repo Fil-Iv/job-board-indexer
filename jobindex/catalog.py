@@ -45,7 +45,7 @@ def platform_name(key: str | None) -> str:
 
 
 def _base_name(blocked_platform: str) -> str:
-    """"SmartRecruiters (career pages)" -> "SmartRecruiters"."""
+    """Platform name of a blocked entry: "SmartRecruiters (career pages)" -> "SmartRecruiters"."""
     return blocked_platform.split(" (")[0].strip()
 
 

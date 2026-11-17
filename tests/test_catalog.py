@@ -111,4 +111,4 @@ async def test_coverage_page(client: httpx.AsyncClient, session: AsyncSession) -
     counts = catalog()["platforms"]
     for status in ("live", "partial", "blocked", "not built"):
         n = sum(p["status"] == status for p in counts)
-        assert f"<b>{n}</b><span><i class=\"badge st-{status.replace(' ', '-')}\">" in page
+        assert f'<b>{n}</b><span><i class="badge st-{status.replace(" ", "-")}">' in page
