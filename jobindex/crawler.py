@@ -194,9 +194,18 @@ async def _crawl(
             raw_jobs = [(raw, raw.raw_hash()) for raw in listed]
         if source.company_name is None and any(raw.company is None for raw, _ in raw_jobs):
             source.company_name = await _company_name(connector, source.board_identifier)
-        html_limit = get_settings().description_html_max_chars
+        settings = get_settings()
+        html_limit, text_limit = (
+            settings.description_html_max_chars,
+            settings.description_text_max_chars,
+        )
         postings = [
-            (trim_html(raw.normalized(company_fallback=source.company_name), html_limit), raw_hash)
+            (
+                trim_description(
+                    raw.normalized(company_fallback=source.company_name), html_limit, text_limit
+                ),
+                raw_hash,
+            )
             for raw, raw_hash in raw_jobs
         ]
         now = utcnow()
@@ -258,6 +267,28 @@ def trim_html(posting: RawJob, limit: int | None) -> RawJob:
     if limit is None or html is None or len(html) <= limit:
         return posting
     return replace(posting, description_html="")
+
+
+TRUNCATED = "…"
+
+
+def truncate_text(text: str | None, limit: int | None) -> str | None:
+    """``text`` cut to at most ``limit`` characters at a word boundary, plus "…"."""
+    if limit is None or text is None or len(text) <= limit:
+        return text
+    cut = text[:limit]
+    space = cut.rfind(" ")
+    if space > limit * 0.8:
+        cut = cut[:space]
+    return cut.rstrip() + TRUNCATED
+
+
+def trim_description(posting: RawJob, html_limit: int | None, text_limit: int | None) -> RawJob:
+    """Apply the size budget (``DESCRIPTION_HTML_MAX_CHARS``, ``DESCRIPTION_TEXT_MAX_CHARS``).
+    Runs before hashing, so the stored hash matches the stored text."""
+    posting = trim_html(posting, html_limit)
+    text = truncate_text(posting.description_text, text_limit)
+    return posting if text == posting.description_text else replace(posting, description_text=text)
 
 
 async def _with_details(
@@ -477,6 +508,9 @@ def _cause(job: Job, raw_hash: str) -> ChangeCause:
     return ChangeCause.LOCAL
 
 
+LONG_CHANGE_FIELDS = frozenset({"description_text", "description_html"})
+
+
 def _change(
     job: Job,
     field: str,
@@ -485,12 +519,15 @@ def _change(
     at: datetime,
     cause: ChangeCause = ChangeCause.UPSTREAM,
 ) -> JobChange:
+    # Description values are not kept: the history says "text changed" (job page) and the
+    # values would be most of the table's size.
+    long_field = field in LONG_CHANGE_FIELDS
     return JobChange(
         job_id=job.id,
         changed_at=at,
         field=field,
-        old_value=_as_text(old),
-        new_value=_as_text(new),
+        old_value=None if long_field else _as_text(old),
+        new_value=None if long_field else _as_text(new),
         parser_version=PARSER_VERSION,
         cause=cause,
     )

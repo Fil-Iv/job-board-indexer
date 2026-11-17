@@ -42,7 +42,7 @@ from pathlib import Path
 
 import yaml
 from sqlalchemy import func, select
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
+from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 from jobindex.config import get_settings
 from jobindex.connectors.registry import Registry, default_registry
@@ -53,7 +53,14 @@ from jobindex.db import create_engine, create_session_factory
 from jobindex.dedup import run_dedup
 from jobindex.http import FetchError, HttpClient
 from jobindex.intake import process_pending
-from jobindex.maintenance import db_size, prune, recover_abandoned_runs, render_db_size
+from jobindex.maintenance import (
+    compact_descriptions,
+    db_size,
+    prune,
+    recover_abandoned_runs,
+    render_db_size,
+    vacuum_full,
+)
 from jobindex.models import FetchRun, FetchStatus, Source
 from jobindex.quality import fill_rates, render_markdown, render_text
 from jobindex.scheduler import CrawlScheduler
@@ -355,9 +362,17 @@ async def run_prune(
             if runs_days is not None
             else settings.fetch_run_retention_days,
         )
+        compacted = await compact_descriptions(
+            session, settings.description_html_max_chars, settings.description_text_max_chars
+        )
+        if compacted.jobs or compacted.job_changes:  # one-off after the limits changed
+            bind = session.bind
+            assert isinstance(bind, AsyncEngine)
+            await vacuum_full(bind)
     print(
         f"prune: deleted {result.jobs} closed postings, {result.job_changes} job_changes, "
-        f"{result.fetch_runs} fetch_runs"
+        f"{result.fetch_runs} fetch_runs; trimmed {compacted.jobs} descriptions, "
+        f"{compacted.job_changes} job_changes values"
     )
     return 0
 

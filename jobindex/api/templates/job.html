@@ -47,6 +47,8 @@
     <section class="panel" id="description">
       <h2>Description</h2>
       {% if job.description_text %}<div class="description">{{ job.description_text }}</div>
+        {% if job.description_text.endswith('…') %}{% set full = job.sources[0].source_url|safe_url %}
+        <p class="note">Shortened here to keep the index small.{% if full %} <a href="{{ full }}" rel="noopener nofollow" target="_blank">Read the full description at the source →</a>{% endif %}</p>{% endif %}
       {% else %}<p class="note">The source publishes no description; see the posting.</p>{% endif %}
     </section>
 

@@ -45,7 +45,10 @@ env:
   LOG_LEVEL: ${{ vars.LOG_LEVEL || 'INFO' }}
   # Size budget for the Supabase free tier (docs/OPERATIONS.md#size-budget).
   MAX_JOBS_PER_SOURCE: ${{ vars.MAX_JOBS_PER_SOURCE || '200' }}
-  DESCRIPTION_HTML_MAX_CHARS: ${{ vars.DESCRIPTION_HTML_MAX_CHARS || '20000' }}
+  # No HTML and at most ~1,500 characters of text per posting (the job page links to the
+  # full posting at the source): ~3x more jobs per MB (docs/OPERATIONS.md#size-budget).
+  DESCRIPTION_HTML_MAX_CHARS: ${{ vars.DESCRIPTION_HTML_MAX_CHARS || '0' }}
+  DESCRIPTION_TEXT_MAX_CHARS: ${{ vars.DESCRIPTION_TEXT_MAX_CHARS || '1500' }}
   JOB_CHANGE_VALUE_MAX_CHARS: ${{ vars.JOB_CHANGE_VALUE_MAX_CHARS || '500' }}
   CLOSED_JOB_RETENTION_DAYS: ${{ vars.CLOSED_JOB_RETENTION_DAYS || '14' }}
   JOB_CHANGE_RETENTION_DAYS: ${{ vars.JOB_CHANGE_RETENTION_DAYS || '60' }}

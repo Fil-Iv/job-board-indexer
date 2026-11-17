@@ -89,6 +89,9 @@ class Settings(BaseSettings):
     # description_html longer than this is stored as "" (description_text is always
     # kept; the API falls back to it). None = keep all HTML, 0 = never store HTML.
     description_html_max_chars: int | None = None
+    # description_text longer than this is cut at a word boundary and ends with "…" (the
+    # job page links to the full posting at the source). None = keep the full text.
+    description_text_max_chars: int | None = None
     # job_changes old/new values are cut to this many characters (None = full values).
     job_change_value_max_chars: int | None = None
     # `prune`: delete closed postings closed more than N days ago (with their history),

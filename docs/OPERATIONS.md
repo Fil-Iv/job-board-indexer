@@ -70,17 +70,27 @@ sources**) — jobs stay as they are.
 
 ## Size budget
 
-The free Supabase database holds 500 MB; JobForge aims to stay under ~400 MB. Measured
-locally (Nov 2026): **≈ 15 KB per stored posting** including description text, HTML, the
-full-text `tsvector`, indexes and history (43k postings = 675 MB). So 400 MB ≈ 25k
-postings. The demo stores far fewer:
+The free Supabase database holds 500 MB; JobForge aims to stay under ~400 MB.
+
+Measured on a copy of the local database (45,598 postings, 2026-11-17), `jobs` table
+including TOAST, the full-text `tsvector` and all indexes:
+
+| | `jobs` | per posting | database |
+|---|---:|---:|---:|
+| full HTML + full text (no limits) | 626.7 MB | **13.7 KB** | 670.9 MB |
+| no HTML, text ≤ 1,500 chars (hosted demo since 2026-11-17) | 213.0 MB | **4.7 KB** | 256.9 MB |
+
+What is left per posting: ~1.6 KB `tsvector`, ~1.2 KB compressed text, the GIN index and
+the row. With ~25 MB of fixed overhead (catalogs, `job_changes`, `fetch_runs`), **400 MB ≈
+80,000 postings**. The hosted demo's settings:
 
 | Lever | Hosted demo value | Effect |
 |---|---|---|
 | `coverage/demo_sources.yaml` | ~90 boards, 1–2 per done platform, preferring 5–400 jobs | no 14k Marriott / 7k JPMorgan boards |
 | `MAX_JOBS_PER_SOURCE` | 200 | ≤ ~10k open postings (≈ 7k with the current boards) → ≈ 110–150 MB |
-| `DESCRIPTION_HTML_MAX_CHARS` | 20000 | HTML longer than this is stored as `""` (≈ top 1–2%); `description_text` is always kept and the API falls back to it |
-| `JOB_CHANGE_VALUE_MAX_CHARS` | 500 | `job_changes` old/new values cut (a changed description no longer stores two full copies) |
+| `DESCRIPTION_HTML_MAX_CHARS` | 0 | no HTML is stored (`""`); the API and pages use the text |
+| `DESCRIPTION_TEXT_MAX_CHARS` | 1500 | text cut at a word boundary + "…"; the job page links to the full posting at the source. The content hash covers the stored text, so changes past the cut are not detected |
+| `JOB_CHANGE_VALUE_MAX_CHARS` | 500 | `job_changes` old/new values cut; description changes are recorded without values ("text changed") |
 | `CLOSED_JOB_RETENTION_DAYS` | 14 | `prune` deletes postings closed longer ago (and their history) |
 | `JOB_CHANGE_RETENTION_DAYS` | 60 | `prune` deletes older `job_changes` |
 | `FETCH_RUN_RETENTION_DAYS` | 30 | `prune` deletes older `fetch_runs` (keeps each source's latest success) |
@@ -104,9 +114,11 @@ $CLI prune                          # uses the *_RETENTION_DAYS settings
 $CLI prune --closed-days 7 --changes-days 30 --runs-days 14
 ```
 
-Postgres reuses the space of deleted rows (autovacuum) but does not give it back to the
-file system, so `db-size` drops only after a `VACUUM FULL` (locks the table; run it by
-hand if ever needed). Approaching the limit: lower `MAX_JOBS_PER_SOURCE` or the retention
+`prune` also applies the description limits to rows stored before they were set (and
+recomputes their content hash, so the next crawl sees no change), drops description
+values from `job_changes`, and then runs `VACUUM FULL` once: Postgres reuses the space
+of deleted rows but only gives it back to the file system (what Supabase counts) after a
+`VACUUM FULL`. Approaching the limit: lower `MAX_JOBS_PER_SOURCE` or the retention
 days, remove big boards, or move to a paid tier ([below](#paid-upgrade-path)).
 
 ## Add a source

@@ -15,9 +15,9 @@ from jobindex.config import get_settings
 from jobindex.connectors.base import RawJob
 from jobindex.connectors.registry import Registry
 from jobindex.coverage import ROOT
-from jobindex.crawler import CrawlResult, crawl_source
+from jobindex.crawler import CrawlResult, crawl_source, truncate_text
 from jobindex.http import HttpClient
-from jobindex.maintenance import prune
+from jobindex.maintenance import CompactResult, compact_descriptions, prune
 from jobindex.models import FetchRun, FetchStatus, Job, JobChange, JobStatus, Source
 from jobindex.models.base import utcnow
 from tests.fakes import FakeConnector, FakeDetailConnector
@@ -137,14 +137,87 @@ async def test_job_change_values_are_cut(
 ) -> None:
     _set(budget, JOB_CHANGE_VALUE_MAX_CHARS="10")
     source_id = await _source(session)
-    FakeConnector.result = [RawJob(external_id="1", title="Engineer", description_text="x" * 50)]
+    FakeConnector.result = [RawJob(external_id="1", title="x" * 50, description_text="old")]
     await _crawl(session_factory, source_id, fake_registry)
-    FakeConnector.result = [RawJob(external_id="1", title="Engineer", description_text="y" * 50)]
+    FakeConnector.result = [RawJob(external_id="1", title="y" * 50, description_text="new")]
     await _crawl(session_factory, source_id, fake_registry)
-    change = await session.scalar(select(JobChange).where(JobChange.field == "description_text"))
+    change = await session.scalar(select(JobChange).where(JobChange.field == "title"))
     assert change is not None
     assert change.old_value == "x" * 10 + "…"
     assert change.new_value == "y" * 10 + "…"
+    # description changes are recorded without their (large) values
+    text = await session.scalar(select(JobChange).where(JobChange.field == "description_text"))
+    assert text is not None
+    assert (text.old_value, text.new_value) == (None, None)
+
+
+LONG_TEXT = ("Build secure systems. " * 120).strip()  # ~2,600 characters
+
+
+def test_truncate_text() -> None:
+    cut = truncate_text(LONG_TEXT, 1500)
+    assert cut is not None
+    assert cut.endswith("…")
+    assert len(cut) <= 1501
+    assert not cut[:-1].endswith(" ")  # cut at a word boundary
+    assert LONG_TEXT.startswith(cut[:-1])
+    assert truncate_text("short", 1500) == "short"
+    assert truncate_text(None, 1500) is None
+    assert truncate_text(LONG_TEXT, None) == LONG_TEXT
+
+
+async def test_text_budget_on_crawl(
+    session: AsyncSession,
+    session_factory: Factory,
+    fake_registry: Registry,
+    budget: pytest.MonkeyPatch,
+) -> None:
+    _set(budget, DESCRIPTION_TEXT_MAX_CHARS="1500", DESCRIPTION_HTML_MAX_CHARS="0")
+    source_id = await _source(session)
+    html = "<p>" + LONG_TEXT + "</p>"
+    FakeConnector.result = [RawJob(external_id="1", title="Engineer", description_html=html)]
+    await _crawl(session_factory, source_id, fake_registry)
+    job = await session.scalar(select(Job))
+    assert job is not None
+    assert job.description_html == ""
+    assert job.description_text is not None
+    assert job.description_text.endswith("…")
+    assert len(job.description_text) <= 1501
+    # the same posting again: unchanged (the hash covers the stored, trimmed text)
+    await _crawl(session_factory, source_id, fake_registry)
+    assert await session.scalar(select(func.count()).select_from(JobChange)) == 0
+
+
+async def test_compact_existing_rows(
+    session: AsyncSession,
+    session_factory: Factory,
+    fake_registry: Registry,
+    budget: pytest.MonkeyPatch,
+) -> None:
+    """Rows stored before the limits are trimmed, with a hash the next crawl agrees with."""
+    source_id = await _source(session)
+    html = "<p>" + LONG_TEXT + "</p>"
+    FakeConnector.result = [RawJob(external_id="1", title="Engineer", description_html=html)]
+    await _crawl(session_factory, source_id, fake_registry)  # no limits yet: full text
+    session.add(JobChange(job_id=1, field="description_text", old_value="a" * 400, new_value="b"))
+    await session.commit()
+
+    async with session_factory() as s:
+        result = await compact_descriptions(s, html_limit=0, text_limit=1500)
+    assert (result.jobs, result.job_changes) == (1, 1)
+    session.expire_all()
+    job = await session.scalar(select(Job))
+    assert job is not None
+    assert job.description_html == ""
+    assert job.description_text is not None
+    assert job.description_text.endswith("…")
+    async with session_factory() as s:  # idempotent
+        assert await compact_descriptions(s, html_limit=0, text_limit=1500) == CompactResult(0, 0)
+
+    _set(budget, DESCRIPTION_TEXT_MAX_CHARS="1500", DESCRIPTION_HTML_MAX_CHARS="0")
+    await _crawl(session_factory, source_id, fake_registry)
+    changes = await session.scalar(select(func.count()).select_from(JobChange))
+    assert changes == 1  # only the row added above: the crawl saw no change
 
 
 async def test_prune(session: AsyncSession) -> None:
@@ -249,3 +322,21 @@ def test_committed_demo_sources_file_is_valid() -> None:
     entries = load_demo_sources(ROOT / "coverage" / "demo_sources.yaml")
     assert len(entries) >= 50
     assert len({url for url, _ in entries}) == len(entries)
+
+
+async def test_prune_command_compacts_and_vacuums(
+    session: AsyncSession,
+    session_factory: Factory,
+    fake_registry: Registry,
+    budget: pytest.MonkeyPatch,
+    migrated_db: str,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    source_id = await _source(session)
+    FakeConnector.result = [RawJob(external_id="1", title="T", description_text=LONG_TEXT)]
+    await _crawl(session_factory, source_id, fake_registry)
+    _set(budget, DATABASE_URL=migrated_db, DESCRIPTION_TEXT_MAX_CHARS="1500")
+    assert await asyncio.to_thread(main, ["prune"], fake_registry) == 0
+    assert "trimmed 1 descriptions" in capsys.readouterr().out
+    assert await asyncio.to_thread(main, ["prune"], fake_registry) == 0  # nothing left to do
+    assert "trimmed 0 descriptions" in capsys.readouterr().out
