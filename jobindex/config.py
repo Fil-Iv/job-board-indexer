@@ -6,7 +6,7 @@ from typing import Self
 from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-DEMO_MAX_JOBS_PER_SOURCE = 200  # default of MAX_JOBS_PER_SOURCE in crawl.yml
+DEMO_MAX_JOBS_PER_SOURCE = 1000  # default of MAX_JOBS_PER_SOURCE in crawl.yml
 
 
 class Settings(BaseSettings):

@@ -23,7 +23,7 @@ on:
   workflow_dispatch:
     inputs:
       seed:
-        description: "First register the boards of coverage/demo_sources.yaml (idempotent)"
+        description: "First register the boards of coverage/demo_sources*.yaml (idempotent)"
         type: boolean
         default: false
       shards:
@@ -44,7 +44,7 @@ env:
   HTTP_USER_AGENT: ${{ vars.HTTP_USER_AGENT || format('JobIndexBot/0.1 (+https://github.com/{0})', github.repository) }}
   LOG_LEVEL: ${{ vars.LOG_LEVEL || 'INFO' }}
   # Size budget for the Supabase free tier (docs/OPERATIONS.md#size-budget).
-  MAX_JOBS_PER_SOURCE: ${{ vars.MAX_JOBS_PER_SOURCE || '200' }}
+  MAX_JOBS_PER_SOURCE: ${{ vars.MAX_JOBS_PER_SOURCE || '1000' }}
   # No HTML and at most ~1,500 characters of text per posting (the job page links to the
   # full posting at the source): ~3x more jobs per MB (docs/OPERATIONS.md#size-budget).
   DESCRIPTION_HTML_MAX_CHARS: ${{ vars.DESCRIPTION_HTML_MAX_CHARS || '0' }}
@@ -95,7 +95,9 @@ jobs:
         if: ${{ inputs.seed }}
         # Fails (and stops the run) only if more than 10% of the boards fail to register;
         # a few that refuse us or no longer resolve are reported and skipped.
-        run: python -m jobindex.cli seed-demo --file coverage/demo_sources.yaml
+        run: |
+          python -m jobindex.cli seed-demo --file coverage/demo_sources.yaml
+          python -m jobindex.cli seed-demo --file coverage/demo_sources_extra.yaml
       - name: Plan shards
         if: ${{ steps.due.outputs.due == 'true' }}
         id: plan

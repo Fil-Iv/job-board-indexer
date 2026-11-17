@@ -105,7 +105,7 @@ Do **not** use the "Direct connection" string: it is IPv6-only on the free tier.
    `.github/workflows/crawl.yml`):
    * `HTTP_USER_AGENT` — e.g. `JobIndexBot/0.1 (+https://github.com/<you>/<repo>)`
      (default: exactly that, built from the repository name). Must identify you honestly.
-   * `MAX_JOBS_PER_SOURCE` (200), `DB_WARN_MB` (400), `DB_FAIL_MB` (450), and the
+   * `MAX_JOBS_PER_SOURCE` (1000), `DB_WARN_MB` (400), `DB_FAIL_MB` (450), and the
      retention settings, see [OPERATIONS.md](OPERATIONS.md#size-budget).
 4. **Settings → Actions → General**: *Actions permissions* = **Allow all actions and
    reusable workflows**; *Workflow permissions* = **Read repository contents** → **Save**.
@@ -115,7 +115,7 @@ Do **not** use the "Direct connection" string: it is IPv6-only on the free tier.
    `alembic upgrade head` through the session pooler. Later it runs by itself on every push
    to `main` that touches `migrations/` or the models.
 7. **Actions → crawl → Run workflow**, tick **First register the boards of
-   coverage/demo_sources.yaml**, **Run workflow**. The first run registers ~90 boards and
+   coverage/demo_sources\*.yaml**, **Run workflow**. The first run registers ~370 boards and
    crawls them (expect 30–90 min; Jobiqo boards are slow on purpose: `Crawl-delay: 10`).
    The run page shows a **summary** with counts per platform and the database size.
 8. From now on `crawl` runs every 6 hours (cron `17 */6 * * *`, UTC). The two runs never

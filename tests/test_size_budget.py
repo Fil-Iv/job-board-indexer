@@ -13,7 +13,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from jobindex.cli import load_demo_sources, main
 from jobindex.config import get_settings
 from jobindex.connectors.base import RawJob
-from jobindex.connectors.registry import Registry
+from jobindex.connectors.registry import Registry, default_registry
 from jobindex.coverage import ROOT
 from jobindex.crawler import CrawlResult, crawl_source, truncate_text
 from jobindex.http import HttpClient
@@ -322,6 +322,20 @@ def test_committed_demo_sources_file_is_valid() -> None:
     entries = load_demo_sources(ROOT / "coverage" / "demo_sources.yaml")
     assert len(entries) >= 50
     assert len({url for url, _ in entries}) == len(entries)
+
+
+def test_extra_demo_sources_are_valid_and_new() -> None:
+    """Boards added by scripts/check_boards.py: each resolves to a known platform and none
+    repeats a board of demo_sources.yaml."""
+    registry = default_registry()
+    coverage = ROOT / "coverage"
+    base = {registry.detect(url) for url, _ in load_demo_sources(coverage / "demo_sources.yaml")}
+    extra_file = coverage / "demo_sources_extra.yaml"
+    extra = [registry.detect(url) for url, _ in load_demo_sources(extra_file)]
+    assert extra
+    assert None not in extra
+    assert len(set(extra)) == len(extra)
+    assert not set(extra) & base
 
 
 async def test_prune_command_compacts_and_vacuums(

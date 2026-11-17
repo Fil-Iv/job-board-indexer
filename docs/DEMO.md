@@ -5,7 +5,8 @@ or `curl`; steps 10–11 need Docker and `make` (README, *Quick start*).
 
 **Live demo: <https://job-board-indexer.vercel.app>** (Vercel + Supabase Postgres,
 refreshed by GitHub Actions every 6 h; see [DEPLOY.md](DEPLOY.md), part A). The hosted demo
-indexes ~90 small boards with at most 200 postings each, so it stays inside the free
+indexes ~370 boards (~90 across all platforms + ~280 tech, cybersecurity and
+remote-first employers) with at most 1,000 postings each, so it stays inside the free
 tier ([size budget](OPERATIONS.md#size-budget)); the full audit ran on a local database
 with 43k postings ([CHALLENGE_CHECKLIST.md](CHALLENGE_CHECKLIST.md)).
 

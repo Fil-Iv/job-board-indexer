@@ -1,0 +1,6302 @@
+[
+ {
+  "platform": "personio",
+  "url": "https://1komma5grad.jobs.personio.de",
+  "board": "1komma5grad",
+  "status": "ok",
+  "jobs": 322
+ },
+ {
+  "platform": "workday",
+  "url": "https://accenture.wd103.myworkdayjobs.com/AccentureCareers",
+  "board": "accenture.wd103.myworkdayjobs.com/accenture/AccentureCareers",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://accenture.wd103.myworkdayjobs.com/wday/cxs/accenture/AccentureCareers/jobs"
+ },
+ {
+  "platform": "workday",
+  "url": "https://adobe.wd5.myworkdayjobs.com/external_experienced",
+  "board": "adobe.wd5.myworkdayjobs.com/adobe/external_experienced",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://adobe.wd5.myworkdayjobs.com/wday/cxs/adobe/external_experienced/jobs"
+ },
+ {
+  "platform": "workday",
+  "url": "https://akamai.wd1.myworkdayjobs.com/akamai",
+  "board": "akamai.wd1.myworkdayjobs.com/akamai/akamai",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://akamai.wd1.myworkdayjobs.com/wday/cxs/akamai/akamai/jobs"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://anyfin.teamtailor.com/jobs",
+  "board": "anyfin.teamtailor.com",
+  "status": "ok",
+  "jobs": 13
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/beat/",
+  "board": "beat",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/blueground/",
+  "board": "blueground",
+  "status": "ok",
+  "jobs": 6
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/bolt/",
+  "board": "bolt",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/cabify/",
+  "board": "cabify",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/commercetools/",
+  "board": "commercetools",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://apply.workable.com/api/v1/widget/accounts/commercetools?details=true"
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/cyberhaven/",
+  "board": "cyberhaven",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://apply.workable.com/api/v1/widget/accounts/cyberhaven?details=true"
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/deel/",
+  "board": "deel",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/doist/",
+  "board": "doist",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/epignosis/",
+  "board": "epignosis",
+  "status": "ok",
+  "jobs": 14
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/factorial/",
+  "board": "factorial",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/glovo/",
+  "board": "glovo",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/hackthebox/",
+  "board": "hackthebox",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://apply.workable.com/api/v1/widget/accounts/hackthebox?details=true"
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/hotjar/",
+  "board": "hotjar",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/huggingface/",
+  "board": "huggingface",
+  "status": "ok",
+  "jobs": 6
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/hyperproof/",
+  "board": "hyperproof",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/jobandtalent/",
+  "board": "jobandtalent",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/kaizengaming/",
+  "board": "kaizengaming",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://apply.workable.com/api/v1/widget/accounts/kaizengaming?details=true"
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/n8n/",
+  "board": "n8n",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/nexthink/",
+  "board": "nexthink",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/payhawk/",
+  "board": "payhawk",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/persado/",
+  "board": "persado",
+  "status": "ok",
+  "jobs": 1
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/phyre/",
+  "board": "phyre",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://apply.workable.com/api/v1/widget/accounts/phyre?details=true"
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/pipedrive/",
+  "board": "pipedrive",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://apply.workable.com/api/v1/widget/accounts/pipedrive?details=true"
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/remote/",
+  "board": "remote",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/scandit/",
+  "board": "scandit",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/skroutz/",
+  "board": "skroutz",
+  "status": "ok",
+  "jobs": 8
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/sumsub/",
+  "board": "sumsub",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://apply.workable.com/api/v1/widget/accounts/sumsub?details=true"
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/theorem/",
+  "board": "theorem",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/toptal/",
+  "board": "toptal",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/travelperk/",
+  "board": "travelperk",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/typeform/",
+  "board": "typeform",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/veriff/",
+  "board": "veriff",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/vivawallet/",
+  "board": "vivawallet",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/wallapop/",
+  "board": "wallapop",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://apply.workable.com/api/v1/widget/accounts/wallapop?details=true"
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/wise/",
+  "board": "wise",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/workable/",
+  "board": "workable",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://apply.workable.com/api/v1/widget/accounts/workable?details=true"
+ },
+ {
+  "platform": "workday",
+  "url": "https://autodesk.wd1.myworkdayjobs.com/Ext",
+  "board": "autodesk.wd1.myworkdayjobs.com/autodesk/Ext",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://autodesk.wd1.myworkdayjobs.com/wday/cxs/autodesk/Ext/jobs"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://automattic.breezy.hr",
+  "board": "automattic",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://automattic.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://backbase.recruitee.com",
+  "board": "backbase",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://backbase.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://balsamiq.breezy.hr",
+  "board": "balsamiq",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://balsamiq.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://basecamp.breezy.hr",
+  "board": "basecamp",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://basecamp.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://bird.recruitee.com",
+  "board": "bird",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://bird.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://bitpanda.recruitee.com",
+  "board": "bitpanda",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://bitpanda.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://blumira.breezy.hr",
+  "board": "blumira",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://blumira.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://brainly.recruitee.com",
+  "board": "brainly",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://brainly.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://bunq.recruitee.com",
+  "board": "bunq",
+  "status": "ok",
+  "jobs": 24
+ },
+ {
+  "platform": "personio",
+  "url": "https://celonis.jobs.personio.de",
+  "board": "celonis",
+  "status": "blocked",
+  "error": "robots.txt disallows https://celonis.jobs.personio.de/xml"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://channable.recruitee.com",
+  "board": "channable",
+  "status": "ok",
+  "jobs": 11
+ },
+ {
+  "platform": "breezy",
+  "url": "https://close.breezy.hr",
+  "board": "close",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://close.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "personio",
+  "url": "https://commercetools.jobs.personio.de",
+  "board": "commercetools",
+  "status": "blocked",
+  "error": "robots.txt disallows https://commercetools.jobs.personio.de/xml"
+ },
+ {
+  "platform": "personio",
+  "url": "https://contentful.jobs.personio.de",
+  "board": "contentful",
+  "status": "blocked",
+  "error": "robots.txt disallows https://contentful.jobs.personio.de/xml"
+ },
+ {
+  "platform": "workday",
+  "url": "https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers",
+  "board": "crowdstrike.wd5.myworkdayjobs.com/crowdstrike/crowdstrikecareers",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://crowdstrike.wd5.myworkdayjobs.com/wday/cxs/crowdstrike/crowdstrikecareers/jobs"
+ },
+ {
+  "platform": "workday",
+  "url": "https://cyberark.wd1.myworkdayjobs.com/CyberArk_External_Career_Site",
+  "board": "cyberark.wd1.myworkdayjobs.com/cyberark/CyberArk_External_Career_Site",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://cyberark.wd1.myworkdayjobs.com/wday/cxs/cyberark/CyberArk_External_Career_Site/jobs"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://cyberfox.breezy.hr",
+  "board": "cyberfox",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://cyberfox.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://cybermaxx.breezy.hr",
+  "board": "cybermaxx",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://cybermaxx.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "workday",
+  "url": "https://dell.wd1.myworkdayjobs.com/External",
+  "board": "dell.wd1.myworkdayjobs.com/dell/External",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://dell.wd1.myworkdayjobs.com/wday/cxs/dell/External/jobs"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://detectify.teamtailor.com/jobs",
+  "board": "detectify.teamtailor.com",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://docplanner.recruitee.com",
+  "board": "docplanner",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://docplanner.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "personio",
+  "url": "https://doctolib.jobs.personio.de",
+  "board": "doctolib",
+  "status": "blocked",
+  "error": "robots.txt disallows https://doctolib.jobs.personio.de/xml"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://doist.breezy.hr",
+  "board": "doist",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://doist.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://einride.teamtailor.com/jobs",
+  "board": "einride.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://einride.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "personio",
+  "url": "https://enpal.jobs.personio.de",
+  "board": "enpal",
+  "status": "blocked",
+  "error": "robots.txt disallows https://enpal.jobs.personio.de/xml"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://epidemicsound.teamtailor.com/jobs",
+  "board": "epidemicsound.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://epidemicsound.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://everstar.breezy.hr",
+  "board": "everstar",
+  "status": "ok",
+  "jobs": 396
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://eyeo.recruitee.com",
+  "board": "eyeo",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://eyeo.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "workday",
+  "url": "https://f5.wd5.myworkdayjobs.com/f5jobs",
+  "board": "f5.wd5.myworkdayjobs.com/f5/f5jobs",
+  "status": "error",
+  "error": "FetchError: HTTP 422 from https://f5.wd5.myworkdayjobs.com/wday/cxs/f5/f5jobs/jobs"
+ },
+ {
+  "platform": "personio",
+  "url": "https://finanzguru.jobs.personio.de",
+  "board": "finanzguru",
+  "status": "ok",
+  "jobs": 1
+ },
+ {
+  "platform": "personio",
+  "url": "https://flink.jobs.personio.de",
+  "board": "flink",
+  "status": "blocked",
+  "error": "robots.txt disallows https://flink.jobs.personio.de/xml"
+ },
+ {
+  "platform": "workday",
+  "url": "https://fortinet.wd1.myworkdayjobs.com/Fortinet",
+  "board": "fortinet.wd1.myworkdayjobs.com/fortinet/Fortinet",
+  "status": "error",
+  "error": "FetchError: HTTP 422 from https://fortinet.wd1.myworkdayjobs.com/wday/cxs/fortinet/Fortinet/jobs"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://fortnox.teamtailor.com/jobs",
+  "board": "fortnox.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://fortnox.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "personio",
+  "url": "https://forto.jobs.personio.de",
+  "board": "forto",
+  "status": "blocked",
+  "error": "robots.txt disallows https://forto.jobs.personio.de/xml"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://framer.recruitee.com",
+  "board": "framer",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://framer.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "personio",
+  "url": "https://getyourguide.jobs.personio.de",
+  "board": "getyourguide",
+  "status": "blocked",
+  "error": "robots.txt disallows https://getyourguide.jobs.personio.de/xml"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://ghost.breezy.hr",
+  "board": "ghost",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://ghost.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://h2greensteel.teamtailor.com/jobs",
+  "board": "h2greensteel.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://h2greensteel.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://hacknotice.breezy.hr",
+  "board": "hacknotice",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://hacknotice.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://helloprint.recruitee.com",
+  "board": "helloprint",
+  "status": "ok",
+  "jobs": 5
+ },
+ {
+  "platform": "personio",
+  "url": "https://holvi.jobs.personio.de",
+  "board": "holvi",
+  "status": "blocked",
+  "error": "robots.txt disallows https://holvi.jobs.personio.de/xml"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://hotjar.breezy.hr",
+  "board": "hotjar",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://hotjar.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "workday",
+  "url": "https://hpe.wd5.myworkdayjobs.com/Jobsathpe",
+  "board": "hpe.wd5.myworkdayjobs.com/hpe/Jobsathpe",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://hpe.wd5.myworkdayjobs.com/wday/cxs/hpe/Jobsathpe/jobs"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://huntress.breezy.hr",
+  "board": "huntress",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://huntress.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "workday",
+  "url": "https://intel.wd1.myworkdayjobs.com/External",
+  "board": "intel.wd1.myworkdayjobs.com/intel/External",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://intel.wd1.myworkdayjobs.com/wday/cxs/intel/External/jobs"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/abnormal",
+  "board": "abnormal",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/abnormal/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/abnormalsecurity",
+  "board": "abnormalsecurity",
+  "status": "ok",
+  "jobs": 87
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/acorns",
+  "board": "acorns",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/acorns/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/adyen",
+  "board": "adyen",
+  "status": "ok",
+  "jobs": 236
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/affirm",
+  "board": "affirm",
+  "status": "ok",
+  "jobs": 213
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/airbnb",
+  "board": "airbnb",
+  "status": "ok",
+  "jobs": 203
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/airtable",
+  "board": "airtable",
+  "status": "ok",
+  "jobs": 9
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/airwallex",
+  "board": "airwallex",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/airwallex/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/algolia",
+  "board": "algolia",
+  "status": "ok",
+  "jobs": 27
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/alloy",
+  "board": "alloy",
+  "status": "ok",
+  "jobs": 33
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/amplitude",
+  "board": "amplitude",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/amplitude/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/amplitudeinc",
+  "board": "amplitudeinc",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/amplitudeinc/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/anchorage",
+  "board": "anchorage",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/anchorage/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/andela",
+  "board": "andela",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/andela/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/andurilindustries",
+  "board": "andurilindustries",
+  "status": "ok",
+  "jobs": 2614
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/anthropic",
+  "board": "anthropic",
+  "status": "ok",
+  "jobs": 660
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/apiiro",
+  "board": "apiiro",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/apollographql",
+  "board": "apollographql",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/apollographql/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/appgate",
+  "board": "appgate",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/appgate/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/appliedintuition",
+  "board": "appliedintuition",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/appliedintuition/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/applovin",
+  "board": "applovin",
+  "status": "ok",
+  "jobs": 43
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/aquasec",
+  "board": "aquasec",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/aquasec/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/archer",
+  "board": "archer",
+  "status": "ok",
+  "jobs": 1
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/arcticwolf",
+  "board": "arcticwolf",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/arcticwolf/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/armis",
+  "board": "armis",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/armis/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/articulate",
+  "board": "articulate",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/articulate/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/asana",
+  "board": "asana",
+  "status": "ok",
+  "jobs": 114
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/astranis",
+  "board": "astranis",
+  "status": "ok",
+  "jobs": 182
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/atbay",
+  "board": "atbay",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/aurorainnovation",
+  "board": "aurorainnovation",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/aurorainnovation/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/automattic",
+  "board": "automattic",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/automattic/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/automox",
+  "board": "automox",
+  "status": "ok",
+  "jobs": 2
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/axonius",
+  "board": "axonius",
+  "status": "ok",
+  "jobs": 22
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/babbel",
+  "board": "babbel",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/babbel/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/backblaze",
+  "board": "backblaze",
+  "status": "ok",
+  "jobs": 33
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/benchling",
+  "board": "benchling",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/benchling/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/betterment",
+  "board": "betterment",
+  "status": "ok",
+  "jobs": 25
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/beyondidentity",
+  "board": "beyondidentity",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/beyondtrust",
+  "board": "beyondtrust",
+  "status": "ok",
+  "jobs": 40
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/bigid",
+  "board": "bigid",
+  "status": "ok",
+  "jobs": 10
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/bishopfox",
+  "board": "bishopfox",
+  "status": "ok",
+  "jobs": 11
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/bitgo",
+  "board": "bitgo",
+  "status": "ok",
+  "jobs": 59
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/bitso",
+  "board": "bitso",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/bitso/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/bitwarden",
+  "board": "bitwarden",
+  "status": "ok",
+  "jobs": 34
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/blackpointcyber",
+  "board": "blackpointcyber",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/blackpointcyber/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/blinkist",
+  "board": "blinkist",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/blinkist/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/block",
+  "board": "block",
+  "status": "ok",
+  "jobs": 188
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/bolt",
+  "board": "bolt",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/bolt/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/booking",
+  "board": "booking",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/booking/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/braze",
+  "board": "braze",
+  "status": "ok",
+  "jobs": 335
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/brex",
+  "board": "brex",
+  "status": "ok",
+  "jobs": 274
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/browserstack",
+  "board": "browserstack",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/browserstack/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/buffer",
+  "board": "buffer",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/buffer/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/bugcrowd",
+  "board": "bugcrowd",
+  "status": "ok",
+  "jobs": 13
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/calendly",
+  "board": "calendly",
+  "status": "ok",
+  "jobs": 5
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/canonical",
+  "board": "canonical",
+  "status": "ok",
+  "jobs": 316
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/canva",
+  "board": "canva",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/canva/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/carbonhealth",
+  "board": "carbonhealth",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/carbonhealth/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/carta",
+  "board": "carta",
+  "status": "ok",
+  "jobs": 78
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cashapp",
+  "board": "cashapp",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/cashapp/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/catawiki",
+  "board": "catawiki",
+  "status": "ok",
+  "jobs": 38
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/catonetworks",
+  "board": "catonetworks",
+  "status": "ok",
+  "jobs": 115
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/celonis",
+  "board": "celonis",
+  "status": "ok",
+  "jobs": 260
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/census",
+  "board": "census",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/census/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cerebras",
+  "board": "cerebras",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/cerebras/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/chainalysis",
+  "board": "chainalysis",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/chainalysis/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/chainguard",
+  "board": "chainguard",
+  "status": "ok",
+  "jobs": 111
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/characterai",
+  "board": "characterai",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/characterai/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/checkmarx",
+  "board": "checkmarx",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/checkmarx/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/checkoutcom",
+  "board": "checkoutcom",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/checkoutcom/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/checkpoint",
+  "board": "checkpoint",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/checkpoint/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/checkr",
+  "board": "checkr",
+  "status": "ok",
+  "jobs": 37
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/chime",
+  "board": "chime",
+  "status": "ok",
+  "jobs": 75
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/chronosphere",
+  "board": "chronosphere",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/chronosphere/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/circle",
+  "board": "circle",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/circle/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/circleci",
+  "board": "circleci",
+  "status": "ok",
+  "jobs": 15
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/claroty",
+  "board": "claroty",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/claroty/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cleo",
+  "board": "cleo",
+  "status": "ok",
+  "jobs": 12
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/clip",
+  "board": "clip",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/clip/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cloudflare",
+  "board": "cloudflare",
+  "status": "ok",
+  "jobs": 476
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cloudinary",
+  "board": "cloudinary",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/cloudinary/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cloudsmith",
+  "board": "cloudsmith",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/cloudsmith/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/coalition",
+  "board": "coalition",
+  "status": "ok",
+  "jobs": 48
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cockroachlabs",
+  "board": "cockroachlabs",
+  "status": "ok",
+  "jobs": 13
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cohesity",
+  "board": "cohesity",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/cohesity/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/coinbase",
+  "board": "coinbase",
+  "status": "ok",
+  "jobs": 260
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/color",
+  "board": "color",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/color/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/confluent",
+  "board": "confluent",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/confluent/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/consensys",
+  "board": "consensys",
+  "status": "ok",
+  "jobs": 12
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/contentful",
+  "board": "contentful",
+  "status": "ok",
+  "jobs": 51
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/contentsquare",
+  "board": "contentsquare",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/contentsquare/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/contrastsecurity",
+  "board": "contrastsecurity",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/contrastsecurity/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/corelight",
+  "board": "corelight",
+  "status": "ok",
+  "jobs": 13
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/coreweave",
+  "board": "coreweave",
+  "status": "ok",
+  "jobs": 307
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/couchbase",
+  "board": "couchbase",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/couchbase/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/coursera",
+  "board": "coursera",
+  "status": "ok",
+  "jobs": 39
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cribl",
+  "board": "cribl",
+  "status": "ok",
+  "jobs": 77
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/criteo",
+  "board": "criteo",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/criteo/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/crowdstrike",
+  "board": "crowdstrike",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/crowdstrike/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cruise",
+  "board": "cruise",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/cruise/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cultureamp",
+  "board": "cultureamp",
+  "status": "ok",
+  "jobs": 32
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/current",
+  "board": "current",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cycode",
+  "board": "cycode",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/cycode/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cyera",
+  "board": "cyera",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/cyera/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cymulate",
+  "board": "cymulate",
+  "status": "ok",
+  "jobs": 10
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/darktrace",
+  "board": "darktrace",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/darktrace/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/databricks",
+  "board": "databricks",
+  "status": "ok",
+  "jobs": 893
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/datadog",
+  "board": "datadog",
+  "status": "ok",
+  "jobs": 380
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/dave",
+  "board": "dave",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/dave/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/deezer",
+  "board": "deezer",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/deezer/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/deliveroo",
+  "board": "deliveroo",
+  "status": "ok",
+  "jobs": 181
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/deliveryhero",
+  "board": "deliveryhero",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/deliveryhero/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/depop",
+  "board": "depop",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/depop/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/devo",
+  "board": "devo",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/devo/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/digitalocean",
+  "board": "digitalocean",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/digitalocean/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/discord",
+  "board": "discord",
+  "status": "ok",
+  "jobs": 25
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/doist",
+  "board": "doist",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/doist/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/doordashusa",
+  "board": "doordashusa",
+  "status": "ok",
+  "jobs": 425
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/doximity",
+  "board": "doximity",
+  "status": "ok",
+  "jobs": 13
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/dragos",
+  "board": "dragos",
+  "status": "ok",
+  "jobs": 46
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/drata",
+  "board": "drata",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/drata/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/dremio",
+  "board": "dremio",
+  "status": "ok",
+  "jobs": 9
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/dropbox",
+  "board": "dropbox",
+  "status": "ok",
+  "jobs": 41
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/druva",
+  "board": "druva",
+  "status": "ok",
+  "jobs": 28
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/duckduckgo",
+  "board": "duckduckgo",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/duckduckgo/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/duolingo",
+  "board": "duolingo",
+  "status": "ok",
+  "jobs": 59
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/ecosia",
+  "board": "ecosia",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/ecosia/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/elastic",
+  "board": "elastic",
+  "status": "ok",
+  "jobs": 381
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/etsy",
+  "board": "etsy",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/etsy/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/exabeam",
+  "board": "exabeam",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/expel",
+  "board": "expel",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/extrahop",
+  "board": "extrahop",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/extrahop/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/faire",
+  "board": "faire",
+  "status": "ok",
+  "jobs": 71
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/fastly",
+  "board": "fastly",
+  "status": "ok",
+  "jobs": 49
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/figma",
+  "board": "figma",
+  "status": "ok",
+  "jobs": 140
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/fireblocks",
+  "board": "fireblocks",
+  "status": "ok",
+  "jobs": 23
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/fiverr",
+  "board": "fiverr",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/fiverr/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/fivetran",
+  "board": "fivetran",
+  "status": "ok",
+  "jobs": 188
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/flatironhealth",
+  "board": "flatironhealth",
+  "status": "ok",
+  "jobs": 23
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/flexport",
+  "board": "flexport",
+  "status": "ok",
+  "jobs": 205
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/flixbus",
+  "board": "flixbus",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/flixbus/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/forescout",
+  "board": "forescout",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/forescout/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/forter",
+  "board": "forter",
+  "status": "ok",
+  "jobs": 19
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/fortinet",
+  "board": "fortinet",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/fortinet/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/freshworks",
+  "board": "freshworks",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/freshworks/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/gemini",
+  "board": "gemini",
+  "status": "ok",
+  "jobs": 26
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/getir",
+  "board": "getir",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/getir/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/getyourguide",
+  "board": "getyourguide",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/gitbook",
+  "board": "gitbook",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/gitbook/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/gitguardian",
+  "board": "gitguardian",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/gitguardian/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/github",
+  "board": "github",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/github/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/gitlab",
+  "board": "gitlab",
+  "status": "ok",
+  "jobs": 254
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/gitpod",
+  "board": "gitpod",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/gitpod/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/glassdoor",
+  "board": "glassdoor",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/glassdoor/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/gocardless",
+  "board": "gocardless",
+  "status": "ok",
+  "jobs": 31
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/gopuff",
+  "board": "gopuff",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/gopuff/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/grafanalabs",
+  "board": "grafanalabs",
+  "status": "ok",
+  "jobs": 137
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/grammarly",
+  "board": "grammarly",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/grammarly/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/gravitational",
+  "board": "gravitational",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/gravitational/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/groq",
+  "board": "groq",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/groq/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/groww",
+  "board": "groww",
+  "status": "ok",
+  "jobs": 9
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/gusto",
+  "board": "gusto",
+  "status": "ok",
+  "jobs": 80
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/hackerone",
+  "board": "hackerone",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/hackerone/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/harness",
+  "board": "harness",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/harness/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/hashicorp",
+  "board": "hashicorp",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/hashicorp/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/headspace",
+  "board": "headspace",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/headspace/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/hellofresh",
+  "board": "hellofresh",
+  "status": "ok",
+  "jobs": 368
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/hightouch",
+  "board": "hightouch",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/hightouch/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/honeycomb",
+  "board": "honeycomb",
+  "status": "ok",
+  "jobs": 22
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/horizon3ai",
+  "board": "horizon3ai",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/horizon3ai/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/hotjar",
+  "board": "hotjar",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/hotjar/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/hubspot",
+  "board": "hubspot",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/hubspot/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/hubspotjobs",
+  "board": "hubspotjobs",
+  "status": "ok",
+  "jobs": 137
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/huntress",
+  "board": "huntress",
+  "status": "ok",
+  "jobs": 48
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/illumio",
+  "board": "illumio",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/illumio/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/imperva",
+  "board": "imperva",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/imperva/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/improbable",
+  "board": "improbable",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/improbable/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/indeed",
+  "board": "indeed",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/insitro",
+  "board": "insitro",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/insitro/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/instacart",
+  "board": "instacart",
+  "status": "ok",
+  "jobs": 83
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/intercom",
+  "board": "intercom",
+  "status": "ok",
+  "jobs": 115
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/island",
+  "board": "island",
+  "status": "ok",
+  "jobs": 18
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/jamf",
+  "board": "jamf",
+  "status": "ok",
+  "jobs": 27
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/jfrog",
+  "board": "jfrog",
+  "status": "ok",
+  "jobs": 75
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/jobyaviation",
+  "board": "jobyaviation",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/jobyaviation/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/jumpcloud",
+  "board": "jumpcloud",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/jumpcloud/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/kandji",
+  "board": "kandji",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/kandji/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/kavak",
+  "board": "kavak",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/kavak/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/keeper",
+  "board": "keeper",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/keeper/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/keyfactor",
+  "board": "keyfactor",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/keyfactor/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/khanacademy",
+  "board": "khanacademy",
+  "status": "ok",
+  "jobs": 3
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/klaviyo",
+  "board": "klaviyo",
+  "status": "ok",
+  "jobs": 141
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/knowbe4",
+  "board": "knowbe4",
+  "status": "ok",
+  "jobs": 55
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/kong",
+  "board": "kong",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/kong/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/kraken",
+  "board": "kraken",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/kraken/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/lacework",
+  "board": "lacework",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/lacework/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/lambda",
+  "board": "lambda",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/lambda/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/lattice",
+  "board": "lattice",
+  "status": "ok",
+  "jobs": 6
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/launchdarkly",
+  "board": "launchdarkly",
+  "status": "ok",
+  "jobs": 33
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/legitsecurity",
+  "board": "legitsecurity",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/legitsecurity/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/lendingclub",
+  "board": "lendingclub",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/lendingclub/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/lightricks",
+  "board": "lightricks",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/linktree",
+  "board": "linktree",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/linktree/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/lookout",
+  "board": "lookout",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/lucidmotors",
+  "board": "lucidmotors",
+  "status": "ok",
+  "jobs": 490
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/lyft",
+  "board": "lyft",
+  "status": "ok",
+  "jobs": 142
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/lyrahealth",
+  "board": "lyrahealth",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/lyrahealth/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/mapbox",
+  "board": "mapbox",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/mapbox/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/marqeta",
+  "board": "marqeta",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/marqeta/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/masterclass",
+  "board": "masterclass",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/materialize",
+  "board": "materialize",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/materialize/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/mattermost",
+  "board": "mattermost",
+  "status": "ok",
+  "jobs": 10
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/menlosecurity",
+  "board": "menlosecurity",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/menlosecurity/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/mercadolibre",
+  "board": "mercadolibre",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/mercadolibre/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/messagebird",
+  "board": "messagebird",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/messagebird/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/mimecast",
+  "board": "mimecast",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/mimecast/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/miro",
+  "board": "miro",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/miro/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/mistralai",
+  "board": "mistralai",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/mistralai/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/mixpanel",
+  "board": "mixpanel",
+  "status": "ok",
+  "jobs": 39
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/mollie",
+  "board": "mollie",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/mollie/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/mondaycom",
+  "board": "mondaycom",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/mondaycom/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/mongodb",
+  "board": "mongodb",
+  "status": "ok",
+  "jobs": 398
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/monzo",
+  "board": "monzo",
+  "status": "ok",
+  "jobs": 59
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/mozilla",
+  "board": "mozilla",
+  "status": "ok",
+  "jobs": 112
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/multiverse",
+  "board": "multiverse",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/multiverse/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/n26",
+  "board": "n26",
+  "status": "ok",
+  "jobs": 28
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/neo4j",
+  "board": "neo4j",
+  "status": "ok",
+  "jobs": 63
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/nerdwallet",
+  "board": "nerdwallet",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/nerdwallet/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/netlify",
+  "board": "netlify",
+  "status": "ok",
+  "jobs": 5
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/netskope",
+  "board": "netskope",
+  "status": "ok",
+  "jobs": 124
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/newrelic",
+  "board": "newrelic",
+  "status": "ok",
+  "jobs": 44
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/nextdoor",
+  "board": "nextdoor",
+  "status": "ok",
+  "jobs": 21
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/niantic",
+  "board": "niantic",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/niantic/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/nightfall",
+  "board": "nightfall",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/nightfall/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/nonamesecurity",
+  "board": "nonamesecurity",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/nonamesecurity/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/nozominetworks",
+  "board": "nozominetworks",
+  "status": "ok",
+  "jobs": 28
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/nubank",
+  "board": "nubank",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/nuro",
+  "board": "nuro",
+  "status": "ok",
+  "jobs": 102
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/observeinc",
+  "board": "observeinc",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/observeinc/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/octopusenergy",
+  "board": "octopusenergy",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/octopusenergy/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/okta",
+  "board": "okta",
+  "status": "ok",
+  "jobs": 358
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/omadahealth",
+  "board": "omadahealth",
+  "status": "ok",
+  "jobs": 24
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/omio",
+  "board": "omio",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/omio/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/onetrust",
+  "board": "onetrust",
+  "status": "ok",
+  "jobs": 85
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/onfido",
+  "board": "onfido",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/onfido/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/orcasecurity",
+  "board": "orcasecurity",
+  "status": "ok",
+  "jobs": 10
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/oscar",
+  "board": "oscar",
+  "status": "ok",
+  "jobs": 178
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/outbrain",
+  "board": "outbrain",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/outbrain/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/paddle",
+  "board": "paddle",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/paddle/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/pagerduty",
+  "board": "pagerduty",
+  "status": "ok",
+  "jobs": 46
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/paloaltonetworks",
+  "board": "paloaltonetworks",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/paloaltonetworks/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/pantherlabs",
+  "board": "pantherlabs",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/pantherlabs/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/paxos",
+  "board": "paxos",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/paxos/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/payoneer",
+  "board": "payoneer",
+  "status": "ok",
+  "jobs": 102
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/peloton",
+  "board": "peloton",
+  "status": "ok",
+  "jobs": 36
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/pentera",
+  "board": "pentera",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/pentera/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/persona",
+  "board": "persona",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/persona/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/pinterest",
+  "board": "pinterest",
+  "status": "ok",
+  "jobs": 170
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/plaid",
+  "board": "plaid",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/plaid/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/planetlabs",
+  "board": "planetlabs",
+  "status": "ok",
+  "jobs": 116
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/planetscale",
+  "board": "planetscale",
+  "status": "ok",
+  "jobs": 12
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/pleo",
+  "board": "pleo",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/pleo/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/posthog",
+  "board": "posthog",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/posthog/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/postman",
+  "board": "postman",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/postman/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/proofpoint",
+  "board": "proofpoint",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/proofpoint/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/quizlet",
+  "board": "quizlet",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/quizlet/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/rapid7",
+  "board": "rapid7",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/rapid7/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/rappi",
+  "board": "rappi",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/rappi/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/razorpay",
+  "board": "razorpay",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/razorpay/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/recordedfuture",
+  "board": "recordedfuture",
+  "status": "ok",
+  "jobs": 51
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/recursionpharmaceuticals",
+  "board": "recursionpharmaceuticals",
+  "status": "ok",
+  "jobs": 18
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/redcanary",
+  "board": "redcanary",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/redcanary/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/reddit",
+  "board": "reddit",
+  "status": "ok",
+  "jobs": 149
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/redis",
+  "board": "redis",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/redis/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/relativity",
+  "board": "relativity",
+  "status": "ok",
+  "jobs": 399
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/remotecom",
+  "board": "remotecom",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/retool",
+  "board": "retool",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/retool/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/riotgames",
+  "board": "riotgames",
+  "status": "ok",
+  "jobs": 201
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/ripple",
+  "board": "ripple",
+  "status": "ok",
+  "jobs": 111
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/riskified",
+  "board": "riskified",
+  "status": "ok",
+  "jobs": 42
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/rivian",
+  "board": "rivian",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/rivian/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/robinhood",
+  "board": "robinhood",
+  "status": "ok",
+  "jobs": 166
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/roblox",
+  "board": "roblox",
+  "status": "ok",
+  "jobs": 267
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/rubrik",
+  "board": "rubrik",
+  "status": "ok",
+  "jobs": 190
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/runwayml",
+  "board": "runwayml",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/runwayml/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/safetyculture",
+  "board": "safetyculture",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/safetyculture/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/saltsecurity",
+  "board": "saltsecurity",
+  "status": "ok",
+  "jobs": 10
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sambanova",
+  "board": "sambanova",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/sambanova/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/samsara",
+  "board": "samsara",
+  "status": "ok",
+  "jobs": 313
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sardine",
+  "board": "sardine",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/sardine/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/scaleai",
+  "board": "scaleai",
+  "status": "ok",
+  "jobs": 167
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/scopely",
+  "board": "scopely",
+  "status": "ok",
+  "jobs": 172
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/securiti",
+  "board": "securiti",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/securiti/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/securonix",
+  "board": "securonix",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/securonix/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/segment",
+  "board": "segment",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/segment/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/semgrep",
+  "board": "semgrep",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/semgrep/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sendgrid",
+  "board": "sendgrid",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/sendgrid/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sentinellabs",
+  "board": "sentinellabs",
+  "status": "ok",
+  "jobs": 254
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sentinelone",
+  "board": "sentinelone",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/sentinelone/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sentry",
+  "board": "sentry",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/sentry/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sift",
+  "board": "sift",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/sift/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sigmacomputing",
+  "board": "sigmacomputing",
+  "status": "ok",
+  "jobs": 82
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/silverfort",
+  "board": "silverfort",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/silverfort/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/similarweb",
+  "board": "similarweb",
+  "status": "ok",
+  "jobs": 63
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/singlestore",
+  "board": "singlestore",
+  "status": "ok",
+  "jobs": 39
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/skydio",
+  "board": "skydio",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/skydio/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/skyscanner",
+  "board": "skyscanner",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/skyscanner/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/smartbear",
+  "board": "smartbear",
+  "status": "ok",
+  "jobs": 11
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/snyk",
+  "board": "snyk",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/snyk/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/socure",
+  "board": "socure",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/socure/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sofi",
+  "board": "sofi",
+  "status": "ok",
+  "jobs": 49
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sonatype",
+  "board": "sonatype",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/sonatype/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sophos",
+  "board": "sophos",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/sophos/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sourcegraph",
+  "board": "sourcegraph",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/sourcegraph/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/spacex",
+  "board": "spacex",
+  "status": "ok",
+  "jobs": 2796
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/spotify",
+  "board": "spotify",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/spotify/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/springhealth",
+  "board": "springhealth",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/springhealth/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/squarespace",
+  "board": "squarespace",
+  "status": "ok",
+  "jobs": 17
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/squareup",
+  "board": "squareup",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/squareup/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/stabilityai",
+  "board": "stabilityai",
+  "status": "ok",
+  "jobs": 3
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/staffbase",
+  "board": "staffbase",
+  "status": "ok",
+  "jobs": 31
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/starburst",
+  "board": "starburst",
+  "status": "ok",
+  "jobs": 33
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/starlingbank",
+  "board": "starlingbank",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/starlingbank/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/stash",
+  "board": "stash",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/stash/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/stripe",
+  "board": "stripe",
+  "status": "ok",
+  "jobs": 791
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/strongdm",
+  "board": "strongdm",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/strongdm/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sumologic",
+  "board": "sumologic",
+  "status": "ok",
+  "jobs": 25
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sumup",
+  "board": "sumup",
+  "status": "ok",
+  "jobs": 317
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/supabase",
+  "board": "supabase",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/supabase/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/synack",
+  "board": "synack",
+  "status": "ok",
+  "jobs": 9
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/sysdig",
+  "board": "sysdig",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/sysdig/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/taboola",
+  "board": "taboola",
+  "status": "ok",
+  "jobs": 65
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/tailscale",
+  "board": "tailscale",
+  "status": "ok",
+  "jobs": 76
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/tanium",
+  "board": "tanium",
+  "status": "ok",
+  "jobs": 66
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/taxfix",
+  "board": "taxfix",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/taxfix/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/temporaltechnologies",
+  "board": "temporaltechnologies",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/temporaltechnologies/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/tenable",
+  "board": "tenable",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/tenable/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/thoughtmachine",
+  "board": "thoughtmachine",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/thoughtmachine/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/thoughtspot",
+  "board": "thoughtspot",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/thoughtspot/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/thumbtack",
+  "board": "thumbtack",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/thumbtack/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/tide",
+  "board": "tide",
+  "status": "ok",
+  "jobs": 81
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/timescale",
+  "board": "timescale",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/timescale/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/tines",
+  "board": "tines",
+  "status": "ok",
+  "jobs": 31
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/toast",
+  "board": "toast",
+  "status": "ok",
+  "jobs": 319
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/togetherai",
+  "board": "togetherai",
+  "status": "ok",
+  "jobs": 74
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/toptal",
+  "board": "toptal",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/toptal/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/torq",
+  "board": "torq",
+  "status": "ok",
+  "jobs": 26
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/trailofbits",
+  "board": "trailofbits",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/trailofbits/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/transmitsecurity",
+  "board": "transmitsecurity",
+  "status": "ok",
+  "jobs": 11
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/truelayer",
+  "board": "truelayer",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/trustpilot",
+  "board": "trustpilot",
+  "status": "ok",
+  "jobs": 29
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/twilio",
+  "board": "twilio",
+  "status": "ok",
+  "jobs": 109
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/twitch",
+  "board": "twitch",
+  "status": "ok",
+  "jobs": 51
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/uber",
+  "board": "uber",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/uber/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/udemy",
+  "board": "udemy",
+  "status": "ok",
+  "jobs": 2
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/upstart",
+  "board": "upstart",
+  "status": "ok",
+  "jobs": 75
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/upwork",
+  "board": "upwork",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/vanta",
+  "board": "vanta",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/vanta/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/varo",
+  "board": "varo",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/varo/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/varonis",
+  "board": "varonis",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/varonis/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/vectra",
+  "board": "vectra",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/vectra/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/venafi",
+  "board": "venafi",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/venafi/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/veracode",
+  "board": "veracode",
+  "status": "ok",
+  "jobs": 11
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/vercel",
+  "board": "vercel",
+  "status": "ok",
+  "jobs": 87
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/verkada",
+  "board": "verkada",
+  "status": "ok",
+  "jobs": 346
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/wandb",
+  "board": "wandb",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/wandb/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/waymo",
+  "board": "waymo",
+  "status": "ok",
+  "jobs": 370
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/wealthsimple",
+  "board": "wealthsimple",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/wealthsimple/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/webflow",
+  "board": "webflow",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/wefox",
+  "board": "wefox",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/wefox/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/weightsandbiases",
+  "board": "weightsandbiases",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/weightsandbiases/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/wikimedia",
+  "board": "wikimedia",
+  "status": "ok",
+  "jobs": 15
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/wizinc",
+  "board": "wizinc",
+  "status": "ok",
+  "jobs": 106
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/wolt",
+  "board": "wolt",
+  "status": "ok",
+  "jobs": 183
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/xai",
+  "board": "xai",
+  "status": "ok",
+  "jobs": 302
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/yugabyte",
+  "board": "yugabyte",
+  "status": "ok",
+  "jobs": 16
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/zalando",
+  "board": "zalando",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/zalando/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/zapier",
+  "board": "zapier",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/zapier/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/zendesk",
+  "board": "zendesk",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/zendesk/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/zimperium",
+  "board": "zimperium",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/zimperium/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/ziprecruiter",
+  "board": "ziprecruiter",
+  "status": "ok",
+  "jobs": 55
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/zocdoc",
+  "board": "zocdoc",
+  "status": "ok",
+  "jobs": 67
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/zopa",
+  "board": "zopa",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/zopa/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/zscaler",
+  "board": "zscaler",
+  "status": "ok",
+  "jobs": 375
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/1password",
+  "board": "1password",
+  "status": "ok",
+  "jobs": 78
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/1x",
+  "board": "1x",
+  "status": "ok",
+  "jobs": 100
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/abridge",
+  "board": "abridge",
+  "status": "ok",
+  "jobs": 23
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/ada",
+  "board": "ada",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/ada?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/aikido",
+  "board": "aikido",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/aikido?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/airbyte",
+  "board": "airbyte",
+  "status": "ok",
+  "jobs": 14
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/aleph-alpha",
+  "board": "aleph-alpha",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/aleph-alpha?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/anthropic",
+  "board": "anthropic",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/anthropic?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/anysphere",
+  "board": "anysphere",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/anysphere?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/ashby",
+  "board": "ashby",
+  "status": "ok",
+  "jobs": 78
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/assemblyai",
+  "board": "assemblyai",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/assemblyai?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/attio",
+  "board": "attio",
+  "status": "ok",
+  "jobs": 23
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/baseten",
+  "board": "baseten",
+  "status": "ok",
+  "jobs": 103
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/black-forest-labs",
+  "board": "black-forest-labs",
+  "status": "ok",
+  "jobs": 17
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/brex",
+  "board": "brex",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/brex?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/browserbase",
+  "board": "browserbase",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/browserbase?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/cal",
+  "board": "cal",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/cal?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/captions",
+  "board": "captions",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/captions?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/cartesia",
+  "board": "cartesia",
+  "status": "ok",
+  "jobs": 23
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/chainguard",
+  "board": "chainguard",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/chainguard?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/character",
+  "board": "character",
+  "status": "ok",
+  "jobs": 13
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/clerk",
+  "board": "clerk",
+  "status": "ok",
+  "jobs": 2
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/clickhouse",
+  "board": "clickhouse",
+  "status": "ok",
+  "jobs": 205
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/coder",
+  "board": "coder",
+  "status": "ok",
+  "jobs": 27
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/cognition",
+  "board": "cognition",
+  "status": "ok",
+  "jobs": 112
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/cohere",
+  "board": "cohere",
+  "status": "ok",
+  "jobs": 127
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/convex",
+  "board": "convex",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/convex?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/cursor",
+  "board": "cursor",
+  "status": "ok",
+  "jobs": 95
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/cyera",
+  "board": "cyera",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/cyera?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/dagster",
+  "board": "dagster",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/dagster?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/dagster-labs",
+  "board": "dagster-labs",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/dagster-labs?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/daytona",
+  "board": "daytona",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/daytona?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/dbtlabs",
+  "board": "dbtlabs",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/dbtlabs?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/decagon",
+  "board": "decagon",
+  "status": "ok",
+  "jobs": 113
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/deel",
+  "board": "deel",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/deepgram",
+  "board": "deepgram",
+  "status": "ok",
+  "jobs": 56
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/descope",
+  "board": "descope",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/descope?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/descript",
+  "board": "descript",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/descript?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/doppler",
+  "board": "doppler",
+  "status": "ok",
+  "jobs": 6
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/drata",
+  "board": "drata",
+  "status": "ok",
+  "jobs": 23
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/dust",
+  "board": "dust",
+  "status": "ok",
+  "jobs": 34
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/e2b",
+  "board": "e2b",
+  "status": "ok",
+  "jobs": 13
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/elevenlabs",
+  "board": "elevenlabs",
+  "status": "ok",
+  "jobs": 125
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/endor",
+  "board": "endor",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/endor?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/endor-labs",
+  "board": "endor-labs",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/endor-labs?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/eudia",
+  "board": "eudia",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/eudia?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/faire",
+  "board": "faire",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/faire?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/fal-ai",
+  "board": "fal-ai",
+  "status": "ok",
+  "jobs": 48
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/figma",
+  "board": "figma",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/figma?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/figure",
+  "board": "figure",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/fireworks-ai",
+  "board": "fireworks-ai",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/fireworks-ai?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/fly",
+  "board": "fly",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/fly?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/framer",
+  "board": "framer",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/framer?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/gamma",
+  "board": "gamma",
+  "status": "ok",
+  "jobs": 20
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/glean",
+  "board": "glean",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/glean?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/grafana",
+  "board": "grafana",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/grafana?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/granola",
+  "board": "granola",
+  "status": "ok",
+  "jobs": 20
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/gusto",
+  "board": "gusto",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/gusto?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/harvey",
+  "board": "harvey",
+  "status": "ok",
+  "jobs": 387
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/hebbia",
+  "board": "hebbia",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/hebbia?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/helsing",
+  "board": "helsing",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/helsing?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/hex",
+  "board": "hex",
+  "status": "ok",
+  "jobs": 39
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/hightouch",
+  "board": "hightouch",
+  "status": "ok",
+  "jobs": 1
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/hugging-face",
+  "board": "hugging-face",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/hugging-face?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/huggingface",
+  "board": "huggingface",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/huggingface?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/hume",
+  "board": "hume",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/hume?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/ideogram",
+  "board": "ideogram",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/imbue",
+  "board": "imbue",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/imbue?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/infisical",
+  "board": "infisical",
+  "status": "ok",
+  "jobs": 12
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/inngest",
+  "board": "inngest",
+  "status": "ok",
+  "jobs": 2
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/ironclad",
+  "board": "ironclad",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/ironclad?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/jasper",
+  "board": "jasper",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/jasper?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/jit",
+  "board": "jit",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/jit?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/kalshi",
+  "board": "kalshi",
+  "status": "ok",
+  "jobs": 43
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/kestra",
+  "board": "kestra",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/krea",
+  "board": "krea",
+  "status": "ok",
+  "jobs": 14
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/lambda",
+  "board": "lambda",
+  "status": "ok",
+  "jobs": 96
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/langchain",
+  "board": "langchain",
+  "status": "ok",
+  "jobs": 103
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/langfuse",
+  "board": "langfuse",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/lattice",
+  "board": "lattice",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/lattice?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/linear",
+  "board": "linear",
+  "status": "ok",
+  "jobs": 33
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/liveblocks",
+  "board": "liveblocks",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/liveblocks?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/lovable",
+  "board": "lovable",
+  "status": "ok",
+  "jobs": 77
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/luma",
+  "board": "luma",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/luma?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/magic",
+  "board": "magic",
+  "status": "ok",
+  "jobs": 9
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/material",
+  "board": "material",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/material?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/materialsecurity",
+  "board": "materialsecurity",
+  "status": "ok",
+  "jobs": 5
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/mem",
+  "board": "mem",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/mem?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/mercury",
+  "board": "mercury",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/mistral",
+  "board": "mistral",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/mistral?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/modal",
+  "board": "modal",
+  "status": "ok",
+  "jobs": 50
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/modal-labs",
+  "board": "modal-labs",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/modal-labs?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/motherduck",
+  "board": "motherduck",
+  "status": "ok",
+  "jobs": 6
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/multiverse",
+  "board": "multiverse",
+  "status": "ok",
+  "jobs": 25
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/n8n",
+  "board": "n8n",
+  "status": "ok",
+  "jobs": 60
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/neon",
+  "board": "neon",
+  "status": "ok",
+  "jobs": 1
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/notion",
+  "board": "notion",
+  "status": "ok",
+  "jobs": 164
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/observable",
+  "board": "observable",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/observable?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/oligo",
+  "board": "oligo",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/oneleet",
+  "board": "oneleet",
+  "status": "ok",
+  "jobs": 11
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/openai",
+  "board": "openai",
+  "status": "ok",
+  "jobs": 839
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/openai-careers",
+  "board": "openai-careers",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/openai-careers?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/oyster",
+  "board": "oyster",
+  "status": "ok",
+  "jobs": 21
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/parloa",
+  "board": "parloa",
+  "status": "ok",
+  "jobs": 45
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/pennylane",
+  "board": "pennylane",
+  "status": "ok",
+  "jobs": 212
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/perplexity",
+  "board": "perplexity",
+  "status": "ok",
+  "jobs": 148
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/photoroom",
+  "board": "photoroom",
+  "status": "ok",
+  "jobs": 7
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/physicalintelligence",
+  "board": "physicalintelligence",
+  "status": "ok",
+  "jobs": 48
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/pika",
+  "board": "pika",
+  "status": "ok",
+  "jobs": 19
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/pinecone",
+  "board": "pinecone",
+  "status": "ok",
+  "jobs": 6
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/pitch",
+  "board": "pitch",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/pitch?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/plaid",
+  "board": "plaid",
+  "status": "ok",
+  "jobs": 141
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/plain",
+  "board": "plain",
+  "status": "ok",
+  "jobs": 5
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/polymarket",
+  "board": "polymarket",
+  "status": "ok",
+  "jobs": 33
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/poolside",
+  "board": "poolside",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/posthog",
+  "board": "posthog",
+  "status": "ok",
+  "jobs": 10
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/prefect",
+  "board": "prefect",
+  "status": "ok",
+  "jobs": 5
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/qdrant",
+  "board": "qdrant",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/qdrant?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/railway",
+  "board": "railway",
+  "status": "ok",
+  "jobs": 7
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/ramp",
+  "board": "ramp",
+  "status": "ok",
+  "jobs": 180
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/raycast",
+  "board": "raycast",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/reflex",
+  "board": "reflex",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/reflex?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/reka",
+  "board": "reka",
+  "status": "ok",
+  "jobs": 3
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/remote",
+  "board": "remote",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/remote?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/render",
+  "board": "render",
+  "status": "ok",
+  "jobs": 36
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/replicate",
+  "board": "replicate",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/replicate?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/replit",
+  "board": "replit",
+  "status": "ok",
+  "jobs": 32
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/resend",
+  "board": "resend",
+  "status": "ok",
+  "jobs": 13
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/retool",
+  "board": "retool",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/retool?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/rewind",
+  "board": "rewind",
+  "status": "ok",
+  "jobs": 3
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/rippling",
+  "board": "rippling",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/rippling?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/runway",
+  "board": "runway",
+  "status": "ok",
+  "jobs": 3
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/scale",
+  "board": "scale",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/scale?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/secureframe",
+  "board": "secureframe",
+  "status": "ok",
+  "jobs": 8
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/semgrep",
+  "board": "semgrep",
+  "status": "ok",
+  "jobs": 16
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/sentry",
+  "board": "sentry",
+  "status": "ok",
+  "jobs": 39
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/sesame",
+  "board": "sesame",
+  "status": "ok",
+  "jobs": 16
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/sierra",
+  "board": "sierra",
+  "status": "ok",
+  "jobs": 197
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/skild",
+  "board": "skild",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/skild?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/snorkel",
+  "board": "snorkel",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/snorkel?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/snyk",
+  "board": "snyk",
+  "status": "ok",
+  "jobs": 39
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/socket",
+  "board": "socket",
+  "status": "ok",
+  "jobs": 23
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/spellbook",
+  "board": "spellbook",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/spellbook?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/sprinto",
+  "board": "sprinto",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/sprinto?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/stytch",
+  "board": "stytch",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/sublime",
+  "board": "sublime",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/sublime?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/sublime-security",
+  "board": "sublime-security",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/suno",
+  "board": "suno",
+  "status": "ok",
+  "jobs": 62
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/supabase",
+  "board": "supabase",
+  "status": "ok",
+  "jobs": 77
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/superhuman",
+  "board": "superhuman",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/superhuman?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/swan",
+  "board": "swan",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/synthesia",
+  "board": "synthesia",
+  "status": "ok",
+  "jobs": 29
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/tailscale",
+  "board": "tailscale",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/tailscale?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/tavus",
+  "board": "tavus",
+  "status": "ok",
+  "jobs": 19
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/teleport",
+  "board": "teleport",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/teleport?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/temporal",
+  "board": "temporal",
+  "status": "ok",
+  "jobs": 84
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/thoropass",
+  "board": "thoropass",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/thoropass?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/tines",
+  "board": "tines",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/tines?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/tinybird",
+  "board": "tinybird",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/tinybird?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/tldraw",
+  "board": "tldraw",
+  "status": "ok",
+  "jobs": 1
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/together",
+  "board": "together",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/together?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/tome",
+  "board": "tome",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/tome?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/trigger",
+  "board": "trigger",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/trigger?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/turso",
+  "board": "turso",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/turso?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/vanta",
+  "board": "vanta",
+  "status": "ok",
+  "jobs": 79
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/vapi",
+  "board": "vapi",
+  "status": "ok",
+  "jobs": 5
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/vercel",
+  "board": "vercel",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/warp",
+  "board": "warp",
+  "status": "ok",
+  "jobs": 17
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/wealthsimple",
+  "board": "wealthsimple",
+  "status": "ok",
+  "jobs": 42
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/weaviate",
+  "board": "weaviate",
+  "status": "ok",
+  "jobs": 2
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/whatnot",
+  "board": "whatnot",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/whatnot?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/wiz",
+  "board": "wiz",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/wiz-inc",
+  "board": "wiz-inc",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/wiz-inc?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/workos",
+  "board": "workos",
+  "status": "ok",
+  "jobs": 27
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/writer",
+  "board": "writer",
+  "status": "ok",
+  "jobs": 46
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/xata",
+  "board": "xata",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/xata?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/zapier",
+  "board": "zapier",
+  "status": "ok",
+  "jobs": 10
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/zed",
+  "board": "zed",
+  "status": "ok",
+  "jobs": 2
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/zip",
+  "board": "zip",
+  "status": "ok",
+  "jobs": 98
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/1password",
+  "board": "1password",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/1password?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/aircall",
+  "board": "aircall",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/aircall?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/alan",
+  "board": "alan",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/alan?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/anduril",
+  "board": "anduril",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/anduril?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/anyscale",
+  "board": "anyscale",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/anyscale?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/arcticwolf",
+  "board": "arcticwolf",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/arcticwolf?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/atlassian",
+  "board": "atlassian",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/atlassian?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/attentive",
+  "board": "attentive",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/attentive?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/backmarket",
+  "board": "backmarket",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/backmarket?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/binance",
+  "board": "binance",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/bishopfox",
+  "board": "bishopfox",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/bishopfox?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/bitsight",
+  "board": "bitsight",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/bitsight?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/blablacar",
+  "board": "blablacar",
+  "status": "ok",
+  "jobs": 6
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/blackkite",
+  "board": "blackkite",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/blackkite?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/blumira",
+  "board": "blumira",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/blumira?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/brightwheel",
+  "board": "brightwheel",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/censys",
+  "board": "censys",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/censys?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/cloudflare",
+  "board": "cloudflare",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/cloudflare?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/coalfire",
+  "board": "coalfire",
+  "status": "ok",
+  "jobs": 17
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/cobalt",
+  "board": "cobalt",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/cobalt?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/cohere",
+  "board": "cohere",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/cohere?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/contentsquare",
+  "board": "contentsquare",
+  "status": "ok",
+  "jobs": 28
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/cred",
+  "board": "cred",
+  "status": "ok",
+  "jobs": 15
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/crowdstrike",
+  "board": "crowdstrike",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/crowdstrike?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/cyberark",
+  "board": "cyberark",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/cyberark?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/cybereason",
+  "board": "cybereason",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/cybereason?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/dashlane",
+  "board": "dashlane",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/dashlane?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/dataiku",
+  "board": "dataiku",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/dataiku?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/deepl",
+  "board": "deepl",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/deepl?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/depop",
+  "board": "depop",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/depop?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/detectify",
+  "board": "detectify",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/detectify?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/doctolib",
+  "board": "doctolib",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/doctolib?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/eventbrite",
+  "board": "eventbrite",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/eventbrite?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/figure",
+  "board": "figure",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/figure?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/getir",
+  "board": "getir",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/getir?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/gocardless",
+  "board": "gocardless",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/gocardless?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/greynoise",
+  "board": "greynoise",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/greynoise?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/guidepointsecurity",
+  "board": "guidepointsecurity",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/guidepointsecurity?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/hackthebox",
+  "board": "hackthebox",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/hackthebox?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/highspot",
+  "board": "highspot",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/huntress",
+  "board": "huntress",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/huntress?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/immersivelabs",
+  "board": "immersivelabs",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/immersivelabs?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/intigriti",
+  "board": "intigriti",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/intigriti?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/jahez",
+  "board": "jahez",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/jahez?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/jumpcloud",
+  "board": "jumpcloud",
+  "status": "ok",
+  "jobs": 32
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/jumptrading",
+  "board": "jumptrading",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/jumptrading?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/kraken",
+  "board": "kraken",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/ledger",
+  "board": "ledger",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/ledger?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/lime",
+  "board": "lime",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/lime?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/malt",
+  "board": "malt",
+  "status": "ok",
+  "jobs": 25
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/mandiant",
+  "board": "mandiant",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/mandiant?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/matterport",
+  "board": "matterport",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/matterport?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/meesho",
+  "board": "meesho",
+  "status": "ok",
+  "jobs": 47
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/mirakl",
+  "board": "mirakl",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/mirakl?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/mistral",
+  "board": "mistral",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/mistral?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/monzo",
+  "board": "monzo",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/monzo?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/nccgroup",
+  "board": "nccgroup",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/nccgroup?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/neo4j",
+  "board": "neo4j",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/neo4j?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/netflix",
+  "board": "netflix",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/netflix?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/netlify",
+  "board": "netlify",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/netlify?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/nextdoor",
+  "board": "nextdoor",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/nextdoor?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/nordsecurity",
+  "board": "nordsecurity",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/nordsecurity?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/optiv",
+  "board": "optiv",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/optiv?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/ornikar",
+  "board": "ornikar",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/ornikar?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/outreach",
+  "board": "outreach",
+  "status": "ok",
+  "jobs": 14
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/palantir",
+  "board": "palantir",
+  "status": "ok",
+  "jobs": 303
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/palo-alto-networks",
+  "board": "palo-alto-networks",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/palo-alto-networks?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/payfit",
+  "board": "payfit",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/payfit?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/paytm",
+  "board": "paytm",
+  "status": "ok",
+  "jobs": 200
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/pigment",
+  "board": "pigment",
+  "status": "ok",
+  "jobs": 122
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/plaid",
+  "board": "plaid",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/plaid?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/proton",
+  "board": "proton",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/proton?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/qonto",
+  "board": "qonto",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/quora",
+  "board": "quora",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/quora?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/rapid7",
+  "board": "rapid7",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/rapid7?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/razorpay",
+  "board": "razorpay",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/razorpay?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/recordedfuture",
+  "board": "recordedfuture",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/recordedfuture?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/redcanary",
+  "board": "redcanary",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/redcanary?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/revolut",
+  "board": "revolut",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/revolut?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/rigetti",
+  "board": "rigetti",
+  "status": "ok",
+  "jobs": 15
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/rover",
+  "board": "rover",
+  "status": "ok",
+  "jobs": 23
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/runzero",
+  "board": "runzero",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/runzero?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/scaleai",
+  "board": "scaleai",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/scaleai?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/secureworks",
+  "board": "secureworks",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/secureworks?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/securityscorecard",
+  "board": "securityscorecard",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/securityscorecard?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/sentinellabs",
+  "board": "sentinellabs",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/sentinellabs?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/sentinelone",
+  "board": "sentinelone",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/sentinelone?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/shieldai",
+  "board": "shieldai",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/shodan",
+  "board": "shodan",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/shodan?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/shopify",
+  "board": "shopify",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/shopify?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/snyk",
+  "board": "snyk",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/snyk?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/spendesk",
+  "board": "spendesk",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/spendesk?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/spotify",
+  "board": "spotify",
+  "status": "ok",
+  "jobs": 87
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/starling",
+  "board": "starling",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/starling?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/sumup",
+  "board": "sumup",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/sumup?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/swiggy",
+  "board": "swiggy",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/swiggy?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/swile",
+  "board": "swile",
+  "status": "ok",
+  "jobs": 27
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/synack",
+  "board": "synack",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/synack?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/tenable",
+  "board": "tenable",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/tenable?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/tide",
+  "board": "tide",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/tide?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/toptal",
+  "board": "toptal",
+  "status": "ok",
+  "jobs": 32
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/trellix",
+  "board": "trellix",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/trellix?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/trustpilot",
+  "board": "trustpilot",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/trustpilot?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/tryhackme",
+  "board": "tryhackme",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/tryhackme?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/twilio",
+  "board": "twilio",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/twilio?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/upguard",
+  "board": "upguard",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/upstox",
+  "board": "upstox",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/upstox?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/veeva",
+  "board": "veeva",
+  "status": "ok",
+  "jobs": 862
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/via",
+  "board": "via",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/via?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/voleon",
+  "board": "voleon",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/wealthfront",
+  "board": "wealthfront",
+  "status": "ok",
+  "jobs": 21
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/wealthsimple",
+  "board": "wealthsimple",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/weightsandbiases",
+  "board": "weightsandbiases",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/weightsandbiases?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/welocalize",
+  "board": "welocalize",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/welocalize?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/whoop",
+  "board": "whoop",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/yelp",
+  "board": "yelp",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/yelp?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/yeswehack",
+  "board": "yeswehack",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/yeswehack?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/yubico",
+  "board": "yubico",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/yubico?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/zeta",
+  "board": "zeta",
+  "status": "ok",
+  "jobs": 30
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/zoox",
+  "board": "zoox",
+  "status": "ok",
+  "jobs": 238
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/zscaler",
+  "board": "zscaler",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/zscaler?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Acronis",
+  "board": "Acronis",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Acronis/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Allegro",
+  "board": "Allegro",
+  "status": "ok",
+  "jobs": 1
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Atlassian",
+  "board": "Atlassian",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Atlassian/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Avast",
+  "board": "Avast",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Avast/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Bitdefender",
+  "board": "Bitdefender",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Bosch",
+  "board": "Bosch",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Bosch/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/BoschGroup",
+  "board": "BoschGroup",
+  "status": "blocked",
+  "error": "company opted out: www.smartrecruiters.com/robots.txt has 'Disallow: /BoschGroup/*'"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/CDW",
+  "board": "CDW",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/CDW/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Canva",
+  "board": "Canva",
+  "status": "ok",
+  "jobs": 34
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/DeliveryHero",
+  "board": "DeliveryHero",
+  "status": "ok",
+  "jobs": 774
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/EPAMSystems",
+  "board": "EPAMSystems",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/EPAMSystems/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/ESET",
+  "board": "ESET",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/ESET/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Endava",
+  "board": "Endava",
+  "status": "ok",
+  "jobs": 160
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Equinox",
+  "board": "Equinox",
+  "status": "ok",
+  "jobs": 779
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Ericsson",
+  "board": "Ericsson",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Experian",
+  "board": "Experian",
+  "status": "ok",
+  "jobs": 387
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Fortinet",
+  "board": "Fortinet",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Gen",
+  "board": "Gen",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Gen/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Globant",
+  "board": "Globant",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Grammarly",
+  "board": "Grammarly",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Grammarly/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/IKEA",
+  "board": "IKEA",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/IKEA/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Infosys",
+  "board": "Infosys",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Kaseya",
+  "board": "Kaseya",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Kaspersky",
+  "board": "Kaspersky",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Kaspersky/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/LinkedIn3",
+  "board": "LinkedIn3",
+  "status": "ok",
+  "jobs": 204
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Luxoft",
+  "board": "Luxoft",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Luxoft/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/McDonaldsCorporation",
+  "board": "McDonaldsCorporation",
+  "status": "ok",
+  "jobs": 3
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Nagarro1",
+  "board": "Nagarro1",
+  "status": "ok",
+  "jobs": 601
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Nokia",
+  "board": "Nokia",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Qualys",
+  "board": "Qualys",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Qualys/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Revolut",
+  "board": "Revolut",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Revolut/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Sephora",
+  "board": "Sephora",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/ServiceNow",
+  "board": "ServiceNow",
+  "status": "ok",
+  "jobs": 834
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Sixt",
+  "board": "Sixt",
+  "status": "ok",
+  "jobs": 562
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Skechers",
+  "board": "Skechers",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Skechers/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/SoftServe",
+  "board": "SoftServe",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/SoftServe/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Sophos",
+  "board": "Sophos",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Spotify",
+  "board": "Spotify",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Square",
+  "board": "Square",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Square/api/more?page=0"
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Swisscom",
+  "board": "Swisscom",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/TrendMicro",
+  "board": "TrendMicro",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Trustwave",
+  "board": "Trustwave",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Ubisoft2",
+  "board": "Ubisoft2",
+  "status": "ok",
+  "jobs": 296
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Visa",
+  "board": "Visa",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/WesternDigital",
+  "board": "WesternDigital",
+  "status": "ok",
+  "jobs": 327
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Wise",
+  "board": "Wise",
+  "status": "ok",
+  "jobs": 445
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Wix2",
+  "board": "Wix2",
+  "status": "ok",
+  "jobs": 92
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/Zalando",
+  "board": "Zalando",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Zalando/api/more?page=0"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://kahoot.teamtailor.com/jobs",
+  "board": "kahoot.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://kahoot.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "personio",
+  "url": "https://kaia-health.jobs.personio.de",
+  "board": "kaia-health",
+  "status": "blocked",
+  "error": "robots.txt disallows https://kaia-health.jobs.personio.de/xml"
+ },
+ {
+  "platform": "personio",
+  "url": "https://kontist.jobs.personio.de",
+  "board": "kontist",
+  "status": "blocked",
+  "error": "robots.txt disallows https://kontist.jobs.personio.de/xml"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://kry.teamtailor.com/jobs",
+  "board": "kry.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://kry.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "personio",
+  "url": "https://leanix.jobs.personio.de",
+  "board": "leanix",
+  "status": "blocked",
+  "error": "robots.txt disallows https://leanix.jobs.personio.de/xml"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://legora.teamtailor.com/jobs",
+  "board": "legora.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://legora.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://lokalise.recruitee.com",
+  "board": "lokalise",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://lokalise.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://lovable.teamtailor.com/jobs",
+  "board": "lovable.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://lovable.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://lunar.teamtailor.com/jobs",
+  "board": "lunar.teamtailor.com",
+  "status": "ok",
+  "jobs": 19
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://lunarway.teamtailor.com/jobs",
+  "board": "lunarway.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://lunarway.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "workday",
+  "url": "https://mastercard.wd1.myworkdayjobs.com/CorporateCareers",
+  "board": "mastercard.wd1.myworkdayjobs.com/mastercard/CorporateCareers",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://mastercard.wd1.myworkdayjobs.com/wday/cxs/mastercard/CorporateCareers/jobs"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://mentimeter.teamtailor.com/jobs",
+  "board": "mentimeter.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://mentimeter.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://messagebird.recruitee.com",
+  "board": "messagebird",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://messagebird.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://mews.recruitee.com",
+  "board": "mews",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://mews.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://miro.recruitee.com",
+  "board": "miro",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://miro.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "personio",
+  "url": "https://mobimeo.jobs.personio.de",
+  "board": "mobimeo",
+  "status": "ok",
+  "jobs": 3
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://mollie.recruitee.com",
+  "board": "mollie",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://mollie.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "personio",
+  "url": "https://moss.jobs.personio.de",
+  "board": "moss",
+  "status": "blocked",
+  "error": "robots.txt disallows https://moss.jobs.personio.de/xml"
+ },
+ {
+  "platform": "personio",
+  "url": "https://n8n.jobs.personio.de",
+  "board": "n8n",
+  "status": "blocked",
+  "error": "robots.txt disallows https://n8n.jobs.personio.de/xml"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://netsurion.breezy.hr",
+  "board": "netsurion",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://netsurion.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://nixu.teamtailor.com/jobs",
+  "board": "nixu.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://nixu.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://northvolt.teamtailor.com/jobs",
+  "board": "northvolt.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://northvolt.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://oatly.teamtailor.com/jobs",
+  "board": "oatly.teamtailor.com",
+  "status": "ok",
+  "jobs": 19
+ },
+ {
+  "platform": "workday",
+  "url": "https://okta.wd1.myworkdayjobs.com/OktaCareers",
+  "board": "okta.wd1.myworkdayjobs.com/okta/OktaCareers",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://okta.wd1.myworkdayjobs.com/wday/cxs/okta/OktaCareers/jobs"
+ },
+ {
+  "platform": "personio",
+  "url": "https://ottonova.jobs.personio.de",
+  "board": "ottonova",
+  "status": "ok",
+  "jobs": 9
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://outpost24.teamtailor.com/jobs",
+  "board": "outpost24.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://outpost24.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "workday",
+  "url": "https://paloaltonetworks.wd5.myworkdayjobs.com/External",
+  "board": "paloaltonetworks.wd5.myworkdayjobs.com/paloaltonetworks/External",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://paloaltonetworks.wd5.myworkdayjobs.com/wday/cxs/paloaltonetworks/External/jobs"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://payvision.recruitee.com",
+  "board": "payvision",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://payvision.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "personio",
+  "url": "https://personio.jobs.personio.de",
+  "board": "personio",
+  "status": "ok",
+  "jobs": 2
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://picnic.recruitee.com",
+  "board": "picnic",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://picnic.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "workday",
+  "url": "https://pingidentity.wd5.myworkdayjobs.com/ping",
+  "board": "pingidentity.wd5.myworkdayjobs.com/pingidentity/ping",
+  "status": "blocked",
+  "error": "robots.txt disallows https://pingidentity.wd5.myworkdayjobs.com/wday/cxs/pingidentity/ping/jobs"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://pipedrive.recruitee.com",
+  "board": "pipedrive",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://pipedrive.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://pleo.teamtailor.com/jobs",
+  "board": "pleo.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://pleo.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "personio",
+  "url": "https://pliant.jobs.personio.de",
+  "board": "pliant",
+  "status": "blocked",
+  "error": "robots.txt disallows https://pliant.jobs.personio.de/xml"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://polestar.teamtailor.com/jobs",
+  "board": "polestar.teamtailor.com",
+  "status": "blocked",
+  "error": "robots.txt disallows https://polestar.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://productboard.recruitee.com",
+  "board": "productboard",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://productboard.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "workday",
+  "url": "https://proofpoint.wd5.myworkdayjobs.com/ProofpointCareers",
+  "board": "proofpoint.wd5.myworkdayjobs.com/proofpoint/ProofpointCareers",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://proofpoint.wd5.myworkdayjobs.com/wday/cxs/proofpoint/ProofpointCareers/jobs"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://pulsesecure.breezy.hr",
+  "board": "pulsesecure",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://pulsesecure.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "personio",
+  "url": "https://qonto.jobs.personio.de",
+  "board": "qonto",
+  "status": "blocked",
+  "error": "robots.txt disallows https://qonto.jobs.personio.de/xml"
+ },
+ {
+  "platform": "personio",
+  "url": "https://raisin.jobs.personio.de",
+  "board": "raisin",
+  "status": "blocked",
+  "error": "robots.txt disallows https://raisin.jobs.personio.de/xml"
+ },
+ {
+  "platform": "workday",
+  "url": "https://rapid7.wd1.myworkdayjobs.com/Rapid7",
+  "board": "rapid7.wd1.myworkdayjobs.com/rapid7/Rapid7",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://rapid7.wd1.myworkdayjobs.com/wday/cxs/rapid7/Rapid7/jobs"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://recruitee.recruitee.com",
+  "board": "recruitee",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://recruitee.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "workday",
+  "url": "https://redhat.wd5.myworkdayjobs.com/jobs",
+  "board": "redhat.wd5.myworkdayjobs.com/redhat/jobs",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://redhat.wd5.myworkdayjobs.com/wday/cxs/redhat/jobs/jobs"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://remotely.breezy.hr",
+  "board": "remotely",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://remotely.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "workday",
+  "url": "https://sailpoint.wd1.myworkdayjobs.com/SailPoint",
+  "board": "sailpoint.wd1.myworkdayjobs.com/sailpoint/SailPoint",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://sailpoint.wd1.myworkdayjobs.com/wday/cxs/sailpoint/SailPoint/jobs"
+ },
+ {
+  "platform": "workday",
+  "url": "https://salesforce.wd12.myworkdayjobs.com/External_Career_Site",
+  "board": "salesforce.wd12.myworkdayjobs.com/salesforce/External_Career_Site",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://salesforce.wd12.myworkdayjobs.com/wday/cxs/salesforce/External_Career_Site/jobs"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://sana.teamtailor.com/jobs",
+  "board": "sana.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://sana.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "personio",
+  "url": "https://scalable.jobs.personio.de",
+  "board": "scalable",
+  "status": "blocked",
+  "error": "robots.txt disallows https://scalable.jobs.personio.de/xml"
+ },
+ {
+  "platform": "personio",
+  "url": "https://sennder.jobs.personio.de",
+  "board": "sennder",
+  "status": "blocked",
+  "error": "robots.txt disallows https://sennder.jobs.personio.de/xml"
+ },
+ {
+  "platform": "workday",
+  "url": "https://servicenow.wd1.myworkdayjobs.com/External",
+  "board": "servicenow.wd1.myworkdayjobs.com/servicenow/External",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://servicenow.wd1.myworkdayjobs.com/wday/cxs/servicenow/External/jobs"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://sevco.breezy.hr",
+  "board": "sevco",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://sevco.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://showpad.recruitee.com",
+  "board": "showpad",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://showpad.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "personio",
+  "url": "https://smava.jobs.personio.de",
+  "board": "smava",
+  "status": "blocked",
+  "error": "robots.txt disallows https://smava.jobs.personio.de/xml"
+ },
+ {
+  "platform": "workday",
+  "url": "https://snowflake.wd1.myworkdayjobs.com/Snowflake",
+  "board": "snowflake.wd1.myworkdayjobs.com/snowflake/Snowflake",
+  "status": "error",
+  "error": "FetchError: HTTP 422 from https://snowflake.wd1.myworkdayjobs.com/wday/cxs/snowflake/Snowflake/jobs"
+ },
+ {
+  "platform": "personio",
+  "url": "https://solaris.jobs.personio.de",
+  "board": "solaris",
+  "status": "blocked",
+  "error": "robots.txt disallows https://solaris.jobs.personio.de/xml"
+ },
+ {
+  "platform": "workday",
+  "url": "https://sophos.wd3.myworkdayjobs.com/Sophos_Careers",
+  "board": "sophos.wd3.myworkdayjobs.com/sophos/Sophos_Careers",
+  "status": "error",
+  "error": "FetchError: HTTP 422 from https://sophos.wd3.myworkdayjobs.com/wday/cxs/sophos/Sophos_Careers/jobs"
+ },
+ {
+  "platform": "personio",
+  "url": "https://staffbase.jobs.personio.de",
+  "board": "staffbase",
+  "status": "blocked",
+  "error": "robots.txt disallows https://staffbase.jobs.personio.de/xml"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://storyblok.recruitee.com",
+  "board": "storyblok",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://storyblok.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://storytel.teamtailor.com/jobs",
+  "board": "storytel.teamtailor.com",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://studocu.recruitee.com",
+  "board": "studocu",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://studocu.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://teamleader.recruitee.com",
+  "board": "teamleader",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://teamleader.recruitee.com/api/offers/"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://tellent.recruitee.com",
+  "board": "tellent",
+  "status": "empty",
+  "jobs": 0
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://templafy.teamtailor.com/jobs",
+  "board": "templafy.teamtailor.com",
+  "status": "ok",
+  "jobs": 4
+ },
+ {
+  "platform": "workday",
+  "url": "https://tenable.wd1.myworkdayjobs.com/Tenable_Careers",
+  "board": "tenable.wd1.myworkdayjobs.com/tenable/Tenable_Careers",
+  "status": "error",
+  "error": "FetchError: HTTP 422 from https://tenable.wd1.myworkdayjobs.com/wday/cxs/tenable/Tenable_Careers/jobs"
+ },
+ {
+  "platform": "personio",
+  "url": "https://thermondo.jobs.personio.de",
+  "board": "thermondo",
+  "status": "ok",
+  "jobs": 193
+ },
+ {
+  "platform": "personio",
+  "url": "https://tier.jobs.personio.de",
+  "board": "tier",
+  "status": "blocked",
+  "error": "robots.txt disallows https://tier.jobs.personio.de/xml"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://tink.teamtailor.com/jobs",
+  "board": "tink.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://tink.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://toptal.breezy.hr",
+  "board": "toptal",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://toptal.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "personio",
+  "url": "https://trade-republic.jobs.personio.de",
+  "board": "trade-republic",
+  "status": "blocked",
+  "error": "robots.txt disallows https://trade-republic.jobs.personio.de/xml"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://truecaller.teamtailor.com/jobs",
+  "board": "truecaller.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://truecaller.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://truesec.teamtailor.com/jobs",
+  "board": "truesec.teamtailor.com",
+  "status": "error",
+  "error": "ConnectorError: teamtailor: feed is not valid/safe XML (ParseError(ExpatError('not well-formed (invalid token): line 7, column 165')))"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://trustworks.teamtailor.com/jobs",
+  "board": "trustworks.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://trustworks.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://visma.teamtailor.com/jobs",
+  "board": "visma.teamtailor.com",
+  "status": "blocked",
+  "error": "robots.txt disallows https://visma.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "workday",
+  "url": "https://vmware.wd1.myworkdayjobs.com/VMware",
+  "board": "vmware.wd1.myworkdayjobs.com/vmware/VMware",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://vmware.wd1.myworkdayjobs.com/wday/cxs/vmware/VMware/jobs"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://voi.teamtailor.com/jobs",
+  "board": "voi.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://voi.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://wildbit.breezy.hr",
+  "board": "wildbit",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://wildbit.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://withsecure.teamtailor.com/jobs",
+  "board": "withsecure.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://withsecure.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "workday",
+  "url": "https://workday.wd5.myworkdayjobs.com/Workday",
+  "board": "workday.wd5.myworkdayjobs.com/workday/Workday",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://workday.wd5.myworkdayjobs.com/wday/cxs/workday/Workday/jobs"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://yubico.teamtailor.com/jobs",
+  "board": "yubico.teamtailor.com",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://yubico.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "breezy",
+  "url": "https://zapier.breezy.hr",
+  "board": "zapier",
+  "status": "error",
+  "error": "FetchError: HTTP 404 from https://zapier.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "workday",
+  "url": "https://zscaler.wd1.myworkdayjobs.com/Zscaler_Careers",
+  "board": "zscaler.wd1.myworkdayjobs.com/zscaler/Zscaler_Careers",
+  "status": "error",
+  "error": "FetchError: HTTP 429 from https://zscaler.wd1.myworkdayjobs.com/wday/cxs/zscaler/Zscaler_Careers/jobs"
+ }
+]

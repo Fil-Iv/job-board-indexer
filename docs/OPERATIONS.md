@@ -65,7 +65,10 @@ run waits for a manual one. With 4 shards × `DATABASE_POOL_SIZE=3` the crawl us
 
 **Add a demo board**: add it to `coverage/demo_sources.yaml` (or regenerate the file with
 `make demo-sources` after `make coverage`), push, then **Actions → crawl → Run workflow**
-with *seed* ticked. **Remove one**: set `active = false` in Supabase (**Table Editor →
+with *seed* ticked. **Many boards at once** (fast JSON platforms): add slugs to
+`coverage/candidate_boards.yaml`, run `python scripts/check_boards.py --new --write`
+(checks each one live through `HttpClient`: robots.txt, public list, open jobs) and the
+boards with ≥ 5 open jobs go to `coverage/demo_sources_extra.yaml`; push, seed as above. **Remove one**: set `active = false` in Supabase (**Table Editor →
 sources**) — jobs stay as they are.
 
 ## Size budget
@@ -87,7 +90,8 @@ the row. With ~25 MB of fixed overhead (catalogs, `job_changes`, `fetch_runs`), 
 | Lever | Hosted demo value | Effect |
 |---|---|---|
 | `coverage/demo_sources.yaml` | ~90 boards, 1–2 per done platform, preferring 5–400 jobs | no 14k Marriott / 7k JPMorgan boards |
-| `MAX_JOBS_PER_SOURCE` | 200 | ≤ ~10k open postings (≈ 7k with the current boards) → ≈ 110–150 MB |
+| `coverage/demo_sources_extra.yaml` | ~280 tech / cybersecurity / remote-first boards on the fast JSON platforms (Greenhouse, Ashby, Lever, SmartRecruiters, …), checked live by `scripts/check_boards.py` from `coverage/candidate_boards.yaml` | ~34k postings at the cap below |
+| `MAX_JOBS_PER_SOURCE` | 1000 | ≈ 48k open postings with both files → ≈ 250 MB, + closed postings kept 14 days ≈ 280–300 MB |
 | `DESCRIPTION_HTML_MAX_CHARS` | 0 | no HTML is stored (`""`); the API and pages use the text |
 | `DESCRIPTION_TEXT_MAX_CHARS` | 1500 | text cut at a word boundary + "…"; the job page links to the full posting at the source. The content hash covers the stored text, so changes past the cut are not detected |
 | `JOB_CHANGE_VALUE_MAX_CHARS` | 500 | `job_changes` old/new values cut; description changes are recorded without values ("text changed") |
@@ -258,7 +262,7 @@ limits that matter (as published by the providers in 2026; check their pricing p
 
 | Service | Free tier | What it means for JobForge |
 |---|---|---|
-| Supabase Free | **500 MB database**, 5 GB egress/month, shared pooler (~15 session connections), 2 free projects per account, no downloadable backups | The [size budget](#size-budget) keeps the demo at ~150 MB; `crawl.yml` fails loudly above 450 MB |
+| Supabase Free | **500 MB database**, 5 GB egress/month, shared pooler (~15 session connections), 2 free projects per account, no downloadable backups | The [size budget](#size-budget) keeps the demo at ~300 MB; `crawl.yml` fails loudly above 450 MB |
 | | **Paused after 7 days without activity** | The 6-hourly crawl keeps it active. If the crawl stops (e.g. disabled workflow), restore the project in the dashboard |
 | Vercel Hobby | Free, **non-commercial use only**; 100 GB transfer/month; function limits (duration, invocations) far above a demo's traffic | Fine for a demo; a commercial service needs Vercel Pro |
 | GitHub Actions | **Free and unlimited on standard runners for public repositories**; job max 6 h; ~20 concurrent jobs | 4 shards × ≤ 5 h every 6 h fits. A **private** repository gets only 2,000 free minutes/month — the crawl alone uses far more (see below) |
