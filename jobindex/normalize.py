@@ -1,7 +1,8 @@
 """Normalisation helpers shared by connectors and the crawler.
 
 * :func:`html_to_text` — strip HTML to readable plain text.
-* :func:`parse_location` — "Toronto, ON, Canada" -> city / region / ISO country code.
+* :func:`parse_location` — "Toronto, ON, Canada" -> city / region / ISO country code;
+  a bare big-city name gets its country from the gazetteer ("Sofia" -> BG).
 * :func:`normalize_country` — "United States", "USA", "us" -> "US".
 * :func:`detect_remote_type` — onsite / hybrid / remote / unknown from short text.
 * :func:`parse_salary` / :func:`find_salary` — salary strings in many formats/currencies.
@@ -35,6 +36,7 @@ from urllib.parse import parse_qs, unquote, urlsplit
 import pycountry
 from selectolax.lexbor import LexborHTMLParser
 
+from jobindex.geo import country_of_city
 from jobindex.models.enums import RemoteType
 
 #: Version of the normalisation rules. History:
@@ -45,7 +47,10 @@ from jobindex.models.enums import RemoteType
 #:       accent-insensitive region names ("Québec" -> QC)
 #:   4 — "City, RegionCode, CountryCode" ("Bengaluru, KA, IN", "Quebec City, QC, CA"):
 #:       the trailing code is the country, not a US state
-PARSER_VERSION = 4
+#:   5 — a bare big-city name gets its country when one city clearly owns the name
+#:       ("Sofia" -> BG, "Warsaw" -> PL; geo.country_of_city); Bulgarian city names in
+#:       Cyrillic ("София", "Пловдив")
+PARSER_VERSION = 5
 
 # ---------------------------------------------------------------------------
 # HTML
@@ -206,6 +211,13 @@ _CITY_ALIASES = {
     "bay area": ("San Francisco", "CA", "US"),
     "washington dc": ("Washington", "DC", "US"),
     "washington, d.c.": ("Washington", "DC", "US"),
+    # Cyrillic names Bulgarian boards use (the gazetteer has Latin-script names only)
+    "софия": ("Sofia", None, "BG"),
+    "пловдив": ("Plovdiv", None, "BG"),
+    "варна": ("Varna", None, "BG"),
+    "бургас": ("Burgas", None, "BG"),  # noqa: RUF001 (Cyrillic on purpose)
+    "русе": ("Ruse", None, "BG"),  # noqa: RUF001 (Cyrillic on purpose)
+    "стара загора": ("Stara Zagora", None, "BG"),
 }
 
 
@@ -364,6 +376,8 @@ def _parse_single(text: str) -> Location:
     city = parts[0] if parts else None
     if city and country is None and len(parts) == 1 and city.lower() in us:
         return Location(region=us[city.lower()], country="US")
+    if city and country is None:
+        country = country_of_city(city)  # "Sofia" -> BG, "Warsaw" -> PL; None if ambiguous
     return Location(city=city, region=region, country=country)
 
 

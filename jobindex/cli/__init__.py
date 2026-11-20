@@ -7,6 +7,9 @@ Commands:
                                              platform in coverage/platforms.yaml
     seed-demo --file coverage/demo_sources.yaml
                                              register the boards listed in that file
+    retire-sources --file coverage/demo_sources_retired.yaml
+                                             delete the boards listed in that file and
+                                             their postings (idempotent)
     crawl <source_id> | --all | --ids 1,2,3  crawl one source, every active one, or a list
           [--deadline-minutes M] [--no-dedup] [--allow-failures]
                                              (then dedup); see `crawl --help`
@@ -44,7 +47,7 @@ from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import yaml
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 from jobindex.config import get_settings
@@ -65,7 +68,7 @@ from jobindex.maintenance import (
     render_db_size,
     vacuum_full,
 )
-from jobindex.models import FetchRun, FetchStatus, Source
+from jobindex.models import FetchRun, FetchStatus, Job, Source
 from jobindex.quality import fill_rates, render_markdown, render_text
 from jobindex.scheduler import CrawlScheduler
 
@@ -94,6 +97,11 @@ def _build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="register the boards of this file instead (e.g. coverage/demo_sources.yaml)",
     )
+
+    retire = sub.add_parser(
+        "retire-sources", help="delete the boards listed in a file, with their postings"
+    )
+    retire.add_argument("--file", type=Path, required=True, help="same format as seed-demo")
 
     company = sub.add_parser("set-company", help="set a source's company name")
     company.add_argument("source_id", type=int)
@@ -321,6 +329,43 @@ async def seed_from_file(
         file=sys.stderr,
     )
     return 1 if too_many else 0
+
+
+async def retire_sources(
+    session_factory: async_sessionmaker[AsyncSession], registry: Registry, path: Path
+) -> int:
+    """Delete every board listed in ``path`` with its postings, history and runs (FK
+    cascade). Idempotent: boards that are not registered are skipped. Used to make room
+    in the size-capped demo database (docs/OPERATIONS.md#size-budget); the freed space is
+    reused by new postings (no VACUUM FULL, which would need the table's size again)."""
+    try:
+        entries = load_demo_sources(path)
+    except (OSError, ValueError, yaml.YAMLError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    deleted = jobs = 0
+    async with session_factory() as session:
+        for url, _ in entries:
+            board = registry.detect(url)
+            if board is None:
+                print(f"retire-sources: no platform matches {url}", file=sys.stderr)
+                continue
+            source = await session.scalar(
+                select(Source).where(
+                    Source.platform == board.platform,
+                    Source.board_identifier == board.board_identifier,
+                )
+            )
+            if source is None:
+                continue
+            count = select(func.count()).where(Job.source_id == source.id)
+            jobs += await session.scalar(count) or 0
+            await session.execute(delete(Source).where(Source.id == source.id))
+            deleted += 1
+            print(f"retired source {source.id} ({board.platform}/{board.board_identifier})")
+        await session.commit()
+    print(f"retire-sources: deleted {deleted} source(s) with {jobs} posting(s)")
+    return 0
 
 
 async def report_db_size(
@@ -619,6 +664,8 @@ async def _run(args: argparse.Namespace, registry: Registry) -> int:
             )
         if args.command == "crawl-summary":
             return await report_crawl_summary(session_factory, args.since)
+        if args.command == "retire-sources":
+            return await retire_sources(session_factory, registry, args.file)
         if args.command == "prune":
             return await run_prune(
                 session_factory, args.closed_days, args.changes_days, args.runs_days

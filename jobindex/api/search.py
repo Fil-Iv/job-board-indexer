@@ -22,6 +22,7 @@ from jobindex.api.schemas import (
     JobSourceOut,
     StatusFilter,
 )
+from jobindex.geo import AREAS_BY_SEARCH
 from jobindex.models import Job, JobStatus, RemoteType, Source
 from jobindex.normalize import normalize_country
 
@@ -72,7 +73,9 @@ def _company_filter(name: str) -> ColumnElement[bool]:
 
 def _location_filter(location: str) -> ColumnElement[bool]:
     """``"Berlin"``, ``"CA"``, ``"Germany"`` or ``"Austin, TX, US"``: every comma-separated
-    part must match the city, region or country (country names become ISO codes)."""
+    part must match the city, region or country (country names become ISO codes).
+    A world-region name ("Europe", "EMEA", "APAC", see ``geo.AREAS``) also matches the
+    postings filed under that region (``Job.area``: no country, e.g. "Remote - EMEA")."""
     conditions = []
     for part in (p.strip() for p in location.split(",")):
         if not part:
@@ -81,6 +84,9 @@ def _location_filter(location: str) -> ColumnElement[bool]:
         country = normalize_country(part)
         if country:
             options.append(Job.country == country)
+        area = AREAS_BY_SEARCH.get(part.lower())
+        if area:
+            options.append(Job.area == area.code)
         conditions.append(or_(*options))
     return and_(*conditions)
 

@@ -1,0 +1,30 @@
+# Boards removed from the hosted demo to stay inside the size budget
+# (docs/OPERATIONS.md#size-budget). The crawl workflow's seed step deletes them, with
+# their postings, before registering coverage/demo_sources*.yaml:
+#     python -m jobindex.cli retire-sources --file coverage/demo_sources_retired.yaml
+# 2026-11-20: large US-only boards (almost no postings outside the US) made room for
+# employers hiring in Bulgaria and under-covered EU countries. `jobs` = open postings
+# when retired.
+
+sources:
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/spacex
+  jobs: 2796
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/andurilindustries
+  jobs: 2614
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/lucidmotors
+  jobs: 490
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/doordashusa
+  jobs: 425
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/relativity
+  jobs: 399
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/verkada
+  jobs: 346
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/waymo
+  jobs: 370

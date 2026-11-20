@@ -21,6 +21,13 @@
   {% else %}
   <div class="empty">No open jobs with a known country yet.</div>
   {% endif %}
+  {% if areas %}
+  <section class="panel" id="areas">
+    <h2>Remote, by region</h2>
+    <p class="note">Postings that name only a region ("Remote - EMEA", "Europe"), no country.</p>
+    {{ places(areas) }}
+  </section>
+  {% endif %}
   {% else %}
   <h2 class="page-title">{{ country.label }}</h2>
   <p class="summary">{{ "{:,}".format(country.count) }} open job{{ '' if country.count == 1 else 's' }} ·

@@ -54,7 +54,7 @@ async def test_fetch_from_fixture() -> None:
     assert {"52901044", "52871144", "59764444"} <= {s.external_id for s in stubs}
     job = details["52901044"].normalized()
     assert job.company == "Air India Careers"
-    assert (job.location_raw, job.country) == ("Gurugram, Guru", None)  # "No" dropped
+    assert (job.location_raw, job.country) == ("Gurugram, Guru", "IN")  # "No" dropped
 
 
 async def test_java_dates() -> None:

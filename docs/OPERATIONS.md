@@ -106,7 +106,8 @@ the row. With ~25 MB of fixed overhead (catalogs, `job_changes`, `fetch_runs`), 
 | Lever | Hosted demo value | Effect |
 |---|---|---|
 | `coverage/demo_sources.yaml` | ~90 boards, 1–2 per done platform, preferring 5–400 jobs | no 14k Marriott / 7k JPMorgan boards |
-| `coverage/demo_sources_extra.yaml` | ~280 tech / cybersecurity / remote-first boards on the fast JSON platforms (Greenhouse, Ashby, Lever, SmartRecruiters, …), checked live by `scripts/check_boards.py` from `coverage/candidate_boards.yaml` | ~34k postings at the cap below |
+| `coverage/demo_sources_extra.yaml` | ~320 boards on the fast JSON platforms (Greenhouse, Ashby, Lever, SmartRecruiters, …), checked live by `scripts/check_boards.py`: ~270 tech / cybersecurity / remote-first employers from `coverage/candidate_boards.yaml`, ~50 employers hiring in Bulgaria and under-covered EU countries from `coverage/candidate_boards_europe.yaml` (each verified to have open jobs located there) | ~32k postings at the cap below |
+| `coverage/demo_sources_retired.yaml` | boards taken out to make room (2026-11-20: 7 large US-only boards, ≈ 4,000 postings, for the European boards); `retire-sources` deletes them with their postings, `check_boards.py --write` never re-adds them | freed rows are reused by new postings (no `VACUUM FULL`, which would need the table's size again) |
 | `MAX_JOBS_PER_SOURCE` | 1000 | ≈ 48k open postings with both files → ≈ 250 MB, + closed postings kept 14 days ≈ 280–300 MB |
 | `DESCRIPTION_HTML_MAX_CHARS` | 0 | no HTML is stored (`""`); the API and pages use the text |
 | `DESCRIPTION_TEXT_MAX_CHARS` | 1500 | text cut at a word boundary + "…"; the job page links to the full posting at the source. The content hash covers the stored text, so changes past the cut are not detected |

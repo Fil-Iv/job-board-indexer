@@ -3,6 +3,8 @@ from decimal import Decimal
 
 import pytest
 
+from jobindex.connectors.base import RawJob
+from jobindex.geo import country_of_city
 from jobindex.models.enums import RemoteType
 from jobindex.normalize import (
     Location,
@@ -65,6 +67,22 @@ def test_html_to_text() -> None:
         ("DE, Munich", Location("Munich", None, "DE")),
         ("US, CA, Remote", Location(None, "CA", "US")),
         ("California", Location(None, "CA", "US")),
+        # Bulgaria: bare city, Cyrillic, code, country-only remote (PARSER_VERSION 5)
+        ("Sofia", Location("Sofia", None, "BG")),
+        ("София", Location("Sofia", None, "BG")),
+        ("Sofia, BG", Location("Sofia", None, "BG")),
+        ("Plovdiv | Пловдив, BG", Location("Plovdiv", None, "BG")),
+        ("Пловдив", Location("Plovdiv", None, "BG")),
+        ("Bulgaria (Remote)", Location(None, None, "BG")),
+        ("Remote - Bulgaria", Location(None, None, "BG")),
+        # Bare big cities get their country only when the name is unambiguous
+        ("Warsaw", Location("Warsaw", None, "PL")),
+        ("Remote; Hamburg; Berlin", Location("Hamburg", None, "DE")),
+        ("Valencia", Location("Valencia")),  # Venezuela and Spain
+        ("Cambridge", Location("Cambridge")),  # small, GB and US
+        # Region-only: no country (Job.area files them under the region, see test_area)
+        ("Remote - EMEA", Location()),
+        ("EU", Location()),
         (None, Location()),
     ],
 )
@@ -207,3 +225,38 @@ def test_parse_datetime() -> None:
 
 def test_split_url() -> None:
     assert split_url("www.Example.com/a%20b/c?x=1") == ("example.com", ["a b", "c"], {"x": ["1"]})
+
+
+@pytest.mark.parametrize(
+    ("city", "country", "expected"),
+    [
+        ("Sofia", None, "BG"),  # a connector's explicit city, no country
+        ("Warsaw", None, "PL"),
+        ("Valencia", None, None),  # ambiguous: left without a country
+        ("London", "CA", "CA"),  # an explicit country always wins
+    ],
+)
+def test_normalized_explicit_city_gets_its_country(
+    city: str, country: str | None, expected: str | None
+) -> None:
+    job = RawJob(external_id="1", title="Engineer", city=city, country=country).normalized()
+    assert (job.city, job.country) == (city, expected)
+
+
+@pytest.mark.parametrize(
+    ("name", "country"),
+    [
+        ("Sofia", "BG"),
+        ("SOFIA", "BG"),
+        ("Plovdiv", "BG"),
+        ("Bucharest", "RO"),
+        ("Kraków", "PL"),
+        ("London", "GB"),  # 8.9 M vs 0.4 M in Canada
+        ("Valencia", None),  # Venezuela 1.6 M vs Spain 0.8 M
+        ("Barcelona", None),  # Spain 1.7 M vs Venezuela 0.8 M: not dominant enough
+        ("Ulpia", None),  # an alternate name of Plovdiv, not its own name
+        ("Atlantis", None),
+    ],
+)
+def test_country_of_city(name: str, country: str | None) -> None:
+    assert country_of_city(name) == country

@@ -7,6 +7,16 @@
   "jobs": 322
  },
  {
+  "platform": "recruitee",
+  "url": "https://accedia.recruitee.com",
+  "board": "accedia",
+  "status": "ok",
+  "jobs": 5,
+  "countries": {
+   "BG": 5
+  }
+ },
+ {
   "platform": "workday",
   "url": "https://accenture.wd103.myworkdayjobs.com/AccentureCareers",
   "board": "accenture.wd103.myworkdayjobs.com/accenture/AccentureCareers",
@@ -32,7 +42,10 @@
   "url": "https://anyfin.teamtailor.com/jobs",
   "board": "anyfin.teamtailor.com",
   "status": "ok",
-  "jobs": 13
+  "jobs": 14,
+  "countries": {
+   "SE": 14
+  }
  },
  {
   "platform": "workable",
@@ -148,6 +161,20 @@
  },
  {
   "platform": "workable",
+  "url": "https://apply.workable.com/kahoot/",
+  "board": "kahoot",
+  "status": "ok",
+  "jobs": 7,
+  "countries": {
+   "NO": 5,
+   "DK": 3,
+   "FR": 2,
+   "DE": 1,
+   "US": 1
+  }
+ },
+ {
+  "platform": "workable",
   "url": "https://apply.workable.com/kaizengaming/",
   "board": "kaizengaming",
   "status": "error",
@@ -159,6 +186,16 @@
   "board": "n8n",
   "status": "empty",
   "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/netguru/",
+  "board": "netguru",
+  "status": "ok",
+  "jobs": 21,
+  "countries": {
+   "PL": 21
+  }
  },
  {
   "platform": "workable",
@@ -208,6 +245,18 @@
   "board": "scandit",
   "status": "empty",
   "jobs": 0
+ },
+ {
+  "platform": "workable",
+  "url": "https://apply.workable.com/skeletontech/",
+  "board": "skeletontech",
+  "status": "ok",
+  "jobs": 27,
+  "countries": {
+   "DE": 21,
+   "FI": 7,
+   "US": 4
+  }
  },
  {
   "platform": "workable",
@@ -369,6 +418,21 @@
   "board": "channable",
   "status": "ok",
   "jobs": 11
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://chaos.recruitee.com",
+  "board": "chaos",
+  "status": "ok",
+  "jobs": 17,
+  "countries": {
+   "BG": 5,
+   "DE": 4,
+   "US": 4,
+   "GB": 2,
+   "MK": 1,
+   "JP": 1
+  }
  },
  {
   "platform": "breezy",
@@ -574,6 +638,16 @@
   "jobs": 5
  },
  {
+  "platform": "recruitee",
+  "url": "https://holded.recruitee.com",
+  "board": "holded",
+  "status": "ok",
+  "jobs": 8,
+  "countries": {
+   "ES": 8
+  }
+ },
+ {
   "platform": "personio",
   "url": "https://holvi.jobs.personio.de",
   "board": "holvi",
@@ -600,6 +674,37 @@
   "board": "huntress",
   "status": "error",
   "error": "FetchError: HTTP 404 from https://huntress.breezy.hr/json?verbose=true"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://huuuge.recruitee.com",
+  "board": "huuuge",
+  "status": "ok",
+  "jobs": 8,
+  "countries": {
+   "PL": 8
+  }
+ },
+ {
+  "platform": "workday",
+  "url": "https://infobip.wd3.myworkdayjobs.com/InfobipCareers",
+  "board": "infobip.wd3.myworkdayjobs.com/infobip/InfobipCareers",
+  "status": "ok",
+  "jobs": 156,
+  "countries": {
+   "?": 54,
+   "HR": 26,
+   "BR": 10,
+   "PY": 9,
+   "BA": 7,
+   "MX": 7,
+   "CN": 6,
+   "MY": 5,
+   "US": 4,
+   "IN": 4,
+   "CL": 3,
+   "SG": 3
+  }
  },
  {
   "platform": "workday",
@@ -988,6 +1093,20 @@
  },
  {
   "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/cabify",
+  "board": "cabify",
+  "status": "ok",
+  "jobs": 46,
+  "countries": {
+   "ES": 18,
+   "CO": 12,
+   "CL": 8,
+   "PE": 5,
+   "AR": 3
+  }
+ },
+ {
+  "platform": "greenhouse",
   "url": "https://job-boards.greenhouse.io/calendly",
   "board": "calendly",
   "status": "ok",
@@ -1195,6 +1314,22 @@
   "board": "cockroachlabs",
   "status": "ok",
   "jobs": 13
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/coherentsolutions",
+  "board": "coherentsolutions",
+  "status": "ok",
+  "jobs": 15,
+  "countries": {
+   "MD": 5,
+   "MX": 4,
+   "PL": 2,
+   "BG": 1,
+   "US": 1,
+   "?": 1,
+   "LT": 1
+  }
  },
  {
   "platform": "greenhouse",
@@ -1506,6 +1641,17 @@
  },
  {
   "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/emag",
+  "board": "emag",
+  "status": "ok",
+  "jobs": 39,
+  "countries": {
+   "?": 21,
+   "RO": 18
+  }
+ },
+ {
+  "platform": "greenhouse",
   "url": "https://job-boards.greenhouse.io/etsy",
   "board": "etsy",
   "status": "error",
@@ -1545,6 +1691,20 @@
   "board": "fastly",
   "status": "ok",
   "jobs": 49
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/feedzai",
+  "board": "feedzai",
+  "status": "ok",
+  "jobs": 9,
+  "countries": {
+   "PT": 4,
+   "US": 2,
+   "BR": 1,
+   "?": 1,
+   "CO": 1
+  }
  },
  {
   "platform": "greenhouse",
@@ -1912,6 +2072,23 @@
  },
  {
   "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/kaizengaming",
+  "board": "kaizengaming",
+  "status": "ok",
+  "jobs": 34,
+  "countries": {
+   "GR": 13,
+   "MT": 7,
+   "AR": 6,
+   "PH": 3,
+   "ES": 2,
+   "DE": 1,
+   "CO": 1,
+   "DK": 1
+  }
+ },
+ {
+  "platform": "greenhouse",
   "url": "https://job-boards.greenhouse.io/kandji",
   "board": "kandji",
   "status": "error",
@@ -2059,6 +2236,17 @@
  },
  {
   "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/make",
+  "board": "make",
+  "status": "ok",
+  "jobs": 8,
+  "countries": {
+   "CZ": 5,
+   "ES": 3
+  }
+ },
+ {
+  "platform": "greenhouse",
   "url": "https://job-boards.greenhouse.io/mapbox",
   "board": "mapbox",
   "status": "error",
@@ -2101,6 +2289,17 @@
  },
  {
   "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/mentimeter",
+  "board": "mentimeter",
+  "status": "ok",
+  "jobs": 13,
+  "countries": {
+   "SE": 8,
+   "CA": 5
+  }
+ },
+ {
+  "platform": "greenhouse",
   "url": "https://job-boards.greenhouse.io/mercadolibre",
   "board": "mercadolibre",
   "status": "error",
@@ -2112,6 +2311,18 @@
   "board": "messagebird",
   "status": "error",
   "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/messagebird/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/microblink",
+  "board": "microblink",
+  "status": "ok",
+  "jobs": 8,
+  "countries": {
+   "HR": 5,
+   "US": 2,
+   "?": 1
+  }
  },
  {
   "platform": "greenhouse",
@@ -2283,6 +2494,25 @@
  },
  {
   "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/ocadogroup",
+  "board": "ocadogroup",
+  "status": "ok",
+  "jobs": 66,
+  "countries": {
+   "GB": 33,
+   "US": 16,
+   "BG": 4,
+   "JP": 4,
+   "PL": 4,
+   "CA": 1,
+   "?": 1,
+   "DK": 1,
+   "GR": 1,
+   "AU": 1
+  }
+ },
+ {
+  "platform": "greenhouse",
   "url": "https://job-boards.greenhouse.io/octopusenergy",
   "board": "octopusenergy",
   "status": "error",
@@ -2346,6 +2576,17 @@
  },
  {
   "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/outfit7",
+  "board": "outfit7",
+  "status": "ok",
+  "jobs": 9,
+  "countries": {
+   "SI": 8,
+   "CY": 1
+  }
+ },
+ {
+  "platform": "greenhouse",
   "url": "https://job-boards.greenhouse.io/paddle",
   "board": "paddle",
   "status": "error",
@@ -2378,6 +2619,24 @@
   "board": "paxos",
   "status": "error",
   "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/paxos/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/payhawkio",
+  "board": "payhawkio",
+  "status": "ok",
+  "jobs": 72,
+  "countries": {
+   "BG": 20,
+   "GB": 15,
+   "DE": 10,
+   "?": 10,
+   "FR": 7,
+   "NL": 4,
+   "SE": 3,
+   "PL": 2,
+   "US": 1
+  }
  },
  {
   "platform": "greenhouse",
@@ -2535,6 +2794,26 @@
  },
  {
   "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/relex",
+  "board": "relex",
+  "status": "ok",
+  "jobs": 34,
+  "countries": {
+   "FI": 7,
+   "GB": 6,
+   "US": 6,
+   "JP": 4,
+   "AU": 3,
+   "SG": 3,
+   "TH": 1,
+   "SE": 1,
+   "IT": 1,
+   "?": 1,
+   "MX": 1
+  }
+ },
+ {
+  "platform": "greenhouse",
   "url": "https://job-boards.greenhouse.io/remotecom",
   "board": "remotecom",
   "status": "empty",
@@ -2591,6 +2870,27 @@
  },
  {
   "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/rtbhouse",
+  "board": "rtbhouse",
+  "status": "ok",
+  "jobs": 64,
+  "countries": {
+   "PL": 33,
+   "BR": 5,
+   "MX": 4,
+   "CN": 4,
+   "GB": 3,
+   "TH": 3,
+   "KR": 2,
+   "JP": 2,
+   "IT": 1,
+   "NL": 1,
+   "AR": 1,
+   "CZ": 1
+  }
+ },
+ {
+  "platform": "greenhouse",
   "url": "https://job-boards.greenhouse.io/rubrik",
   "board": "rubrik",
   "status": "ok",
@@ -2637,6 +2937,19 @@
   "board": "sardine",
   "status": "error",
   "error": "FetchError: HTTP 404 from https://boards-api.greenhouse.io/v1/boards/sardine/jobs?content=true&pay_transparency=true"
+ },
+ {
+  "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/scalapaysrl",
+  "board": "scalapaysrl",
+  "status": "ok",
+  "jobs": 9,
+  "countries": {
+   "IT": 6,
+   "AU": 1,
+   "ES": 1,
+   "FR": 1
+  }
  },
  {
   "platform": "greenhouse",
@@ -2913,6 +3226,22 @@
  },
  {
   "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/swordhealth",
+  "board": "swordhealth",
+  "status": "ok",
+  "jobs": 23,
+  "countries": {
+   "US": 9,
+   "PT": 7,
+   "DE": 2,
+   "?": 2,
+   "BR": 1,
+   "GR": 1,
+   "CA": 1
+  }
+ },
+ {
+  "platform": "greenhouse",
   "url": "https://job-boards.greenhouse.io/synack",
   "board": "synack",
   "status": "ok",
@@ -3053,6 +3382,19 @@
  },
  {
   "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/truecaller",
+  "board": "truecaller",
+  "status": "ok",
+  "jobs": 34,
+  "countries": {
+   "SE": 16,
+   "IN": 15,
+   "EG": 2,
+   "ZA": 1
+  }
+ },
+ {
+  "platform": "greenhouse",
   "url": "https://job-boards.greenhouse.io/truelayer",
   "board": "truelayer",
   "status": "ok",
@@ -3063,7 +3405,15 @@
   "url": "https://job-boards.greenhouse.io/trustpilot",
   "board": "trustpilot",
   "status": "ok",
-  "jobs": 29
+  "jobs": 29,
+  "countries": {
+   "DK": 9,
+   "GB": 8,
+   "US": 5,
+   "NL": 3,
+   "DE": 3,
+   "AU": 1
+  }
  },
  {
   "platform": "greenhouse",
@@ -3158,6 +3508,20 @@
  },
  {
   "platform": "greenhouse",
+  "url": "https://job-boards.greenhouse.io/veriff",
+  "board": "veriff",
+  "status": "ok",
+  "jobs": 10,
+  "countries": {
+   "US": 3,
+   "ES": 2,
+   "GB": 2,
+   "?": 2,
+   "EE": 1
+  }
+ },
+ {
+  "platform": "greenhouse",
   "url": "https://job-boards.greenhouse.io/verkada",
   "board": "verkada",
   "status": "ok",
@@ -3224,7 +3588,21 @@
   "url": "https://job-boards.greenhouse.io/wolt",
   "board": "wolt",
   "status": "ok",
-  "jobs": 183
+  "jobs": 178,
+  "countries": {
+   "DE": 25,
+   "HU": 17,
+   "IL": 17,
+   "RS": 14,
+   "CY": 13,
+   "FI": 11,
+   "DK": 9,
+   "HR": 8,
+   "GR": 8,
+   "KZ": 7,
+   "CZ": 6,
+   "PL": 5
+  }
  },
  {
   "platform": "greenhouse",
@@ -3312,6 +3690,19 @@
  },
  {
   "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/Dext-Careers",
+  "board": "Dext-Careers",
+  "status": "ok",
+  "jobs": 10,
+  "countries": {
+   "BG": 4,
+   "GB": 4,
+   "AU": 1,
+   "FR": 1
+  }
+ },
+ {
+  "platform": "ashby",
   "url": "https://jobs.ashbyhq.com/abridge",
   "board": "abridge",
   "status": "ok",
@@ -3358,6 +3749,16 @@
   "board": "anysphere",
   "status": "error",
   "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/anysphere?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/apify",
+  "board": "apify",
+  "status": "ok",
+  "jobs": 14,
+  "countries": {
+   "CZ": 14
+  }
  },
  {
   "platform": "ashby",
@@ -3564,6 +3965,19 @@
  },
  {
   "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/docplanner",
+  "board": "docplanner",
+  "status": "ok",
+  "jobs": 35,
+  "countries": {
+   "ES": 20,
+   "PL": 11,
+   "BR": 3,
+   "TR": 1
+  }
+ },
+ {
+  "platform": "ashby",
   "url": "https://jobs.ashbyhq.com/doppler",
   "board": "doppler",
   "status": "ok",
@@ -3683,6 +4097,21 @@
  },
  {
   "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/glia",
+  "board": "glia",
+  "status": "ok",
+  "jobs": 28,
+  "countries": {
+   "US": 9,
+   "?": 5,
+   "PL": 5,
+   "MX": 4,
+   "EE": 4,
+   "CA": 1
+  }
+ },
+ {
+  "platform": "ashby",
   "url": "https://jobs.ashbyhq.com/grafana",
   "board": "grafana",
   "status": "error",
@@ -3736,6 +4165,19 @@
   "board": "hightouch",
   "status": "ok",
   "jobs": 1
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/hostinger",
+  "board": "hostinger",
+  "status": "ok",
+  "jobs": 43,
+  "countries": {
+   "LT": 38,
+   "PL": 3,
+   "ID": 1,
+   "ES": 1
+  }
  },
  {
   "platform": "ashby",
@@ -3875,7 +4317,12 @@
   "url": "https://jobs.ashbyhq.com/lovable",
   "board": "lovable",
   "status": "ok",
-  "jobs": 77
+  "jobs": 80,
+  "countries": {
+   "SE": 43,
+   "GB": 22,
+   "US": 15
+  }
  },
  {
   "platform": "ashby",
@@ -4089,6 +4536,21 @@
  },
  {
   "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/pleo",
+  "board": "pleo",
+  "status": "ok",
+  "jobs": 32,
+  "countries": {
+   "PT": 14,
+   "GB": 11,
+   "DE": 2,
+   "NL": 2,
+   "DK": 2,
+   "ES": 1
+  }
+ },
+ {
+  "platform": "ashby",
   "url": "https://jobs.ashbyhq.com/polymarket",
   "board": "polymarket",
   "status": "ok",
@@ -4142,6 +4604,18 @@
   "board": "raycast",
   "status": "empty",
   "jobs": 0
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/reaktor",
+  "board": "reaktor",
+  "status": "ok",
+  "jobs": 13,
+  "countries": {
+   "FI": 11,
+   "JP": 1,
+   "PT": 1
+  }
  },
  {
   "platform": "ashby",
@@ -4215,10 +4689,36 @@
  },
  {
   "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/rohlik",
+  "board": "rohlik",
+  "status": "ok",
+  "jobs": 92,
+  "countries": {
+   "CZ": 46,
+   "DE": 35,
+   "AT": 6,
+   "HU": 3,
+   "US": 2
+  }
+ },
+ {
+  "platform": "ashby",
   "url": "https://jobs.ashbyhq.com/runway",
   "board": "runway",
   "status": "ok",
   "jobs": 3
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/satispay",
+  "board": "satispay",
+  "status": "ok",
+  "jobs": 72,
+  "countries": {
+   "IT": 50,
+   "LU": 18,
+   "ES": 4
+  }
  },
  {
   "platform": "ashby",
@@ -4254,6 +4754,16 @@
   "board": "sesame",
   "status": "ok",
   "jobs": 16
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/shapr3d",
+  "board": "shapr3d",
+  "status": "ok",
+  "jobs": 5,
+  "countries": {
+   "HU": 5
+  }
  },
  {
   "platform": "ashby",
@@ -4341,10 +4851,34 @@
  },
  {
   "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/supercell",
+  "board": "supercell",
+  "status": "ok",
+  "jobs": 29,
+  "countries": {
+   "FI": 22,
+   "CN": 4,
+   "GB": 3
+  }
+ },
+ {
+  "platform": "ashby",
   "url": "https://jobs.ashbyhq.com/superhuman",
   "board": "superhuman",
   "status": "error",
   "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/superhuman?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/surfshark",
+  "board": "surfshark",
+  "status": "ok",
+  "jobs": 32,
+  "countries": {
+   "LT": 28,
+   "PL": 3,
+   "GB": 1
+  }
  },
  {
   "platform": "ashby",
@@ -4432,6 +4966,45 @@
  },
  {
   "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/toogoodtogo",
+  "board": "toogoodtogo",
+  "status": "ok",
+  "jobs": 62,
+  "countries": {
+   "DK": 14,
+   "GB": 12,
+   "PL": 6,
+   "US": 6,
+   "NL": 5,
+   "JP": 4,
+   "FR": 3,
+   "AU": 3,
+   "SE": 2,
+   "AT": 2,
+   "ES": 1,
+   "PT": 1
+  }
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/trading212",
+  "board": "trading212",
+  "status": "ok",
+  "jobs": 66,
+  "countries": {
+   "BG": 18,
+   "GB": 17,
+   "DE": 11,
+   "PL": 6,
+   "RO": 5,
+   "ES": 5,
+   "PT": 2,
+   "CY": 1,
+   "IE": 1
+  }
+ },
+ {
+  "platform": "ashby",
   "url": "https://jobs.ashbyhq.com/trigger",
   "board": "trigger",
   "status": "error",
@@ -4443,6 +5016,27 @@
   "board": "turso",
   "status": "error",
   "error": "FetchError: HTTP 404 from https://api.ashbyhq.com/posting-api/job-board/turso?includeCompensation=true"
+ },
+ {
+  "platform": "ashby",
+  "url": "https://jobs.ashbyhq.com/uipath",
+  "board": "uipath",
+  "status": "ok",
+  "jobs": 105,
+  "countries": {
+   "US": 38,
+   "RO": 17,
+   "IN": 10,
+   "GB": 10,
+   "JP": 4,
+   "MX": 4,
+   "AU": 4,
+   "ID": 2,
+   "SA": 2,
+   "SG": 2,
+   "AE": 2,
+   "CA": 2
+  }
  },
  {
   "platform": "ashby",
@@ -4859,6 +5453,20 @@
  },
  {
   "platform": "lever",
+  "url": "https://jobs.lever.co/jobandtalent",
+  "board": "jobandtalent",
+  "status": "ok",
+  "jobs": 30,
+  "countries": {
+   "ES": 14,
+   "US": 8,
+   "CO": 3,
+   "GB": 3,
+   "SE": 2
+  }
+ },
+ {
+  "platform": "lever",
   "url": "https://jobs.lever.co/jumpcloud",
   "board": "jumpcloud",
   "status": "ok",
@@ -4891,6 +5499,17 @@
   "board": "lime",
   "status": "error",
   "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/lime?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/lodgify",
+  "board": "lodgify",
+  "status": "ok",
+  "jobs": 7,
+  "countries": {
+   "ES": 6,
+   "GB": 1
+  }
  },
  {
   "platform": "lever",
@@ -4975,6 +5594,17 @@
   "board": "nextdoor",
   "status": "error",
   "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/nextdoor?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/nfq",
+  "board": "nfq",
+  "status": "ok",
+  "jobs": 9,
+  "countries": {
+   "LT": 8,
+   "PL": 1
+  }
  },
  {
   "platform": "lever",
@@ -5198,7 +5828,21 @@
   "url": "https://jobs.lever.co/spotify",
   "board": "spotify",
   "status": "ok",
-  "jobs": 87
+  "jobs": 94,
+  "countries": {
+   "GB": 37,
+   "US": 30,
+   "SE": 10,
+   "CA": 3,
+   "JP": 3,
+   "ID": 2,
+   "DE": 1,
+   "KR": 1,
+   "AU": 1,
+   "BR": 1,
+   "AE": 1,
+   "FR": 1
+  }
  },
  {
   "platform": "lever",
@@ -5241,6 +5885,16 @@
   "board": "tenable",
   "status": "error",
   "error": "FetchError: HTTP 404 from https://api.lever.co/v0/postings/tenable?mode=json&skip=0&limit=100"
+ },
+ {
+  "platform": "lever",
+  "url": "https://jobs.lever.co/text",
+  "board": "text",
+  "status": "ok",
+  "jobs": 7,
+  "countries": {
+   "PL": 7
+  }
  },
  {
   "platform": "lever",
@@ -5733,6 +6387,36 @@
   "error": "FetchError: HTTP 404 from https://careers.smartrecruiters.com/Zalando/api/more?page=0"
  },
  {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/cdprojektred",
+  "board": "cdprojektred",
+  "status": "ok",
+  "jobs": 57,
+  "countries": {
+   "?": 57
+  }
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/endava",
+  "board": "endava",
+  "status": "ok",
+  "jobs": 163,
+  "countries": {
+   "?": 163
+  }
+ },
+ {
+  "platform": "smartrecruiters",
+  "url": "https://jobs.smartrecruiters.com/playtech",
+  "board": "playtech",
+  "status": "ok",
+  "jobs": 103,
+  "countries": {
+   "?": 103
+  }
+ },
+ {
   "platform": "teamtailor",
   "url": "https://kahoot.teamtailor.com/jobs",
   "board": "kahoot.teamtailor.com",
@@ -5745,6 +6429,19 @@
   "board": "kaia-health",
   "status": "blocked",
   "error": "robots.txt disallows https://kaia-health.jobs.personio.de/xml"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://kavehome.teamtailor.com/jobs",
+  "board": "kavehome.teamtailor.com",
+  "status": "ok",
+  "jobs": 39,
+  "countries": {
+   "ES": 36,
+   "?": 1,
+   "BE": 1,
+   "IT": 1
+  }
  },
  {
   "platform": "personio",
@@ -5793,7 +6490,11 @@
   "url": "https://lunar.teamtailor.com/jobs",
   "board": "lunar.teamtailor.com",
   "status": "ok",
-  "jobs": 19
+  "jobs": 25,
+  "countries": {
+   "DK": 23,
+   "SE": 2
+  }
  },
  {
   "platform": "teamtailor",
@@ -5915,6 +6616,17 @@
   "error": "FetchError: HTTP 404 from https://outpost24.teamtailor.com/jobs.rss"
  },
  {
+  "platform": "teamtailor",
+  "url": "https://paack.teamtailor.com/jobs",
+  "board": "paack.teamtailor.com",
+  "status": "ok",
+  "jobs": 7,
+  "countries": {
+   "ES": 6,
+   "PT": 1
+  }
+ },
+ {
   "platform": "workday",
   "url": "https://paloaltonetworks.wd5.myworkdayjobs.com/External",
   "board": "paloaltonetworks.wd5.myworkdayjobs.com/paloaltonetworks/External",
@@ -5976,6 +6688,23 @@
   "board": "polestar.teamtailor.com",
   "status": "blocked",
   "error": "robots.txt disallows https://polestar.teamtailor.com/jobs.rss"
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://printfulinc.teamtailor.com/jobs",
+  "board": "printfulinc.teamtailor.com",
+  "status": "ok",
+  "jobs": 30,
+  "countries": {
+   "LV": 8,
+   "US": 6,
+   "PL": 6,
+   "DE": 3,
+   "ES": 2,
+   "?": 2,
+   "EE": 2,
+   "RO": 1
+  }
  },
  {
   "platform": "recruitee",
@@ -6069,11 +6798,33 @@
   "error": "robots.txt disallows https://scalable.jobs.personio.de/xml"
  },
  {
+  "platform": "teamtailor",
+  "url": "https://schibsted.teamtailor.com/jobs",
+  "board": "schibsted.teamtailor.com",
+  "status": "ok",
+  "jobs": 30,
+  "countries": {
+   "NO": 19,
+   "SE": 11
+  }
+ },
+ {
   "platform": "personio",
   "url": "https://sennder.jobs.personio.de",
   "board": "sennder",
   "status": "blocked",
   "error": "robots.txt disallows https://sennder.jobs.personio.de/xml"
+ },
+ {
+  "platform": "recruitee",
+  "url": "https://sequra.recruitee.com",
+  "board": "sequra",
+  "status": "ok",
+  "jobs": 11,
+  "countries": {
+   "ES": 10,
+   "DE": 1
+  }
  },
  {
   "platform": "workday",
@@ -6186,6 +6937,17 @@
   "board": "thermondo",
   "status": "ok",
   "jobs": 193
+ },
+ {
+  "platform": "teamtailor",
+  "url": "https://tibber.teamtailor.com/jobs",
+  "board": "tibber.teamtailor.com",
+  "status": "ok",
+  "jobs": 12,
+  "countries": {
+   "SE": 8,
+   "DE": 4
+  }
  },
  {
   "platform": "personio",

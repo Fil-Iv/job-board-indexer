@@ -1,8 +1,10 @@
 from datetime import datetime
 from decimal import Decimal
+from typing import Any
 
 from sqlalchemy import (
     BigInteger,
+    ColumnElement,
     Computed,
     DateTime,
     Enum,
@@ -13,9 +15,13 @@ from sqlalchemy import (
     String,
     Text,
     UniqueConstraint,
+    and_,
+    case,
+    literal,
+    null,
 )
 from sqlalchemy.dialects.postgresql import TSVECTOR
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, column_property, mapped_column
 
 from jobindex.models.base import Base, utcnow
 from jobindex.models.enums import JobStatus, RemoteType, enum_values
@@ -72,6 +78,35 @@ SENIORITY_SQL = (
     )
     + " ELSE 'unknown' END"
 )
+
+
+# World region of a posting that names a region but no country ("Remote - EMEA",
+# "Europe", "APAC - Remote"): such postings have no country, so they are on no map and in
+# no country of /browse. Job.area evaluates this in the query (a SQL expression, not a
+# stored column: no table rewrite, no extra bytes on the size-capped demo database; it
+# only runs over the few rows without a country). First match wins; NULL when the
+# posting has a country or names no region. Word-boundary regexes, case-insensitive.
+# Codes, labels and member countries: jobindex/geo.py (AREAS), keep the two in sync.
+_AREA_PATTERNS = (
+    ("emea", r"emea"),
+    ("europe", r"europe|european|european union|eu|eea|cee|dach|nordics|benelux|baltics"),
+    ("apac", r"apac|asia[- ]pacific|asia|oceania"),
+    ("latam", r"latam|latin america|south america|central america"),
+    ("americas", r"americas|amer|namer|north america"),
+    ("worldwide", r"worldwide|global|anywhere|international"),
+)
+
+
+def _area_sql(country: Any, location_raw: Any) -> ColumnElement[str]:
+    """CASE expression for Job.area over the ``country`` / ``location_raw`` columns."""
+    whens = [
+        (
+            and_(country.is_(None), location_raw.regexp_match(rf"\m({words})\M", "i")),
+            literal(code),
+        )
+        for code, words in _AREA_PATTERNS
+    ]
+    return case(*whens, else_=null())
 
 
 class Job(Base):
@@ -155,3 +190,4 @@ class Job(Base):
         TSVECTOR, Computed(SEARCH_VECTOR_SQL, persisted=True)
     )
     seniority: Mapped[str] = mapped_column(String(16), Computed(SENIORITY_SQL, persisted=True))
+    area: Mapped[str | None] = column_property(_area_sql(country, location_raw), deferred=True)

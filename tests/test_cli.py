@@ -6,7 +6,7 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from jobindex.cli import add_source, main, seed_demo
+from jobindex.cli import add_source, main, retire_sources, seed_demo
 from jobindex.connectors.base import RawJob
 from jobindex.connectors.registry import Registry
 from jobindex.models import FetchRun, FetchStatus, Job, Source
@@ -129,3 +129,34 @@ async def test_seed_demo_registers_examples(
     rows = (await session.execute(select(Source.board_identifier, Source.company_name))).all()
     names = {board: company for board, company in rows}
     assert names == {"acme": "Acme", "globex": "Globex Corporation"}
+
+
+async def test_retire_sources(
+    fake_registry: Registry,
+    session_factory: async_sessionmaker[AsyncSession],
+    session: AsyncSession,
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    session.add_all(
+        [
+            Source(id=1, platform="fake", board_identifier="acme", base_url="https://a"),
+            Source(id=2, platform="fake", board_identifier="globex", base_url="https://g"),
+        ]
+    )
+    await session.flush()
+    for i in range(3):
+        session.add(Job(source_id=1, external_id=str(i), title="Engineer", content_hash=str(i)))
+    session.add(Job(source_id=2, external_id="g", title="Engineer", content_hash="g"))
+    await session.commit()
+    retired = tmp_path / "retired.yaml"
+    retired.write_text(
+        "sources:\n- url: https://jobs.fake.test/acme\n- url: https://jobs.fake.test/gone\n",
+        encoding="utf-8",
+    )
+    for _ in range(2):  # idempotent
+        assert await retire_sources(session_factory, fake_registry, retired) == 0
+    assert "deleted 1 source(s) with 3 posting(s)" in capsys.readouterr().out
+    session.expire_all()
+    assert (await session.scalars(select(Source.board_identifier))).all() == ["globex"]
+    assert (await session.scalars(select(Job.external_id))).all() == ["g"]

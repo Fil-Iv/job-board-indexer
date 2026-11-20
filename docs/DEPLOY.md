@@ -116,7 +116,7 @@ Do **not** use the "Direct connection" string: it is IPv6-only on the free tier.
    `alembic upgrade head` through the session pooler. Later it runs by itself on every push
    to `main` that touches `migrations/` or the models.
 7. **Actions → crawl → Run workflow**, tick **First register the boards of
-   coverage/demo_sources\*.yaml**, **Run workflow**. The first run registers ~370 boards and
+   coverage/demo_sources\*.yaml**, **Run workflow**. The first run registers ~410 boards and
    crawls them (expect 30–90 min; Jobiqo boards are slow on purpose: `Crawl-delay: 10`).
    The run page shows a **summary** with counts per platform and the database size.
 8. From now on `crawl` runs every 6 hours (cron `17 */6 * * *`, UTC). The two runs never

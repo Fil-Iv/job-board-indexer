@@ -1,0 +1,83 @@
+# Employers hiring in Bulgaria and under-covered EU countries (2026-11-20), for the
+# hosted demo's map. Found by checking which ATS each employer's careers page uses
+# (registry.resolve_url) and by trying the employer's slug on each supported ATS, then
+# kept only if the board's open jobs are located there (countries from the connector's
+# normalised locations; SmartRecruiters from the career page's location groups).
+# Checked and written to demo_sources_extra.yaml with
+#     python scripts/check_boards.py --candidates coverage/candidate_boards_europe.yaml --write
+# Comments: where the jobs were when checked.
+
+greenhouse:
+  - payhawkio  # Payhawk: Sofia HQ (BG 20 of 72), London, Berlin, Paris
+  - ocadogroup  # Ocado Technology: Sofia, Plovdiv, Kraków, UK
+  - coherentsolutions  # Chisinau, Poland, Sofia
+  - rtbhouse  # Warsaw (PL 33 of 64)
+  - emag  # eMAG: Bucharest and Romania
+  - make  # Make (Integromat): Prague, Spain
+  - kaizengaming  # Kaizen Gaming / Betano: Athens, Malta
+  - feedzai  # Lisbon, Porto, Coimbra
+  - swordhealth  # Porto, Lisbon
+  - scalapaysrl  # Scalapay: Milan
+  - cabify  # Madrid, Latin America
+  - truecaller  # Stockholm
+  - mentimeter  # Stockholm
+  - relex  # RELEX Solutions: Helsinki
+  - trustpilot  # Copenhagen, London
+  - microblink  # Zagreb
+  - outfit7  # Ljubljana, Limassol
+  - wolt  # Berlin, Budapest, Belgrade, Limassol, Helsinki
+  - veriff  # Tallinn, Barcelona
+
+lever:
+  - jobandtalent  # Madrid
+  - lodgify  # Barcelona
+  - nfq  # Kaunas, Vilnius
+  - text  # Text (LiveChat): Wrocław
+  - spotify  # Stockholm, London
+
+ashby:
+  - trading212  # Trading 212: Sofia, Plovdiv (BG 18 of 66), London, Kraków, Bucharest
+  - Dext-Careers  # Dext: Sofia, London
+  - uipath  # UiPath: Bucharest (RO 17), US
+  - rohlik  # Rohlik Group: Prague (CZ 46 of 92), Germany, Austria, Hungary
+  - apify  # Prague
+  - satispay  # Milan (IT 50 of 72), Luxembourg
+  - pleo  # Lisbon (PT 14 of 32), Copenhagen, London
+  - docplanner  # Barcelona, Warsaw
+  - supercell  # Helsinki
+  - reaktor  # Helsinki
+  - toogoodtogo  # Copenhagen, Warsaw, Amsterdam
+  - lovable  # Stockholm
+  - hostinger  # Kaunas, Vilnius (LT 38 of 43)
+  - surfshark  # Vilnius (LT 28 of 32)
+  - glia  # Tallinn, Poland
+  - shapr3d  # Budapest
+
+workable:
+  - netguru  # Poznań, Poland
+  - skeletontech  # Skeleton Technologies: Tallinn, Germany
+  - kahoot  # Oslo, Copenhagen
+
+recruitee:
+  - chaos  # Chaos (V-Ray): Sofia (BG 5 of 17), Germany
+  - accedia  # Accedia: Sofia
+  - huuuge  # Warsaw, Szczecin
+  - sequra  # Barcelona
+  - holded  # Barcelona
+
+teamtailor:
+  - schibsted  # Oslo, Stockholm
+  - lunar  # Copenhagen
+  - anyfin  # Stockholm
+  - tibber  # Stockholm, Berlin
+  - kavehome  # Barcelona
+  - paack  # Barcelona
+  - printfulinc  # Printful: Riga, Poland
+
+smartrecruiters:
+  - playtech  # Playtech: Sofia (30 of 103), Tallinn/Tartu, Riga, Kyiv, Nicosia
+  - endava  # Endava: Bucharest, Cluj, Iași, Timișoara + 7 RO cities, Warsaw, Croatia, Serbia
+  - cdprojektred  # CD PROJEKT RED: Warsaw (37 of 57)
+
+workday:
+  - https://infobip.wd3.myworkdayjobs.com/InfobipCareers  # Infobip: Zagreb and Croatia

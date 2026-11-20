@@ -3,7 +3,9 @@ the search page filtered to that place.
 
 Uses the normalised location fields of open postings (``country`` ISO code, ``region``,
 ``city``); links go to ``/?location=City, Region, CC``, which the search's location
-filter matches part by part. Counts are openings (deduplicated across sources).
+filter matches part by part. Postings that name only a world region ("Remote - EMEA",
+``Job.area``) are listed below the countries as "Remote – Europe" etc. Counts are
+openings (deduplicated across sources).
 """
 
 from dataclasses import dataclass
@@ -18,6 +20,7 @@ from jobindex.api.deps import SessionDep
 from jobindex.api.pulse import CACHE_SECONDS, country_name
 from jobindex.api.search import group_id
 from jobindex.api.ui import header_stats, templates
+from jobindex.geo import AREAS
 from jobindex.models import Job, JobStatus
 
 MAX_REGIONS = 100
@@ -56,6 +59,22 @@ async def browse_countries(request: Request, session: SessionDep) -> HTMLRespons
         .order_by(openings.desc(), Job.country)
     )
     countries = [Place(country_name(code), n, f"/browse/{code}", code) for code, n in rows]
+    area_counts = dict(
+        (
+            await session.execute(
+                select(Job.area, openings)
+                .where(Job.status == JobStatus.OPEN, Job.area.is_not(None))
+                .group_by(Job.area)
+            )
+        )
+        .tuples()
+        .all()
+    )
+    areas = [
+        Place(area.label, area_counts[area.code], search_url(area.search))
+        for area in AREAS
+        if area_counts.get(area.code)
+    ]
     return _cached(
         templates.TemplateResponse(
             request,
@@ -65,6 +84,7 @@ async def browse_countries(request: Request, session: SessionDep) -> HTMLRespons
                 "stats": await header_stats(session),
                 "country": None,
                 "countries": countries,
+                "areas": areas,
             },
         )
     )

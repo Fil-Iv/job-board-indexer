@@ -125,3 +125,26 @@ async def test_unknown_or_empty_country(client: httpx.AsyncClient, session: Asyn
     assert "No open jobs in France right now." in empty.text
     assert (await client.get("/browse/1x")).status_code == 404
     assert (await client.get("/browse/USA")).status_code == 404
+
+
+async def test_remote_regions(client: httpx.AsyncClient, session: AsyncSession) -> None:
+    session.add(Source(id=1, platform="greenhouse", board_identifier="a", base_url="https://a"))
+    await session.flush()
+    for i, raw in enumerate(["Remote - EMEA", "Europe", "Remote (Europe)"]):
+        session.add(
+            Job(
+                source_id=1,
+                external_id=str(i),
+                title=f"Job {i}",
+                location_raw=raw,
+                first_seen_at=T0,
+                last_seen_at=T0,
+                content_hash=str(i),
+            )
+        )
+    await session.commit()
+    page = (await client.get("/browse")).text
+    assert "Remote, by region" in page
+    assert "Remote – Europe" in page
+    assert "Remote – EMEA" in page
+    assert links(page, "/?location=") == ["/?location=EMEA", "/?location=Europe"]

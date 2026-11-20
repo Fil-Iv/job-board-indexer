@@ -6,6 +6,7 @@ from urllib.parse import parse_qs, urlsplit
 
 import httpx
 import pytest
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from jobindex.api import places
@@ -212,3 +213,65 @@ async def test_compact_map_on_search_results(
     assert "Countries with open jobs" not in page
     nothing = (await client.get("/", params={"q": "zzzz-no-match"})).text
     assert 'id="hero"' not in nothing  # no map over an empty result
+
+
+async def seed_areas(session: AsyncSession) -> None:
+    session.add(Source(id=1, platform="greenhouse", board_identifier="a", base_url="https://a"))
+    await session.flush()
+    rows = [  # location_raw, country
+        ("Remote - EMEA", None),
+        ("Europe", None),
+        ("Remote, EU", None),
+        ("APAC - Remote", None),
+        ("Remote, Global", None),
+        ("Remote - Bulgaria", "BG"),  # has a country: no area
+        ("Remote", None),  # names no region: no area
+    ]
+    for i, (raw, country) in enumerate(rows):
+        session.add(
+            Job(
+                source_id=1,
+                external_id=str(i),
+                title=f"Job {i}",
+                location_raw=raw,
+                country=country,
+                first_seen_at=T0,
+                last_seen_at=T0,
+                content_hash=str(i),
+            )
+        )
+    await session.commit()
+
+
+async def test_area_column(session: AsyncSession) -> None:
+    await seed_areas(session)
+    rows = (await session.execute(select(Job.location_raw, Job.area).order_by(Job.id))).all()
+    assert [tuple(r) for r in rows] == [
+        ("Remote - EMEA", "emea"),
+        ("Europe", "europe"),
+        ("Remote, EU", "europe"),
+        ("APAC - Remote", "apac"),
+        ("Remote, Global", "worldwide"),
+        ("Remote - Bulgaria", None),
+        ("Remote", None),
+    ]
+
+
+async def test_areas_on_the_map(client: httpx.AsyncClient, session: AsyncSession) -> None:
+    await seed_areas(session)
+    areas = {a["code"]: a for a in (await client.get("/places.json")).json()["areas"]}
+    assert list(areas) == ["emea", "europe", "apac", "worldwide"]  # geo.AREAS order
+    europe = areas["europe"]
+    assert (europe["label"], europe["count"], europe["href"]) == (
+        "Remote – Europe",
+        2,
+        "/?location=Europe",
+    )
+    assert "100" in europe["countries"]  # Bulgaria is highlighted with Europe
+    assert "840" not in europe["countries"]
+    assert set(europe["countries"]) < set(areas["emea"]["countries"])
+    assert areas["worldwide"]["countries"] == []  # listed, nothing to highlight
+    for area in areas.values():  # the links find exactly the counted postings
+        location = parse_qs(urlsplit(area["href"]).query)["location"][0]
+        found = (await client.get("/jobs", params={"location": location})).json()["total"]
+        assert found == area["count"], area["code"]

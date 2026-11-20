@@ -28,6 +28,7 @@ from html import unescape
 from typing import Any, ClassVar
 
 from jobindex.checkpoint import CheckpointStore, MemoryCheckpoint
+from jobindex.geo import country_of_city
 from jobindex.http import HttpClient
 from jobindex.models.enums import RemoteType
 from jobindex.normalize import (
@@ -102,6 +103,8 @@ class RawJob:
             changes.update(city=loc.city, region=loc.region)
         else:
             changes["region"] = normalize_region(self.region, country)
+        if country is None and (city := changes.get("city", self.city)):
+            country = country_of_city(city)  # explicit city, no country: "Sofia" -> BG
         changes["country"] = country
 
         if self.remote_type is RemoteType.UNKNOWN:

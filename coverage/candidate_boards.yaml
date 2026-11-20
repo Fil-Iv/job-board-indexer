@@ -119,7 +119,6 @@ greenhouse:
   - canva
   - gusto
   - samsara
-  - verkada
   - scaleai
   - anthropic
   - wikimedia
@@ -147,7 +146,6 @@ greenhouse:
   - checkr
   - flexport
   - instacart
-  - doordashusa
   - squarespace
   - etsy
   - wealthsimple
@@ -187,12 +185,8 @@ greenhouse:
   - booking
   - spotify
   # batch 2 (2026-11-17)
-  - andurilindustries
-  - spacex
-  - waymo
   - nuro
   - aurorainnovation
-  - relativity
   - planetlabs
   - astranis
   - skydio
@@ -339,7 +333,6 @@ greenhouse:
   - mistralai
   - cruise
   - rivian
-  - lucidmotors
   - jobyaviation
   - archer
   - canonical

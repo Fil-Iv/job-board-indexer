@@ -23,7 +23,7 @@ on:
   workflow_dispatch:
     inputs:
       seed:
-        description: "First register the boards of coverage/demo_sources*.yaml (idempotent)"
+        description: "First retire / register the boards of coverage/demo_sources*.yaml (idempotent)"
         type: boolean
         default: false
       shards:
@@ -95,7 +95,10 @@ jobs:
         if: ${{ inputs.seed }}
         # Fails (and stops the run) only if more than 10% of the boards fail to register;
         # a few that refuse us or no longer resolve are reported and skipped.
+        # Retired boards (coverage/demo_sources_retired.yaml) are deleted first, with their
+        # postings, to make room in the size budget.
         run: |
+          python -m jobindex.cli retire-sources --file coverage/demo_sources_retired.yaml
           python -m jobindex.cli seed-demo --file coverage/demo_sources.yaml
           python -m jobindex.cli seed-demo --file coverage/demo_sources_extra.yaml
       - name: Plan shards

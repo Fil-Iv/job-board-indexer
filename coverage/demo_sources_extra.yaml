@@ -1,7 +1,8 @@
-# More boards for the hosted demo: tech, cybersecurity and remote-first employers on the
-# fast JSON platforms, checked live (robots.txt allowed, public list, open jobs) by
-#     python scripts/check_boards.py --write
-# from coverage/candidate_boards.yaml. Registered by the crawl workflow's seed step
+# More boards for the hosted demo: tech, cybersecurity and remote-first employers, and
+# employers hiring in Bulgaria and under-covered EU countries, on the fast JSON
+# platforms, checked live (robots.txt allowed, public list, open jobs) by
+#     python scripts/check_boards.py --write [--candidates coverage/candidate_boards_europe.yaml]
+# from coverage/candidate_boards*.yaml. Registered by the crawl workflow's seed step
 # together with demo_sources.yaml. `jobs` = open postings when checked.
 
 sources:
@@ -243,12 +244,6 @@ sources:
   url: https://jobs.ashbyhq.com/vapi
   jobs: 5
 - platform: greenhouse
-  url: https://job-boards.greenhouse.io/spacex
-  jobs: 2796
-- platform: greenhouse
-  url: https://job-boards.greenhouse.io/andurilindustries
-  jobs: 2614
-- platform: greenhouse
   url: https://job-boards.greenhouse.io/databricks
   jobs: 893
 - platform: greenhouse
@@ -258,17 +253,8 @@ sources:
   url: https://job-boards.greenhouse.io/anthropic
   jobs: 660
 - platform: greenhouse
-  url: https://job-boards.greenhouse.io/lucidmotors
-  jobs: 490
-- platform: greenhouse
   url: https://job-boards.greenhouse.io/cloudflare
   jobs: 476
-- platform: greenhouse
-  url: https://job-boards.greenhouse.io/doordashusa
-  jobs: 425
-- platform: greenhouse
-  url: https://job-boards.greenhouse.io/relativity
-  jobs: 399
 - platform: greenhouse
   url: https://job-boards.greenhouse.io/mongodb
   jobs: 398
@@ -282,17 +268,11 @@ sources:
   url: https://job-boards.greenhouse.io/zscaler
   jobs: 375
 - platform: greenhouse
-  url: https://job-boards.greenhouse.io/waymo
-  jobs: 370
-- platform: greenhouse
   url: https://job-boards.greenhouse.io/hellofresh
   jobs: 368
 - platform: greenhouse
   url: https://job-boards.greenhouse.io/okta
   jobs: 358
-- platform: greenhouse
-  url: https://job-boards.greenhouse.io/verkada
-  jobs: 346
 - platform: greenhouse
   url: https://job-boards.greenhouse.io/braze
   jobs: 335
@@ -839,3 +819,159 @@ sources:
 - platform: workable
   url: https://apply.workable.com/huggingface/
   jobs: 6
+- platform: ashby
+  url: https://jobs.ashbyhq.com/uipath
+  jobs: 105
+- platform: ashby
+  url: https://jobs.ashbyhq.com/rohlik
+  jobs: 92
+- platform: ashby
+  url: https://jobs.ashbyhq.com/satispay
+  jobs: 72
+- platform: ashby
+  url: https://jobs.ashbyhq.com/trading212
+  jobs: 66
+- platform: ashby
+  url: https://jobs.ashbyhq.com/toogoodtogo
+  jobs: 62
+- platform: ashby
+  url: https://jobs.ashbyhq.com/hostinger
+  jobs: 43
+- platform: ashby
+  url: https://jobs.ashbyhq.com/docplanner
+  jobs: 35
+- platform: ashby
+  url: https://jobs.ashbyhq.com/pleo
+  jobs: 32
+- platform: ashby
+  url: https://jobs.ashbyhq.com/surfshark
+  jobs: 32
+- platform: ashby
+  url: https://jobs.ashbyhq.com/supercell
+  jobs: 29
+- platform: ashby
+  url: https://jobs.ashbyhq.com/glia
+  jobs: 28
+- platform: ashby
+  url: https://jobs.ashbyhq.com/apify
+  jobs: 14
+- platform: ashby
+  url: https://jobs.ashbyhq.com/reaktor
+  jobs: 13
+- platform: ashby
+  url: https://jobs.ashbyhq.com/Dext-Careers
+  jobs: 10
+- platform: ashby
+  url: https://jobs.ashbyhq.com/shapr3d
+  jobs: 5
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/payhawkio
+  jobs: 72
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/ocadogroup
+  jobs: 66
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/rtbhouse
+  jobs: 64
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/cabify
+  jobs: 46
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/emag
+  jobs: 39
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/kaizengaming
+  jobs: 34
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/relex
+  jobs: 34
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/truecaller
+  jobs: 34
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/swordhealth
+  jobs: 23
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/coherentsolutions
+  jobs: 15
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/mentimeter
+  jobs: 13
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/veriff
+  jobs: 10
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/feedzai
+  jobs: 9
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/outfit7
+  jobs: 9
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/scalapaysrl
+  jobs: 9
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/make
+  jobs: 8
+- platform: greenhouse
+  url: https://job-boards.greenhouse.io/microblink
+  jobs: 8
+- platform: lever
+  url: https://jobs.lever.co/jobandtalent
+  jobs: 30
+- platform: lever
+  url: https://jobs.lever.co/nfq
+  jobs: 9
+- platform: lever
+  url: https://jobs.lever.co/lodgify
+  jobs: 7
+- platform: lever
+  url: https://jobs.lever.co/text
+  jobs: 7
+- platform: recruitee
+  url: https://chaos.recruitee.com
+  jobs: 17
+- platform: recruitee
+  url: https://sequra.recruitee.com
+  jobs: 11
+- platform: recruitee
+  url: https://holded.recruitee.com
+  jobs: 8
+- platform: recruitee
+  url: https://huuuge.recruitee.com
+  jobs: 8
+- platform: recruitee
+  url: https://accedia.recruitee.com
+  jobs: 5
+- platform: smartrecruiters
+  url: https://jobs.smartrecruiters.com/playtech
+  jobs: 103
+- platform: smartrecruiters
+  url: https://jobs.smartrecruiters.com/cdprojektred
+  jobs: 57
+- platform: teamtailor
+  url: https://kavehome.teamtailor.com/jobs
+  jobs: 39
+- platform: teamtailor
+  url: https://printfulinc.teamtailor.com/jobs
+  jobs: 30
+- platform: teamtailor
+  url: https://schibsted.teamtailor.com/jobs
+  jobs: 30
+- platform: teamtailor
+  url: https://tibber.teamtailor.com/jobs
+  jobs: 12
+- platform: teamtailor
+  url: https://paack.teamtailor.com/jobs
+  jobs: 7
+- platform: workable
+  url: https://apply.workable.com/skeletontech/
+  jobs: 27
+- platform: workable
+  url: https://apply.workable.com/netguru/
+  jobs: 21
+- platform: workable
+  url: https://apply.workable.com/kahoot/
+  jobs: 7
+- platform: workday
+  url: https://infobip.wd3.myworkdayjobs.com/InfobipCareers
+  jobs: 156

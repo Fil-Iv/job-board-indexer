@@ -1,5 +1,5 @@
 """Regenerate ``jobindex/data/cities.tsv.gz``, the gazetteer behind the home-page globe
-(``/places.json``, see ``jobindex/api/places.py``).
+(``jobindex/geo.py``; ``/places.json`` and normalisation).
 
 Source: GeoNames ``cities15000`` (every city with 15,000+ inhabitants), licensed
 CC BY 4.0, https://www.geonames.org. Download and unzip it first, then run::
@@ -10,7 +10,7 @@ CC BY 4.0, https://www.geonames.org. Download and unzip it first, then run::
 
 Output, one city per line, tab-separated: country (ISO alpha-2), admin1 code (e.g. ``CA``
 for California), latitude, longitude (2 decimals, ~1 km), population, display name, then
-the keys the city is matched by (``places.place_key`` of the GeoNames name, its ASCII
+the keys the city is matched by (``geo.place_key`` of the GeoNames name, its ASCII
 form and, for large cities, Latin-script alternate names such as "Köln" for Cologne),
 ``|``-separated.
 """
@@ -24,7 +24,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from jobindex.api.places import place_key
+from jobindex.geo import place_key
 
 OUT = Path(__file__).resolve().parent.parent / "jobindex" / "data" / "cities.tsv.gz"
 ALTERNATES_MIN_POPULATION = 300_000  # alternate names only for big cities (file size)

@@ -5,8 +5,8 @@ or `curl`; steps 10–11 need Docker and `make` (README, *Quick start*).
 
 **Live demo: <https://job-board-indexer.vercel.app>** (Vercel + Supabase Postgres,
 refreshed by GitHub Actions every 6 h; see [DEPLOY.md](DEPLOY.md), part A). The hosted demo
-indexes ~370 boards (~90 across all platforms + ~280 tech, cybersecurity and
-remote-first employers) with at most 1,000 postings each, so it stays inside the free
+indexes ~410 boards (~90 across all platforms + ~270 tech, cybersecurity and
+remote-first employers + ~50 employers hiring in Bulgaria and under-covered EU countries) with at most 1,000 postings each, so it stays inside the free
 tier ([size budget](OPERATIONS.md#size-budget)); the full audit ran on a local database
 with 43k postings ([CHALLENGE_CHECKLIST.md](CHALLENGE_CHECKLIST.md)).
 
@@ -19,7 +19,9 @@ B=https://job-board-indexer.vercel.app
 ## 1. Search page
 
 The home page opens with a world map of open jobs: countries with jobs are highlighted
-(brighter for more), hover shows the count, a click opens that country in `/browse`; "Globe"
+(brighter for more, on a log scale), hover shows the count, a click opens that country in
+`/browse`; postings that name only a region ("Remote - EMEA", "Europe") are listed under
+the map as "Remote – Europe", "Remote – EMEA", …, and hovering one outlines the region; "Globe"
 switches to a rotating globe with the top cities. Then search:
 <https://job-board-indexer.vercel.app/?q=engineer&location=Berlin>.
 

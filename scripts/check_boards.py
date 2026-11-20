@@ -1,11 +1,14 @@
 """Check candidate boards live and keep the ones worth indexing in the hosted demo.
 
-Reads coverage/candidate_boards.yaml (platform -> slugs / URLs), resolves each to a board
+Reads coverage/candidate_boards.yaml (or ``--candidates``, e.g.
+coverage/candidate_boards_europe.yaml; platform -> slugs / URLs), resolves each to a board
 with the connector's URL pattern (no request), then lists its jobs with the connector's
 own ``fetch_jobs`` through the polite HTTP client (robots.txt, User-Agent, 1 request/s
-per host). Results go to coverage/candidate_results.json; ``--write`` puts every board
+per host). Results, with each board's open jobs per country (normalised locations), go to
+coverage/candidate_results.json; ``--write`` puts every board
 with at least ``--min-jobs`` open jobs into coverage/demo_sources_extra.yaml (registered
-by the crawl workflow's seed step next to demo_sources.yaml).
+by the crawl workflow's seed step next to demo_sources.yaml); boards in
+demo_sources_retired.yaml are never re-added.
 
     docker compose run --rm -e HTTP_USER_AGENT="JobIndexBot/0.1 (+https://github.com/...)" \\
         app python scripts/check_boards.py [--new] [--write] [--only greenhouse lever]
@@ -15,6 +18,7 @@ import argparse
 import asyncio
 import json
 import sys
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -30,6 +34,7 @@ CANDIDATES = ROOT / "coverage" / "candidate_boards.yaml"
 RESULTS = ROOT / "coverage" / "candidate_results.json"
 EXTRA = ROOT / "coverage" / "demo_sources_extra.yaml"
 DEMO = ROOT / "coverage" / "demo_sources.yaml"
+RETIRED = ROOT / "coverage" / "demo_sources_retired.yaml"  # never re-added
 
 URL_FORMS = {
     "greenhouse": "https://job-boards.greenhouse.io/{}",
@@ -42,22 +47,24 @@ URL_FORMS = {
     "smartrecruiters": "https://jobs.smartrecruiters.com/{}",
     "breezy": "https://{}.breezy.hr",
     "workday": "{}",
+    "successfactors": "{}",
 }
 TIMEOUT_SECONDS = 300
 PARALLEL = 8
 
 EXTRA_HEADER = """\
-# More boards for the hosted demo: tech, cybersecurity and remote-first employers on the
-# fast JSON platforms, checked live (robots.txt allowed, public list, open jobs) by
-#     python scripts/check_boards.py --write
-# from coverage/candidate_boards.yaml. Registered by the crawl workflow's seed step
+# More boards for the hosted demo: tech, cybersecurity and remote-first employers, and
+# employers hiring in Bulgaria and under-covered EU countries, on the fast JSON
+# platforms, checked live (robots.txt allowed, public list, open jobs) by
+#     python scripts/check_boards.py --write [--candidates coverage/candidate_boards_europe.yaml]
+# from coverage/candidate_boards*.yaml. Registered by the crawl workflow's seed step
 # together with demo_sources.yaml. `jobs` = open postings when checked.
 
 """
 
 
-def candidates(only: set[str] | None) -> list[tuple[str, str]]:
-    data = yaml.safe_load(CANDIDATES.read_text(encoding="utf-8"))
+def candidates(only: set[str] | None, path: Path = CANDIDATES) -> list[tuple[str, str]]:
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
     out = []
     for platform, items in data.items():
         if only and platform not in only:
@@ -84,11 +91,13 @@ async def check(http: HttpClient, platform: str, url: str) -> dict[str, Any]:
     except Exception as exc:  # 404 / unknown board / parse failure
         return {**result, "status": "error", "error": f"{type(exc).__name__}: {exc}"[:200]}
     n = len({job.external_id for job in jobs})
-    return {**result, "status": "ok" if n else "empty", "jobs": n}
+    countries = Counter(job.normalized().country or "?" for job in jobs)
+    top = dict(countries.most_common(12))
+    return {**result, "status": "ok" if n else "empty", "jobs": n, "countries": top}
 
 
-async def run(only: set[str] | None, skip: set[str]) -> list[dict[str, Any]]:
-    todo = [(p, u) for p, u in candidates(only) if u not in skip]
+async def run(only: set[str] | None, skip: set[str], path: Path) -> list[dict[str, Any]]:
+    todo = [(p, u) for p, u in candidates(only, path) if u not in skip]
     gate = asyncio.Semaphore(PARALLEL)
     done = 0
 
@@ -99,16 +108,18 @@ async def run(only: set[str] | None, skip: set[str]) -> list[dict[str, Any]]:
             async with gate:
                 r = await check(http, platform, url)
             done += 1
-            print(f"[{done}/{len(todo)}] {r['status']:8} {r.get('jobs', ''):>5} {url}", flush=True)
+            where = " ".join(f"{c}:{k}" for c, k in list(r.get("countries", {}).items())[:6])
+            print(f"[{done}/{len(todo)}] {r['status']:8} {r.get('jobs', ''):>5} {url} {where}")
             return r
 
         return list(await asyncio.gather(*(one(p, u) for p, u in todo)))
 
 
 def known_boards() -> set[tuple[str, str]]:
+    """Boards already in the demo, or retired from it (never re-added by --write)."""
     registry = default_registry()
     seen = set()
-    for path in (DEMO, EXTRA):
+    for path in (DEMO, EXTRA, RETIRED):
         if not path.exists():
             continue
         for entry in (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).get("sources", []):
@@ -138,13 +149,16 @@ def write_extra(results: list[dict[str, Any]], min_jobs: int) -> int:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0] if __doc__ else None)
     parser.add_argument("--only", nargs="+", metavar="PLATFORM")
+    parser.add_argument(
+        "--candidates", type=Path, default=CANDIDATES, help="candidate file (platform -> slugs)"
+    )
     parser.add_argument("--write", action="store_true", help="update demo_sources_extra.yaml")
     parser.add_argument("--min-jobs", type=int, default=5)
     parser.add_argument("--new", action="store_true", help="skip boards already in the results")
     args = parser.parse_args()
     previous = json.loads(RESULTS.read_text()) if RESULTS.exists() else []
     skip = {r["url"] for r in previous} if args.new else set()
-    results = asyncio.run(run(set(args.only) if args.only else None, skip))
+    results = asyncio.run(run(set(args.only) if args.only else None, skip, args.candidates))
     merged = {r["url"]: r for r in previous} | {r["url"]: r for r in results}
     RESULTS.write_text(json.dumps(sorted(merged.values(), key=lambda r: r["url"]), indent=1) + "\n")
     ok = [r for r in results if r["status"] == "ok"]
