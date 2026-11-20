@@ -347,7 +347,6 @@ greenhouse:
   - tines
   - vanta
   - sentry
-  - posthog
   - supabase
   - ziprecruiter
   - indeed
@@ -519,7 +518,6 @@ ashby:
   - linear
   - vanta
   - supabase
-  - posthog
   - zapier
   - replit
   - perplexity
@@ -672,7 +670,6 @@ ashby:
   - ada
   - faire
   - whatnot
-  - cursor
   - anthropic
   - openai-careers
   - hume

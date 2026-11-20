@@ -58,9 +58,6 @@ sources:
   url: https://jobs.ashbyhq.com/lambda
   jobs: 96
 - platform: ashby
-  url: https://jobs.ashbyhq.com/cursor
-  jobs: 95
-- platform: ashby
   url: https://jobs.ashbyhq.com/temporal
   jobs: 84
 - platform: ashby
@@ -204,9 +201,6 @@ sources:
 - platform: ashby
   url: https://jobs.ashbyhq.com/oneleet
   jobs: 11
-- platform: ashby
-  url: https://jobs.ashbyhq.com/posthog
-  jobs: 10
 - platform: ashby
   url: https://jobs.ashbyhq.com/zapier
   jobs: 10
@@ -713,6 +707,7 @@ sources:
   jobs: 5
 - platform: lever
   url: https://jobs.lever.co/veeva
+  company: Veeva Systems
   jobs: 862
 - platform: lever
   url: https://jobs.lever.co/zoox
@@ -846,9 +841,6 @@ sources:
 - platform: ashby
   url: https://jobs.ashbyhq.com/surfshark
   jobs: 32
-- platform: ashby
-  url: https://jobs.ashbyhq.com/supercell
-  jobs: 29
 - platform: ashby
   url: https://jobs.ashbyhq.com/glia
   jobs: 28

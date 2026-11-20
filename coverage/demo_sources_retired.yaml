@@ -4,7 +4,9 @@
 #     python -m jobindex.cli retire-sources --file coverage/demo_sources_retired.yaml
 # 2026-11-20: large US-only boards (almost no postings outside the US) made room for
 # employers hiring in Bulgaria and under-covered EU countries. Infobip: HTTP 429 from the
-# crawler (rate-limited = blocked, CLAUDE.md). `jobs` = open postings when retired.
+# crawler (rate-limited = blocked, CLAUDE.md). Cursor, PostHog, Supercell: Ashby lists
+# their jobs but their hosted job pages are switched off (HTTP 404), so every link was dead.
+# `jobs` = open postings when retired.
 
 sources:
 - platform: greenhouse
@@ -31,3 +33,12 @@ sources:
 - platform: workday
   url: https://infobip.wd3.myworkdayjobs.com/InfobipCareers
   jobs: 156
+- platform: ashby
+  url: https://jobs.ashbyhq.com/cursor
+  jobs: 88
+- platform: ashby
+  url: https://jobs.ashbyhq.com/posthog
+  jobs: 9
+- platform: ashby
+  url: https://jobs.ashbyhq.com/supercell
+  jobs: 29

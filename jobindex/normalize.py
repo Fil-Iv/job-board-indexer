@@ -53,7 +53,11 @@ from jobindex.models.enums import RemoteType
 #:       ("Sofia" -> BG, "Warsaw" -> PL; geo.country_of_city); Bulgarian city names in
 #:       Cyrillic ("София", "Пловдив")
 #:   6 — implausible salaries are dropped (plausible_salary: "$1–$2 / year" placeholders,
-#:       yearly < 1,000 or > 5,000,000 USD-equivalent); min > max is swapped
+#:       yearly < 1,000 or > 5,000,000 USD-equivalent); min > max is swapped; titles and
+#:       company names: HTML entities decoded, odd spaces collapsed (clean_line);
+#:       placeholder company names ("Unknown", "N/A") dropped (clean_company);
+#:       locations: country-first "India, Hyderabad" and "Israel - Tel Aviv", repeated
+#:       country ("US - United States"), placeholders ("N/A", "LOCATION") dropped
 PARSER_VERSION = 6
 
 # ---------------------------------------------------------------------------
@@ -84,6 +88,29 @@ def html_to_text(html: str | None) -> str | None:
     lines = [line.strip() for line in text.split("\n")]
     text = "\n".join(line for line in lines if line)
     return _BLANK_LINES.sub("\n\n", text).strip() or None
+
+
+# Spaces that sources put in titles: no-break, narrow no-break, thin, ideographic, ... and
+# zero-width characters (removed).
+_ODD_SPACES = re.compile(r"[\u00a0\u2000-\u200a\u202f\u205f\u3000]")
+_ZERO_WIDTH = re.compile(r"[\u200b-\u200d\u2060\ufeff]")
+_PLACEHOLDER_COMPANY = re.compile(r"(?i)unknown|n/?a|none|null|undefined|tbd|-+|\.+|company")
+
+
+def clean_line(text: str) -> str:
+    """One-line text as a person would type it: HTML entities decoded ("Funds &amp;
+    Index" -> "Funds & Index"), odd/zero-width spaces and runs of spaces collapsed."""
+    text = html_lib.unescape(text) if "&" in text else text
+    text = _ZERO_WIDTH.sub("", _ODD_SPACES.sub(" ", text))
+    return " ".join(text.split())
+
+
+def clean_company(name: str | None) -> str | None:
+    """A company name, or ``None`` for placeholders ("Unknown", "N/A", "-")."""
+    if name is None:
+        return None
+    name = clean_line(name)
+    return None if not name or _PLACEHOLDER_COMPANY.fullmatch(name) else name
 
 
 def unescape_html(text: str | None) -> str | None:
@@ -169,6 +196,8 @@ _COUNTRY_ALIASES = {
     "españa": "ES",
     "méxico": "MX",
     "ivory coast": "CI",
+    "republic of ireland": "IE",
+    "south africa": "ZA",
 }
 
 # Words that describe a region, not a city or country.
@@ -205,6 +234,12 @@ _NON_PLACES = {
     "hq",
     "headquarters",
     "main office",
+    # placeholders some boards put in the location field
+    "n/a",
+    "na",
+    "location",
+    "tbd",
+    "tba",
 }
 
 _CITY_ALIASES = {
@@ -310,8 +345,16 @@ def parse_location(raw: str | None) -> Location:
     return Location()
 
 
+_COUNTRY_DASH = re.compile(r"\s+[-–—]\s+")
+
+
 def _parse_single(text: str) -> Location:
     text = _REMOTE_WORDS.sub(" ", text)
+    # "Israel - Tel Aviv", "USA - Austin", "Stratford-on-Avon - UK": a dash next to a
+    # country separates parts like a comma (other dashes stay: "Cairo - ETIC").
+    sides = _COUNTRY_DASH.split(text)
+    if len(sides) == 2 and any(normalize_country(_clean_part(x)) for x in sides):
+        text = ", ".join(sides)
     text = text.replace("(", ",").replace(")", ",")
     parts = [p for p in (_clean_part(p) for p in text.split(",")) if p]
     parts = [p for p in parts if p.lower() not in _NON_PLACES]
@@ -364,9 +407,12 @@ def _parse_single(text: str) -> Location:
         if country:
             return Location(city=parts[-2], region=region, country=country)
 
+    first_country = len(parts[0]) > 2 and normalize_country(parts[0])
     country = normalize_country(last)
     if country:
-        parts = parts[:-1]
+        parts = [p for p in parts[:-1] if normalize_country(p) != country]  # "US, United States"
+    elif first_country and len(parts) >= 2:  # "India, Hyderabad", "India, Delhi NCR"
+        country, parts = first_country, parts[1:]
     elif last.lower() in us and len(last) > 2:  # "Austin, Texas"
         country, region, parts = "US", us[last.lower()], parts[:-1]
     elif last.lower() in ca and len(last) > 2:  # "Montreal, Quebec"

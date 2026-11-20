@@ -31,6 +31,7 @@
 
 import asyncio
 import logging
+from collections import Counter
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, replace
@@ -45,6 +46,7 @@ from jobindex.config import get_settings
 from jobindex.connectors.base import BaseConnector, JobCountDropError, RawJob
 from jobindex.connectors.registry import Registry, default_registry
 from jobindex.db import create_engine, create_session_factory
+from jobindex.geo import city_part, gazetteer, place_key
 from jobindex.http import HttpClient
 from jobindex.models import ChangeCause, FetchRun, FetchStatus, Job, JobChange, JobStatus, Source
 from jobindex.models.base import utcnow
@@ -208,6 +210,7 @@ async def _crawl(
             )
             for raw, raw_hash in raw_jobs
         ]
+        postings = fill_board_country(postings)
         now = utcnow()
         _check_drop(
             connector, previous, len({p.external_id for p, _ in postings if _is_open(p, now)})
@@ -398,6 +401,36 @@ async def _record_failure(
     source.last_error = error
     await session.commit()
     return CrawlResult(source_id, run_id, FetchStatus.FAILED, error=error)
+
+
+#: fill_board_country: a board counts as single-country when at least this many of its
+#: postings name a country and this share of them name the same one.
+BOARD_COUNTRY_MIN_KNOWN = 5
+BOARD_COUNTRY_MIN_SHARE = 0.95
+
+
+def fill_board_country(postings: list[tuple[RawJob, str]]) -> list[tuple[RawJob, str]]:
+    """Postings that name a city but no country get the board's country when the board
+    is single-country and that country has a city (or region) of that name in the
+    gazetteer: "Göttingen" on a German board, "Frisco" on a US one. Bare city names
+    too small or ambiguous to place on their own (geo.country_of_city) are the case."""
+    known = Counter(p.country for p, _ in postings if p.country)
+    total = sum(known.values())
+    if total < BOARD_COUNTRY_MIN_KNOWN:
+        return postings
+    country, n = known.most_common(1)[0]
+    if n / total < BOARD_COUNTRY_MIN_SHARE:
+        return postings
+    index = gazetteer()
+    result = []
+    for posting, raw_hash in postings:
+        names = (posting.city, posting.region)
+        if posting.country is None and any(
+            name and (country, place_key(city_part(name))) in index for name in names
+        ):
+            posting = replace(posting, country=country)
+        result.append((posting, raw_hash))
+    return result
 
 
 #: A posting date before this, or more than POSTED_AT_MAX_AHEAD after the fetch, is not a

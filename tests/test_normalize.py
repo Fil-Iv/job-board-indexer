@@ -8,6 +8,8 @@ from jobindex.geo import country_of_city
 from jobindex.models.enums import RemoteType
 from jobindex.normalize import (
     Location,
+    clean_company,
+    clean_line,
     content_hash,
     detect_remote_type,
     find_salary,
@@ -84,6 +86,14 @@ def test_html_to_text() -> None:
         # Region-only: no country (Job.area files them under the region, see test_area)
         ("Remote - EMEA", Location()),
         ("EU", Location()),
+        # Country-first, dashes, repeated country, placeholders (PARSER_VERSION 6)
+        ("India, Hyderabad", Location("Hyderabad", None, "IN")),
+        ("Israel - Tel Aviv", Location("Tel Aviv", None, "IL")),
+        ("US - United States", Location(None, None, "US")),
+        ("Stratford-on-Avon - UK", Location("Stratford-on-Avon", None, "GB")),
+        ("Republic of Ireland (Remote)", Location(None, None, "IE")),
+        ("N/A", Location()),
+        ("LOCATION", Location()),
         (None, Location()),
     ],
 )
@@ -322,3 +332,41 @@ def test_normalized_hides_implausible_salary() -> None:
         salary_period="year",
     ).normalized()
     assert (swapped.salary_min, swapped.salary_max) == (Decimal(120_000), Decimal(150_000))
+
+
+@pytest.mark.parametrize(
+    ("raw", "clean"),
+    [
+        ("Funds &amp; Index Analytics", "Funds & Index Analytics"),
+        ("Account\u00a0Partner - Data Cloud", "Account Partner - Data Cloud"),
+        ("Applied\u202fAI FDE", "Applied AI FDE"),
+        ("Consultant  - Life Sciences ", "Consultant - Life Sciences"),
+        ("Zero\u200bwidth", "Zerowidth"),
+        ("R&D Engineer", "R&D Engineer"),
+    ],
+)
+def test_clean_line(raw: str, clean: str) -> None:
+    assert clean_line(raw) == clean
+
+
+@pytest.mark.parametrize(
+    ("name", "expected"),
+    [
+        ("Unknown", None),
+        (" n/a ", None),
+        ("-", None),
+        ("", None),
+        (None, None),
+        ("Confidential", "Confidential"),  # says something: kept
+        ("AT&amp;T", "AT&T"),
+    ],
+)
+def test_clean_company(name: str | None, expected: str | None) -> None:
+    assert clean_company(name) == expected
+
+
+def test_normalized_cleans_title_and_placeholder_company() -> None:
+    job = RawJob(external_id="1", title="Account\u00a0Partner", company="Unknown").normalized(
+        company_fallback="Veeva Systems"
+    )
+    assert (job.title, job.company) == ("Account Partner", "Veeva Systems")

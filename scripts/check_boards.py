@@ -3,11 +3,12 @@
 Reads coverage/candidate_boards.yaml (or ``--candidates``, e.g.
 coverage/candidate_boards_europe.yaml; platform -> slugs / URLs), resolves each to a board
 with the connector's URL pattern (no request), then lists its jobs with the connector's
-own ``fetch_jobs`` through the polite HTTP client (robots.txt, User-Agent, 1 request/s
-per host). Results, with each board's open jobs per country (normalised locations), go to
-coverage/candidate_results.json; ``--write`` puts every board
-with at least ``--min-jobs`` open jobs into coverage/demo_sources_extra.yaml (registered
-by the crawl workflow's seed step next to demo_sources.yaml); boards in
+own ``fetch_jobs`` and opens one posting's link (a board whose job pages 404 is
+``dead_links``: users could not apply), all through the polite HTTP client (robots.txt,
+User-Agent, 1 request/s per host). Results, with each board's open jobs per country
+(normalised locations), go to coverage/candidate_results.json; ``--write`` puts every
+board with at least ``--min-jobs`` open jobs into coverage/demo_sources_extra.yaml
+(registered by the crawl workflow's seed step next to demo_sources.yaml); boards in
 demo_sources_retired.yaml are never re-added.
 
     docker compose run --rm -e HTTP_USER_AGENT="JobIndexBot/0.1 (+https://github.com/...)" \\
@@ -91,6 +92,15 @@ async def check(http: HttpClient, platform: str, url: str) -> dict[str, Any]:
     except Exception as exc:  # 404 / unknown board / parse failure
         return {**result, "status": "error", "error": f"{type(exc).__name__}: {exc}"[:200]}
     n = len({job.external_id for job in jobs})
+    links = [job.source_url or job.apply_url for job in jobs]
+    link = next((u for u in links if u), None)
+    if link:  # the API can list jobs whose pages are gone (Ashby boards with hosted pages off)
+        try:
+            await http.get(link)
+        except RobotsDisallowedError:
+            pass  # not ours to open; the list itself was allowed
+        except Exception as exc:
+            return {**result, "status": "dead_links", "jobs": n, "error": f"{link}: {exc}"[:200]}
     countries = Counter(job.normalized().country or "?" for job in jobs)
     top = dict(countries.most_common(12))
     return {**result, "status": "ok" if n else "empty", "jobs": n, "countries": top}
@@ -163,7 +173,7 @@ def main() -> int:
     RESULTS.write_text(json.dumps(sorted(merged.values(), key=lambda r: r["url"]), indent=1) + "\n")
     ok = [r for r in results if r["status"] == "ok"]
     print(f"\n{len(ok)} of {len(results)} boards ok, {sum(r['jobs'] for r in ok):,} open jobs")
-    for status in ("empty", "blocked", "error", "timeout", "no_match"):
+    for status in ("empty", "dead_links", "blocked", "error", "timeout", "no_match"):
         print(f"  {status}: {sum(r['status'] == status for r in results)}")
     if args.write:
         every = list(merged.values())

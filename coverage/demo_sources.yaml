@@ -157,6 +157,7 @@ sources:
   jobs: 112
 - platform: paradox
   url: https://careers.fedex.com/
+  company: FedEx
   jobs: 4673
 - platform: paylocity
   url: https://recruiting.paylocity.com/recruiting/jobs/All/67c76e24-da8b-4733-a8b3-9c1fe859c5b9/Peak-Support-LLC

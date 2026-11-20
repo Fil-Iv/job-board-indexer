@@ -8,7 +8,13 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from jobindex.connectors.base import ConnectorError, RawJob
 from jobindex.connectors.registry import Registry
-from jobindex.crawler import CrawlResult, crawl_source, crawl_sources, plausible_dates
+from jobindex.crawler import (
+    CrawlResult,
+    crawl_source,
+    crawl_sources,
+    fill_board_country,
+    plausible_dates,
+)
 from jobindex.http import FetchError, HttpClient
 from jobindex.models import FetchRun, FetchStatus, Job, JobChange, JobStatus, RemoteType, Source
 from tests.fakes import FakeConnector, FakeDetailConnector
@@ -353,3 +359,19 @@ def test_plausible_dates(posted: datetime, kept: bool) -> None:
     now = datetime(2026, 11, 20, 9, tzinfo=UTC)
     posting = RawJob(external_id="1", title="Engineer", posted_at=posted)
     assert plausible_dates(posting, now).posted_at == (posted if kept else None)
+
+
+def _posting(i: int, city: str | None, country: str | None) -> tuple[RawJob, str]:
+    return RawJob(external_id=str(i), title="Engineer", city=city, country=country), str(i)
+
+
+def test_fill_board_country() -> None:
+    german = [_posting(i, "Berlin", "DE") for i in range(5)]
+    filled = fill_board_country(
+        [*german, _posting(5, "Göttingen", None), _posting(6, "Atlantis", None)]
+    )
+    assert [p.country for p, _ in filled[5:]] == ["DE", None]  # only real German places
+    mixed = [_posting(i, "Berlin", "DE") for i in range(4)] + [_posting(4, "Paris", "FR")]
+    assert fill_board_country([*mixed, _posting(5, "Göttingen", None)])[-1][0].country is None
+    few = [_posting(0, "Berlin", "DE"), _posting(1, "Göttingen", None)]
+    assert fill_board_country(few)[-1][0].country is None  # too little evidence

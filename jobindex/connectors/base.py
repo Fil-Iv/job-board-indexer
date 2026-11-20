@@ -33,6 +33,8 @@ from jobindex.geo import country_of_city
 from jobindex.http import HttpClient
 from jobindex.models.enums import RemoteType
 from jobindex.normalize import (
+    clean_company,
+    clean_line,
     content_hash,
     detect_remote_type,
     find_salary,
@@ -97,8 +99,12 @@ class RawJob:
     def normalized(self, *, company_fallback: str | None = None) -> "RawJob":
         """Return a copy with derivable fields filled in. Explicit values are kept."""
         changes: dict[str, Any] = {}
-        if self.company is None and company_fallback:
-            changes["company"] = company_fallback
+        title = clean_line(self.title)
+        if title != self.title:
+            changes["title"] = title
+        company = clean_company(self.company) or company_fallback
+        if company != self.company:
+            changes["company"] = company
         if self.description_text is None and self.description_html:
             changes["description_text"] = html_to_text(self.description_html)
 
