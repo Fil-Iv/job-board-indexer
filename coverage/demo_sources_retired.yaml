@@ -3,8 +3,8 @@
 # their postings, before registering coverage/demo_sources*.yaml:
 #     python -m jobindex.cli retire-sources --file coverage/demo_sources_retired.yaml
 # 2026-11-20: large US-only boards (almost no postings outside the US) made room for
-# employers hiring in Bulgaria and under-covered EU countries. `jobs` = open postings
-# when retired.
+# employers hiring in Bulgaria and under-covered EU countries. Infobip: HTTP 429 from the
+# crawler (rate-limited = blocked, CLAUDE.md). `jobs` = open postings when retired.
 
 sources:
 - platform: greenhouse
@@ -28,3 +28,6 @@ sources:
 - platform: greenhouse
   url: https://job-boards.greenhouse.io/waymo
   jobs: 370
+- platform: workday
+  url: https://infobip.wd3.myworkdayjobs.com/InfobipCareers
+  jobs: 156

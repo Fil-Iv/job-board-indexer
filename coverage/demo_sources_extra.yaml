@@ -972,6 +972,3 @@ sources:
 - platform: workable
   url: https://apply.workable.com/kahoot/
   jobs: 7
-- platform: workday
-  url: https://infobip.wd3.myworkdayjobs.com/InfobipCareers
-  jobs: 156

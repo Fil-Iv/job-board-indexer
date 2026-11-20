@@ -79,5 +79,4 @@ smartrecruiters:
   - endava  # Endava: Bucharest, Cluj, Iași, Timișoara + 7 RO cities, Warsaw, Croatia, Serbia
   - cdprojektred  # CD PROJEKT RED: Warsaw (37 of 57)
 
-workday:
-  - https://infobip.wd3.myworkdayjobs.com/InfobipCareers  # Infobip: Zagreb and Croatia
+# workday: Infobip (Zagreb) answered HTTP 429 to the crawler: retired 2026-11-20.
