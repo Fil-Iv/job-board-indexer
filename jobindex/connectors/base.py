@@ -28,6 +28,7 @@ from html import unescape
 from typing import Any, ClassVar
 
 from jobindex.checkpoint import CheckpointStore, MemoryCheckpoint
+from jobindex.currency import infer_currency
 from jobindex.geo import country_of_city
 from jobindex.http import HttpClient
 from jobindex.models.enums import RemoteType
@@ -40,6 +41,7 @@ from jobindex.normalize import (
     normalize_country,
     normalize_region,
     parse_location,
+    plausible_salary,
 )
 
 
@@ -50,6 +52,9 @@ class ConnectorError(Exception):
 class JobCountDropError(ConnectorError):
     """The board suddenly lists far fewer postings than on the last successful crawl;
     treated as a fetch failure rather than as mass closures (see ``max_job_drop``)."""
+
+
+SALARY_FIELDS = ("salary_min", "salary_max", "salary_currency", "salary_period")
 
 
 @dataclass(frozen=True, slots=True)
@@ -121,6 +126,16 @@ class RawJob:
                     salary_currency=salary.currency,
                     salary_period=salary.period,
                 )
+        low = changes.get("salary_min", self.salary_min)
+        high = changes.get("salary_max", self.salary_max)
+        if low is not None and high is not None and low > high:  # "120k – 90k"
+            changes.update(salary_min=high, salary_max=low)
+        if (low is not None or high is not None) and not plausible_salary(
+            (low, high),
+            changes.get("salary_currency", self.salary_currency) or infer_currency(country),
+            changes.get("salary_period", self.salary_period),
+        ):  # placeholder ("$1–$2 a year") or mis-scaled: published, but not real pay
+            changes.update(dict.fromkeys(SALARY_FIELDS))
         return replace(self, **changes) if changes else self
 
     def as_dict(self) -> dict[str, Any]:

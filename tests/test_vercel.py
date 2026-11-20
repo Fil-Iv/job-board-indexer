@@ -75,13 +75,19 @@ def test_api_has_no_write_endpoints() -> None:
 
 
 def test_vercel_defaults(monkeypatch: pytest.MonkeyPatch) -> None:
-    for key in ("DATABASE_NULL_POOL", "DATABASE_READ_ONLY", "API_CACHE_SECONDS"):
+    for key in (
+        "DATABASE_NULL_POOL",
+        "DATABASE_READ_ONLY",
+        "API_CACHE_SECONDS",
+        "DATABASE_STATEMENT_TIMEOUT_SECONDS",
+    ):
         monkeypatch.delenv(key, raising=False)
     monkeypatch.setenv("VERCEL", "1")
     settings = Settings()
     assert settings.database_null_pool
     assert settings.database_read_only
     assert settings.api_cache_seconds == 60
+    assert settings.database_statement_timeout_seconds == 20
 
     monkeypatch.setenv("API_CACHE_SECONDS", "0")
     assert Settings().api_cache_seconds == 0  # explicit settings win
@@ -90,6 +96,7 @@ def test_vercel_defaults(monkeypatch: pytest.MonkeyPatch) -> None:
     plain = Settings(_env_file=None)
     assert not plain.database_null_pool
     assert not plain.database_read_only
+    assert plain.database_statement_timeout_seconds is None
 
 
 @pytest.fixture

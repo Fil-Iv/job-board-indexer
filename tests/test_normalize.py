@@ -18,6 +18,7 @@ from jobindex.normalize import (
     parse_datetime,
     parse_location,
     parse_salary,
+    plausible_salary,
     split_url,
 )
 
@@ -260,3 +261,64 @@ def test_normalized_explicit_city_gets_its_country(
 )
 def test_country_of_city(name: str, country: str | None) -> None:
     assert country_of_city(name) == country
+
+
+@pytest.mark.parametrize(
+    ("amounts", "currency", "period", "ok"),
+    [
+        ((Decimal(1), Decimal(2)), "USD", "year", False),  # Anthropic's "$1—$2 USD" placeholder
+        ((Decimal(1), Decimal(1)), "GBP", "year", False),
+        ((Decimal(120_000), Decimal(180_000)), "USD", "year", True),
+        ((Decimal(999), None), "USD", "year", False),  # yearly < 1,000
+        ((None, Decimal(6_000_000)), "USD", "year", False),  # yearly > 5,000,000
+        ((Decimal(9_000_000), Decimal(12_000_000)), "JPY", "year", True),  # ≈ $61k–82k
+        ((Decimal(1_200_000), None), "INR", "year", True),
+        ((Decimal(25), Decimal(40)), "USD", "hour", True),
+        ((Decimal("0.10"), None), "USD", "hour", False),
+        ((Decimal(4_000), Decimal(6_000)), "EUR", "month", True),
+        ((Decimal(500_000), None), "EUR", "month", False),  # 6 M a year
+        ((Decimal(30), Decimal(45)), "USD", None, True),  # no period: could be hourly
+        ((Decimal(0), Decimal(0)), "USD", None, False),
+        ((Decimal(50_000_000), None), "XYZ", "year", True),  # unknown currency: no ceiling
+        ((Decimal(5), None), "XYZ", "year", False),
+    ],
+)
+def test_plausible_salary(
+    amounts: tuple[Decimal | None, ...], currency: str, period: str | None, ok: bool
+) -> None:
+    assert plausible_salary(amounts, currency, period) is ok
+
+
+def test_normalized_hides_implausible_salary() -> None:
+    placeholder = RawJob(
+        external_id="1",
+        title="Legal Specialist",
+        salary_min=Decimal(1),
+        salary_max=Decimal(2),
+        salary_currency="USD",
+        salary_period="year",
+    ).normalized()
+    assert (placeholder.salary_min, placeholder.salary_max, placeholder.salary_currency) == (
+        None,
+        None,
+        None,
+    )
+    assert placeholder.salary_period is None
+    # no currency: judged in the location's currency (¥ figures are large)
+    yen = RawJob(
+        external_id="2",
+        title="Engineer",
+        country="JP",
+        salary_min=Decimal(8_000_000),
+        salary_period="year",
+    ).normalized()
+    assert yen.salary_min == Decimal(8_000_000)
+    swapped = RawJob(
+        external_id="3",
+        title="Engineer",
+        salary_min=Decimal(150_000),
+        salary_max=Decimal(120_000),
+        salary_currency="USD",
+        salary_period="year",
+    ).normalized()
+    assert (swapped.salary_min, swapped.salary_max) == (Decimal(120_000), Decimal(150_000))

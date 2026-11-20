@@ -5,7 +5,8 @@
   a bare big-city name gets its country from the gazetteer ("Sofia" -> BG).
 * :func:`normalize_country` — "United States", "USA", "us" -> "US".
 * :func:`detect_remote_type` — onsite / hybrid / remote / unknown from short text.
-* :func:`parse_salary` / :func:`find_salary` — salary strings in many formats/currencies.
+* :func:`parse_salary` / :func:`find_salary` — salary strings in many formats/currencies;
+  :func:`plausible_salary` — placeholder / mis-scaled amounts that must not be shown.
 * :func:`normalize_employment_type` — "Full-time", "FullTime", "Permanent" -> "full_time".
 * :func:`content_hash` — stable hash over the meaningful fields of a job.
 
@@ -36,6 +37,7 @@ from urllib.parse import parse_qs, unquote, urlsplit
 import pycountry
 from selectolax.lexbor import LexborHTMLParser
 
+from jobindex.currency import USD_PER_UNIT
 from jobindex.geo import country_of_city
 from jobindex.models.enums import RemoteType
 
@@ -50,7 +52,9 @@ from jobindex.models.enums import RemoteType
 #:   5 — a bare big-city name gets its country when one city clearly owns the name
 #:       ("Sofia" -> BG, "Warsaw" -> PL; geo.country_of_city); Bulgarian city names in
 #:       Cyrillic ("София", "Пловдив")
-PARSER_VERSION = 5
+#:   6 — implausible salaries are dropped (plausible_salary: "$1–$2 / year" placeholders,
+#:       yearly < 1,000 or > 5,000,000 USD-equivalent); min > max is swapped
+PARSER_VERSION = 6
 
 # ---------------------------------------------------------------------------
 # HTML
@@ -544,6 +548,34 @@ def infer_salary_period(amount: Decimal | None) -> str | None:
     if amount >= 20000:
         return "year"
     return None  # 500..20000 could be weekly or monthly: don't guess
+
+
+#: Plausible yearly pay in USD-equivalent; other periods are annualised first.
+SALARY_YEARLY_MIN_USD = 1_000
+SALARY_YEARLY_MAX_USD = 5_000_000
+_PER_YEAR = {"hour": 2080, "day": 260, "week": 52, "month": 12, "year": 1}
+
+
+def plausible_salary(
+    amounts: tuple[Decimal | None, ...], currency: str | None, period: str | None
+) -> bool:
+    """Whether published salary amounts can be real pay, not a placeholder ("$1–$2" a
+    year, Greenhouse ranges left at 1–2) or a unit mix-up (a yearly figure in cents).
+
+    Annualised by ``period`` (without a period: plausible for *some* period, hour to
+    year) and converted to USD with :data:`jobindex.currency.USD_PER_UNIT`; between
+    :data:`SALARY_YEARLY_MIN_USD` and :data:`SALARY_YEARLY_MAX_USD`. An unknown currency
+    gets only the lower bound, in its own units (weak currencies have larger numbers)."""
+    rate = USD_PER_UNIT.get((currency or "").upper())
+    low, high = (_PER_YEAR[period],) * 2 if period in _PER_YEAR else (_PER_YEAR["hour"], 1)
+    for amount in amounts:
+        if amount is None:
+            continue
+        if amount <= 0 or float(amount) * low * (rate or 1) < SALARY_YEARLY_MIN_USD:
+            return False
+        if rate is not None and float(amount) * high * rate > SALARY_YEARLY_MAX_USD:
+            return False
+    return True
 
 
 def normalize_salary_period(value: str | None) -> str | None:

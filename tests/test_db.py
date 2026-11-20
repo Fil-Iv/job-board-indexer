@@ -77,3 +77,22 @@ async def test_read_only_engine_refuses_writes(
         await engine.dispose()
     finally:
         get_settings.cache_clear()
+
+
+async def test_statement_timeout_cancels_long_queries(
+    migrated_db: str, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("DATABASE_STATEMENT_TIMEOUT_SECONDS", "0.2")
+    monkeypatch.setenv("DATABASE_NULL_POOL", "true")
+    get_settings.cache_clear()
+    try:
+        engine = create_engine(migrated_db)
+        async with engine.connect() as conn:
+            assert (await conn.execute(text("SHOW statement_timeout"))).scalar() == "200ms"
+            with pytest.raises(DBAPIError, match="statement timeout"):
+                await conn.execute(text("SELECT pg_sleep(2)"))
+        async with engine.connect() as conn:  # every transaction, not just the first
+            assert (await conn.execute(text("SHOW statement_timeout"))).scalar() == "200ms"
+        await engine.dispose()
+    finally:
+        get_settings.cache_clear()

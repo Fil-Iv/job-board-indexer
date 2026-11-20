@@ -34,7 +34,7 @@ import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, replace
-from datetime import datetime
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 from sqlalchemy import desc, select
@@ -400,6 +400,22 @@ async def _record_failure(
     return CrawlResult(source_id, run_id, FetchStatus.FAILED, error=error)
 
 
+#: A posting date before this, or more than POSTED_AT_MAX_AHEAD after the fetch, is not a
+#: real posting date (e.g. a board publishing ``datePosted`` 2026-12-10 on 2026-11-08,
+#: after its own ``validThrough``): stored as unknown rather than shown.
+POSTED_AT_MIN = datetime(2000, 1, 1, tzinfo=UTC)
+POSTED_AT_MAX_AHEAD = timedelta(days=1)  # time zones, clocks
+
+
+def plausible_dates(posting: RawJob, now: datetime) -> RawJob:
+    """``posting`` without an impossible ``posted_at`` (future, or before 2000). Real old
+    dates are kept: evergreen requisitions open since 2016 do exist."""
+    posted = posting.posted_at
+    if posted is not None and (posted < POSTED_AT_MIN or posted > now + POSTED_AT_MAX_AHEAD):
+        return replace(posting, posted_at=None)
+    return posting
+
+
 def _reconcile(
     session: AsyncSession,
     source_id: int,
@@ -415,7 +431,8 @@ def _reconcile(
     by_external_id = {p.external_id: (p, raw_hash) for p, raw_hash in postings}
 
     new = updated = closed = 0
-    for external_id, (posting, raw_hash) in by_external_id.items():
+    for external_id, (published, raw_hash) in by_external_id.items():
+        posting = plausible_dates(published, now)
         fields = posting.as_dict()
         fields.pop("external_id")
         digest = posting.content_hash()

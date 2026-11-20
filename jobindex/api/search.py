@@ -27,6 +27,11 @@ from jobindex.models import Job, JobStatus, RemoteType, Source
 from jobindex.normalize import normalize_country
 
 MAX_PAGE_SIZE = 100
+#: Results are paged only this deep (page * size). A deep OFFSET costs the database all
+#: the skipped rows, ranked and grouped, and keeps running after the client gives up: a
+#: few parallel deep pages stalled the free-tier demo database (2026-11-20). Narrow the
+#: search (company, location, platform, source_id, posted_since) to reach the rest.
+MAX_RESULT_WINDOW = 5_000
 
 
 @dataclass(slots=True)
@@ -167,15 +172,18 @@ async def search(session: AsyncSession, p: SearchParams) -> JobSearchOut:
         order = [newest.desc(), gid.desc()]
 
     total = await session.scalar(select(func.count()).select_from(stmt.subquery())) or 0
-    page_ids = list(
-        await session.scalars(stmt.order_by(*order).limit(p.size).offset((p.page - 1) * p.size))
+    offset = (p.page - 1) * p.size
+    page_ids = (
+        list(await session.scalars(stmt.order_by(*order).limit(p.size).offset(offset)))
+        if offset < MAX_RESULT_WINDOW
+        else []
     )
     openings = await load_openings(session, page_ids)
     return JobSearchOut(
         total=total,
         page=p.page,
         size=p.size,
-        pages=math.ceil(total / p.size) if total else 0,
+        pages=math.ceil(min(total, MAX_RESULT_WINDOW) / p.size) if total else 0,
         items=[JobOut.model_validate(openings[i]) for i in page_ids if i in openings],
     )
 

@@ -6,6 +6,7 @@ import httpx
 import pytest
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from jobindex.api import search as search_module
 from jobindex.api.app import app
 from jobindex.dedup import run_dedup
 from jobindex.models import FetchRun, FetchStatus, Job, JobStatus, RemoteType, Source
@@ -154,6 +155,17 @@ async def test_pagination(client: httpx.AsyncClient, session: AsyncSession) -> N
     assert (first["total"], first["pages"]) == (2, 2)
     assert [first["items"][0]["id"], second["items"][0]["id"]] == [3, 1]
     assert (await client.get("/jobs", params={"size": 101})).status_code == 422
+
+
+async def test_pagination_depth_is_capped(
+    client: httpx.AsyncClient, session: AsyncSession, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    await _seed(session)
+    monkeypatch.setattr(search_module, "MAX_RESULT_WINDOW", 1)  # 2 openings, window of 1
+    first = (await client.get("/jobs", params={"size": 1})).json()
+    assert (first["total"], first["pages"], len(first["items"])) == (2, 1, 1)
+    beyond = (await client.get("/jobs", params={"size": 1, "page": 2})).json()
+    assert (beyond["total"], beyond["items"]) == (2, [])  # no deep OFFSET query
 
 
 async def test_job_detail(client: httpx.AsyncClient, session: AsyncSession) -> None:

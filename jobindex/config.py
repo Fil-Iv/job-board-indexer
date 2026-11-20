@@ -25,12 +25,17 @@ class Settings(BaseSettings):
     database_null_pool: bool = False
     # Every transaction is READ ONLY (the public API never writes).
     database_read_only: bool = False
+    # Cancel any statement running longer (SET LOCAL statement_timeout per transaction;
+    # works behind a transaction pooler). On Vercel 20 s, below the function's limit, so
+    # a query the client has given up on does not keep the database busy.
+    database_statement_timeout_seconds: float | None = None
 
     # API responses (not /health) may be cached this long by a CDN (Cache-Control
     # s-maxage); 0 = no Cache-Control header.
     api_cache_seconds: int = 0
     # Set to "1" by Vercel at runtime. Switches the defaults of database_null_pool,
-    # database_read_only (both true) and api_cache_seconds (60) unless set explicitly.
+    # database_read_only (both true), api_cache_seconds (60) and
+    # database_statement_timeout_seconds (20) unless set explicitly.
     vercel: bool = False
     # MCP endpoint (jobindex/api/mcp.py): requests per minute per client IP
     # (per function instance on Vercel).
@@ -124,6 +129,8 @@ class Settings(BaseSettings):
                 self.database_read_only = True
             if "api_cache_seconds" not in explicit:
                 self.api_cache_seconds = 60
+            if "database_statement_timeout_seconds" not in explicit:
+                self.database_statement_timeout_seconds = 20
             # The hosted demo's crawler (.github/workflows/crawl.yml) caps sources at
             # this many postings; the API never crawls, it only explains the cap on
             # /pulse. tests/test_vercel.py keeps the two defaults equal.

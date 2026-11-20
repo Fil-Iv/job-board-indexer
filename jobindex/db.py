@@ -12,8 +12,8 @@ there. :func:`connect_args` turns them off for pooler URLs (psycopg:
 
 from typing import Any
 
-from sqlalchemy import make_url, pool
-from sqlalchemy.engine import URL
+from sqlalchemy import event, make_url, pool
+from sqlalchemy.engine import URL, Connection
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
@@ -76,11 +76,19 @@ def create_engine(url: str | None = None) -> AsyncEngine:
         options["pool_timeout"] = settings.database_pool_timeout_seconds
     if settings.database_read_only:
         options["execution_options"] = {"postgresql_readonly": True}
-    return create_async_engine(
+    engine = create_async_engine(
         _without_pooler_flag(parsed),
         connect_args=connect_args(parsed, settings),
         **options,
     )
+    if settings.database_statement_timeout_seconds:
+        timeout_ms = int(settings.database_statement_timeout_seconds * 1000)
+
+        @event.listens_for(engine.sync_engine, "begin")
+        def _statement_timeout(conn: Connection) -> None:
+            conn.exec_driver_sql(f"SET LOCAL statement_timeout = {timeout_ms}")
+
+    return engine
 
 
 def create_sync_engine_args(url: str) -> tuple[URL, dict[str, Any]]:

@@ -104,7 +104,10 @@ class JobSearchOut(BaseModel):
     total: int = Field(description="Number of matching openings (not postings).")
     page: int
     size: int
-    pages: int
+    pages: int = Field(
+        description="Pages that can be fetched: results are paged at most 5,000 openings "
+        "deep; narrow the search (company, location, platform, posted_since) for the rest."
+    )
     items: list[JobOut]
 
 

@@ -1,3 +1,4 @@
+from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Any, ClassVar
 
@@ -7,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from jobindex.connectors.base import ConnectorError, RawJob
 from jobindex.connectors.registry import Registry
-from jobindex.crawler import CrawlResult, crawl_source, crawl_sources
+from jobindex.crawler import CrawlResult, crawl_source, crawl_sources, plausible_dates
 from jobindex.http import FetchError, HttpClient
 from jobindex.models import FetchRun, FetchStatus, Job, JobChange, JobStatus, RemoteType, Source
 from tests.fakes import FakeConnector, FakeDetailConnector
@@ -336,3 +337,19 @@ async def test_missing_company_name_is_fetched_once(
     await session.refresh(source)
     assert source.company_name == "Acme Corporation"
     assert _NamedBoardConnector.names == ["acme"]  # stored, not fetched on every crawl
+
+
+@pytest.mark.parametrize(
+    ("posted", "kept"),
+    [
+        (datetime(2026, 11, 20, 8, tzinfo=UTC), True),
+        (datetime(2026, 11, 21, 6, tzinfo=UTC), True),  # within a day: time zones
+        (datetime(2026, 12, 10, tzinfo=UTC), False),  # board's datePosted after validThrough
+        (datetime(2016, 2, 24, tzinfo=UTC), True),  # evergreen requisition: real
+        (datetime(1970, 1, 1, tzinfo=UTC), False),  # epoch 0
+    ],
+)
+def test_plausible_dates(posted: datetime, kept: bool) -> None:
+    now = datetime(2026, 11, 20, 9, tzinfo=UTC)
+    posting = RawJob(external_id="1", title="Engineer", posted_at=posted)
+    assert plausible_dates(posting, now).posted_at == (posted if kept else None)
